@@ -1,0 +1,349 @@
+{
+  "_meta": {
+    "description": "PAUSE STUDIO 기존 사이트의 한국어 원문 고정 목록. 문구는 원문 그대로이며 재배치·줄바꿈만 허용. 다국어(en/zh/ja) 원문은 content/extracted/strings.json에 파일:줄 단위로 보존.",
+    "source_live_url": "https://pause8studio.com/",
+    "source_repo": "https://github.com/scottnim7777-ops/pause-studio-v2",
+    "source_commit": "3260aa03627d97305ec68e33798d0400ddea0257",
+    "source_note": "라이브 사이트(pause8studio.com)는 이 세션의 네트워크 정책으로 접근이 차단되어, 같은 도메인을 canonical로 선언한 사용자 저장소의 렌더링 소스에서 수집함. 검색엔진 색인 제목과 저장소 index.html의 meta title이 일치함을 확인. 라이브 사이트와의 최종 대조는 접근 허용 후 수행 예정.",
+    "extracted_at": "2026-09-29",
+    "languages_on_site": ["ko (기본)", "en", "zh", "ja"],
+    "fragment_rule": "배열로 된 값은 원문에서 강조(span)로 분리된 조각. 이어 붙이면 원문 문장."
+  },
+
+  "seo": {
+    "src": "index.html:6-45",
+    "title": "PAUSE Studio | pausestudio | pause studio | 퍼즈 스튜디오 | 럭셔리 웹디자인 오클랜드",
+    "meta_title": "PAUSE Studio | pausestudio | pause studio | Luxury Web Design Auckland | 퍼즈 스튜디오 럭셔리 웹디자인",
+    "meta_description": "Premium luxury web design by PAUSE Studio (pausestudio). Self-managed CMS & zero maintenance fees. pausestudio.com | 직접 관리하는 자체 CMS로 유지보수 비용 0원. 하이엔드 브랜드를 위한 퍼즈 스튜디오의 맞춤형 웹사이트 제작.",
+    "keywords": "pausestudio, pausestudio.com, pause studio, 퍼즈스튜디오, 퍼즈 스튜디오, 럭셔리 웹디자인, 뉴질랜드 웹 제작",
+    "og_title": "PAUSE Studio | Luxury Bespoke Web Design | Self-Managed CMS | 럭셔리 맞춤형 웹 디자인",
+    "og_description": "Artistic excellence meets transparent pricing. We design your high-end website with a custom CMS so you can manage it yourself with zero maintenance fees. Elevate your brand today. | 외주 의존 없이 직접 관리하는 자체 CMS로 유지보수 비용 0원. 하이엔드 브랜드를 위한 맞춤형 웹사이트를 투명한 정찰제로 경험해보세요.",
+    "og_image": "https://i.imgur.com/LVu5kWF.png",
+    "canonical": "https://pause8studio.com",
+    "google_site_verification": "YRTNSno7nYptgfm08ZthTl09DUbhS9NT6hKgg9iOQ4U",
+    "jsonld": {
+      "type": "WebDesignService",
+      "name": "PAUSE Studio",
+      "alternateName": "Pause Digital Studio",
+      "description": "A boutique luxury web design studio in Auckland creating bespoke digital experiences. Enjoy zero maintenance fees by managing your site with our custom CMS.",
+      "address": "75 Victoria Street West, Auckland, AKL 1010, NZ",
+      "geo": [-36.848461, 174.763336],
+      "serviceType": ["Luxury Web Design", "Bespoke Digital Experience", "High-End UI/UX Design"]
+    },
+    "sitemap": ["https://pause8studio.com/"],
+    "robots": "Sitemap: https://pause8studio.com/sitemap.xml"
+  },
+
+  "header": {
+    "src": "components/Header.tsx",
+    "placement": "전 페이지 고정 헤더",
+    "logo": "로고 이미지(원본 비율 433:189) — 클릭 시 맨 위로",
+    "nav": [
+      { "id": "work", "label": "포트폴리오" },
+      { "id": "process", "label": "서비스" },
+      { "id": "pricing", "label": "요금" },
+      { "id": "faq", "label": "자주 묻는 질문" }
+    ],
+    "language_selector": ["한국어", "English", "中文", "日本語"],
+    "cta": { "label": "문의하기", "action": "문의 섹션(#contact)으로 이동" }
+  },
+
+  "mobile_nav": {
+    "src": "components/Navigation.tsx",
+    "placement": "모바일 메뉴 오버레이",
+    "items": [
+      { "id": "work", "label": "포트폴리오", "sub": "선정된 작업" },
+      { "id": "process", "label": "서비스", "sub": "작업 방식" },
+      { "id": "pricing", "label": "요금", "sub": "투명한 가격" },
+      { "id": "faq", "label": "자주 묻는 질문", "sub": "일반적인 질문" }
+    ],
+    "footer_note": "Pause Studio • Digital Experience"
+  },
+
+  "hero": {
+    "src": "components/Hero.tsx:47-72, 124",
+    "placement": "홈 첫 화면 (시안 5개 공통 핵심 카피)",
+    "headline": "한인 대표님들을 위한 웹사이트 제작",
+    "sub": "단 한 번의 제작비 외에, 매달·매년 나가는 비용이 없는 웹사이트를 만듭니다.",
+    "kpis": [
+      { "value": "42", "suffix": "건+", "label": "누적 작업" },
+      { "value": "0", "suffix": "원", "label": "월·연 관리비", "note": "(무료)" },
+      { "value": "2", "suffix": "~3주", "label": "평균 오픈 기간" }
+    ],
+    "pill": "제작비 1회 결제 · 이후 추가비용 $0 · 기술지원",
+    "scroll_hint": "스크롤하여 더 보기",
+    "hero_cta_note": "기존 히어로에는 버튼이 없음. 시안에서는 기존 사이트의 실제 CTA(문의 섹션의 두 버튼)를 히어로로 재배치함.",
+    "static_skeleton_before_hydration": {
+      "src": "index.html:192-236",
+      "note": "React 로드 전 잠깐 보이는 정적 HTML. 실제 렌더링 히어로와 문구·수치가 다름(150+ vs 42건+). 새 사이트에서는 렌더링 히어로 문구를 기준으로 하고, 확인 필요 항목으로 기록.",
+      "eyebrow": "Auckland 기반 · 뉴질랜드·미국 등 해외 어디든",
+      "headline": "한인 대표님들을 위한 명품 웹사이트 제작",
+      "sub": "단 한 번의 제작비 외에, 매달·매년 나가는 고정 비용이 전혀 없는 하이엔드 전용 맞춤형 웹사이트를 제작합니다.",
+      "kpis": ["150+ 누적 작업", "0원 월·연 관리비", "2~3주 평균 제작 기간"],
+      "header_cta": "문의하기"
+    }
+  },
+
+  "why_pause": {
+    "src": "components/Maintenance.tsx",
+    "placement": "히어로 다음 — 대표 서신(창업자 서명 포함)",
+    "eyebrow": "PHILOSOPHY & VALUE",
+    "title": "WHY PAUSE?",
+    "letter": "큰 회사에 맡기면, 당신 사이트는 수많은 프로젝트 중 하나가 됩니다. 저는 대표가 직접, 처음부터 끝까지 만듭니다. 담당자가 바뀌거나 하청으로 넘어가지 않습니다.\n\n그리고 딱 한 번, 제작비만 결제하시면 끝입니다. 세팅비도, 매년 나가는 유지보수비도, 매달 빠져나가는 관리비도 없습니다.\n\n'한 번 받았으니 이제 남'이라는 뜻이 아닙니다. 오히려 그 반대입니다. 사이트가 느려지거나, 오류가 나거나, 서버에 문제가 생기면 추가 비용 없이 제가 직접 챙깁니다. 비용은 한 번만 받되, 대표님 사이트는 제 일처럼 꼼꼼히 봐드립니다.",
+    "signature_label": "PAUSE STUDIO 대표",
+    "signature_asset": "components/SignatureSVG.tsx (대표 손글씨 서명 벡터 — 원본 에셋)",
+    "pillars": [
+      { "title": "직접 관리가능한 어드민", "desc": "블로그나 인스타그램처럼 쉽습니다. 텍스트, 이미지, 상품업로드를 직접 수정하세요." },
+      { "title": "전문 기술지원", "desc": "제작 후에도 기능적인 오류나 서버 이슈는 저희가 책임지고 지원합니다." },
+      { "title": "합리적인 독립", "desc": "호스팅/도메인을 대표님 명의로 직접 소유하게 해드립니다. 저희에게 묶일 필요 없습니다." }
+    ]
+  },
+
+  "who": {
+    "src": "components/USPSection.tsx",
+    "placement": "추천 대상",
+    "eyebrow": "CHAPTER 01",
+    "title": ["이런 대표님께 ", "강력히 추천", "합니다"],
+    "lead": "매달 지출되는 고정비 부담을 줄이고, 내 비즈니스의 독보적인 브랜드 가치를 웹상에 구축하고 싶으신 모든 분들을 위한 최적의 제작 방식입니다.",
+    "items": [
+      "웹사이트의 첫인상이 브랜드의 신뢰도를 결정한다고 생각하시는 분",
+      "매년 청구되는 관리비, 유지비, 호스팅비에 지치신 분",
+      "템플릿이 아닌, 우리 브랜드만의 디자인을 원하시는 분",
+      "한국어와 영어 모두 자연스러운 디자인이 필요하신 분",
+      "길게 함께 갈 비즈니스 파트너를 찾고 계신 분"
+    ]
+  },
+
+  "includes": {
+    "src": "components/Includes.tsx",
+    "placement": "서비스 — 기본 포함 사항",
+    "eyebrow": "CHAPTER 02",
+    "title": "전부 기본으로 포함되어 있습니다",
+    "items": [
+      { "num": "01", "title": "맞춤 디자인", "desc": "템플릿 없이, 브랜드에 맞춰 화면을 처음부터 설계합니다." },
+      { "num": "02", "title": "반응형", "desc": "모바일, 태블릿, 데스크톱 모든 환경에서 동일한 완성도를 유지합니다." },
+      { "num": "03", "title": "다국어", "desc": "한국어와 영어 모두를 위한 타이포그래피와 레이아웃을 제공합니다." },
+      { "num": "04", "title": "SEO 최적화 무료", "desc": "사이트맵, 메타데이터, 구조화 데이터까지 정돈해 드립니다." },
+      { "num": "05", "title": "호스팅 무료", "desc": "소규모 웹사이트는 호스팅 비용이 무료입니다.\n다만 대규모 웹사이트의 경우 별도 비용이 청구될 수 있습니다." },
+      { "num": "06", "title": "관리자 페이지 제공", "tag": "SELF MANAGEMENT", "badge": ["직접 수정하여 유지보수 비용", "0", "원"], "desc": "블로그나 인스타그램처럼 쉽습니다. 직접 텍스트, 이미지, 상품을 수정할 수 있어 유지보수 비용이 발생하지 않습니다." }
+    ],
+    "feature_banner": {
+      "symbol": "∞",
+      "title": "상상하시는 모든 맞춤형 특별 기능",
+      "desc_desktop": ["AI 상담봇, 예약 시스템, 회원 관리, 글로벌 PG 결제 연동, 실시간 채팅, 다국어 자동 번역, 배송 추적 등", "떠올리신 그 어떤 비즈니스 특화 기능도 완벽하게 구현 가능합니다."],
+      "desc_mobile": ["AI 상담봇, 예약 시스템, 회원 관리, PG/해외 결제 연동, 실시간 채팅, 다국어 번역, 배송 추적 등", "떠올리신 그 기능, 전부 구현 가능합니다."],
+      "tag": "ANYTHING YOU IMAGINE"
+    }
+  },
+
+  "process": {
+    "src": "components/Process.tsx",
+    "placement": "서비스 — 제작 과정 (#process)",
+    "title": ["비전에서", " 현실로"],
+    "subtitle": "프로젝트 진행 과정",
+    "steps": [
+      { "id": "01", "title": "1:1 기획 및 상담", "highlight": "핵심 가치 분석", "desc": "단순한 제작 상담이 아닙니다. 사장님의 비즈니스 상황을 깊이 있게 이해하고, 가장 필요한 해결책을 함께 고민하는 진정성 있는 대화로 시작합니다." },
+      { "id": "02", "title": "투명한 안심 결제", "highlight": "성장 중심 전략 기획", "desc": "불투명한 추가 비용 없이 상호 합의한 명확한 작업 범위에 맞추어 과업 단계별로 안전하게 결제를 진행합니다." },
+      { "id": "03", "title": "맞춤형 디자인 및 개발", "highlight": "정교한 맞춤 개발", "desc": "브랜드의 정수를 코드로 고스란히 담아냅니다. 공장형 템플릿은 흉내 낼 수 없는, 사장님만의 유니크하고 강력한 웹사이트를 구축합니다." },
+      { "id": "04", "title": "꼼꼼한 검수 및 피드백", "highlight": "최상의 품질 완성도", "desc": "작은 디테일 하나도 놓치지 않습니다. 긴밀한 소통과 집요한 보완 작업을 통해 상상 그 이상의 완성도를 실현합니다." },
+      { "id": "05", "title": "안전한 소유권 인계 및 완성", "highlight": "유지보수비 ·\n매월 관리비 제로", "desc": "직관적인 CMS 제공으로 불필요한 유지보수를 원천 차단했습니다. 일반 업체와 달리 매월 고정 관리비 없이, 사장님이 직접 자유롭게 운영할 수 있는 환경을 인계합니다." }
+    ],
+    "closing": {
+      "kicker": "단순히 시키는 대로만 만들지 않습니다",
+      "quote": ["“사장님보다 더 ", "사장님", " 같은 마음으로”"],
+      "statement": ["무엇이 ", "진짜 필요한지", " 먼저 고민하고 제안합니다"]
+    }
+  },
+
+  "before_after": {
+    "src": "components/BeforeAfterCases.tsx",
+    "placement": "포트폴리오 앞 — 비교 사례 (#work)",
+    "eyebrow": "ORDINARY TEMPLATES VS. ARTISANAL CRAFTSMANSHIP",
+    "title": "Ordinary vs. Artisanal",
+    "lead": "브랜드의 가치를 결정짓는 결정적 차이",
+    "label_before": "기존 방식 (Before)",
+    "label_after": "PAUSE 혁신 (After)",
+    "cases": [
+      {
+        "before": { "title": "공장형 템플릿, 매월 나가는 관리비", "desc": "끝없는 추가 비용과 브랜드 가치 저하", "tagline": "끝없는 비용 종속과 평범한 브랜드 이미지", "visual": "템플릿형 여행사 사이트 목업(HTML로 그린 예시)" },
+        "after": { "title": "하이엔드 맞춤형 디자인, 유지비 0원", "desc": "(관리자 페이지 제공으로 직접 수정 가능)", "tagline": "비즈니스의 독립과 압도적인 브랜드 이미지", "media": "https://i.imgur.com/KIKzZuF.mp4" }
+      },
+      {
+        "before": { "title": "획일화된 구조, 뻔한 템플릿 디자인", "desc": "어디서 본 듯한 쇼핑몰, 브랜드 매력 반감", "tagline": "브랜드 가치를 온전히 담지 못하는 아쉬움", "visual": "템플릿형 베이커리 사이트 목업(HTML로 그린 예시)" },
+        "after": { "title": "브랜드 감성을 극대화한 독창적 인터랙션", "desc": "(고객의 시선을 사로잡고 몰입시키는 디자인)", "tagline": "독보적인 브랜드 아이덴티티 구축", "media": "https://i.imgur.com/PVuptes.mp4" }
+      }
+    ],
+    "closing": ["월 관리비 없이, ", "직접 소유하는 웹사이트", "의 가치를 경험하세요."],
+    "footnote": ["* ", "호스팅 비용은 소규모 사이트 기준 무료이며, ", "대규모/이커머스 사이트는 별도 비용", "이 발생할 수 있습니다."]
+  },
+
+  "portfolio": {
+    "src": "components/Portfolio.tsx:9-321, 410-420",
+    "placement": "포트폴리오 (#work) — 실제 작업물 원본 사용, 상세 보기(라이트박스·이전/다음·키보드)",
+    "title": "PORTFOLIO",
+    "subtitle": "포트폴리오",
+    "hint": "클릭하여 탐색",
+    "items": [
+      { "id": 1, "title": "Ref. 01", "category": "여행 / 유학원", "media": "https://i.imgur.com/KIKzZuF.mp4" },
+      { "id": 2, "title": "Ref. 02", "category": "커스텀 케이스 샵", "media": "https://i.imgur.com/PVuptes.mp4" },
+      { "id": 3, "title": "Ref. 03", "category": "한식당", "media": "https://i.imgur.com/Cv2GPxw.png" },
+      { "id": 4, "title": "Ref. 04", "category": "오클랜드 현지 여행사", "media": "https://i.imgur.com/MnSmLdO.gif" },
+      { "id": 5, "title": "Ref. 05", "category": "패스트푸드 프랜차이즈", "media": "https://i.imgur.com/4YPzZUq.png" },
+      { "id": 6, "title": "Ref. 06", "category": "패스트푸드 프랜차이즈", "media": "https://i.imgur.com/861Pj3J.png" },
+      { "id": 7, "title": "Ref. 07", "category": "호스피스", "media": "https://i.imgur.com/70IgQpR.mp4" },
+      { "id": 8, "title": "Ref. 08", "category": "미용실 / 헤어 살롱", "media": "https://i.imgur.com/YUCUmWL.png" },
+      { "id": 9, "title": "Ref. 09", "category": "건강식품", "media": "https://i.imgur.com/fzysfi8.png" },
+      { "id": 10, "title": "Ref. 10", "category": "택시 호출 및 배차 플랫폼 개발", "media": "https://i.imgur.com/D2c9apB.jpeg" },
+      { "id": 11, "title": "Ref. 11", "category": "여행사", "media": "https://i.imgur.com/Ezo1VXP.png" },
+      { "id": 12, "title": "Ref. 12", "category": "여행사", "media": "https://i.imgur.com/oFU3GVl.png" },
+      { "id": 13, "title": "Ref. 13", "category": "토스 핀테크 파트너 앱 개발", "media": "https://i.imgur.com/wOWQVnI.png" },
+      { "id": 14, "title": "Ref. 14", "category": "토스 핀테크 파트너 앱 개발", "media": "https://i.imgur.com/4BR1I0w.png" },
+      { "id": 15, "title": "Ref. 15", "category": "토스 핀테크 파트너 앱 개발", "media": "https://i.imgur.com/EUz1qvV.png" },
+      { "id": 16, "title": "Ref. 16", "category": "자체제작 쇼핑몰", "media": "https://i.imgur.com/R9dHgnK.png", "flag": "로고와 같은 이미지 URL — 원본 사이트 데이터 오류 가능성, 확인 필요" },
+      { "id": 17, "title": "Ref. 17", "category": "캔들/향수 제작업체", "media": "https://i.imgur.com/zC9LzFr.jpeg" },
+      { "id": 18, "title": "Ref. 18", "category": "디자인 스튜디오", "media": "https://i.imgur.com/t7hP6Vx.jpeg" },
+      { "id": 19, "title": "Ref. 19", "category": "광고 에이전시", "media": "https://i.imgur.com/H5MH5Wq.jpeg" },
+      { "id": 20, "title": "Ref. 20", "category": "레스토랑", "media": "https://i.imgur.com/tJryMb4.jpeg" },
+      { "id": 21, "title": "Ref. 21", "category": "패션 브랜드", "media": "https://i.imgur.com/c1MqUjP.jpeg" },
+      { "id": 22, "title": "Ref. 22", "category": "디자인 에이전시", "media": "https://i.imgur.com/yFxzT2d.jpeg" },
+      { "id": 23, "title": "Ref. 23", "category": "광고 스튜디오", "media": "https://i.imgur.com/HNG380u.jpeg" },
+      { "id": 24, "title": "Ref. 24", "category": "비주얼 아카이브", "media": "https://i.imgur.com/72dyvfh.jpeg" },
+      { "id": 25, "title": "Ref. 25", "category": "광고 에이전시", "media": "https://i.imgur.com/8Dh5VbI.jpeg" },
+      { "id": 26, "title": "Ref. 26", "category": "패션 디자이너", "media": "https://i.imgur.com/4e2fYfU.jpeg" },
+      { "id": 27, "title": "Ref. 27", "category": "프리미엄 플랫폼", "media": "https://i.imgur.com/43Zfx9m.jpeg" },
+      { "id": 28, "title": "Ref. 28", "category": "패션 쇼핑몰", "media": "https://i.imgur.com/Uvr47D6.jpeg" },
+      { "id": 29, "title": "Ref. 29", "category": "아이스크림 브랜드 런칭", "media": "https://i.imgur.com/ZBk0lMT.jpeg" },
+      { "id": 30, "title": "Ref. 30", "category": "아카이브 플랫폼", "media": "https://i.imgur.com/NKEKJ2p.jpeg" },
+      { "id": 31, "title": "Ref. 31", "category": "패션 브랜드", "media": "https://i.imgur.com/JjSBVvi.jpeg" },
+      { "id": 32, "title": "Ref. 32", "category": "패션 플랫폼", "media": "https://i.imgur.com/uSQQbUu.jpeg" },
+      { "id": 33, "title": "Ref. 33", "category": "매거진", "media": "https://i.imgur.com/MMYXc7u.jpeg" },
+      { "id": 34, "title": "Ref. 34", "category": "광고 에이전시", "media": "https://i.imgur.com/CrnU1Hb.jpeg" },
+      { "id": 35, "title": "Ref. 35", "category": "인테리어 소품 브랜드", "media": "https://i.imgur.com/TXo8AN7.jpeg" },
+      { "id": 36, "title": "Ref. 36", "category": "폰트 판매 플랫폼", "media": "https://i.imgur.com/PdhXQIS.jpeg" },
+      { "id": 37, "title": "Ref. 37", "category": "광고 에이전시", "media": "https://i.imgur.com/3mkOoHb.jpeg" },
+      { "id": 38, "title": "Ref. 38", "category": "광고 에이전시", "media": "https://i.imgur.com/PIPY7wg.jpeg" },
+      { "id": 39, "title": "Ref. 39", "category": "뷰티 플랫폼", "media": "https://i.imgur.com/mtJdoAr.jpeg" }
+    ],
+    "asset_status": "원본 미디어는 i.imgur.com에 있으며 이 세션의 네트워크 정책으로 아직 내려받지 못함. 제작 단계에서 원본 그대로 보존 예정."
+  },
+
+  "pricing": {
+    "src": "components/Pricing.tsx",
+    "placement": "요금 (#pricing)",
+    "currency_note": "원문 표기는 '$'만 사용(통화 코드 없음). 추측으로 NZD/USD를 붙이지 않음. 참고: /promo 페이지는 'NZD' 표기와 다른 가격을 사용 — 확인 필요 항목 참조.",
+    "eyebrow": "PRICING PLANS",
+    "title": "제작 비용",
+    "banner": ["웹사이트 제작 비용 한 번만 내면 끝입니다.", "매달 내는 돈 0원, 웹사이트는 100% 사장님 것."],
+    "popular_badge": "가장 많이 선택",
+    "plan_cta": { "label": "카카오톡으로 상담하기", "href": "https://open.kakao.com/o/s58WfSEi" },
+    "plans": [
+      {
+        "title": "Starter", "type": "우리 가게를 알려야 할 때",
+        "subtitle": "메뉴 · 서비스 · 오시는 길을 보여주고 문의를 받는 웹사이트",
+        "price": "$1,490", "price_sub": "한 번 결제 · 견적 확정 후 추가 비용 없음", "badge": "이후 매달 $0",
+        "includes": ["완전 맞춤 설계 · 5페이지", "문의 폼 · 구글 지도 · 갤러리", "구글 검색 등록", "다국어 지원 · 원어민 검수 (영어·중국어)", "글 · 사진 직접 수정 (관리자 페이지)", "완성될 때까지 무료 수정", "무료 유지보수", "관리비 · 호스팅비 매달 0원", "웹사이트 100% 사장님 소유"],
+        "footer": "관리비 · 호스팅비 0원"
+      },
+      {
+        "title": "Business", "type": "예약 · 주문 · 결제 받아야 할 때", "popular": true,
+        "subtitle": "예약 · 주문부터 카드 결제까지, 24시간 대신 받아주는 웹사이트",
+        "price": "$2,900", "price_sub": "한 번 결제 · 견적 확정 후 추가 비용 없음", "badge": "이후 매달 $0",
+        "includes": ["완전 맞춤 설계 · 10페이지", "온라인 예약 · 주문 · 카드 결제", "구글 검색 최적화", "다국어 지원 · 원어민 검수 (영어·중국어)", "글 · 사진 직접 수정 (관리자 페이지)", "완성될 때까지 무료 수정", "무료 유지보수", "관리비 · 호스팅비 매달 0원", "웹사이트 100% 사장님 소유", "원하시는 모든 기능 맞춤구현 가능"],
+        "footer": "관리비 · 호스팅비 0원"
+      },
+      {
+        "title": "Enterprise", "type": "기업 · 대형 쇼핑몰 규모일 때",
+        "subtitle": "상품이 많고 회원 · 적립까지 필요한 기업 규모에 맞춰 처음부터 개발하는 웹사이트",
+        "price": "$5,500부터", "price_sub": "맞춤 견적 · 확정 후 추가 비용 없음", "badge": "관리비 매달 $0",
+        "includes": ["완전 맞춤 설계 · 규모 제한 없음", "대형 쇼핑몰 · 회원 · 적립 기능 개발", "구글 검색 최적화", "다국어 지원 · 원어민 검수 (영어·중국어)", "글 · 사진 직접 수정 (관리자 페이지)", "완성될 때까지 무료 수정", "무료 유지보수", "관리비 매달 0원 · 호스팅비 규모별 협의", "웹사이트 100% 사장님 소유", "원하시는 모든 기능 맞춤구현 가능"],
+        "footer": "호스팅비 협의 · 관리비 0원"
+      }
+    ],
+    "benefits": [
+      { "title": "무료 유지보수", "desc": "만들고 끝이 아니라, 계속 함께합니다" },
+      { "title": "매달 청구 0원", "desc": "매달 나가는 관리비 · 유지보수비가 없습니다" },
+      { "title": "숨은 비용 없음", "desc": "투명한 정찰제, 견적서 금액이 전부입니다" },
+      { "title": "웹사이트 100% 소유", "desc": "완성한 날부터 완전히 사장님 것입니다" }
+    ],
+    "comparison": {
+      "eyebrow": "COMPARISON",
+      "title": "일반 업체 vs PAUSE Studio 차이점",
+      "headers": ["구분", "일반 웹 디자인 업체", "PAUSE Studio"],
+      "rows": [
+        ["초기 비용·월 관리비", "제작비 외 매월 $70~$150+ 의무 청구", "제작비 한 번 결제, 이후 매달 $0"],
+        ["유지보수", "건당·시간당 비용 청구 (시간당 $40~$60)", "유지보수 무료"],
+        ["제작 수정", "횟수제한 1~3회", "제작시 마음에 들때까지 수정가능"],
+        ["웹사이트 소유권", "임대형 · 해지하면 웹사이트가 사라짐", "완성한 날부터 100% 사장님 소유"],
+        ["설계 방식", "공장에서 찍어내는 템플릿 복제", "우리 가게 브랜드에 맞춘 완전 맞춤 설계"]
+      ]
+    },
+    "cost_comparison": {
+      "eyebrow": "5-YEAR REAL COST",
+      "title": "비용 비교",
+      "subtitle": "일반 업체 월 관리비 $70~$150 기준 1년 관리비 및 5년 총비용 비교 (유지보수 비용 별도 추가)",
+      "headers": ["구분", "일반 업체 (월 관리형)", "PAUSE Studio"],
+      "rows": [
+        ["처음 제작비", "평균 $500", "$2,900 (Business 기준)"],
+        ["1년 관리비", "$70~$150 × 12개월 = $840~$1,800/년", "$0"],
+        ["유지보수비용", "매월/매번 청구 (시간당 $40~$60)", "무료"],
+        ["5년 총비용", "$4,700 ~ $9,500 + 세팅비 유지보수 별도", "$2,900"],
+        ["5년 후 웹사이트는", "업체 소유 · 해지하면 사라짐", "100% 사장님 소유"]
+      ]
+    }
+  },
+
+  "faq": {
+    "src": "components/FAQ.tsx",
+    "placement": "자주 묻는 질문 (#faq) — 아코디언",
+    "eyebrow": "FAQ",
+    "title": ["궁금하신 점들을", " 모았습니다."],
+    "items": [
+      { "q": "만약 Pause Studio가 폐업하거나 서비스를 종료하면 어떻게 되나요?", "a": "만약 회사가 서비스를 종료하거나 폐업하게 되더라도, 완성된 웹사이트의 모든 소스 코드와 데이터, 도메인, 호스팅 소유권은 계약 시점부터 사장님(고객님) 명의로 소유되므로 아무런 영향이 없습니다. 언제든 다른 개발자나 호스팅 업체를 통해 사이트를 그대로 유지하고 운영하실 수 있습니다. (※ 무료 유지보수는 당사가 서비스를 운영하는 기간에 한하며, 별도로 대가를 받지 않는 부가 서비스입니다.)" },
+      { "q": "정말 나중에 추가로 나가는 비용이 없나요?", "a": "네, 맞습니다. 제작비를 한 번 결제하시면 세팅비·유지보수비·월 관리비가 모두 없습니다. 사이트에 오류나 서버 문제가 생겨도 추가 비용 없이 대응해 드립니다." },
+      { "q": "나중에 다른 곳에 맡기거나 직접 관리하고 싶어지면요?", "a": "도메인과 호스팅은 처음부터 대표님 명의로 만들어 드립니다. 저희에게 갇히실 일이 없습니다. 물론 그럴 일이 없도록 끝까지 함께하겠습니다." },
+      { "q": "미국에서도 의뢰할 수 있나요?", "a": "네, 맞습니다. Auckland를 기반으로 뉴질랜드와 미국 등 해외 한국인 사장님들의 웹사이트를 제작합니다. 시차와 무관하게 Zoom, 전화, 카카오톡, 이메일 등 사장님께서 편하신 다양한 채널로 실시간 소통합니다." },
+      { "q": "정말 제작비 한 번만 내면 추가 비용이 없나요?", "a": "네, 맞습니다. 도메인과 호스팅(소규모 사이트 기준 무료 플랫폼 활용)을 사장님 명의로 직접 세팅해 드리므로, 저희에게 매달 내는 관리비가 일절 없습니다. 추후 텍스트나 사진 등 간단한 수정은 무료 제공되는 관리자 페이지에서 직접 1초 만에 하실 수 있습니다." },
+      { "q": "사이트 소유권은 누구에게 있나요?", "a": "제작이 완료되면 도메인, 호스팅, 이미지, 개발 코드 등 모든 자산의 소유권 and 관리 권한을 완벽히 사장님께 인계합니다. 저희가 사이트를 볼모로 월 관리비를 요구하는 일은 절대 없습니다.", "flag": "원문에 영어 'and'가 섞여 있음(오타 추정). 임의 수정하지 않고 확인 필요 항목으로 기록." },
+      { "q": "해외(뉴질랜드/미국 등)인데 소통에 문제가 없을까요?", "a": "전혀 걱정하지 않으셔도 됩니다. 오클랜드 기반으로 운영되며 Zoom 비디오 미팅, 전화, 카카오톡, 이메일 등 사장님께 가장 편리한 소통 방식을 지원합니다. 모든 기획과 커뮤니케이션은 한국어로 명확하게 진행되며, 영어 사이트의 경우 해외 현지 정서에 맞는 자연스러운 영어 카피라이팅까지 직접 꼼꼼히 챙겨 드립니다." },
+      { "q": "다국어 사이트 제작도 가능한가요?", "a": "네, 글로벌 비즈니스에 최적화된 다국어 레이아웃과 서체를 고려하여 디자인합니다. 별도의 번역 서비스는 제공하지 않지만, 사장님께서 준비해 주신 다국어 번역본을 완벽하고 아름답게 반영해 드립니다." },
+      { "q": "검색 엔진(SEO) 최적화도 포함되나요?", "a": "네, 구글 및 네이버에 잘 노출될 수 있도록 메타데이터, 사이트맵, 구조화 데이터를 기본적으로 세팅해 드립니다." },
+      { "q": "도메인과 호스팅은 어떻게 되나요?", "a": "대표님께서 구매하신 도메인을 연결하여 이용하며, 호스팅과 모든 계정을 대표님 명의로 직접 소유하실 수 있도록 가이드를 드립니다. 소규모 사이트의 경우 호스팅 비용은 무료입니다. (대규모 사이트는 별도 플랫폼 이용료 발생 가능)" }
+    ]
+  },
+
+  "contact": {
+    "src": "components/Contact.tsx",
+    "placement": "문의 (#contact)",
+    "window_label": "비공개 1:1 상담실",
+    "status": "신규 프로젝트 상담 가능",
+    "title": ["매달 나가는 ", "웹사이트 관리비,", "스트레스에서 해방", "되세요."],
+    "desc": ["현재 지출 중인 웹사이트 비용을 투명하게 진단하고,", " 평생 관리비 없는 ", "자체 운영 솔루션", "으로의 전환 방안을 제안해 드립니다."],
+    "cta_primary": { "label": "무료 웹사이트 정밀 상담신청", "action": "정밀 상담신청 모달(ApplicationModal) 열기" },
+    "cta_secondary": { "label": "카카오톡 1:1 실시간 상담", "href": "https://open.kakao.com/o/s58WfSEi" },
+    "channels_note": ["시차와 거리에 구애받지 않고 ", "Zoom 화상회의, 전화상담, 카카오톡, 이메일", " 등 사장님께 가장 편안한 방식으로 긴밀하게 소통합니다."],
+    "sms_card": { "title": "문자 문의안내", "label": "문자 상담 (뉴질랜드)", "number": "+64 020-488-7198", "href": "sms:+640204887198", "hint": "모바일에서 클릭 시 바로 문자 발송 가능" },
+    "kakao_card": { "title": ["카카오톡", "문의안내"], "id_label": "카카오톡 아이디", "id": "cosmic0809", "qr": "https://i.imgur.com/xrg0eX7.png (저장소 qr_base64.txt에서 복원본 보존: content/assets/other/)", "qr_label": "카카오 QR 스캔", "hint": "아이디 추가 후 문의하시거나 QR을 스캔해주세요." }
+  },
+
+  "footer": {
+    "src": "components/Footer.tsx, components/HiddenEmail.tsx, translations.ts",
+    "placement": "전 페이지 푸터",
+    "email": { "label": "Email", "reveal": "scottnim7777@gmail.com", "href": "mailto:scottnim7777@gmail.com" },
+    "legal_link": "법적 고지",
+    "legal_notice": "법적 고지: Pause Studio는 전문적인 웹 디자인 및 개발 서비스를 제공합니다. 특정 비즈니스 결과, 트래픽 또는 수익을 보장하지 않습니다. 웹사이트가 배포된 이후에는 모든 판매가 확정되며 환불이 불가합니다.\n\n무료 유지보수는 회사가 서비스를 운영하는 기간에 한하며, 이는 별도로 대가를 받지 않는 부가 서비스입니다. 서비스 종료 시에도 완성된 웹사이트의 소스와 소유권은 계약 시점부터 고객에게 있으며 이는 영향받지 않습니다.",
+    "promo_link": { "label": "광고", "href": "/promo-image" },
+    "notice": "무료 유지보수는 회사가 서비스를 운영하는 기간에 한하며, 이는 별도로 대가를 받지 않는 부가 서비스입니다. 서비스 종료 시에도 완성된 웹사이트의 소스와 소유권은 계약 시점부터 고객에게 있으며 이는 영향받지 않습니다.",
+    "copyright": "© 2025 PAUSE STUDIO. All Rights Reserved.",
+    "address": "New Zealand, 75 Victoria Street West, Auckland CBD 1010",
+    "nzbn": "NZBN: 9429053533340",
+    "hidden_feature": "로고 2초 길게 누르기 → /consultation (내부용 VIP 상담 데스크)"
+  },
+
+  "modals_and_pages": {
+    "application_modal": { "src": "components/ApplicationModal.tsx", "summary": "3단계 정밀 상담신청: ①유형 선택(일반 자유 문의 / 디테일 설계 의뢰) ②기본 정보(회사/브랜드명 선택, 이름 필수, 이메일 필수, 연락처·기존 웹사이트 선택) ③상세 기획(자유 질문 또는 6개 항목)·첨부(최대 총 25MB 이미지/PDF/워드/ZIP). 전송: POST /api/contact → 실패 시 이메일 앱·복사 대체.", "strings": "content/extracted/strings.json 참조" },
+    "simple_inquiry_modal": { "src": "components/SimpleInquiryModal.tsx", "summary": "일반 문의: 비즈니스 이름*, 이메일*, 연락처, 기존 웹사이트 주소(선택), 메시지* → 내용 확인 → 전송. App에서 열 수 있으나 현재 이를 여는 버튼은 문의 섹션에 연결만 되어 있고 화면상 노출 버튼 없음(확인 필요)." },
+    "consultation_page": { "src": "components/ConsultationPage.tsx", "route": "/consultation", "summary": "내부용 'PAUSE VIP 상담 데스크' — 대면 상담 기록 전송 폼 + 제공 서비스 목록 + 포트폴리오 레퍼런스. 공개 메뉴에 없음." },
+    "promo_pages": { "src": "components/KoreapostPromo*.tsx", "routes": ["/promo", "/ad/koreapost", "/promo-image", "/promo-html"], "summary": "코리아포스트 광고용 페이지/이미지 생성 도구. 푸터 '광고' 링크가 /promo-image로 연결됨." },
+    "api": { "src": "server.ts", "endpoints": ["POST /api/contact (multer 첨부, SMTP 발송 → FormSubmit 대체)", "POST /api/client-error", "GET /api/smtp-test", "GET /api/smtp-test-send", "GET /api/proxy-image"], "env": ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"] }
+  }
+}

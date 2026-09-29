@@ -1,0 +1,8 @@
+{
+  "name": "pause-studio-tools",
+  "private": true,
+  "description": "콘텐츠 추출(TypeScript AST)과 Higgsfield API 작업용 도구",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

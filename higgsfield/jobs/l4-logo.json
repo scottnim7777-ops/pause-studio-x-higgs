@@ -1,0 +1,46 @@
+{
+  "label": "l4-logo",
+  "endpoint": "ideogram/v4.0",
+  "input": {
+    "prompt": "Logo design exploration sheet for PAUSE STUDIO, a boutique website design studio. Four variations of one idea arranged in a clean 2x2 grid with generous white space, precise vector logo design, flat colours, no mockups. On pale celadon green: a bold geometric symbol made of a thick upright half-ring arch and a solid circle floating beneath its centre - a sculptural fermata - in deep celadon green, paired with the wordmark Pause Studio in a soft, warm contemporary serif. Tactile, calm, ceramic-inspired. Exact spelling: Pause Studio.",
+    "aspect_ratio": "1:1",
+    "rendering_speed": "QUALITY"
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:58.512Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:27:59.358Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:30:13.448Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "491f801a-00ee-49eb-a9b6-50e5c0fe64bd",
+  "status_url": "https://platform.higgsfield.ai/requests/491f801a-00ee-49eb-a9b6-50e5c0fe64bd/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/491f801a-00ee-49eb-a9b6-50e5c0fe64bd/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "491f801a-00ee-49eb-a9b6-50e5c0fe64bd",
+    "status_url": "https://platform.higgsfield.ai/requests/491f801a-00ee-49eb-a9b6-50e5c0fe64bd/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/491f801a-00ee-49eb-a9b6-50e5c0fe64bd/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6fdbd709-3f30-4e11-82a2-16fd516f4e10.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:30:13.448Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/l4-logo/l4-logo_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6fdbd709-3f30-4e11-82a2-16fd516f4e10.png",
+      "bytes": 1102488,
+      "sha256": "9b35959f97105e4b4b982e6bf01e69e3adf677e1e4302c039638addc7800c3bc"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:38.305Z"
+}

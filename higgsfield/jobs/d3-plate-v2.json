@@ -1,0 +1,54 @@
+{
+  "label": "d3-plate-v2",
+  "endpoint": "marketing-studio/image",
+  "input": {
+    "prompt": "Edit this photograph. Keep the same smooth warm light-grey plaster wall, the same soft even overhead daylight, the same colours, and the same eleven blank pure-white matte sheets each held by one small glossy red push pin, in the same relative arrangement. Recompose only: zoom out slightly so the whole group of sheets becomes about 15% smaller, and move the entire group to the right so that the empty wall on the left occupies 46% of the frame width. Keep a clear band of empty wall along the top (about 12% of the frame height) and along the bottom (about 9%). Keep the camera frontal and exactly parallel to the wall, no perspective distortion, crisp focus. The sheets must stay completely blank - no printing, no text, no marks, no logos. 16:9.",
+    "quality": "high",
+    "resolution": "2k",
+    "aspect_ratio": "16:9",
+    "image_urls": [
+      "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/e620b398-4d9c-47e0-898f-79daedcb8c71.png"
+    ]
+  },
+  "note": "D3 원판 재구성(빈 벽 부족으로 헤드라인과 종이가 겹침) — 안별 1회 보정",
+  "submitted_at": "2026-09-29T12:49:36.116Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:49:37.228Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:50:08.965Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-09-29T12:52:18.627Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "db8ba542-6908-4151-bf53-055d877f2ee5",
+  "status_url": "https://platform.higgsfield.ai/requests/db8ba542-6908-4151-bf53-055d877f2ee5/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/db8ba542-6908-4151-bf53-055d877f2ee5/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "db8ba542-6908-4151-bf53-055d877f2ee5",
+    "status_url": "https://platform.higgsfield.ai/requests/db8ba542-6908-4151-bf53-055d877f2ee5/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/db8ba542-6908-4151-bf53-055d877f2ee5/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/84f421dc-1805-4d27-9593-b7bff68a6d68.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:52:18.627Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/d3-plate-v2/d3-plate-v2_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/84f421dc-1805-4d27-9593-b7bff68a6d68.png",
+      "bytes": 4899110,
+      "sha256": "1aed9f6cd008873be05f7f611b749ce83990d359bd12844be857400401287c8e"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:52:20.622Z"
+}

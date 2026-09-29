@@ -1,0 +1,46 @@
+{
+  "label": "l5-logo",
+  "endpoint": "ideogram/v4.0",
+  "input": {
+    "prompt": "Logo design exploration sheet for PAUSE STUDIO, a boutique website design studio. Four variations of one idea arranged in a clean 2x2 grid with generous white space, precise vector logo design, flat colours, no mockups. On ivory: the wordmark PAUSE constructed entirely from parallel horizontal lines like a line screen, where every line breaks briefly at the same vertical position, leaving a quiet gap that runs through all the letters - a visual pause; variations in vermilion red and ultramarine blue; bold, geometric, optical. The small word STUDIO sits below in a clean sans-serif. Exact spelling: PAUSE STUDIO.",
+    "aspect_ratio": "1:1",
+    "rendering_speed": "QUALITY"
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:59.604Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:28:00.341Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:30:14.404Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "6be8d786-f947-41a3-8efc-3c0d2fcfd886",
+  "status_url": "https://platform.higgsfield.ai/requests/6be8d786-f947-41a3-8efc-3c0d2fcfd886/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/6be8d786-f947-41a3-8efc-3c0d2fcfd886/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "6be8d786-f947-41a3-8efc-3c0d2fcfd886",
+    "status_url": "https://platform.higgsfield.ai/requests/6be8d786-f947-41a3-8efc-3c0d2fcfd886/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/6be8d786-f947-41a3-8efc-3c0d2fcfd886/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/63667291-51c7-4b20-8fe2-706944103fac.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:30:14.404Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/l5-logo/l5-logo_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/63667291-51c7-4b20-8fe2-706944103fac.png",
+      "bytes": 1460136,
+      "sha256": "dde99e1384e64a44f70106dcc762f9ce265c77d8e393f8e3ada38791c23c4a92"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:39.935Z"
+}

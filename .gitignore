@@ -13,3 +13,19 @@ dist/
 
 # 기존 사이트 추출용 임시 캡처 (디자인 레퍼런스로 사용하지 않음)
 content/source/screens-for-extraction-only/
+
+# 레퍼런스 캡처는 내부 검토용 — 공개 저장소에 올리지 않음(출처·메모만 커밋)
+research/refs/*.png
+research/refs/*.jpg
+research/refs/*.webp
+research/refs/*.mp4
+research/refs/*.gif
+research/refs/*.json
+
+# 조판용 폰트 파일(OFL, 약 40MB) — tools/fetch-fonts.sh 로 재다운로드. 라이선스·목록은 커밋
+drafts/fonts/*.ttf
+drafts/fonts/*.woff2
+# 조판 중간 파일
+drafts/typeset/media/_*.png
+drafts/logos/work/*.pbm
+drafts/logos/_check.html

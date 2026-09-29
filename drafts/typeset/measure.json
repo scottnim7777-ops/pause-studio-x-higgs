@@ -1,0 +1,19 @@
+{
+ "d1_paper": "#DFD8CA",
+ "d1_ink": "#224099",
+ "d2_shadow": "#010209",
+ "d2_beam": "#644315",
+ "d3_wall": "#E9E3DD",
+ "d3_pin": "#D02A24",
+ "d4_wall": "#BDCCC1",
+ "d4_shadow": "#97AC9F",
+ "d5_red": "#F53B2E",
+ "d5_blue": "#231CBC",
+ "d5_white": "#FFFFFF",
+ "d5_lens": [
+  184,
+  348,
+  1612,
+  1184
+ ]
+}

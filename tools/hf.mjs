@@ -6,6 +6,7 @@
 // 규칙: 자격 증명은 출력하지 않는다. 같은 label로 두 번 제출하지 않는다(유료 중복 방지).
 //       제출 응답을 못 받은 경우(타임아웃 등) 'submission_unknown'으로 기록하고 자동 재시도하지 않는다.
 // 사용: NODE_USE_ENV_PROXY=1 node tools/hf.mjs <command> ...
+//   estimate <endpoint> <input.json>   무료 비용 견적(credits, usd)
 //   submit <label> <endpoint> <input.json> [--note "..."]
 //   status <label>          한 번 조회
 //   wait <label> [maxSec]   끝날 때까지 폴링(기본 900초)
@@ -135,12 +136,21 @@ async function upload(file) {
   const type = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', mp4: 'video/mp4' }[ext];
   if (!type) throw new Error('지원 형식: png jpg webp mp4');
   const r = await api('POST', '/files/generate-upload-url', { content_type: type });
-  const put = await fetch(r.upload_url, { method: 'PUT', headers: { 'Content-Type': type }, body: fs.readFileSync(file) });
+  // 문서: upload_headers의 모든 헤더를 그대로 보낸다. 자격 증명은 보내지 않는다.
+  const put = await fetch(r.upload_url, { method: 'PUT', headers: r.upload_headers || { 'Content-Type': type }, body: fs.readFileSync(file) });
   if (!put.ok) throw new Error(`업로드 실패 HTTP ${put.status}`);
   const log = fs.existsSync(UPLOADS) ? JSON.parse(fs.readFileSync(UPLOADS, 'utf8')) : [];
   log.push({ file: path.relative(ROOT, path.resolve(file)), public_url: r.public_url, uploaded_at: now() });
   fs.writeFileSync(UPLOADS, JSON.stringify(log, null, 2) + '\n');
   console.log(r.public_url);
+}
+
+// 무료 견적: POST /estimate/{endpoint} (같은 파라미터) → { credits, usd }
+async function estimate(endpoint, inputFile) {
+  const input = JSON.parse(fs.readFileSync(inputFile, 'utf8'));
+  const r = await api('POST', `/estimate/${endpoint.replace(/^\//, '')}`, input);
+  console.log(JSON.stringify({ endpoint, credits: r.credits, usd: r.usd }));
+  return r;
 }
 
 function list() {
@@ -154,6 +164,6 @@ function list() {
 const [cmd, ...a] = process.argv.slice(2);
 const noteIdx = a.indexOf('--note');
 const note = noteIdx >= 0 ? a.splice(noteIdx, 2)[1] : '';
-const run = { submit: () => submit(a[0], a[1], a[2], note), status: async () => { const j = await status(a[0]); console.log(JSON.stringify({ label: j.label, status: j.status })); }, wait: () => wait(a[0], Number(a[1] || 900)), download: () => download(a[0]), upload: () => upload(a[0]), list: async () => list() }[cmd];
+const run = { estimate: () => estimate(a[0], a[1]), submit: () => submit(a[0], a[1], a[2], note), status: async () => { const j = await status(a[0]); console.log(JSON.stringify({ label: j.label, status: j.status })); }, wait: () => wait(a[0], Number(a[1] || 900)), download: () => download(a[0]), upload: () => upload(a[0]), list: async () => list() }[cmd];
 if (!run) { console.log(fs.readFileSync(new URL(import.meta.url), 'utf8').split('\n').slice(1, 16).join('\n')); process.exit(1); }
 run().catch((e) => { console.error(String(e.message).replace(/Key [^\s"]+/g, 'Key ***')); process.exit(1); });

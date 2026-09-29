@@ -1,0 +1,46 @@
+{
+  "label": "l2-logo",
+  "endpoint": "ideogram/v4.0",
+  "input": {
+    "prompt": "Logo design exploration sheet for PAUSE STUDIO, a boutique website design studio. Four variations of one idea arranged in a clean 2x2 grid with generous white space, precise vector logo design, flat colours, no mockups. On a deep blue-black background: a minimal symbol made of one thin semicircular arc with a single dot beneath it - a fermata, the musical sign for 'hold', which also reads like the sun above a horizon - in warm amber, paired with the wordmark PAUSE STUDIO in a wide, extended geometric sans-serif in off-white with generous letterspacing. Cinematic, calm. Exact spelling: PAUSE STUDIO.",
+    "aspect_ratio": "1:1",
+    "rendering_speed": "QUALITY"
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:56.213Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:27:57.042Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:30:11.605Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "2879b36c-1219-4921-91cd-af1ded6e4abc",
+  "status_url": "https://platform.higgsfield.ai/requests/2879b36c-1219-4921-91cd-af1ded6e4abc/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/2879b36c-1219-4921-91cd-af1ded6e4abc/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "2879b36c-1219-4921-91cd-af1ded6e4abc",
+    "status_url": "https://platform.higgsfield.ai/requests/2879b36c-1219-4921-91cd-af1ded6e4abc/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/2879b36c-1219-4921-91cd-af1ded6e4abc/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1222ce69-4790-4653-9842-44ddee716923.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:30:11.605Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/l2-logo/l2-logo_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1222ce69-4790-4653-9842-44ddee716923.png",
+      "bytes": 6427434,
+      "sha256": "99a88ad0710bbe435b6610532a3abecdb02dd268eda970fba1837b4e41ba43ca"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:35.194Z"
+}

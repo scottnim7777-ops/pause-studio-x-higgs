@@ -1,0 +1,76 @@
+{
+  "label": "d5-plate",
+  "endpoint": "recraft/v4.1/pro/text-to-image",
+  "input": {
+    "prompt": "Precise flat vector op-art composition for a website hero, 16:9. Hundreds of thin parallel vertical lines of equal width alternate vermilion red and ultramarine blue on an ivory background and cover the whole canvas edge to edge. In the left-centre of the canvas the lines bend smoothly outward around a large empty horizontal rounded-rectangle area (about 46% of the width and 42% of the height), as if pushed aside by an invisible lens, leaving that area perfectly clear ivory. Near its boundary the lines compress and curve, creating a vibrating optical bulge in the spirit of Bridget Riley. Crisp geometry, consistent spacing, no gradients, no shadows, no texture, no text, no letters.",
+    "aspect_ratio": "16:9",
+    "output_format": "png",
+    "colors": [
+      {
+        "rgb": [
+          232,
+          69,
+          44
+        ]
+      },
+      {
+        "rgb": [
+          30,
+          43,
+          216
+        ]
+      },
+      {
+        "rgb": [
+          244,
+          241,
+          234
+        ]
+      }
+    ],
+    "background_color": {
+      "rgb": [
+        244,
+        241,
+        234
+      ]
+    }
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:54.147Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:27:54.887Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:29:22.485Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "645f0e23-3e39-46ad-beca-70137a7e06ca",
+  "status_url": "https://platform.higgsfield.ai/requests/645f0e23-3e39-46ad-beca-70137a7e06ca/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/645f0e23-3e39-46ad-beca-70137a7e06ca/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "645f0e23-3e39-46ad-beca-70137a7e06ca",
+    "status_url": "https://platform.higgsfield.ai/requests/645f0e23-3e39-46ad-beca-70137a7e06ca/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/645f0e23-3e39-46ad-beca-70137a7e06ca/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/e9ef75dc-ec9a-4753-9427-d5b716e37cf4.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:29:22.485Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/d5-plate/d5-plate_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/e9ef75dc-ec9a-4753-9427-d5b716e37cf4.png",
+      "bytes": 2914587,
+      "sha256": "59264a9440af422ad01ca4de4ddc37d531fd7093bcead3bcd466564f6edaba26"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:31.430Z"
+}

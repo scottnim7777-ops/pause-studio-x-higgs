@@ -1,0 +1,62 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>시안 03 — 크리틱 월</title><style>
+@font-face{font-family:Hahmlet;src:url(../fonts/Hahmlet-VF.ttf);font-weight:100 900}
+@font-face{font-family:Pretendard;src:url(../fonts/PretendardVariable.ttf);font-weight:45 930}
+@font-face{font-family:SUIT;src:url(../fonts/SUIT-Variable.ttf);font-weight:100 900}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-Regular.ttf);font-weight:400}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-Medium.ttf);font-weight:500}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-SemiBold.ttf);font-weight:600}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-Bold.ttf);font-weight:700}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/IBMPlexMono-Regular.ttf);font-weight:400}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/IBMPlexMono-Medium.ttf);font-weight:500}
+@font-face{font-family:'Gowun Batang';src:url(../fonts/GowunBatang-Regular.ttf);font-weight:400}
+@font-face{font-family:'Gowun Batang';src:url(../fonts/GowunBatang-Bold.ttf);font-weight:700}
+@font-face{font-family:Archivo;src:url(../fonts/Archivo-VF.ttf);font-weight:100 900;font-stretch:62% 125%}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;word-break:keep-all}
+.hero{position:relative;width:1920px;height:1080px;overflow:hidden}
+.abs{position:absolute}
+a{color:inherit;text-decoration:none}
+header{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between}
+nav{display:flex;align-items:center}
+.lang{display:inline-flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap}
+.kpi b{display:block}
+.draft{position:absolute;font:500 11px/1 Pretendard;letter-spacing:.02em;opacity:.55}
+
+.d3{background:url(../../higgsfield/raw/d3-plate-v2/d3-plate-v2_01.png) center/cover;color:#111;font-family:'IBM Plex Sans KR'}
+.d3 .work{background-size:cover;background-repeat:no-repeat}
+.d3 .shade{background-image:url(../../higgsfield/raw/d3-plate-v2/d3-plate-v2_01.png);background-repeat:no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.d3 .cap{font:500 12.5px/1 'IBM Plex Sans KR';letter-spacing:.02em;color:#3A3835;white-space:nowrap}
+.d3 .cap span{font-family:'IBM Plex Mono';font-weight:500;letter-spacing:.06em;margin-right:6px}
+.d3 header{padding:34px 72px 0 72px}
+.d3 .logo img{height:40px;display:block}
+.d3 nav.main{position:absolute;left:0;right:0;justify-content:center;gap:52px;font:500 18px/1 'IBM Plex Sans KR';pointer-events:none}
+.d3 nav.main a{pointer-events:auto}
+.d3 .right{display:flex;align-items:center;gap:26px;font:500 17px/1 'IBM Plex Sans KR'}
+.d3 .hcta{background:#111;color:#fff;font:600 17px/1 'IBM Plex Sans KR';padding:17px 28px}
+.d3 h1{left:84px;top:258px;font-weight:700;font-size:92px;line-height:1.2;letter-spacing:-.04em}
+.d3 .sub{left:86px;top:500px;font:400 25px/1.6 'IBM Plex Sans KR';letter-spacing:-.02em;color:#3A3835}
+.d3 .ctas{left:86px;top:612px;display:flex;gap:18px}
+.d3 .b1{height:72px;padding:0 34px;background:#111;color:#fff;font:600 20px/1 'IBM Plex Sans KR';letter-spacing:-.02em}
+.d3 .b2{height:72px;padding:0 28px;border:1.5px solid #111;font:600 20px/1 'IBM Plex Sans KR';letter-spacing:-.02em;background:rgba(255,255,255,.35)}
+.d3 .rule{left:86px;top:740px;width:612px;height:1px;background:rgba(17,17,17,.35)}
+.d3 .kpis{left:86px;top:772px;width:612px;display:flex}
+.d3 .kpi{flex:1;text-align:center}
+.d3 .kpi+.kpi{border-left:1px solid rgba(17,17,17,.3)}
+.d3 .kpi b{font-weight:600;font-size:44px;letter-spacing:-.03em;line-height:1}
+.d3 .kpi span{display:block;margin-top:14px;font:400 18px/1.2 'IBM Plex Sans KR';color:#3A3835}
+.d3 .pill{left:86px;top:902px;display:flex;align-items:center;gap:10px;font:500 18px/1 'IBM Plex Sans KR';color:#3A3835}
+.d3 .draft{left:86px;bottom:22px;color:#111}
+</style></head><body><main class="hero d3">
+<div class="abs work" style="left:1021.9px;top:165.4px;width:236.3px;height:144.2px;background-image:url(media/ref11.jpg);background-position:top"></div><div class="abs work" style="left:1325.5px;top:165.4px;width:239.8px;height:144.8px;background-image:url(media/ref07.jpg);background-position:top"></div><div class="abs work" style="left:1658.7px;top:169.4px;width:79.0px;height:149.7px;background-image:url(media/ref10-splash.jpg);background-position:center"></div><div class="abs work" style="left:902.0px;top:362.0px;width:225.3px;height:147.5px;background-image:url(media/ref05.jpg);background-position:center"></div><div class="abs work" style="left:1195.3px;top:379.6px;width:320.9px;height:215.9px;background-image:url(media/ref03.jpg);background-position:top"></div><div class="abs work" style="left:1585.9px;top:376.6px;width:230.4px;height:136.8px;background-image:url(media/ref08.jpg);background-position:center"></div><div class="abs work" style="left:972.3px;top:578.0px;width:64.0px;height:157.6px;background-image:url(media/ref10-home.jpg);background-position:top"></div><div class="abs work" style="left:1225.4px;top:643.2px;width:235.7px;height:104.3px;background-image:url(media/ref04-frame.jpg);background-position:center"></div><div class="abs work" style="left:1661.6px;top:612.3px;width:70.4px;height:167.6px;background-image:url(media/ref10-route.jpg);background-position:top"></div><div class="abs work" style="left:983.3px;top:790.4px;width:247.7px;height:144.2px;background-image:url(media/ref09.jpg);background-position:top"></div><div class="abs work" style="left:1298.2px;top:792.5px;width:237.9px;height:142.2px;background-image:url(media/ref12.jpg);background-position:top"></div><div class="abs shade" style="left:1021.9px;top:165.4px;width:236.3px;height:144.2px;background-size:1920.0px 1085.7px;background-position:-1021.9px -168.3px"></div><div class="abs shade" style="left:1325.5px;top:165.4px;width:239.8px;height:144.8px;background-size:1920.0px 1085.7px;background-position:-1325.5px -168.3px"></div><div class="abs shade" style="left:1658.7px;top:169.4px;width:79.0px;height:149.7px;background-size:1920.0px 1085.7px;background-position:-1658.7px -172.3px"></div><div class="abs shade" style="left:902.0px;top:362.0px;width:225.3px;height:147.5px;background-size:1920.0px 1085.7px;background-position:-902.0px -364.8px"></div><div class="abs shade" style="left:1195.3px;top:379.6px;width:320.9px;height:215.9px;background-size:1920.0px 1085.7px;background-position:-1195.3px -382.4px"></div><div class="abs shade" style="left:1585.9px;top:376.6px;width:230.4px;height:136.8px;background-size:1920.0px 1085.7px;background-position:-1585.9px -379.4px"></div><div class="abs shade" style="left:972.3px;top:578.0px;width:64.0px;height:157.6px;background-size:1920.0px 1085.7px;background-position:-972.3px -580.9px"></div><div class="abs shade" style="left:1225.4px;top:643.2px;width:235.7px;height:104.3px;background-size:1920.0px 1085.7px;background-position:-1225.4px -646.1px"></div><div class="abs shade" style="left:1661.6px;top:612.3px;width:70.4px;height:167.6px;background-size:1920.0px 1085.7px;background-position:-1661.6px -615.1px"></div><div class="abs shade" style="left:983.3px;top:790.4px;width:247.7px;height:144.2px;background-size:1920.0px 1085.7px;background-position:-983.3px -793.3px"></div><div class="abs shade" style="left:1298.2px;top:792.5px;width:237.9px;height:142.2px;background-size:1920.0px 1085.7px;background-position:-1298.2px -795.4px"></div><p class="abs cap" style="left:1016.4px;top:325.0px"><span>REF. 11</span> 여행사</p><p class="abs cap" style="left:1187.1px;top:613.6px"><span>REF. 03</span> 한식당</p><p class="abs cap" style="right:98.6px;text-align:right;top:528.6px"><span>REF. 08</span> 미용실 / 헤어 살롱</p><p class="abs cap" style="left:1221.4px;top:761.4px"><span>REF. 04</span> 오클랜드 현지 여행사</p>
+<header><a class="logo" href="#"><img src="../logos/L3-index-ink.svg" alt="PAUSE STUDIO 퍼즈 스튜디오"></a>
+<nav class="main"><a href="#">포트폴리오</a><a href="#">서비스</a><a href="#">요금</a><a href="#">자주 묻는 질문</a></nav>
+<div class="right"><span class="lang"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3Z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg> 한국어 <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span><a class="hcta btn" href="#">문의하기</a></div></header>
+<h1 class="abs">한인 대표님들을 위한<br>웹사이트 제작</h1>
+<p class="abs sub">단 한 번의 제작비 외에,<br>매달·매년 나가는 비용이 없는 웹사이트를 만듭니다.</p>
+<div class="abs ctas"><a class="btn b1" href="#">무료 웹사이트 정밀 상담신청</a><a class="btn b2" href="#"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4c-4.7 0-8.5 3-8.5 6.7 0 2.3 1.5 4.3 3.8 5.5l-.9 3.3 3.7-2.1c.6.1 1.2.1 1.9.1 4.7 0 8.5-3 8.5-6.8S16.7 4 12 4Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>카카오톡 1:1 실시간 상담</a></div>
+<div class="abs rule"></div><div class="abs kpis"><div class="kpi"><b>42건+</b><span>누적 작업</span></div><div class="kpi"><b>0원</b><span>월·연 관리비 (무료)</span></div><div class="kpi"><b>2~3주</b><span>평균 오픈 기간</span></div></div>
+<p class="abs pill"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m8 12.3 2.7 2.7L16.2 9.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>제작비 1회 결제 · 이후 추가비용 $0 · 기술지원</p>
+<p class="draft">시안 03 · 아트워크: Higgsfield 생성 · 문구·로고·버튼: HTML 조판 시안 · 벽의 화면: 실제 작업물 Ref. 01~15 원본</p></main></body></html>

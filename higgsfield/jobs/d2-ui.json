@@ -1,0 +1,50 @@
+{
+  "label": "d2-ui",
+  "endpoint": "marketing-studio/image",
+  "input": {
+    "prompt": "Use the attached image as the unchanged full-bleed background artwork. Design a complete, realistic desktop website hero screen (1920x1080) for PAUSE STUDIO, a boutique website design studio for Korean business owners abroad. Keep the artwork exactly as it is and place the interface in its empty area. Exact Korean copy: headline '한인 대표님들을 위한 웹사이트 제작'; sub-headline '단 한 번의 제작비 외에, 매달·매년 나가는 비용이 없는 웹사이트를 만듭니다.'; navigation '포트폴리오', '서비스', '요금', '자주 묻는 질문', language '한국어', header button '문의하기'; primary button '무료 웹사이트 정밀 상담신청'; secondary action '카카오톡 1:1 실시간 상담'; three figures '42건+ 누적 작업', '0원 월·연 관리비 (무료)', '2~3주 평균 오픈 기간'; note '제작비 1회 결제 · 이후 추가비용 $0 · 기술지원'. No other text, no fake statistics, no badges. Cinematic dark layout: header with a small warm-amber fermata symbol (a thin arc over a dot) and the wordmark PAUSE STUDIO in a wide extended sans-serif, navigation right and a thin outlined button. The headline anchored at the bottom-left in large bold white Korean sans-serif over the dark shadow area, the sub-headline below, then a solid warm off-white button with dark text and a ghost outlined button. At the bottom-right the three figures inside a slim boxed row divided by thin lines. Keep the golden light beam and monitor visible.",
+    "quality": "medium",
+    "resolution": "2k",
+    "aspect_ratio": "16:9",
+    "image_urls": [
+      "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cbeaf06a-afaf-40de-b0ce-1a92064670d8.png"
+    ]
+  },
+  "note": "UI visualization on plate (direction reference)",
+  "submitted_at": "2026-09-29T12:34:49.127Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:34:49.895Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:38:19.274Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "416779f0-baef-4e26-98f4-c9da095f6fd6",
+  "status_url": "https://platform.higgsfield.ai/requests/416779f0-baef-4e26-98f4-c9da095f6fd6/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/416779f0-baef-4e26-98f4-c9da095f6fd6/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "416779f0-baef-4e26-98f4-c9da095f6fd6",
+    "status_url": "https://platform.higgsfield.ai/requests/416779f0-baef-4e26-98f4-c9da095f6fd6/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/416779f0-baef-4e26-98f4-c9da095f6fd6/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2397299a-412a-4dcb-b8c9-c11e696f4cf9.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:38:19.274Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/d2-ui/d2-ui_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2397299a-412a-4dcb-b8c9-c11e696f4cf9.png",
+      "bytes": 4825340,
+      "sha256": "2041ee8a9d5073a230328e8dd524f837d79ec5de1137b8dabf80792a401ed440"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:38:21.236Z"
+}

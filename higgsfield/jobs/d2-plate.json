@@ -1,0 +1,47 @@
+{
+  "label": "d2-plate",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Cinematic film still, 16:9, locked-off camera. A quiet modern web design studio at golden hour. A long dark oak desk enters from the right edge toward the centre; on it a slim monitor glowing softly with an abstract minimal website layout made only of pale rectangles, and a closed laptop. A single sharp shaft of low golden sunlight enters from a tall window on the right and cuts a diagonal band of warm light across a dark raw-concrete back wall; fine dust particles float and glitter inside the beam. The rest of the room falls into deep blue-black shadow. The left 45% of the frame is dark, calm concrete wall in shadow with almost no detail - clean negative space for a headline. 35mm film look, fine grain, gentle anamorphic softness, warm amber light against deep blue-black. No people, no readable text, no logos.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:50.899Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:27:51.743Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:28:11.446Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "8f80ec59-2e98-4b5d-a471-e6a43fb123cb",
+  "status_url": "https://platform.higgsfield.ai/requests/8f80ec59-2e98-4b5d-a471-e6a43fb123cb/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/8f80ec59-2e98-4b5d-a471-e6a43fb123cb/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "8f80ec59-2e98-4b5d-a471-e6a43fb123cb",
+    "status_url": "https://platform.higgsfield.ai/requests/8f80ec59-2e98-4b5d-a471-e6a43fb123cb/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/8f80ec59-2e98-4b5d-a471-e6a43fb123cb/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cbeaf06a-afaf-40de-b0ce-1a92064670d8.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:28:11.446Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/d2-plate/d2-plate_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cbeaf06a-afaf-40de-b0ce-1a92064670d8.png",
+      "bytes": 1933442,
+      "sha256": "9e7aaddd34a3b7306f12f3bd9b6fdb7073f256437a856f9253fa75f8191f749f"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:25.715Z"
+}

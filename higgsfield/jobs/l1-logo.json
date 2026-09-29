@@ -1,0 +1,50 @@
+{
+  "label": "l1-logo",
+  "endpoint": "ideogram/v4.0",
+  "input": {
+    "prompt": "Logo design exploration sheet for PAUSE STUDIO, a boutique website design studio. Four variations of one idea arranged in a clean 2x2 grid with generous white space, precise vector logo design, flat colours, no mockups. On warm white paper: a custom calligraphic comma symbol (in Korean the comma is called 'rest mark', a pause) drawn in ultramarine blue ink, paired with the wordmark PAUSE STUDIO in widely spaced, high-contrast serif capitals in black. Refined, editorial, literary, minimal. Exact spelling: PAUSE STUDIO.",
+    "aspect_ratio": "1:1",
+    "rendering_speed": "QUALITY"
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:55.158Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:27:55.953Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:29:43.058Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-09-29T12:30:10.831Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "33067bcd-b454-4cfd-ade4-6bba9cf4df9e",
+  "status_url": "https://platform.higgsfield.ai/requests/33067bcd-b454-4cfd-ade4-6bba9cf4df9e/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/33067bcd-b454-4cfd-ade4-6bba9cf4df9e/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "33067bcd-b454-4cfd-ade4-6bba9cf4df9e",
+    "status_url": "https://platform.higgsfield.ai/requests/33067bcd-b454-4cfd-ade4-6bba9cf4df9e/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/33067bcd-b454-4cfd-ade4-6bba9cf4df9e/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/deaacd40-0979-4bc5-979a-cfb9af7aa51e.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:30:10.831Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/l1-logo/l1-logo_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/deaacd40-0979-4bc5-979a-cfb9af7aa51e.png",
+      "bytes": 1032388,
+      "sha256": "9184ca05409a844a35cb12b4df45868ff10628df79dab1c0d86fd24b61a2a2b9"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:33.103Z"
+}

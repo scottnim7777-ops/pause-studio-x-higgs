@@ -1,0 +1,47 @@
+{
+  "label": "d3-plate",
+  "endpoint": "marketing-studio/image",
+  "input": {
+    "prompt": "Straight-on frontal photograph of a design studio pin-up wall, 16:9, camera centred and exactly parallel to the wall, no perspective distortion. The wall is smooth warm light-grey painted plaster (#D9D5CE) lit by soft, even overhead daylight. On the right 62% of the frame, eleven blank pure-white matte paper sheets are pinned in a loose, rhythmic grid with generous gaps: seven landscape sheets in 16:10 proportion (like laptop screens), three tall narrow portrait sheets in 9:19 proportion (like phone screens), and one larger landscape sheet near the centre. Each sheet is held by one small glossy red push pin at its top centre; the bottom corners of a few sheets curl slightly and cast soft thin shadows on the wall. The sheets are completely blank - no printing, no text, no marks. The left 38% of the wall is empty and evenly lit, reserved for a headline. Natural colour, crisp focus across the whole wall, 50mm lens, calm and precise. No people, no text, no logos.",
+    "quality": "high",
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:52.057Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:27:52.847Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:29:20.726Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "92452e66-1e71-4b54-89bc-606dbf24898a",
+  "status_url": "https://platform.higgsfield.ai/requests/92452e66-1e71-4b54-89bc-606dbf24898a/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/92452e66-1e71-4b54-89bc-606dbf24898a/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "92452e66-1e71-4b54-89bc-606dbf24898a",
+    "status_url": "https://platform.higgsfield.ai/requests/92452e66-1e71-4b54-89bc-606dbf24898a/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/92452e66-1e71-4b54-89bc-606dbf24898a/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/e620b398-4d9c-47e0-898f-79daedcb8c71.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:29:20.725Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/d3-plate/d3-plate_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/e620b398-4d9c-47e0-898f-79daedcb8c71.png",
+      "bytes": 4633441,
+      "sha256": "919b9e3685569a31e5a3541dca3c29dd9856c57f78add2a39a45997e784c26f0"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:27.658Z"
+}

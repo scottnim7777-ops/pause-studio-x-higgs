@@ -1,0 +1,51 @@
+{
+  "label": "d1-plate",
+  "endpoint": "marketing-studio/image",
+  "input": {
+    "prompt": "Editorial macro photograph for a website hero, 16:9. A single oversized comma, deeply letterpress-printed in rich ultramarine blue ink into thick soft white cotton rag paper. The comma is the only mark on the page: a large, elegant, slightly calligraphic comma about 42% of the frame height, placed in the right third of the frame, its tail curving down to the left. Soft raking morning light from the upper left reveals the depth of the impression: a thin shadow inside the deboss, a subtle satin sheen on the ink, visible paper fibres, a faint deckled paper edge along the far right. The left 60% of the frame is clean, evenly lit warm white paper texture with a very gentle light falloff - empty space reserved for typography. Camera directly above, perfectly flat, 100mm macro look. Palette: warm white paper (#F2EEE6) and ultramarine ink (#2B3BD6) only. Absolutely no letters, no words, no numbers, no logo, no watermark. The raking light will later sweep slowly across the paper, so keep the light direction clear and the shadows soft.",
+    "quality": "high",
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "hero draft stage",
+  "submitted_at": "2026-09-29T12:27:49.509Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-09-29T12:27:50.578Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-09-29T12:28:12.370Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-09-29T12:29:19.960Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "0b11cda9-3097-43aa-aae0-b186b09b24af",
+  "status_url": "https://platform.higgsfield.ai/requests/0b11cda9-3097-43aa-aae0-b186b09b24af/status",
+  "cancel_url": "https://platform.higgsfield.ai/requests/0b11cda9-3097-43aa-aae0-b186b09b24af/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "0b11cda9-3097-43aa-aae0-b186b09b24af",
+    "status_url": "https://platform.higgsfield.ai/requests/0b11cda9-3097-43aa-aae0-b186b09b24af/status",
+    "cancel_url": "https://platform.higgsfield.ai/requests/0b11cda9-3097-43aa-aae0-b186b09b24af/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/d4001159-215c-489f-806d-1dac2fff357b.png"
+      }
+    ]
+  },
+  "checked_at": "2026-09-29T12:29:19.960Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/d1-plate/d1-plate_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/d4001159-215c-489f-806d-1dac2fff357b.png",
+      "bytes": 6454298,
+      "sha256": "f2a337299e901b576c0b678bd536a2c899dcdd9b4da8c467ae7723650d8aed67"
+    }
+  ],
+  "downloaded_at": "2026-09-29T12:30:23.842Z"
+}

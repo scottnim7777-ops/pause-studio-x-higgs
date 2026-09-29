@@ -1,0 +1,26 @@
+{
+ "plate": "higgsfield/raw/d2-plate/d2-plate_01.png",
+ "size": [
+  2048,
+  1152
+ ],
+ "screen": {
+  "tl": [
+   1213,
+   706
+  ],
+  "tr": [
+   1381,
+   716
+  ],
+  "br": [
+   1396,
+   861
+  ],
+  "bl": [
+   1228,
+   866
+  ]
+ },
+ "note": "\ubc1d\uae30 \uadf9\uc810 \uac80\ucd9c \ud6c4 \ud655\ub300 \uc774\ubbf8\uc9c0\ub85c \uc218\ub3d9 \ubcf4\uc815"
+}

@@ -1,0 +1,35 @@
+{
+ "prompt": "Precise flat vector op-art composition for a website hero, 16:9. Hundreds of thin parallel vertical lines of equal width alternate vermilion red and ultramarine blue on an ivory background and cover the whole canvas edge to edge. In the left-centre of the canvas the lines bend smoothly outward around a large empty horizontal rounded-rectangle area (about 46% of the width and 42% of the height), as if pushed aside by an invisible lens, leaving that area perfectly clear ivory. Near its boundary the lines compress and curve, creating a vibrating optical bulge in the spirit of Bridget Riley. Crisp geometry, consistent spacing, no gradients, no shadows, no texture, no text, no letters.",
+ "aspect_ratio": "16:9",
+ "output_format": "png",
+ "colors": [
+  {
+   "rgb": [
+    232,
+    69,
+    44
+   ]
+  },
+  {
+   "rgb": [
+    30,
+    43,
+    216
+   ]
+  },
+  {
+   "rgb": [
+    244,
+    241,
+    234
+   ]
+  }
+ ],
+ "background_color": {
+  "rgb": [
+   244,
+   241,
+   234
+  ]
+ }
+}

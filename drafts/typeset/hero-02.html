@@ -1,0 +1,58 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>시안 02 — 머무는 빛</title><style>
+@font-face{font-family:Hahmlet;src:url(../fonts/Hahmlet-VF.ttf);font-weight:100 900}
+@font-face{font-family:Pretendard;src:url(../fonts/PretendardVariable.ttf);font-weight:45 930}
+@font-face{font-family:SUIT;src:url(../fonts/SUIT-Variable.ttf);font-weight:100 900}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-Regular.ttf);font-weight:400}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-Medium.ttf);font-weight:500}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-SemiBold.ttf);font-weight:600}
+@font-face{font-family:'IBM Plex Sans KR';src:url(../fonts/IBMPlexSansKR-Bold.ttf);font-weight:700}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/IBMPlexMono-Regular.ttf);font-weight:400}
+@font-face{font-family:'IBM Plex Mono';src:url(../fonts/IBMPlexMono-Medium.ttf);font-weight:500}
+@font-face{font-family:'Gowun Batang';src:url(../fonts/GowunBatang-Regular.ttf);font-weight:400}
+@font-face{font-family:'Gowun Batang';src:url(../fonts/GowunBatang-Bold.ttf);font-weight:700}
+@font-face{font-family:Archivo;src:url(../fonts/Archivo-VF.ttf);font-weight:100 900;font-stretch:62% 125%}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;word-break:keep-all}
+.hero{position:relative;width:1920px;height:1080px;overflow:hidden}
+.abs{position:absolute}
+a{color:inherit;text-decoration:none}
+header{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between}
+nav{display:flex;align-items:center}
+.lang{display:inline-flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap}
+.kpi b{display:block}
+.draft{position:absolute;font:500 11px/1 Pretendard;letter-spacing:.02em;opacity:.55}
+
+.d2{background:#02030A url(../../higgsfield/raw/d2-plate/d2-plate_01.png) center/cover;color:#F1ECE3;font-family:Pretendard}
+.d2 .scrim{inset:0;background:linear-gradient(180deg,rgba(2,3,10,.55) 0,rgba(2,3,10,0) 18%),linear-gradient(0deg,rgba(2,3,10,.82) 0,rgba(2,3,10,.35) 38%,rgba(2,3,10,0) 60%)}
+.d2 .screen{left:0;top:0;width:640px;height:343px;transform-origin:0 0;transform:matrix3d(0.4557013327,0.1181047994,0.0000000000,0.0001547734,0.0124073922,0.4334349894,0.0000000000,-0.0000248957,0.0000000000,0.0000000000,1.0000000000,0.0000000000,1134.3750000000,659.0625000000,0.0000000000,1.0000000000);background:url(media/d2-monitor-ref03.jpg) center/cover;filter:brightness(.78) saturate(.72) contrast(.92) blur(.35px);opacity:.93}
+.d2 .glow{left:1094px;top:619px;width:257px;height:231px;background:radial-gradient(closest-side,rgba(210,220,235,.14),rgba(210,220,235,0));}
+.d2 header{padding:40px 72px 0 72px}
+.d2 .logo img{height:40px;display:block}
+.d2 nav{gap:44px;font:600 17px/1 Pretendard;letter-spacing:-.01em}
+.d2 .lang{margin-left:10px;font-weight:500}
+.d2 .hcta{margin-left:22px;border:1px solid rgba(232,168,104,.75);color:#F1ECE3;font:600 17px/1 Pretendard;padding:16px 28px}
+.d2 h1{left:78px;top:592px;font-weight:800;font-size:104px;line-height:1.14;letter-spacing:-.045em}
+.d2 .sub{left:80px;top:846px;font:500 25px/1.5 Pretendard;letter-spacing:-.02em;color:rgba(241,236,227,.82)}
+.d2 .ctas{left:80px;top:902px;display:flex;gap:18px}
+.d2 .b1{height:68px;padding:0 34px;background:#F1ECE3;color:#0B0F14;font:700 20px/1 Pretendard;letter-spacing:-.02em;border-radius:3px}
+.d2 .b2{height:68px;padding:0 30px;border:1px solid rgba(241,236,227,.55);font:600 20px/1 Pretendard;letter-spacing:-.02em;border-radius:3px}
+.d2 .pill{left:80px;top:996px;font:500 17px/1 Pretendard;color:rgba(241,236,227,.62)}
+.d2 .kpis{left:1140px;top:900px;width:704px;height:118px;display:flex;border:1px solid rgba(232,168,104,.55)}
+.d2 .kpi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.d2 .kpi+.kpi{border-left:1px solid rgba(232,168,104,.4)}
+.d2 .kpi b{font-weight:800;font-size:38px;letter-spacing:-.03em;line-height:1}
+.d2 .kpi span{margin-top:12px;font:500 16px/1 Pretendard;color:rgba(241,236,227,.72)}
+.d2 .draft{right:76px;bottom:24px;color:#F1ECE3;opacity:.4}
+</style></head><body><main class="hero d2">
+<div class="abs glow"></div><div class="abs screen" role="img" aria-label="실제 작업물 Ref. 03 한식당"></div><div class="abs scrim"></div>
+<header><a class="logo" href="#"><img src="../logos/L2-fermata-paper.svg" alt="PAUSE STUDIO 퍼즈 스튜디오"></a>
+<nav><a href="#">포트폴리오</a><a href="#">서비스</a><a href="#">요금</a><a href="#">자주 묻는 질문</a><span class="lang">한국어 <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span><a class="hcta btn" href="#">문의하기</a></nav></header>
+<h1 class="abs">한인 대표님들을 위한<br>웹사이트 제작</h1>
+<p class="abs sub">단 한 번의 제작비 외에, 매달·매년 나가는 비용이 없는 웹사이트를 만듭니다.</p>
+<div class="abs ctas"><a class="btn b1" href="#">무료 웹사이트 정밀 상담신청</a><a class="btn b2" href="#"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4c-4.7 0-8.5 3-8.5 6.7 0 2.3 1.5 4.3 3.8 5.5l-.9 3.3 3.7-2.1c.6.1 1.2.1 1.9.1 4.7 0 8.5-3 8.5-6.8S16.7 4 12 4Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>카카오톡 1:1 실시간 상담</a></div>
+<p class="abs pill">제작비 1회 결제 · 이후 추가비용 $0 · 기술지원</p>
+<div class="abs kpis"><div class="kpi"><b>42건+</b><span>누적 작업</span></div><div class="kpi"><b>0원</b><span>월·연 관리비 (무료)</span></div><div class="kpi"><b>2~3주</b><span>평균 오픈 기간</span></div></div>
+<p class="draft">시안 02 · 아트워크: Higgsfield 생성 · 문구·로고·버튼: HTML 조판 시안 · 모니터 화면: 실제 작업물 Ref. 03</p></main></body></html>

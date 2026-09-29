@@ -1,0 +1,9 @@
+{
+ "prompt": "Use the attached image as the unchanged full-bleed background artwork. Design a complete, realistic desktop website hero screen (1920x1080) for PAUSE STUDIO, a boutique website design studio for Korean business owners abroad. Keep the artwork exactly as it is and place the interface in its empty area. Exact Korean copy: headline '한인 대표님들을 위한 웹사이트 제작'; sub-headline '단 한 번의 제작비 외에, 매달·매년 나가는 비용이 없는 웹사이트를 만듭니다.'; navigation '포트폴리오', '서비스', '요금', '자주 묻는 질문', language '한국어', header button '문의하기'; primary button '무료 웹사이트 정밀 상담신청'; secondary action '카카오톡 1:1 실시간 상담'; three figures '42건+ 누적 작업', '0원 월·연 관리비 (무료)', '2~3주 평균 오픈 기간'; note '제작비 1회 결제 · 이후 추가비용 $0 · 기술지원'. No other text, no fake statistics, no badges. Calm tactile layout: header with a symbol of a thick arch over a floating dot and the wordmark Pause Studio in a soft warm serif, navigation and a rounded deep-celadon button. On the empty left celadon wall: a large Korean soft serif headline in deep green-black, the sub-headline, a rounded deep-celadon filled primary button and an outlined secondary button, and the three figures as small plaster-like tags. Tone-on-tone celadon palette with deep green text.",
+ "quality": "medium",
+ "resolution": "2k",
+ "aspect_ratio": "16:9",
+ "image_urls": [
+  "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/566c5322-4c26-46f7-9c38-8199b7d2375d.png"
+ ]
+}

@@ -1,0 +1,148 @@
+{
+ "favorit-hangul": {
+  "url": "https://abcdinamo.com/typefaces/favorit-hangul",
+  "styles": "Medium / Regular",
+  "captured": "2026-09-29T13:20:22.464Z"
+ },
+ "ortank-hangeul": {
+  "url": "https://www.lo-ol.design/catalog/ortank-hangeul",
+  "styles": "wght 700 / 400",
+  "captured": "2026-09-29T13:21:39.575Z"
+ },
+ "ag-choijeongho-minburi-screen": {
+  "url": "https://agfont.com/fonts/ag-choijeongho-minburi-screen",
+  "styles": "Regular (단일 굵기)",
+  "captured": "2026-09-29T13:20:43.626Z"
+ },
+ "sd-gyeokdong-myeongjo2:rows": [
+  "01 Th Cn",
+  "02 Lt Cn",
+  "03 Rg Cn",
+  "04 Sb Cn",
+  "05 Bd Cn",
+  "06 Th",
+  "07 Lt",
+  "08 Rg",
+  "09 Sb",
+  "10 Bd",
+  "11 Th Ex",
+  "12 Lt Ex",
+  "13 Rg Ex",
+  "14 Sb Ex",
+  "15 Bd Ex"
+ ],
+ "sd-gyeokdong-myeongjo2": {
+  "url": "https://www.sandollcloud.com/font/18510/SD-Gyeokdong-MJ2",
+  "styles": "09 Sb / 07 Lt / 08 Rg",
+  "captured": "2026-09-29T13:21:06.571Z"
+ },
+ "sd-greta-sans:rows": [
+  "01 Hl",
+  "02 Hl It",
+  "03 Th",
+  "04 Th It",
+  "05 El",
+  "06 El It",
+  "07 Lt",
+  "08 Lt It",
+  "09 Rg",
+  "10 Rg It",
+  "11 Md",
+  "12 Md It",
+  "13 Sb",
+  "14 Sb It",
+  "15 Bd",
+  "16 Bd It",
+  "17 Hv",
+  "18 Hv It",
+  "19 Bk",
+  "20 Bk It"
+ ],
+ "sd-greta-sans": {
+  "url": "https://www.sandollcloud.com/font/18013.html",
+  "styles": "13 Sb / 09 Rg / 11 Md",
+  "captured": "2026-09-29T13:22:03.374Z"
+ },
+ "sd-gyeokdong-gothic2:rows": [
+  "01 Hl",
+  "02 Ul",
+  "03 Lt",
+  "04 Rg",
+  "05 Bd",
+  "06 Hv",
+  "07 Bk"
+ ],
+ "sd-gyeokdong-gothic2": {
+  "url": "https://www.sandollcloud.com/font/15556/Sandoll-GyeokdongG2",
+  "styles": "05 Bd / 04 Rg / 04 Rg",
+  "captured": "2026-09-29T13:22:27.510Z"
+ },
+ "sandoll-gothic-neo1:rows": [
+  "01 Thin",
+  "02 UltraLight",
+  "03 Light",
+  "04 Regular",
+  "05 Medium",
+  "06 SemiBold",
+  "07 Bold",
+  "08 ExtraBold",
+  "09 Heavy"
+ ],
+ "sandoll-gothic-neo1": {
+  "url": "https://www.sandollcloud.com/font/8/Sandoll-GothicNeo1",
+  "styles": "06 SemiBold / 04 Regular / 05 Medium",
+  "captured": "2026-09-29T13:23:35.538Z"
+ },
+ "sd-minburi:rows": [
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900"
+ ],
+ "sd-minburi": {
+  "url": "https://www.sandollcloud.com/font/20811/SD-Minburi-Space3",
+  "styles": "600 / 400 / 500",
+  "captured": "2026-09-29T13:25:44.536Z"
+ },
+ "sd-jeongche:rows": [
+  "530",
+  "590",
+  "630",
+  "690",
+  "730",
+  "830",
+  "930",
+  "030"
+ ],
+ "sd-jeongche": {
+  "url": "https://www.sandollcloud.com/font/21615/SD-Jeongche",
+  "styles": "690 / 630 / 690",
+  "captured": "2026-09-29T13:26:50.071Z"
+ },
+ "eulyoo1945:rows": [
+  "01 Regular",
+  "02 SemiBold"
+ ],
+ "eulyoo1945": {
+  "url": "https://www.sandollcloud.com/font/16639.html",
+  "styles": "02 SemiBold / 01 Regular / 02 SemiBold",
+  "captured": "2026-09-29T13:28:18.524Z"
+ },
+ "maru-buri:rows": [
+  "ExtraLight",
+  "Light",
+  "Regular",
+  "SemiBold",
+  "Bold"
+ ],
+ "maru-buri": {
+  "url": "https://www.sandollcloud.com/free-font/16193/Maru-Buri",
+  "styles": "SemiBold / Regular / SemiBold",
+  "captured": "2026-09-29T13:29:51.626Z"
+ }
+}

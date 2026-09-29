@@ -1,14 +1,19 @@
-// drafts/board/*.html → PNG (전체 페이지)
+// 보드 HTML → PNG (전체 페이지)
 const { chromium } = require('playwright');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 (async () => {
   const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-  for (const [f, out, w] of [['board.html', 'PAUSE_hero_drafts_board.png', 3520], ['logos.html', 'PAUSE_logo_sheet.png', 2400]]) {
+  const jobs = {
+    heroes: [['drafts/board/board.html', 'drafts/board/PAUSE_hero_drafts_board.png', 3520], ['drafts/board/logos.html', 'drafts/board/PAUSE_logo_sheet.png', 2400]],
+    fonts: [['drafts/fonts/board.html', 'drafts/fonts/PAUSE_font_candidates.png', 2400]],
+  };
+  const which = process.argv[2] || 'heroes'; // 실행: node tools/capture_board.cjs [heroes|fonts]
+  for (const [f, out, w] of jobs[which]) {
     const p = await b.newPage({ viewport: { width: w, height: 1000 }, deviceScaleFactor: 1 });
-    await p.goto('file://' + path.join(ROOT, 'drafts/board', f));
+    await p.goto('file://' + path.join(ROOT, f));
     await p.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map((i) => i.decode().catch(() => {}))); });
-    await p.screenshot({ path: path.join(ROOT, 'drafts/board', out), fullPage: true });
+    await p.screenshot({ path: path.join(ROOT, out), fullPage: true });
     console.log(out);
   }
   await b.close();

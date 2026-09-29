@@ -1,0 +1,395 @@
+[
+ {
+  "url": "https://i.imgur.com/KIKzZuF.mp4",
+  "file": "content/assets/portfolio/originals/ref01_KIKzZuF.mp4",
+  "bytes": 2865890,
+  "sha256": "f1cd0e2a937473484575000c7b1b2687ee738b1ea6b84eae391afa4b552d4a34",
+  "id": 1,
+  "title": "Ref. 01",
+  "category": "여행 / 유학원"
+ },
+ {
+  "url": "https://i.imgur.com/PVuptes.mp4",
+  "file": "content/assets/portfolio/originals/ref02_PVuptes.mp4",
+  "bytes": 763589,
+  "sha256": "0c7ee81148f6dc65e6049e49e675703495cd3e64d389a6d32f63ab3e54c63ed7",
+  "id": 2,
+  "title": "Ref. 02",
+  "category": "커스텀 케이스 샵"
+ },
+ {
+  "url": "https://i.imgur.com/Cv2GPxw.png",
+  "file": "content/assets/portfolio/originals/ref03_Cv2GPxw.png",
+  "bytes": 3370437,
+  "sha256": "c0ff95541c1ddee7d898e7719720b4802f68f3e47c780a48703adcbc06fa5c4e",
+  "id": 3,
+  "title": "Ref. 03",
+  "category": "한식당"
+ },
+ {
+  "url": "https://i.imgur.com/MnSmLdO.gif",
+  "file": "content/assets/portfolio/originals/ref04_MnSmLdO.gif",
+  "bytes": 50305464,
+  "sha256": "d67bf0d63900c5968b402a7719d35401dd73ca39732c69af6982c9d7f2efdcea",
+  "id": 4,
+  "title": "Ref. 04",
+  "category": "오클랜드 현지 여행사"
+ },
+ {
+  "url": "https://i.imgur.com/4YPzZUq.png",
+  "file": "content/assets/portfolio/originals/ref05_4YPzZUq.png",
+  "bytes": 808500,
+  "sha256": "d22d57debb8393ab9ea0adb1224b408c66248214c43aceb64ff904cb640de929",
+  "id": 5,
+  "title": "Ref. 05",
+  "category": "패스트푸드 프랜차이즈"
+ },
+ {
+  "url": "https://i.imgur.com/861Pj3J.png",
+  "file": "content/assets/portfolio/originals/ref06_861Pj3J.png",
+  "bytes": 1046500,
+  "sha256": "d14c6876f1382a000d3e77a9fbaf053e0e26d79787bd2b7aa5f58db27a698205",
+  "id": 6,
+  "title": "Ref. 06",
+  "category": "패스트푸드 프랜차이즈"
+ },
+ {
+  "url": "https://i.imgur.com/70IgQpR.mp4",
+  "file": "content/assets/portfolio/originals/ref07_70IgQpR.mp4",
+  "bytes": 1466730,
+  "sha256": "41b92ad092ee9f36edf45d6eb7cbfd2b6aeed32aaec78e53c7e61a0d417bb834",
+  "id": 7,
+  "title": "Ref. 07",
+  "category": "호스피스"
+ },
+ {
+  "url": "https://i.imgur.com/YUCUmWL.png",
+  "file": "content/assets/portfolio/originals/ref08_YUCUmWL.png",
+  "bytes": 1459683,
+  "sha256": "08caa10ea1a86fde821b85d2a3bf13d1a2dcf71d9384abc9df8120b46bde629a",
+  "id": 8,
+  "title": "Ref. 08",
+  "category": "미용실 / 헤어 살롱"
+ },
+ {
+  "url": "https://i.imgur.com/fzysfi8.png",
+  "file": "content/assets/portfolio/originals/ref09_fzysfi8.png",
+  "bytes": 2908942,
+  "sha256": "3970868c77cf5061be36f6ee5dddbe9f069bc31f59bfdfa128b3e4a5208089c3",
+  "id": 9,
+  "title": "Ref. 09",
+  "category": "건강식품"
+ },
+ {
+  "url": "https://i.imgur.com/D2c9apB.jpeg",
+  "file": "content/assets/portfolio/originals/ref10_D2c9apB.jpeg",
+  "bytes": 2413412,
+  "sha256": "435288225611a6d75e2cd966c0ecfcf4970f6c6aee9a8f0ce48ca3fc83cb7ec7",
+  "id": 10,
+  "title": "Ref. 10",
+  "category": "택시 호출 및 배차 플랫폼 개발"
+ },
+ {
+  "url": "https://i.imgur.com/Ezo1VXP.png",
+  "file": "content/assets/portfolio/originals/ref11_Ezo1VXP.png",
+  "bytes": 1488408,
+  "sha256": "313e8d95191303a3453c9f35c0d91b82ebc8b8123c9d2a154d1ae8e248bf99fd",
+  "id": 11,
+  "title": "Ref. 11",
+  "category": "여행사"
+ },
+ {
+  "url": "https://i.imgur.com/oFU3GVl.png",
+  "file": "content/assets/portfolio/originals/ref12_oFU3GVl.png",
+  "bytes": 1507434,
+  "sha256": "f0245b5a14efca8d80bfc0251732cda0ef1a687395e497003c6d02366c8208f1",
+  "id": 12,
+  "title": "Ref. 12",
+  "category": "여행사"
+ },
+ {
+  "url": "https://i.imgur.com/wOWQVnI.png",
+  "file": "content/assets/portfolio/originals/ref13_wOWQVnI.png",
+  "bytes": 111913,
+  "sha256": "4837e4ef8259133bd1ab3ec330e766f03912906340343b3df3e3a0d620c1a62a",
+  "id": 13,
+  "title": "Ref. 13",
+  "category": "토스 핀테크 파트너 앱 개발"
+ },
+ {
+  "url": "https://i.imgur.com/4BR1I0w.png",
+  "file": "content/assets/portfolio/originals/ref14_4BR1I0w.png",
+  "bytes": 1154216,
+  "sha256": "481ab132bd16cde634d5c4b37da0f49967a8f9fd553ce77eeb9fac139d1a87d9",
+  "id": 14,
+  "title": "Ref. 14",
+  "category": "토스 핀테크 파트너 앱 개발"
+ },
+ {
+  "url": "https://i.imgur.com/EUz1qvV.png",
+  "file": "content/assets/portfolio/originals/ref15_EUz1qvV.png",
+  "bytes": 269682,
+  "sha256": "a91f571051c9897c68aa8fbb38f1e05578dda6a864efe8bfdb47463c0549f981",
+  "id": 15,
+  "title": "Ref. 15",
+  "category": "토스 핀테크 파트너 앱 개발"
+ },
+ {
+  "url": "https://i.imgur.com/R9dHgnK.png",
+  "file": "content/assets/portfolio/originals/ref16_R9dHgnK.png",
+  "bytes": 23948,
+  "sha256": "19895427c8ea640e067da830027afc8790e03652e793308f421bbb76311654b4",
+  "id": 16,
+  "title": "Ref. 16",
+  "category": "자체제작 쇼핑몰"
+ },
+ {
+  "url": "https://i.imgur.com/zC9LzFr.jpeg",
+  "file": "content/assets/portfolio/originals/ref17_zC9LzFr.jpeg",
+  "bytes": 425736,
+  "sha256": "e381d5c4de75a4fd0de2d3cafa5f88648dca7b0a37035e1a93f8b45d8be026d9",
+  "id": 17,
+  "title": "Ref. 17",
+  "category": "캔들/향수 제작업체"
+ },
+ {
+  "url": "https://i.imgur.com/t7hP6Vx.jpeg",
+  "file": "content/assets/portfolio/originals/ref18_t7hP6Vx.jpeg",
+  "bytes": 286815,
+  "sha256": "2dcfb16183d3541e6ff85e35eae6137b6fef1c0ea843b04d92b7944fe73c142f",
+  "id": 18,
+  "title": "Ref. 18",
+  "category": "디자인 스튜디오"
+ },
+ {
+  "url": "https://i.imgur.com/H5MH5Wq.jpeg",
+  "file": "content/assets/portfolio/originals/ref19_H5MH5Wq.jpeg",
+  "bytes": 531640,
+  "sha256": "ce150b3c16ab3eb220e4904cca5c48a4a26a211b8c5468e08c30fb6fc63fca8a",
+  "id": 19,
+  "title": "Ref. 19",
+  "category": "광고 에이전시"
+ },
+ {
+  "url": "https://i.imgur.com/tJryMb4.jpeg",
+  "file": "content/assets/portfolio/originals/ref20_tJryMb4.jpeg",
+  "bytes": 447986,
+  "sha256": "e474188f6aea51c5cbe38fcf2ad8cdb03e2860e0929a01f8723f118d36b8299b",
+  "id": 20,
+  "title": "Ref. 20",
+  "category": "레스토랑"
+ },
+ {
+  "url": "https://i.imgur.com/c1MqUjP.jpeg",
+  "file": "content/assets/portfolio/originals/ref21_c1MqUjP.jpeg",
+  "bytes": 322193,
+  "sha256": "2886d1df385c772027e105f91e8f74be93cc17b2d36a196b10307a37cf39c35e",
+  "id": 21,
+  "title": "Ref. 21",
+  "category": "패션 브랜드"
+ },
+ {
+  "url": "https://i.imgur.com/yFxzT2d.jpeg",
+  "file": "content/assets/portfolio/originals/ref22_yFxzT2d.jpeg",
+  "bytes": 234599,
+  "sha256": "ec9736641b146eda05fd72419d5a405ad76620d8c89dee1e43af21d9da3d46c1",
+  "id": 22,
+  "title": "Ref. 22",
+  "category": "디자인 에이전시"
+ },
+ {
+  "url": "https://i.imgur.com/HNG380u.jpeg",
+  "file": "content/assets/portfolio/originals/ref23_HNG380u.jpeg",
+  "bytes": 592910,
+  "sha256": "bec6275b363e5387927830332ab880a9274b9d67698af9ab8aac68d5d30e0616",
+  "id": 23,
+  "title": "Ref. 23",
+  "category": "광고 스튜디오"
+ },
+ {
+  "url": "https://i.imgur.com/72dyvfh.jpeg",
+  "file": "content/assets/portfolio/originals/ref24_72dyvfh.jpeg",
+  "bytes": 2107234,
+  "sha256": "13dc0eefda0af0475a02e29eb718bc91baee4247b355d30232b89ed1c1e4ae04",
+  "id": 24,
+  "title": "Ref. 24",
+  "category": "비주얼 아카이브"
+ },
+ {
+  "url": "https://i.imgur.com/8Dh5VbI.jpeg",
+  "file": "content/assets/portfolio/originals/ref25_8Dh5VbI.jpeg",
+  "bytes": 291780,
+  "sha256": "20e6449c5cfd2f26f20edbf966547f08a698e3d44c8a1c186c53718cb99bda58",
+  "id": 25,
+  "title": "Ref. 25",
+  "category": "광고 에이전시"
+ },
+ {
+  "url": "https://i.imgur.com/4e2fYfU.jpeg",
+  "file": "content/assets/portfolio/originals/ref26_4e2fYfU.jpeg",
+  "bytes": 1943828,
+  "sha256": "c5ddcc68d9af0a26671239922463ca4a6c6342904179d100f997cf9d25059051",
+  "id": 26,
+  "title": "Ref. 26",
+  "category": "패션 디자이너"
+ },
+ {
+  "url": "https://i.imgur.com/43Zfx9m.jpeg",
+  "file": "content/assets/portfolio/originals/ref27_43Zfx9m.jpeg",
+  "bytes": 962518,
+  "sha256": "b4d10e13b2e37cd3dcb9336bd644afb2a7dc7a1e4c0127c222df24db59c5543e",
+  "id": 27,
+  "title": "Ref. 27",
+  "category": "프리미엄 플랫폼"
+ },
+ {
+  "url": "https://i.imgur.com/Uvr47D6.jpeg",
+  "file": "content/assets/portfolio/originals/ref28_Uvr47D6.jpeg",
+  "bytes": 3082859,
+  "sha256": "2eeab21997c232d1d32aa26aa661aeab9a662910eab43010db2fd78bafa8b575",
+  "id": 28,
+  "title": "Ref. 28",
+  "category": "패션 쇼핑몰"
+ },
+ {
+  "url": "https://i.imgur.com/ZBk0lMT.jpeg",
+  "file": "content/assets/portfolio/originals/ref29_ZBk0lMT.jpeg",
+  "bytes": 1697731,
+  "sha256": "b281de21b8f7f009825b0758e70fcb1d325e92af143a486da07d72f883ebc3b7",
+  "id": 29,
+  "title": "Ref. 29",
+  "category": "아이스크림 브랜드 런칭"
+ },
+ {
+  "url": "https://i.imgur.com/NKEKJ2p.jpeg",
+  "file": "content/assets/portfolio/originals/ref30_NKEKJ2p.jpeg",
+  "bytes": 185604,
+  "sha256": "8df7f7b17dec79556cb6ae6ad12e7ce2be482f0d9eca02cdbff58077073a5f9d",
+  "id": 30,
+  "title": "Ref. 30",
+  "category": "아카이브 플랫폼"
+ },
+ {
+  "url": "https://i.imgur.com/JjSBVvi.jpeg",
+  "file": "content/assets/portfolio/originals/ref31_JjSBVvi.jpeg",
+  "bytes": 968610,
+  "sha256": "03fc290d6588ed8c6cc2c27c2a763dede7dc3022e3251a924e96397ec8182c94",
+  "id": 31,
+  "title": "Ref. 31",
+  "category": "패션 브랜드"
+ },
+ {
+  "url": "https://i.imgur.com/uSQQbUu.jpeg",
+  "file": "content/assets/portfolio/originals/ref32_uSQQbUu.jpeg",
+  "bytes": 1021497,
+  "sha256": "d6b9a703ffaf099710eca3528871b9c8f764b01e8ff12cb17aff9223c2915bb5",
+  "id": 32,
+  "title": "Ref. 32",
+  "category": "패션 플랫폼"
+ },
+ {
+  "url": "https://i.imgur.com/MMYXc7u.jpeg",
+  "file": "content/assets/portfolio/originals/ref33_MMYXc7u.jpeg",
+  "bytes": 3281862,
+  "sha256": "d10ef009aa763657edcdcb212bea67be65e2ca0e1da41867ae42c4748c67e36d",
+  "id": 33,
+  "title": "Ref. 33",
+  "category": "매거진"
+ },
+ {
+  "url": "https://i.imgur.com/CrnU1Hb.jpeg",
+  "file": "content/assets/portfolio/originals/ref34_CrnU1Hb.jpeg",
+  "bytes": 1281728,
+  "sha256": "cd3635692d1a467cd14bd8b14d1866a83e2edc65abc7baa77c792805c34484a5",
+  "id": 34,
+  "title": "Ref. 34",
+  "category": "광고 에이전시"
+ },
+ {
+  "url": "https://i.imgur.com/TXo8AN7.jpeg",
+  "file": "content/assets/portfolio/originals/ref35_TXo8AN7.jpeg",
+  "bytes": 1320076,
+  "sha256": "ff31f935a550c4e11da8eac8e3d971fe0beeffa0bafbc82dee7def07273c4d0f",
+  "id": 35,
+  "title": "Ref. 35",
+  "category": "인테리어 소품 브랜드"
+ },
+ {
+  "url": "https://i.imgur.com/PdhXQIS.jpeg",
+  "file": "content/assets/portfolio/originals/ref36_PdhXQIS.jpeg",
+  "bytes": 99204,
+  "sha256": "d36625a6d43105e8b019302d1f068f093b3fa7f109ad6fb51e592fde2546104d",
+  "id": 36,
+  "title": "Ref. 36",
+  "category": "폰트 판매 플랫폼"
+ },
+ {
+  "url": "https://i.imgur.com/3mkOoHb.jpeg",
+  "file": "content/assets/portfolio/originals/ref37_3mkOoHb.jpeg",
+  "bytes": 166632,
+  "sha256": "40cf8826bce84ebf7a646d09089684dab6a1f4515f73bc15f6fa46194c41ab81",
+  "id": 37,
+  "title": "Ref. 37",
+  "category": "광고 에이전시"
+ },
+ {
+  "url": "https://i.imgur.com/PIPY7wg.jpeg",
+  "file": "content/assets/portfolio/originals/ref38_PIPY7wg.jpeg",
+  "bytes": 196432,
+  "sha256": "651a9bb2161d8f7961729c9bd1d906cace89907c32be0e2ea8f75ca576799cd6",
+  "id": 38,
+  "title": "Ref. 38",
+  "category": "광고 에이전시"
+ },
+ {
+  "url": "https://i.imgur.com/mtJdoAr.jpeg",
+  "file": "content/assets/portfolio/originals/ref39_mtJdoAr.jpeg",
+  "bytes": 700242,
+  "sha256": "e96ef32f3621ac2ff07ef9a6c5b4991d7209ca1b46f441754519006dd3b51977",
+  "id": 39,
+  "title": "Ref. 39",
+  "category": "뷰티 플랫폼"
+ },
+ {
+  "url": "https://i.imgur.com/R9dHgnK.png",
+  "file": "content/assets/logo/live/header-logo_imgur_R9dHgnK.png",
+  "bytes": 23948,
+  "sha256": "19895427c8ea640e067da830027afc8790e03652e793308f421bbb76311654b4"
+ },
+ {
+  "url": "https://i.imgur.com/TAUGEc6.png",
+  "file": "content/assets/logo/live/seo-logo-og_imgur_TAUGEc6.png",
+  "bytes": 818012,
+  "sha256": "becf30d423a6295756ca57c06461bb28c80f8c08ed0e37551eafd39dddb13db5"
+ },
+ {
+  "url": "https://pause8studio.com/logo.png",
+  "file": "content/assets/logo/live/site_logo.png",
+  "bytes": 336615,
+  "sha256": "04f717df47253dbd2a2ea2505a7e58a49f2d832e0a8d1e5113ad5f93cd95a6ca"
+ },
+ {
+  "url": "https://pause8studio.com/favicon.svg",
+  "file": "content/assets/logo/live/site_favicon.svg",
+  "bytes": 248941,
+  "sha256": "854f485a87cfe598f8fb345133b07c28b6cf63e87b9abff16d5fca53b565b850"
+ },
+ {
+  "url": "https://pause8studio.com/apple-touch-icon.png",
+  "file": "content/assets/logo/live/site_apple-touch-icon.png",
+  "bytes": 39768,
+  "sha256": "1703d1a6c31259c8bb14f43298ffd057e8e74f334b8ad361bf05761dcd3427a1"
+ },
+ {
+  "url": "https://i.imgur.com/LVu5kWF.png",
+  "file": "content/assets/other/old-og-image_imgur_LVu5kWF.png",
+  "bytes": 1105925,
+  "sha256": "afaee72f872a1373219ff1b0f59a6b02dd15b5db175a7d4601ecc66358e84579"
+ },
+ {
+  "url": "https://i.imgur.com/xrg0eX7.png",
+  "file": "content/assets/other/kakao-qr_imgur_xrg0eX7.png",
+  "bytes": 57824,
+  "sha256": "7ee5633b62e8f0ffd1f44e0546dd92e171df1fab371273e844af5d3be088c569"
+ }
+]

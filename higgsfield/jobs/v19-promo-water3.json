@@ -1,0 +1,53 @@
+{
+  "label": "v19-promo-water3",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Remove the paper box on the left completely and fill that area naturally with the same shallow clear sea water, smooth pale stones and soft hazy background. Keep everything else exactly the same, especially the serum bottle, its printed text, the seashell, the water and the light. No watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v19 remove box from water",
+  "submitted_at": "2026-10-06T14:52:20.263Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:52:21.010Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:52:21.754Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T14:53:08.277Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "16b2f8b1-fe0a-4edf-b64b-7ccef3f54160",
+  "status_url": "https://api.higgsfield.ai/requests/16b2f8b1-fe0a-4edf-b64b-7ccef3f54160/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/16b2f8b1-fe0a-4edf-b64b-7ccef3f54160/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "16b2f8b1-fe0a-4edf-b64b-7ccef3f54160",
+    "status_url": "https://api.higgsfield.ai/requests/16b2f8b1-fe0a-4edf-b64b-7ccef3f54160/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/16b2f8b1-fe0a-4edf-b64b-7ccef3f54160/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/4224bb51-e46a-4e2b-b5cc-286eba28a45d.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:53:08.277Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v19-promo-water3/v19-promo-water3_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/4224bb51-e46a-4e2b-b5cc-286eba28a45d.png",
+      "bytes": 1974610,
+      "sha256": "9520c222c018dd11462e6fb1e501762403c608e4826390358b77475008608fd0"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:53:09.956Z"
+}

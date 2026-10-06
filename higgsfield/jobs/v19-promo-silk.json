@@ -1,0 +1,49 @@
+{
+  "label": "v19-promo-silk",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Keep the product exactly as in image 1: the frosted pale aqua glass serum bottle with the matte white dropper cap and the black SOOM wordmark and Korean text printed on the glass. The bottle floats at a slight diagonal against a soft pale peach-cream seamless background while a single translucent ribbon of clear aqua serum liquid curves gracefully around it, a few tiny droplets, soft diffused studio light, gentle shadow. Understated luxury skincare campaign photography, editorial and minimal, soft natural light, muted pastel palette, true-to-life glass and water, macro lens, shallow depth of field, calm and quiet, no sparkle, no gold, no dramatic effects, no extra text, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v19 refined promo",
+  "submitted_at": "2026-10-06T14:46:34.501Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:46:35.246Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:47:46.624Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "62fd328d-5e5e-4bf4-83ee-f87ede377129",
+  "status_url": "https://api.higgsfield.ai/requests/62fd328d-5e5e-4bf4-83ee-f87ede377129/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/62fd328d-5e5e-4bf4-83ee-f87ede377129/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "62fd328d-5e5e-4bf4-83ee-f87ede377129",
+    "status_url": "https://api.higgsfield.ai/requests/62fd328d-5e5e-4bf4-83ee-f87ede377129/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/62fd328d-5e5e-4bf4-83ee-f87ede377129/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/ec2a0d75-6c89-4527-8d41-c9ee5fb45fd1.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:47:46.624Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v19-promo-silk/v19-promo-silk_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/ec2a0d75-6c89-4527-8d41-c9ee5fb45fd1.png",
+      "bytes": 1385250,
+      "sha256": "be5deb9a51b9f9c86e0d336ce4647fa293be412a4a3886e578a2e791bbc87737"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:47:48.309Z"
+}

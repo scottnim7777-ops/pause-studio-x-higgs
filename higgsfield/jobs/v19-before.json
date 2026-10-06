@@ -1,0 +1,54 @@
+{
+  "label": "v19-before",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "An ordinary casual smartphone photo taken by a small online shop owner of her own skincare product to send to a designer: a 30 ml frosted pale aqua glass serum bottle with a matte white dropper cap, with the black text design from image 2 printed directly on the frosted glass, standing in front of its upright paper box whose front is exactly the design in image 1 (pale sage-aqua paper with the SOOM wordmark and Korean text). They stand on a plain white desk in a home office next to a laptop edge, a pen and a mug, flat indoor ceiling light, slightly cool white balance, everything evenly sharp, no styling, an honest realistic phone snapshot, 16:9.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>",
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v19 packaged product snapshot",
+  "submitted_at": "2026-10-06T14:44:32.520Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:44:33.303Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:44:34.089Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T14:46:04.361Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "a4774454-c444-44ef-bece-da0c410741ee",
+  "status_url": "https://api.higgsfield.ai/requests/a4774454-c444-44ef-bece-da0c410741ee/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/a4774454-c444-44ef-bece-da0c410741ee/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "a4774454-c444-44ef-bece-da0c410741ee",
+    "status_url": "https://api.higgsfield.ai/requests/a4774454-c444-44ef-bece-da0c410741ee/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/a4774454-c444-44ef-bece-da0c410741ee/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/063dd08f-a2b0-4735-bcaa-6c81e27bbd14.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:46:04.360Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v19-before/v19-before_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/063dd08f-a2b0-4735-bcaa-6c81e27bbd14.png",
+      "bytes": 2084786,
+      "sha256": "87f078c8b36820323fc1fbcef45336482712ecd9566d2d5282c1f80c044884f5"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:46:06.026Z"
+}

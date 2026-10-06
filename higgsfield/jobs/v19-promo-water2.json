@@ -1,0 +1,53 @@
+{
+  "label": "v19-promo-water2",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Keep the product exactly as in image 1, same short 30 ml proportions: the frosted pale aqua glass serum bottle with the matte white dropper cap, with the black text exactly as printed in image 1 — 'SOOM', '숨 수분 세럼', 'HYDRATING SERUM' — facing the camera, upright and legible. The bottle stands upright in very shallow crystal-clear sea water over smooth pale grey stones at the shore, the water reaching just above its base with a gentle ripple, tiny water droplets on the frosted glass, a small pale seashell softly out of focus behind, soft bright overcast daylight, muted aqua and sand tones, low camera at bottle height. Understated luxury skincare campaign photography, editorial and minimal, true-to-life glass and water, macro lens, shallow depth of field, calm and quiet, no sparkle, no gold, no extra text, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v19 water retry: garbled label",
+  "submitted_at": "2026-10-06T14:50:41.985Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:50:42.673Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:50:43.414Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T14:51:51.387Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "dd3e7af2-6ceb-4582-b167-3061fcc9c6d9",
+  "status_url": "https://api.higgsfield.ai/requests/dd3e7af2-6ceb-4582-b167-3061fcc9c6d9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/dd3e7af2-6ceb-4582-b167-3061fcc9c6d9/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "dd3e7af2-6ceb-4582-b167-3061fcc9c6d9",
+    "status_url": "https://api.higgsfield.ai/requests/dd3e7af2-6ceb-4582-b167-3061fcc9c6d9/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/dd3e7af2-6ceb-4582-b167-3061fcc9c6d9/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/14417475-d451-45b8-8fb6-69e254792f22.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:51:51.387Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v19-promo-water2/v19-promo-water2_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/14417475-d451-45b8-8fb6-69e254792f22.png",
+      "bytes": 2010372,
+      "sha256": "b46fc8c1655639c6927666c33131d593f9efc70d7ee27a7fd5ed25fb69210111"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:51:58.283Z"
+}

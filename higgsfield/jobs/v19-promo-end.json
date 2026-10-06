@@ -1,0 +1,36 @@
+{
+  "label": "v19-promo-end",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Keep the product exactly as in image 1: the frosted pale aqua glass serum bottle with the matte white dropper cap and the black SOOM wordmark and Korean text printed on the glass. The bottle stands beside its pale sage-aqua paper box on a slab of honed pale travertine, soft morning window light casts the delicate moving shadow of eucalyptus leaves across them, lots of calm empty space in the left half of the frame, warm off-white wall behind. Understated luxury skincare campaign photography, editorial and minimal, soft natural light, muted pastel palette, true-to-life glass and water, macro lens, shallow depth of field, calm and quiet, no sparkle, no gold, no dramatic effects, no extra text, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v19 refined promo",
+  "submitted_at": "2026-10-06T14:46:35.427Z",
+  "status": "failed",
+  "history": [
+    {
+      "at": "2026-10-06T14:46:36.002Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:48:19.669Z",
+      "status": "failed"
+    }
+  ],
+  "request_id": "c80ec675-163e-4940-98c9-4b464bfacac0",
+  "status_url": "https://api.higgsfield.ai/requests/c80ec675-163e-4940-98c9-4b464bfacac0/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/c80ec675-163e-4940-98c9-4b464bfacac0/cancel",
+  "response": {
+    "status": "failed",
+    "error": "This model is temporarily unavailable. Please try again later or contact support.",
+    "request_id": "c80ec675-163e-4940-98c9-4b464bfacac0",
+    "status_url": "https://api.higgsfield.ai/requests/c80ec675-163e-4940-98c9-4b464bfacac0/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/c80ec675-163e-4940-98c9-4b464bfacac0/cancel"
+  },
+  "checked_at": "2026-10-06T14:48:19.669Z"
+}

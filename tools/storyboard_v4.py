@@ -58,7 +58,7 @@ def screen_quad(hard, pick=0):
 
 
 def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=0.28, glow_amt=0.18, out_dir=None, fix=None,
-              scene=None, pick=0, solid=False, finish=True, stray=True):
+              scene=None, pick=0, solid=False, finish=True, stray=True, soft=0, lift=0, reflect=0):
     if scene is None:
         scene = cv2.imread(str(RAW / scene_label / f'{scene_label}_01.png'))
     if fix:
@@ -92,6 +92,12 @@ def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=
         strays = (key > 0.05) & (region == 0)
         out[..., 1] = np.where(strays, np.minimum(out[..., 1], gmax * 1.02), out[..., 1])
     scr = warped.astype(np.float32) * gain
+    if soft:  # 실제 렌즈로 찍은 화면처럼 아주 살짝 부드럽게(합성 티 줄이기)
+        scr = cv2.GaussianBlur(scr, (0, 0), soft)
+    if lift:  # 화면의 검정은 완전한 검정이 아님(LCD 검정 수준)
+        scr = scr * (1 - lift / 255) + lift
+    if reflect:  # 주변 빛이 유리 화면에 희미하게 비침
+        scr = scr + cv2.GaussianBlur(out, (0, 0), 30) * reflect
     out = out * (1 - alpha) + scr * alpha
     # 화면 빛 번짐(장면에 은은하게)
     glow = cv2.GaussianBlur(scr * alpha, (0, 0), 40)

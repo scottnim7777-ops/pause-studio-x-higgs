@@ -1,0 +1,47 @@
+{
+  "label": "v10-c3-cafe",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Sunny late morning at a sidewalk cafe table in Ponsonby, with white wooden villas and a blooming red pohutukawa tree softly out of focus behind, a quiet street. Over-the-shoulder close shot of a blonde New Zealand woman in a linen shirt holding a modern iPhone 15 Pro with thin bezels in her hand, the phone screen fully facing the camera and showing one perfectly uniform flat bright chroma-key green image filling the whole display; a flat white coffee on the table, dappled sunlight. Nobody looks at the camera. Photograph taken with a Sony A7 IV and a 50mm f/1.4 lens, natural available light, true-to-life colour, realistic exposure, crisp focus on the subject with natural optical bokeh behind, a real candid moment in Auckland, New Zealand, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v10 photoreal",
+  "submitted_at": "2026-10-06T13:24:51.032Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:24:51.912Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:26:06.860Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "dbd8e9bf-fe5a-4d3a-9899-8946187397eb",
+  "status_url": "https://api.higgsfield.ai/requests/dbd8e9bf-fe5a-4d3a-9899-8946187397eb/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/dbd8e9bf-fe5a-4d3a-9899-8946187397eb/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "dbd8e9bf-fe5a-4d3a-9899-8946187397eb",
+    "status_url": "https://api.higgsfield.ai/requests/dbd8e9bf-fe5a-4d3a-9899-8946187397eb/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/dbd8e9bf-fe5a-4d3a-9899-8946187397eb/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b009c2c8-1fd8-4f24-89f9-1bb14913f555.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:26:06.860Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v10-c3-cafe/v10-c3-cafe_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b009c2c8-1fd8-4f24-89f9-1bb14913f555.png",
+      "bytes": 2118009,
+      "sha256": "39905f2c054f6523c80e451a0f394f9aa9225fa9946064895ab60d6cbf68c0e5"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:26:08.570Z"
+}

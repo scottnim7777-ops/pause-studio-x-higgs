@@ -1,0 +1,51 @@
+{
+  "label": "v10-c7-studio",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Late night in a small premium web design studio. A Korean male designer sits at a clean oak desk, seen from behind and slightly to the left of a large Apple iMac so that his head does not cover the screen; the iMac screen is large in frame, fully visible and unobstructed, showing one perfectly uniform flat bright chroma-key green image filling the entire screen and lighting his face from the side. Printed website layouts and small photo prints pinned on the wall, a desk lamp, a plant. No cameras, no film equipment. Shot from a doorway, a dark door frame blurred at the edge of the frame. Photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, natural available light, true-to-life colour, realistic exposure, crisp focus on the subject with natural optical bokeh behind, a real candid moment in Auckland, New Zealand, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v10 photoreal",
+  "submitted_at": "2026-10-06T13:24:53.871Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:24:54.626Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:27:47.637Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T13:28:08.651Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "99a50f2c-179a-47a7-a0f1-6f887bf587c8",
+  "status_url": "https://api.higgsfield.ai/requests/99a50f2c-179a-47a7-a0f1-6f887bf587c8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/99a50f2c-179a-47a7-a0f1-6f887bf587c8/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "99a50f2c-179a-47a7-a0f1-6f887bf587c8",
+    "status_url": "https://api.higgsfield.ai/requests/99a50f2c-179a-47a7-a0f1-6f887bf587c8/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/99a50f2c-179a-47a7-a0f1-6f887bf587c8/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/330b013c-5082-48d3-bbc1-80cb86bf4cfd.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:28:08.651Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v10-c7-studio/v10-c7-studio_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/330b013c-5082-48d3-bbc1-80cb86bf4cfd.png",
+      "bytes": 1782432,
+      "sha256": "ff37f5b48679d9b626b13cfd184c4e2da3235150fda958781bb99eb41493953e"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:28:10.695Z"
+}

@@ -1,0 +1,47 @@
+{
+  "label": "v10-c6-agency",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "A bright, elegant study-abroad and travel agency office in central Auckland, a large window with a soft view of the harbour and the Sky Tower in the distance. A Korean female consultant in a smart blazer, seen in profile, turns an open silver MacBook Pro toward a Korean mother and her teenage son sitting across the desk; the laptop screen faces the camera and shows one perfectly uniform flat bright chroma-key green image filling the display. Warm afternoon light, hopeful mood. Photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, natural available light, true-to-life colour, realistic exposure, crisp focus on the subject with natural optical bokeh behind, a real candid moment in Auckland, New Zealand, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v10 photoreal",
+  "submitted_at": "2026-10-06T13:24:52.870Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:24:53.729Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:26:58.184Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "467ba81c-baf6-4659-ba55-1328b8287daa",
+  "status_url": "https://api.higgsfield.ai/requests/467ba81c-baf6-4659-ba55-1328b8287daa/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/467ba81c-baf6-4659-ba55-1328b8287daa/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "467ba81c-baf6-4659-ba55-1328b8287daa",
+    "status_url": "https://api.higgsfield.ai/requests/467ba81c-baf6-4659-ba55-1328b8287daa/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/467ba81c-baf6-4659-ba55-1328b8287daa/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/074ec83d-47e7-46c0-bb0a-10e1d8598e44.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:26:58.184Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v10-c6-agency/v10-c6-agency_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/074ec83d-47e7-46c0-bb0a-10e1d8598e44.png",
+      "bytes": 2217435,
+      "sha256": "485977ee5a9d78ae2d6c10d3c1355c30739b0808a5b0522a17596acf39cc0c00"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:26:59.949Z"
+}

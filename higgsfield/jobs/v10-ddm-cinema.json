@@ -1,0 +1,47 @@
+{
+  "label": "v10-ddm-cinema",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Night photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, natural available light, true-to-life colour, realistic exposure and noise, documentary feel. The street-level shopfront of a small Korean fried chicken and soju restaurant on the ground floor of an older Auckland CBD building, under a covered pedestrian walkway with grey stone-tiled columns. A wide black rectangular signboard runs across the top of the shopfront; it is completely plain black with no lettering at all. Below it a central glass door with a black aluminium frame, flanked by two large glass windows. Through the glass: a dim, warm interior with corrugated metal wall panels, wooden tables and black chairs, fairy string lights, a small red-pink neon sign, a wall-mounted TV and a glowing drinks fridge. On the pavement in front: cream-white plastic outdoor chairs and small black tables. Foreground, over the shoulder of a young New Zealand woman holding up an iPhone 15 Pro; the phone screen faces the camera, large and unobstructed, and shows one perfectly uniform flat bright chroma-key green image filling the display. Her friends stand beside her chatting. A Korean man in a black t-shirt and black apron is pushing the glass door open and smiling at them. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "model compare: photoreal",
+  "submitted_at": "2026-10-06T13:21:34.804Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:21:35.430Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:24:09.789Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "0f6ba323-3c08-4964-b473-04a9138d9d76",
+  "status_url": "https://api.higgsfield.ai/requests/0f6ba323-3c08-4964-b473-04a9138d9d76/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/0f6ba323-3c08-4964-b473-04a9138d9d76/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "0f6ba323-3c08-4964-b473-04a9138d9d76",
+    "status_url": "https://api.higgsfield.ai/requests/0f6ba323-3c08-4964-b473-04a9138d9d76/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/0f6ba323-3c08-4964-b473-04a9138d9d76/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5f02a6cd-a91a-4b16-a5a8-8610c685f3cb.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:24:09.789Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v10-ddm-cinema/v10-ddm-cinema_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5f02a6cd-a91a-4b16-a5a8-8610c685f3cb.png",
+      "bytes": 2619277,
+      "sha256": "fafb9ee06d4a27abc690ec752fa4c5963085689ed4754239c7b8f13f97ca61bb"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:24:11.480Z"
+}

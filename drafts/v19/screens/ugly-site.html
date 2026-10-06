@@ -1,32 +1,30 @@
-<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet"><style>
-*{margin:0;padding:0;box-sizing:border-box}html,body{width:1920px;height:1200px;overflow:hidden;background:#E6E6E6;font-family:'Comic Neue',sans-serif}
-.top{height:150px;background:linear-gradient(90deg,#FF00CC,#3333FF,#00FFCC);display:flex;align-items:center;padding-left:40px}
-.top h1{font:700 92px/1 'Comic Neue';color:#FFFF00;text-shadow:5px 5px 0 #000;font-style:italic}
-.top span{margin-left:30px;font:700 30px/1 'Comic Neue';color:#fff;background:red;padding:8px 14px;transform:rotate(-8deg)}
-.nav{height:56px;background:#000080;display:flex;gap:6px;padding:8px}.nav a{background:#C0C0C0;border:3px outset #fff;font:700 24px/34px 'Comic Neue';padding:0 18px;color:#000}
-.mq{height:46px;background:#FFFF66;color:#FF0000;font:700 30px/46px 'Comic Neue';white-space:nowrap;overflow:hidden;padding-left:300px}
-.wrap{display:flex;padding:20px;gap:20px}
-.side{width:300px;background:#99CCFF;border:4px ridge #888;padding:14px;font:700 24px/1.6 'Comic Neue';color:#000080}
-.side .cnt{margin-top:20px;background:#000;color:#0F0;font:700 30px/1 monospace;padding:10px;text-align:center}
-.main{flex:1;background:#fff;border:4px ridge #888;padding:20px;position:relative}
-.main h2{font:700 54px/1.1 'Comic Neue';color:#008000;text-decoration:underline}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
-.p{border:3px dashed #f0f;padding:10px;text-align:center;font:700 26px/1.3 'Comic Neue'}
-.p .im{height:220px;background:#ddd url(src/before.png) 50% 40%/100% 260%;filter:saturate(2.2) contrast(1.5) blur(1.2px)}
-.p .x{height:220px;background:#eee;display:flex;align-items:center;justify-content:center;font:400 22px/1 sans-serif;color:#999;border:1px solid #bbb}
-.p b{color:red;font-size:34px}.p em{display:block;margin-top:6px;background:#00f;color:#ff0;font-style:normal}
-.pop{position:absolute;right:40px;top:150px;width:420px;background:#FFFFE0;border:4px solid red;box-shadow:10px 10px 0 #000;padding:20px;font:700 30px/1.3 'Comic Neue';color:red;transform:rotate(3deg)}
-.pop i{position:absolute;right:10px;top:4px;font-style:normal;color:#000}
-.err{position:absolute;left:30px;bottom:24px;font:400 20px/1.3 monospace;color:#900;background:#fee;border:1px solid #c00;padding:8px 12px}
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{width:1920px;height:1200px;overflow:hidden;background:#F2F2F2;font-family:Gulim,'Malgun Gothic','Noto Sans KR',Arial,sans-serif;color:#333}
+.topbar{height:36px;background:#444;color:#ccc;font-size:15px;line-height:36px;padding:0 120px;display:flex;gap:20px}.topbar .r{margin-left:auto}
+header{height:110px;background:#fff;border-bottom:3px solid #2A6EBB;display:flex;align-items:center;padding:0 120px}
+.logo{font:bold 46px/1 Arial,sans-serif;color:#2A6EBB}.logo small{font-size:18px;color:#888;margin-left:10px;font-weight:normal}
+.search{margin-left:auto;display:flex}.search i{width:320px;height:40px;border:2px solid #2A6EBB}.search b{width:70px;height:40px;background:#2A6EBB;color:#fff;font:bold 16px/40px Arial;text-align:center}
+nav{height:54px;background:#2A6EBB;display:flex;padding:0 120px}nav a{color:#fff;font:bold 18px/54px Arial;padding:0 26px;border-right:1px solid #5590d0}
+.banner{margin:20px 120px 0;height:330px;background:linear-gradient(90deg,#9FC9E8,#D7EAF6);position:relative;overflow:hidden;border:1px solid #ccc}
+.banner .im{position:absolute;right:80px;top:20px;width:420px;height:290px;background:url(src/before.png) 55% 50%/230% auto;filter:contrast(1.05)}
+.banner h2{position:absolute;left:60px;top:80px;font:bold 54px/1.2 Arial;color:#1D4F86}.banner p{position:absolute;left:62px;top:220px;font:22px/1 Arial;color:#2A5A90}
+.banner .dots{position:absolute;bottom:14px;left:50%;display:flex;gap:8px}.banner .dots i{width:12px;height:12px;border-radius:50%;background:#fff;opacity:.6}
+.sec{margin:26px 120px 0}.sec h3{font:bold 26px/1 Arial;border-bottom:2px solid #333;padding-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:16px}
+.p{background:#fff;border:1px solid #ddd;padding:10px;font:16px/1.4 Arial}.p .im{height:200px;background:#eee url(src/before.png) 72% 55%/300% auto;filter:blur(.6px) saturate(.8)}
+.p .im.na{background:#eee;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:15px;filter:none}
+.p b{color:#D33;font-size:19px}.p s{color:#999;font-size:14px;margin-left:6px}
+footer{position:absolute;left:0;right:0;bottom:0;height:70px;background:#444;color:#aaa;font:14px/70px Arial;padding:0 120px}
 </style></head><body>
-<div class="top"><h1>soom skin shop!!!</h1><span>NEW!!</span></div>
-<div class="nav"><a>HOME</a><a>제품</a><a>공지사항</a><a>게시판</a><a>방명록</a><a>LOGIN</a></div>
-<div class="mq">★★★ 오픈 기념 세일!!! 지금 바로 구매하세요!!! ★★★ 배송문의는 전화주세요 ★★★</div>
-<div class="wrap"><div class="side">▶ 카테고리<br>- 세럼<br>- 크림<br>- 토너<br>- 기타<br><div class="cnt">방문자 000017</div></div>
-<div class="main"><h2>베스트 상품 !!</h2><div class="grid">
-<div class="p"><div class="im"></div>수분 세럼<br><b>$45.00</b><em>장바구니</em></div>
-<div class="p"><div class="x">이미지를 불러올 수 없습니다</div>크림<br><b>$52.00</b><em>장바구니</em></div>
-<div class="p"><div class="x">이미지를 불러올 수 없습니다</div>토너<br><b>$38.00</b><em>장바구니</em></div><div class="p"><div class="x">이미지 준비중</div>선크림<br><b>$29.00</b><em>품절</em></div><div class="p"><div class="im" style="filter:saturate(2.5) hue-rotate(40deg) blur(2px)"></div>세럼 2개 세트<br><b>$85.00</b><em>장바구니</em></div><div class="p"><div class="x">이미지 준비중</div>마스크팩<br><b>$12.00</b><em>장바구니</em></div></div>
-<div class="pop"><i>✕</i>회원가입하면<br>5% 할인쿠폰 증정!!!<br>지금 가입하세요!!</div>
-<p style="margin-top:22px;font:700 22px/1.4 'Comic Neue';color:#555">Copyright (c) 2019 soom skin shop. All rights reserved. | 사업자 정보 | 이용약관</p><div class="err">Warning: mysql_connect(): Connection timed out in /home/www/index.php on line 42</div></div></div>
+<div class="topbar"><span>즐겨찾기</span><span>고객센터 010-XXXX-XXXX</span><span class="r">로그인 | 회원가입 | 장바구니(0) | 주문조회</span></div>
+<header><span class="logo">SOOM<small>스킨케어 전문 쇼핑몰</small></span><div class="search"><i></i><b>검색</b></div></header>
+<nav><a>전체상품</a><a>세럼</a><a>크림</a><a>토너</a><a>이벤트</a><a>공지사항</a><a>Q&amp;A</a></nav>
+<div class="banner"><h2>SOOM 수분 세럼<br>오픈 기념 10% 할인</h2><p>신규 회원 적립금 2,000원 지급!</p><div class="im"></div><div class="dots"><i></i><i></i><i></i></div></div>
+<div class="sec"><h3>BEST 상품</h3><div class="grid">
+<div class="p"><div class="im"></div>SOOM 수분 세럼 30ml<br><b>$45.00</b><s>$50.00</s></div>
+<div class="p"><div class="im na">이미지 준비중</div>SOOM 수분 크림 50ml<br><b>$52.00</b></div>
+<div class="p"><div class="im" style="background-position:30% 40%"></div>세럼 2개 세트<br><b>$85.00</b></div>
+<div class="p"><div class="im na">이미지 준비중</div>토너 150ml<br><b>$38.00</b></div>
+<div class="p"><div class="im na">이미지 준비중</div>마스크팩 5매<br><b>$12.00</b></div></div></div>
+<footer>상호: SOOM | 대표: OOO | 사업자등록번호: 000-00-00000 | Copyright © 2019 SOOM. All rights reserved.</footer>
 </body></html>

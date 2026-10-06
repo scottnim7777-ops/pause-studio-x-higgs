@@ -1,0 +1,49 @@
+{
+  "label": "v12-cake-hires",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Recreate exactly this same flower cake from image 1 — the same white and cream piped flowers, daisies with yellow centres, pale green fondant and the 'Happy Wedding' script — as a luxurious high-resolution product photograph for a promotional film, 16:9, the cake on a white marble table in a bright cake studio, soft morning window light from the left, shallow depth of field with the front flowers in crisp focus, creamy background bokeh, ultra-detailed sugar petals. No other text, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v12",
+  "submitted_at": "2026-10-06T13:43:29.316Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:43:30.187Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:44:16.646Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "3d069e12-c4f1-4760-9129-11704a95e6f3",
+  "status_url": "https://api.higgsfield.ai/requests/3d069e12-c4f1-4760-9129-11704a95e6f3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/3d069e12-c4f1-4760-9129-11704a95e6f3/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "3d069e12-c4f1-4760-9129-11704a95e6f3",
+    "status_url": "https://api.higgsfield.ai/requests/3d069e12-c4f1-4760-9129-11704a95e6f3/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/3d069e12-c4f1-4760-9129-11704a95e6f3/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/84e96669-04fe-4e0c-9e88-8249dde8d820.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:44:16.646Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v12-cake-hires/v12-cake-hires_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/84e96669-04fe-4e0c-9e88-8249dde8d820.png",
+      "bytes": 2410384,
+      "sha256": "a11494b6fcfe1ab8619810307ccc3d4b19d1004628168b1c192243cd145064bd"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:44:18.365Z"
+}

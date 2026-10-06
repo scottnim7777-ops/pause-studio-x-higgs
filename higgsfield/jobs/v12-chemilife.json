@@ -1,0 +1,51 @@
+{
+  "label": "v12-chemilife",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. A bright, tidy Korean home kitchen in the late morning. Close over-the-shoulder shot of a Korean woman in her fifties in a soft cardigan sitting at the kitchen table, holding an iPhone 15 Pro at chest height with her thumb on the screen; the phone screen faces the camera, large and unobstructed, and shows one perfectly uniform flat bright chroma-key green image filling the display. On the table, softly out of focus: a cup of barley tea, a small plate of fruit, two supplement boxes without readable labels. Her face is out of frame, only her shoulder, hair and hands are visible. Photograph taken with a Sony A7 IV and a 50mm f/1.4 lens, natural window light, true-to-life colour, crisp focus on the phone and hands, natural optical bokeh, a real candid moment. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v12",
+  "submitted_at": "2026-10-06T13:43:31.244Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:43:31.989Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:44:56.967Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T13:45:11.596Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "a7d40c5c-91c3-4dc3-88de-53f7ed013905",
+  "status_url": "https://api.higgsfield.ai/requests/a7d40c5c-91c3-4dc3-88de-53f7ed013905/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/a7d40c5c-91c3-4dc3-88de-53f7ed013905/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "a7d40c5c-91c3-4dc3-88de-53f7ed013905",
+    "status_url": "https://api.higgsfield.ai/requests/a7d40c5c-91c3-4dc3-88de-53f7ed013905/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/a7d40c5c-91c3-4dc3-88de-53f7ed013905/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6026eca5-9287-43ea-8e93-711fce7ed3b6.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:45:11.596Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v12-chemilife/v12-chemilife_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6026eca5-9287-43ea-8e93-711fce7ed3b6.png",
+      "bytes": 2004733,
+      "sha256": "835e9eb48be0975a81c6724497378afea1c0cbffa967bf8263fa1d29388eb3e5"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:45:13.184Z"
+}

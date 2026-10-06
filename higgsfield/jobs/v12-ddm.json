@@ -1,0 +1,54 @@
+{
+  "label": "v12-ddm",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Use image 1 as the exact location: the same Korean restaurant storefront with the same black signboard reading DONG DE MOON TASTE OF KOREA, the same grey granite wall and glass windows. Use image 2 for the interior seen through the glass. Make it a relaxed Friday night, a candid photograph taken with a Sony A7 IV and a 50mm f/1.4 lens at night, natural light from the shop. In the sharp foreground, over the shoulder of a young woman seated at an outdoor table, her hand holds up an iPhone 15 Pro whose screen is large, unobstructed and shows one perfectly uniform flat bright chroma-key green image filling the display. Beyond the phone, softly out of focus with shallow depth of field: four friends, two New Zealanders and two Koreans, sitting at the black outdoor table talking quietly and smiling naturally, one pouring makgeolli from a dented yellow aluminium Korean kettle into small bowls, green soju bottles and a plate of fried chicken on the table. Ordinary relaxed body language, no big laughs, no posing. Nobody looks into the camera. No faces in focus. Photograph taken with a Sony A7 IV, natural available light, true-to-life colour, realistic skin and fabric texture, no retouching, documentary feel, not posed, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>",
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v12",
+  "submitted_at": "2026-10-06T13:43:30.350Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:43:31.084Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:44:19.151Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T13:44:49.953Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "be0f02ac-bc89-4273-9a3a-14045020deb6",
+  "status_url": "https://api.higgsfield.ai/requests/be0f02ac-bc89-4273-9a3a-14045020deb6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/be0f02ac-bc89-4273-9a3a-14045020deb6/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "be0f02ac-bc89-4273-9a3a-14045020deb6",
+    "status_url": "https://api.higgsfield.ai/requests/be0f02ac-bc89-4273-9a3a-14045020deb6/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/be0f02ac-bc89-4273-9a3a-14045020deb6/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/c180120a-2455-4f9e-bc75-c72db733c91a.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:44:49.953Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v12-ddm/v12-ddm_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/c180120a-2455-4f9e-bc75-c72db733c91a.png",
+      "bytes": 2673864,
+      "sha256": "4de787787f8403a00e877e966442d9735cbe4292a28f6e68e2b295387e24df53"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:44:51.477Z"
+}

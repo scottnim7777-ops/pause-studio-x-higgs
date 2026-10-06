@@ -1,0 +1,9 @@
+{
+ "iou": 0.9606,
+ "ink_px": 153002,
+ "mismatch_px": 6133,
+ "mismatch_pct_of_ink": 4.01,
+ "mean_abs_alpha_diff_on_ink": 0.045,
+ "max_edge_shift_px_est": 3.0,
+ "p99_edge_shift_px_est": 2.24
+}

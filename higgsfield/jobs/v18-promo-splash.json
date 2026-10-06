@@ -1,0 +1,53 @@
+{
+  "label": "v18-promo-splash",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Using the same amber glass serum bottle from image 1: a high-speed Phantom camera frame in a studio. The bottle stands on a wet black glossy surface while a crown of crystal-clear water splashes up around it, thousands of droplets frozen in mid-air, each droplet rimmed by a warm backlight, deep dark background, shallow depth of field. Real frame from a high-end skincare TV commercial shot on an ARRI Alexa, professional lighting, true-to-life textures and reflections, crisp detail, physically accurate water, no CGI look, no over-saturation. Keep the bottle exactly the same: amber glass, black dropper cap, plain blank cream label. No text, no logos, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v18 AI promo",
+  "submitted_at": "2026-10-06T14:30:28.945Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:30:29.676Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:30:31.768Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T14:31:39.513Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "bcf1390d-8f1a-40dd-9cd4-db93eea7892c",
+  "status_url": "https://api.higgsfield.ai/requests/bcf1390d-8f1a-40dd-9cd4-db93eea7892c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/bcf1390d-8f1a-40dd-9cd4-db93eea7892c/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "bcf1390d-8f1a-40dd-9cd4-db93eea7892c",
+    "status_url": "https://api.higgsfield.ai/requests/bcf1390d-8f1a-40dd-9cd4-db93eea7892c/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/bcf1390d-8f1a-40dd-9cd4-db93eea7892c/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/39d4e4a3-c36a-4e47-8f4a-cdf5f45b6576.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:31:39.513Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v18-promo-splash/v18-promo-splash_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/39d4e4a3-c36a-4e47-8f4a-cdf5f45b6576.png",
+      "bytes": 2545697,
+      "sha256": "cfa9f721fbfd616d7ac7f0245135348ec5e68b2fbffb425060b16ff6a156f3f4"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:31:41.247Z"
+}

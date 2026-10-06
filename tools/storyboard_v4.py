@@ -58,13 +58,14 @@ def screen_quad(hard, pick=0):
 
 
 def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=0.28, glow_amt=0.18, out_dir=None, fix=None,
-              scene=None, pick=0, solid=False, finish=True, stray=True, soft=0, lift=0, reflect=0):
+              scene=None, pick=0, solid=False, finish=True, stray=True, soft=0, lift=0, reflect=0, quad=None):
     if scene is None:
         scene = cv2.imread(str(RAW / scene_label / f'{scene_label}_01.png'))
     if fix:
         scene = fix(scene)
     key, hard = green_mask(scene)
-    quad, comp = screen_quad(hard, pick)
+    found, comp = screen_quad(hard, pick)
+    quad = found if quad is None else np.float32(quad)  # 화면 일부가 가려졌을 때는 네 모서리를 직접 지정(가린 손·팔은 초록이 아니라 앞에 남음)
     w = int(max(np.linalg.norm(quad[1] - quad[0]), np.linalg.norm(quad[2] - quad[3])))
     h = int(max(np.linalg.norm(quad[3] - quad[0]), np.linalg.norm(quad[2] - quad[1])))
     src = crop_aspect(content, w / h)
@@ -76,6 +77,9 @@ def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=
         blur = cv2.GaussianBlur(warped, (0, 0), dof)
         ramp = np.clip((np.arange(W)[None, :] - quad[:, 0].min()) / (quad[:, 0].max() - quad[:, 0].min()), 0, 1) ** 1.4
         warped = (warped * (1 - ramp[..., None]) + blur * ramp[..., None]).astype(np.uint8)
+    n_, lab_, _, _ = cv2.connectedComponentsWithStats(hard)
+    poly_ = np.zeros(hard.shape, np.uint8); cv2.fillConvexPoly(poly_, quad.astype(np.int32), 1)
+    comp = ((hard > 0) & (cv2.dilate(poly_, np.ones((15, 15), np.uint8)) > 0)).astype(np.uint8) | comp
     region = cv2.dilate(comp, np.ones((5, 5), np.uint8), iterations=2).astype(np.float32)
     alpha = np.clip(key * 1.15, 0, 1) * region
     if solid:  # 초록 화면 안에 생성된 글자 등이 있으면 화면 사각형 전체를 덮음

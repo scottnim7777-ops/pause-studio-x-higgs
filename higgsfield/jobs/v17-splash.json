@@ -1,0 +1,28 @@
+{
+  "label": "v17-splash",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. High-speed Phantom camera frame: a single dark roasted coffee bean drops into a white ceramic cup full of latte, throwing up a perfect crown splash of creamy coffee frozen in mid-air with fine droplets, against a deep warm dark background, a strong backlight rimming every droplet, shallow depth of field. Real frame from a high-end coffee brand TV commercial shot on an ARRI Alexa, professional lighting, true-to-life textures, crisp detail, physically accurate liquid, no CGI look, no over-saturation. No text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v17 ONDO promo reel",
+  "submitted_at": "2026-10-06T14:21:26.010Z",
+  "status": "queued",
+  "history": [
+    {
+      "at": "2026-10-06T14:21:26.809Z",
+      "status": "queued"
+    }
+  ],
+  "request_id": "4e19368e-01a9-40b6-be55-f26b009d2e56",
+  "status_url": "https://api.higgsfield.ai/requests/4e19368e-01a9-40b6-be55-f26b009d2e56/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/4e19368e-01a9-40b6-be55-f26b009d2e56/cancel",
+  "response": {
+    "status": "queued",
+    "request_id": "4e19368e-01a9-40b6-be55-f26b009d2e56",
+    "status_url": "https://api.higgsfield.ai/requests/4e19368e-01a9-40b6-be55-f26b009d2e56/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/4e19368e-01a9-40b6-be55-f26b009d2e56/cancel"
+  }
+}

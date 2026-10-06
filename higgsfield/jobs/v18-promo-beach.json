@@ -1,0 +1,49 @@
+{
+  "label": "v18-promo-beach",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Using the same amber glass serum bottle from image 1: the bottle stands on a dark volcanic rock on a New Zealand black-sand beach at golden hour, a gentle wave washing around the base of the rock with white foam, warm low sun behind making the amber glass glow, sea mist, cliffs soft in the distance, low camera at bottle height, shallow depth of field. Real frame from a high-end skincare TV commercial shot on an ARRI Alexa, professional lighting, true-to-life textures and reflections, crisp detail, physically accurate water, no CGI look, no over-saturation. Keep the bottle exactly the same: amber glass, black dropper cap, plain blank cream label. No text, no logos, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v18 AI promo",
+  "submitted_at": "2026-10-06T14:30:29.903Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:30:30.676Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:31:41.969Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "42ce71f9-22d7-45fa-8d3a-7a99c0ba6c5e",
+  "status_url": "https://api.higgsfield.ai/requests/42ce71f9-22d7-45fa-8d3a-7a99c0ba6c5e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/42ce71f9-22d7-45fa-8d3a-7a99c0ba6c5e/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "42ce71f9-22d7-45fa-8d3a-7a99c0ba6c5e",
+    "status_url": "https://api.higgsfield.ai/requests/42ce71f9-22d7-45fa-8d3a-7a99c0ba6c5e/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/42ce71f9-22d7-45fa-8d3a-7a99c0ba6c5e/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9d845e8f-a371-40b8-b939-8d9304613fc9.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:31:41.969Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v18-promo-beach/v18-promo-beach_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9d845e8f-a371-40b8-b939-8d9304613fc9.png",
+      "bytes": 2274684,
+      "sha256": "427f7c41a7174a73b81945b4b18d8ea20e051b908fb9a536591e7ad3dc6235fe"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:31:43.513Z"
+}

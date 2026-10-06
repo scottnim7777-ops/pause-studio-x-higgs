@@ -1,0 +1,29 @@
+{
+  "label": "v17-drone",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Aerial drone shot at sunrise over Ponsonby, Auckland: rows of white wooden villas and leafy streets glowing in low golden light, the Sky Tower and the harbour soft in the morning haze on the horizon, the camera tilting down toward a small corner cafe with its awning and a few people outside. Real aerial cinematography, natural colour, atmospheric haze. No text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v17 ONDO promo reel",
+  "submitted_at": "2026-10-06T14:21:25.101Z",
+  "status": "queued",
+  "history": [
+    {
+      "at": "2026-10-06T14:21:25.835Z",
+      "status": "queued"
+    }
+  ],
+  "request_id": "f50855df-dc1a-475d-ac53-0bb24820bfa2",
+  "status_url": "https://api.higgsfield.ai/requests/f50855df-dc1a-475d-ac53-0bb24820bfa2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/f50855df-dc1a-475d-ac53-0bb24820bfa2/cancel",
+  "response": {
+    "status": "queued",
+    "request_id": "f50855df-dc1a-475d-ac53-0bb24820bfa2",
+    "status_url": "https://api.higgsfield.ai/requests/f50855df-dc1a-475d-ac53-0bb24820bfa2/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/f50855df-dc1a-475d-ac53-0bb24820bfa2/cancel"
+  },
+  "checked_at": "2026-10-06T14:21:33.453Z"
+}

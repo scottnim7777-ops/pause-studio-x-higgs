@@ -1,0 +1,30 @@
+{
+  "label": "v17-hero",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Using the same white ceramic cup with the same heart latte art from image 1: a premium hero product shot for a coffee commercial. The cup sits on a dark walnut counter, low camera at cup height, a single shaft of warm early morning sunlight from a window behind cuts through the frame with faint dust in the air, catching the rim of the cup and a delicate thin wisp of steam, the rest of the cafe falls into deep warm shadow, a few roasted coffee beans out of focus in the foreground. Real frame from a high-end coffee brand commercial shot on an ARRI Alexa with a macro probe lens, controlled studio lighting with a single warm backlight and soft negative fill, deep rich shadows, true-to-life textures, crisp detail, physically accurate liquid, no CGI look, no over-saturation, no fake glow. No text, no logos, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v17 promo reel",
+  "submitted_at": "2026-10-06T14:19:25.199Z",
+  "status": "queued",
+  "history": [
+    {
+      "at": "2026-10-06T14:19:25.922Z",
+      "status": "queued"
+    }
+  ],
+  "request_id": "b647717d-05c8-4a81-a137-353e0daafcd5",
+  "status_url": "https://api.higgsfield.ai/requests/b647717d-05c8-4a81-a137-353e0daafcd5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/b647717d-05c8-4a81-a137-353e0daafcd5/cancel",
+  "response": {
+    "status": "queued",
+    "request_id": "b647717d-05c8-4a81-a137-353e0daafcd5",
+    "status_url": "https://api.higgsfield.ai/requests/b647717d-05c8-4a81-a137-353e0daafcd5/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/b647717d-05c8-4a81-a137-353e0daafcd5/cancel"
+  }
+}

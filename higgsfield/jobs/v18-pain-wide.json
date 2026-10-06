@@ -1,0 +1,47 @@
+{
+  "label": "v18-pain-wide",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Late at night in a small apartment in Auckland used as a home office for a small online skincare shop. A Korean woman in her thirties sits at a cluttered dining table, seen from behind and slightly to the side, elbow on the table and her hand pressed to her forehead in frustration, her face not visible. In front of her an open silver MacBook Pro; its screen is fully visible to us and shows one perfectly uniform flat bright chroma-key green image filling the display, the only light in the room besides a dim lamp. Around her: stacked unopened cardboard boxes of stock, a cold cup of tea, scattered invoices. Cool, lonely mood. Photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, handheld, natural available light, true-to-life colour, realistic textures, crisp focus on the screen, natural optical bokeh, an unposed moment, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v18 problem-solution SOOM",
+  "submitted_at": "2026-10-06T14:24:59.701Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:25:01.565Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:27:36.607Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "bc458f2c-c6b5-44b5-b323-87fab847e692",
+  "status_url": "https://api.higgsfield.ai/requests/bc458f2c-c6b5-44b5-b323-87fab847e692/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/bc458f2c-c6b5-44b5-b323-87fab847e692/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "bc458f2c-c6b5-44b5-b323-87fab847e692",
+    "status_url": "https://api.higgsfield.ai/requests/bc458f2c-c6b5-44b5-b323-87fab847e692/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/bc458f2c-c6b5-44b5-b323-87fab847e692/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/8a21e109-df7d-47ba-ba7c-6077bf0ce68c.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:27:36.607Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v18-pain-wide/v18-pain-wide_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/8a21e109-df7d-47ba-ba7c-6077bf0ce68c.png",
+      "bytes": 2069293,
+      "sha256": "036c9fd070c85721a4dec335dcc6d956783e62aa0af9de3bb896e6d50f38b56a"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:27:38.207Z"
+}

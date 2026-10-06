@@ -1,0 +1,49 @@
+{
+  "label": "v15-after-b",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Turn this ordinary phone photo into a real frame from a cafe commercial: the same white ceramic cup on a clean oak counter, a barista's hand holds a small steel milk pitcher tilted very low, its spout almost touching the coffee surface, milk flowing in to draw latte art that is half formed, realistic crema and microfoam texture, natural hand with realistic skin. Soft morning window light from the left, background softly out of focus in natural daylight tones. Remove the receipt, napkin and clutter. Shot on a cinema camera with a 50mm lens at f/2, natural light only, true-to-life colour and white balance, realistic ceramic and wood textures, subtle and understated, like a real frame from a high-end cafe commercial filmed on set, no over-saturation, no glow, no fake bokeh balls. No text, no logos, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v15 natural after",
+  "submitted_at": "2026-10-06T14:08:21.311Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:08:21.940Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:09:54.423Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "3a3a041b-38de-47d6-a28e-13ef0a93ab9f",
+  "status_url": "https://api.higgsfield.ai/requests/3a3a041b-38de-47d6-a28e-13ef0a93ab9f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/3a3a041b-38de-47d6-a28e-13ef0a93ab9f/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "3a3a041b-38de-47d6-a28e-13ef0a93ab9f",
+    "status_url": "https://api.higgsfield.ai/requests/3a3a041b-38de-47d6-a28e-13ef0a93ab9f/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/3a3a041b-38de-47d6-a28e-13ef0a93ab9f/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/466a0c0c-6f76-4c75-bf77-b57039037bfc.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:09:54.423Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v15-after-b/v15-after-b_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/466a0c0c-6f76-4c75-bf77-b57039037bfc.png",
+      "bytes": 2256786,
+      "sha256": "8fb82a34804b8cc7b8004070bd913cf205a8b99e2a1280fc70629705f4366954"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:09:55.925Z"
+}

@@ -1,0 +1,47 @@
+{
+  "label": "v18-solve-phone",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Bright morning, extreme close-up of a woman's hand holding an iPhone 15 Pro with thin bezels upright, very close to the camera above a table with kraft parcels and tissue paper; the phone fills most of the frame height, its screen faces the camera straight on, fully unobstructed, and shows one perfectly uniform flat bright chroma-key green image filling the whole display; her thumb rests at the bottom edge. Warm sunlight, background softly out of focus. Photograph taken with a Sony A7 IV and a 50mm f/1.4 lens, handheld, natural available light, true-to-life colour, realistic textures, crisp focus on the screen, natural optical bokeh, an unposed moment, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v18 problem-solution SOOM",
+  "submitted_at": "2026-10-06T14:25:04.902Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:25:05.608Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:29:22.220Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "0ae58799-9c86-4a09-855a-f09cf4d18bd1",
+  "status_url": "https://api.higgsfield.ai/requests/0ae58799-9c86-4a09-855a-f09cf4d18bd1/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/0ae58799-9c86-4a09-855a-f09cf4d18bd1/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "0ae58799-9c86-4a09-855a-f09cf4d18bd1",
+    "status_url": "https://api.higgsfield.ai/requests/0ae58799-9c86-4a09-855a-f09cf4d18bd1/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/0ae58799-9c86-4a09-855a-f09cf4d18bd1/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/ebb6a591-acff-4002-b288-edc82f260c5d.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:29:22.220Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v18-solve-phone/v18-solve-phone_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/ebb6a591-acff-4002-b288-edc82f260c5d.png",
+      "bytes": 1994379,
+      "sha256": "a99599b0d89a3bbc039fcb3bfec393d65299a9d25df027f38442b59a52c8df72"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:29:23.817Z"
+}

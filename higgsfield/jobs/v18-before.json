@@ -1,0 +1,47 @@
+{
+  "label": "v18-before",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. An ordinary casual smartphone snapshot taken by a small shop owner: a plain amber glass skincare serum bottle with a black dropper cap and a blank cream paper label stands on a white bathroom shelf next to a toothbrush cup and a towel, flat overhead indoor lighting, slightly cool white balance, everything evenly sharp, unstyled, a realistic phone photo. No readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v18 problem-solution SOOM",
+  "submitted_at": "2026-10-06T14:25:02.911Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:25:03.833Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:28:11.749Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "218faade-f583-4cf9-a86b-68d6a5188dce",
+  "status_url": "https://api.higgsfield.ai/requests/218faade-f583-4cf9-a86b-68d6a5188dce/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/218faade-f583-4cf9-a86b-68d6a5188dce/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "218faade-f583-4cf9-a86b-68d6a5188dce",
+    "status_url": "https://api.higgsfield.ai/requests/218faade-f583-4cf9-a86b-68d6a5188dce/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/218faade-f583-4cf9-a86b-68d6a5188dce/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/d9a97ed8-93da-487b-bc56-230588913f88.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:28:11.749Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v18-before/v18-before_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/d9a97ed8-93da-487b-bc56-230588913f88.png",
+      "bytes": 1666000,
+      "sha256": "b187202f74fccdc17540318e96a25005b80796dc7fdc3bad8c2f5f5e443362e4"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:28:13.414Z"
+}

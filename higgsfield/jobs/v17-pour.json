@@ -1,0 +1,35 @@
+{
+  "label": "v17-pour",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Using the same white ceramic cup from image 1: an extreme close-up at the rim of the cup, camera almost level with the coffee surface. A steel milk pitcher spout hovers just above the surface, a thin silky stream of milk drawing a rosetta that is half formed, glossy microfoam and tiger-striped crema in sharp focus, a warm backlight catching the surface sheen, background falls to near black. Real frame from a high-end coffee brand commercial shot on an ARRI Alexa with a macro probe lens, controlled studio lighting with a single warm backlight and soft negative fill, deep rich shadows, true-to-life textures, crisp detail, physically accurate liquid, no CGI look, no over-saturation, no fake glow. No text, no logos, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v17 promo reel",
+  "submitted_at": "2026-10-06T14:19:24.195Z",
+  "status": "in_progress",
+  "history": [
+    {
+      "at": "2026-10-06T14:19:25.016Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:19:28.420Z",
+      "status": "in_progress"
+    }
+  ],
+  "request_id": "cbf543cf-1270-4b2c-8d77-66d62641726c",
+  "status_url": "https://api.higgsfield.ai/requests/cbf543cf-1270-4b2c-8d77-66d62641726c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/cbf543cf-1270-4b2c-8d77-66d62641726c/cancel",
+  "response": {
+    "status": "in_progress",
+    "request_id": "cbf543cf-1270-4b2c-8d77-66d62641726c",
+    "status_url": "https://api.higgsfield.ai/requests/cbf543cf-1270-4b2c-8d77-66d62641726c/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/cbf543cf-1270-4b2c-8d77-66d62641726c/cancel"
+  },
+  "checked_at": "2026-10-06T14:19:58.913Z"
+}

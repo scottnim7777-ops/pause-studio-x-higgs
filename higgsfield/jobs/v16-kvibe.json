@@ -1,0 +1,47 @@
+{
+  "label": "v16-kvibe",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. A small study-abroad agency office in central Auckland in the afternoon, window light. Over-the-shoulder shot from behind a Korean mother sitting at a desk next to her teenage son; both lean in toward an open silver MacBook Pro on the desk, whose screen is fully visible to us and shows one perfectly uniform flat bright chroma-key green image filling the display. Across the desk a Korean female consultant is only partly in frame and out of focus, her hand pointing at the screen. Brochures, a pen and a water glass on the desk; through the window the Auckland city, softly out of focus. Photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, handheld, slightly off-centre framing, natural available light, true-to-life colour, crisp focus on the screen, natural optical bokeh, an unposed moment caught in passing, like a documentary still. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v16 candid angle",
+  "submitted_at": "2026-10-06T14:15:17.558Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:15:21.204Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:15:55.456Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "35f68302-9694-4c4b-8130-f6b30013ca9b",
+  "status_url": "https://api.higgsfield.ai/requests/35f68302-9694-4c4b-8130-f6b30013ca9b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/35f68302-9694-4c4b-8130-f6b30013ca9b/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "35f68302-9694-4c4b-8130-f6b30013ca9b",
+    "status_url": "https://api.higgsfield.ai/requests/35f68302-9694-4c4b-8130-f6b30013ca9b/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/35f68302-9694-4c4b-8130-f6b30013ca9b/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6efd812d-ab76-46ea-9f6f-9dd79d53b0f6.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:15:55.456Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v16-kvibe/v16-kvibe_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6efd812d-ab76-46ea-9f6f-9dd79d53b0f6.png",
+      "bytes": 2177322,
+      "sha256": "2ddaafa30c10126a6b73809ad4cc71448dabad4725075f139f0aac5767dd0be8"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:15:57.008Z"
+}

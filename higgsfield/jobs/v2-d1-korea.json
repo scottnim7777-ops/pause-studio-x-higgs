@@ -1,0 +1,52 @@
+{
+  "label": "v2-d1-korea",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Editorial still-life photograph for a premium magazine. A traditional Korean hanji paper window with a fine wooden lattice (changsal), seen straight-on and close, soft morning sunlight glowing through the warm ivory mulberry paper; delicate shadows of the lattice; a faint shadow of a pine branch falling across the paper from outside. Calm, quiet, tactile paper fibres visible. Colour: ivory, cream, warm grey, nothing saturated. Shot on medium format film, natural light, fine grain, slightly soft. Composition centred, evenly filling a square frame. No people, no text, no logos.",
+    "aspect_ratio": "1:1",
+    "resolution": "1080p",
+    "enhance_prompt": false,
+    "num_images": 4
+  },
+  "note": "2차 시안 원판(4장 중 선택)",
+  "submitted_at": "2026-10-06T08:04:14.286Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T08:04:14.882Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T08:04:23.789Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T08:04:34.421Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "e03dd85f-5d40-485d-89f2-2da151c644b2",
+  "status_url": "https://api.higgsfield.ai/requests/e03dd85f-5d40-485d-89f2-2da151c644b2/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/e03dd85f-5d40-485d-89f2-2da151c644b2/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "e03dd85f-5d40-485d-89f2-2da151c644b2",
+    "status_url": "https://api.higgsfield.ai/requests/e03dd85f-5d40-485d-89f2-2da151c644b2/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/e03dd85f-5d40-485d-89f2-2da151c644b2/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/25e147d3-49a8-4fd7-ba08-18cee3cbd9fa.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T08:04:34.421Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v2-d1-korea/v2-d1-korea_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/25e147d3-49a8-4fd7-ba08-18cee3cbd9fa.png",
+      "bytes": 4553540,
+      "sha256": "53f165c247600bbfd0480580a55a054ff2c80645d62533820fea2d28a79cbc5a"
+    }
+  ],
+  "downloaded_at": "2026-10-06T08:04:36.203Z"
+}

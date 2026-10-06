@@ -1,0 +1,48 @@
+{
+  "label": "v2-d4-ceramic",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Still-life product photograph in the style of a high-end design magazine. Two handmade stoneware rings, each about the size of a palm, matte warm-cream glaze with visible clay speckles and slightly irregular hand-thrown edges, linked together like two chain links, one ring lying flat and the other leaning through it at an angle, resting on a dark oiled walnut tabletop. Soft directional window light from the left, long gentle shadow, deep muted olive-green plaster wall behind, slightly out of focus. The objects sit in the right third of a wide 16:9 frame; the left half is calm olive wall and walnut surface - negative space for a headline. Medium format, natural light, shallow depth of field, tactile, quiet, restrained colour: olive, walnut brown, cream. No people, no text, no logos.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false,
+    "num_images": 4
+  },
+  "note": "2차 시안 원판(4장 중 선택)",
+  "submitted_at": "2026-10-06T08:04:17.706Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T08:04:18.389Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T08:05:12.534Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "446b1a5d-622f-404a-8f60-d5d3f819d1f6",
+  "status_url": "https://api.higgsfield.ai/requests/446b1a5d-622f-404a-8f60-d5d3f819d1f6/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/446b1a5d-622f-404a-8f60-d5d3f819d1f6/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "446b1a5d-622f-404a-8f60-d5d3f819d1f6",
+    "status_url": "https://api.higgsfield.ai/requests/446b1a5d-622f-404a-8f60-d5d3f819d1f6/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/446b1a5d-622f-404a-8f60-d5d3f819d1f6/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/7d97a562-47b2-4d94-9690-703f439bfc74.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T08:05:12.534Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v2-d4-ceramic/v2-d4-ceramic_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/7d97a562-47b2-4d94-9690-703f439bfc74.png",
+      "bytes": 2390705,
+      "sha256": "483e18a781cd53ae2e179de65c8f299b435eb5047d38197d618bd9f2121bac5a"
+    }
+  ],
+  "downloaded_at": "2026-10-06T08:05:14.231Z"
+}

@@ -1,0 +1,32 @@
+{
+ "01": {
+  "name": "두 개의 원",
+  "font": "SD 정체 630 (산돌)",
+  "source": "https://www.sandollcloud.com/font/21615/SD-Jeongche",
+  "chars": 95
+ },
+ "02": {
+  "name": "밤의 항구",
+  "font": "SD 그레타산스 SemiBold·Regular·Medium (타이포테크×산돌)",
+  "source": "https://www.sandollcloud.com/font/18013.html",
+  "chars": 95
+ },
+ "03": {
+  "name": "작업 색인",
+  "font": "AG 최정호 민부리 스크린 (AG타이포그라피연구소)",
+  "source": "https://agfont.com/fonts/ag-choijeongho-minburi-screen",
+  "chars": 127
+ },
+ "04": {
+  "name": "두 개의 고리",
+  "font": "마루 부리 SemiBold·Regular (네이버, OFL)",
+  "source": "local OFL",
+  "chars": 95
+ },
+ "05": {
+  "name": "간섭",
+  "font": "ABC Favorit Hangul Medium·Regular (디나모)",
+  "source": "https://abcdinamo.com/typefaces/favorit-hangul",
+  "chars": 95
+ }
+}

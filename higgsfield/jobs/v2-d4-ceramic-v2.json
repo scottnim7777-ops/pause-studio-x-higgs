@@ -1,0 +1,51 @@
+{
+  "label": "v2-d4-ceramic-v2",
+  "endpoint": "marketing-studio/image",
+  "input": {
+    "prompt": "Still-life product photograph for a high-end design magazine. Exactly two simple circular rings made of matte warm-cream glazed stoneware, each ring a clean torus about 12 cm across with a round cross-section about 1.5 cm thick, perfectly round, interlocked through each other like two links of a chain: one ring lies flat on the table, the other passes through it and stands upright at a slight angle. Fine clay speckles, subtle hand-made softness, no cups, no bowls, no handles. They rest on a dark oiled walnut tabletop. Soft directional window light from the left, a long gentle shadow to the right, deep muted olive-green plaster wall behind, slightly out of focus. The rings sit in the right third of a wide 16:9 frame; the left half is calm olive wall and walnut surface - negative space for a headline. Medium format, natural light, shallow depth of field, quiet, restrained colour: olive, walnut, cream. No people, no text, no logos.",
+    "quality": "high",
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "d4 원판 1차 결함(고리 형태 뭉개짐) → 안별 보정 1회",
+  "submitted_at": "2026-10-06T08:05:41.912Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T08:05:42.514Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T08:05:43.224Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T08:07:10.728Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "585019df-1139-405f-99b2-85c36a50c50c",
+  "status_url": "https://api.higgsfield.ai/requests/585019df-1139-405f-99b2-85c36a50c50c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/585019df-1139-405f-99b2-85c36a50c50c/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "585019df-1139-405f-99b2-85c36a50c50c",
+    "status_url": "https://api.higgsfield.ai/requests/585019df-1139-405f-99b2-85c36a50c50c/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/585019df-1139-405f-99b2-85c36a50c50c/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/47315c08-1c2b-497c-8579-abd66adfa00d.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T08:07:10.728Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v2-d4-ceramic-v2/v2-d4-ceramic-v2_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/47315c08-1c2b-497c-8579-abd66adfa00d.png",
+      "bytes": 5073597,
+      "sha256": "780b97e563691fce5fcecc3e50d49337fc2c940540cc9288fc6a9b518abcfd38"
+    }
+  ],
+  "downloaded_at": "2026-10-06T08:07:12.397Z"
+}

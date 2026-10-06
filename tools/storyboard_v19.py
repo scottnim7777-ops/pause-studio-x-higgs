@@ -57,9 +57,11 @@ def main():
     phone_close('solve-notif', 566, 's10b-orders-close')
     k = cv2.imread(str(ROOT / 'drafts' / 'v10' / 'screens' / 'src' / 'kvibe_5.png'))
     composite('s13-kvibe', 'v16-kvibe', k[:, :int(k.shape[0] * 1.55)], gain=1.0, **LOOK)
-    for src, dst in [(ROOT / 'drafts' / 'v12' / 'shots' / 'c3-cafe_blooming.jpg', 's11a-blooming'),
+    # 실제 고객: 대표님이 일하는 모습(Blooming 홈베이커 · ChillenQ 대표 사무실)
+    composite('s11a-blooming', 'v20-blooming', cv2.imread(str(ROOT / 'drafts' / 'v12' / 'screens' / 'out' / 'blooming-mobile.png')), gain=1.0, **LOOK)
+    composite('s12-chillenq', 'v20-chillenq', cv2.imread(str(ROOT / 'drafts' / 'v12' / 'screens' / 'out' / 'chillenq-laptop.png')), gain=1.0, **LOOK)
+    for src, dst in [
                      (ROOT / 'drafts' / 'v12' / 'shots' / 'c4-home_chemilife.jpg', 's11-chemilife'),
-                     (ROOT / 'drafts' / 'v16' / 'shots' / 'c8-workshop_chillenq.jpg', 's12-chillenq'),
                      (ROOT / 'drafts' / 'v12' / 'shots' / 'c7-night_dongdaemun.jpg', 's14-dongdaemun'),
                      (ROOT / 'drafts' / 'v14' / 'shots' / 'loop-1-freeze.jpg', 's15-freeze'),
                      (ROOT / 'drafts' / 'v12' / 'shots' / 'loop-2-logo.jpg', 's01-logo')]:

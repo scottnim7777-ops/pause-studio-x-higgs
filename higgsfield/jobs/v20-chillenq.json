@@ -1,0 +1,47 @@
+{
+  "label": "v20-chillenq",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Late afternoon in a spacious, expensive private office above a large commercial refrigeration warehouse in Auckland. Over-the-shoulder shot from behind and to the side of a distinguished Korean businessman in his sixties with silver-grey hair, wearing a tailored navy blazer over a fine knit, a quality wristwatch, seated in a leather chair at a large walnut desk, holding a coffee cup; an open silver MacBook Pro on the desk, its screen fully visible to us and showing one perfectly uniform flat bright chroma-key green image filling the display. Through the floor-to-ceiling glass behind the desk, softly out of focus, a vast warehouse floor with rows of white refrigerated trailers in warm low sunlight. Calm, successful, understated wealth. Photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, handheld, natural available light, true-to-life colour, realistic skin and fabric texture, crisp focus on the screen, natural optical bokeh, an unposed moment caught in passing, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v20 client owner scenes",
+  "submitted_at": "2026-10-06T22:16:37.867Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:16:38.471Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:16:52.217Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "3fbab4de-9147-4a5b-8044-198d7dadef6e",
+  "status_url": "https://api.higgsfield.ai/requests/3fbab4de-9147-4a5b-8044-198d7dadef6e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/3fbab4de-9147-4a5b-8044-198d7dadef6e/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "3fbab4de-9147-4a5b-8044-198d7dadef6e",
+    "status_url": "https://api.higgsfield.ai/requests/3fbab4de-9147-4a5b-8044-198d7dadef6e/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/3fbab4de-9147-4a5b-8044-198d7dadef6e/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/0570e5f5-4b0b-47ee-b674-136b493ac14e.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:16:52.217Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v20-chillenq/v20-chillenq_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/0570e5f5-4b0b-47ee-b674-136b493ac14e.png",
+      "bytes": 1942318,
+      "sha256": "bcbc5197513b014ea893cb724ea219628f4b9f74604c214509159435e72a9e5d"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:16:54.119Z"
+}

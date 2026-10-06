@@ -1,0 +1,51 @@
+{
+  "label": "v8-c1-send",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Morning in a bright, beautiful small cake shop. Close over-the-shoulder shot of a young Korean woman pastry chef in a cream linen apron holding a modern iPhone 15 Pro with thin bezels in her left hand at chest height, the phone screen fully visible to the camera and showing one perfectly uniform flat bright chroma-key green image filling the whole display; her right thumb about to tap the screen. Softly out of focus behind her: a white marble counter with an elegant white flower cake, glass cake domes, soft warm window light. Set in Auckland, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v8 storyboard",
+  "submitted_at": "2026-10-06T12:34:52.331Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:34:52.986Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:40:27.483Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T12:40:47.997Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "a1d342e0-e77b-4ac5-8dd1-54c777047d21",
+  "status_url": "https://api.higgsfield.ai/requests/a1d342e0-e77b-4ac5-8dd1-54c777047d21/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/a1d342e0-e77b-4ac5-8dd1-54c777047d21/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "a1d342e0-e77b-4ac5-8dd1-54c777047d21",
+    "status_url": "https://api.higgsfield.ai/requests/a1d342e0-e77b-4ac5-8dd1-54c777047d21/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/a1d342e0-e77b-4ac5-8dd1-54c777047d21/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/961ae512-db66-4959-93f3-d369de4f07fe.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:40:47.997Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v8-c1-send/v8-c1-send_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/961ae512-db66-4959-93f3-d369de4f07fe.png",
+      "bytes": 2062252,
+      "sha256": "320129636f08ad0e643f3b0c010f957fc847ecc3f73305cc09694aa51cebf02b"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:40:49.771Z"
+}

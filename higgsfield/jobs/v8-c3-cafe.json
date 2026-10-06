@@ -1,0 +1,47 @@
+{
+  "label": "v8-c3-cafe",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Sunny late morning at a sidewalk cafe table in Ponsonby, with white wooden villas and a blooming red pohutukawa tree softly out of focus behind, a quiet street. Over-the-shoulder close shot of a blonde New Zealand woman in a linen shirt holding a modern iPhone 15 Pro with thin bezels in her hand, the phone screen fully facing the camera and showing one perfectly uniform flat bright chroma-key green image filling the whole display; a flat white coffee on the table, dappled sunlight. Nobody looks at the camera. Set in Auckland, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v8 storyboard",
+  "submitted_at": "2026-10-06T12:34:53.186Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:34:53.882Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:40:50.480Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "b9e3b415-8a8c-4206-89ca-495cccaac1ef",
+  "status_url": "https://api.higgsfield.ai/requests/b9e3b415-8a8c-4206-89ca-495cccaac1ef/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/b9e3b415-8a8c-4206-89ca-495cccaac1ef/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "b9e3b415-8a8c-4206-89ca-495cccaac1ef",
+    "status_url": "https://api.higgsfield.ai/requests/b9e3b415-8a8c-4206-89ca-495cccaac1ef/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/b9e3b415-8a8c-4206-89ca-495cccaac1ef/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/bb74a5c7-4274-4391-b42f-011cf2c99af9.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:40:50.479Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v8-c3-cafe/v8-c3-cafe_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/bb74a5c7-4274-4391-b42f-011cf2c99af9.png",
+      "bytes": 2718968,
+      "sha256": "902687981efc0f45f38e0c313b1ab5f50563ee636c127262152e2e97398ced37"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:40:52.288Z"
+}

@@ -1,0 +1,47 @@
+{
+  "label": "v9-c5-chillenq",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Golden hour inside the open roller door of a commercial refrigeration equipment workshop. In the foreground a Korean man in his forties wearing a navy work fleece vest over a collared shirt stands at a steel workbench, talking on his phone held to his ear while glancing at an open silver MacBook Pro on the bench; the laptop screen faces the camera, large in frame and fully unobstructed, showing one perfectly uniform flat bright chroma-key green image filling the display. Behind him, softly out of focus, a large white enclosed refrigerated cargo trailer with a front-mounted refrigeration unit, a forklift and pallets, warm low sunlight streaming in through the open roller door, dust in the light. A real working place. Set in a real industrial yard, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v9",
+  "submitted_at": "2026-10-06T12:49:16.073Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:49:16.723Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:54:48.245Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "ce4adda0-68df-456e-9eea-26ea2dcf67fc",
+  "status_url": "https://api.higgsfield.ai/requests/ce4adda0-68df-456e-9eea-26ea2dcf67fc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/ce4adda0-68df-456e-9eea-26ea2dcf67fc/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "ce4adda0-68df-456e-9eea-26ea2dcf67fc",
+    "status_url": "https://api.higgsfield.ai/requests/ce4adda0-68df-456e-9eea-26ea2dcf67fc/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/ce4adda0-68df-456e-9eea-26ea2dcf67fc/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2a002692-5650-44d0-a8e1-93e3e5cde5f3.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:54:48.245Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v9-c5-chillenq/v9-c5-chillenq_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2a002692-5650-44d0-a8e1-93e3e5cde5f3.png",
+      "bytes": 2461013,
+      "sha256": "6d071659553dd9871487e7c4c8622f1f27c890c177b14759735b9750d79fee3b"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:54:49.957Z"
+}

@@ -1,0 +1,51 @@
+{
+  "label": "v9-cq-product2",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Product photograph for a premium commercial website hero, 16:9 wide. A single compact white enclosed towable cargo trailer, about 4 metres long, converted into a mobile walk-in cooler: a plain white box body with rounded corners, a small white refrigeration condensing unit with one round fan grille mounted high on the front wall, an A-frame tongue at the front with a ball hitch coupler, a jack stand and safety chains, a black aluminium diamond-plate stone guard, two axles with four silver wheels under polished aluminium fenders. Three-quarter front view, the trailer faces left with its long plain white side wall toward the camera, placed in the right half of the frame on a glossy pale grey studio floor with soft reflections, tall soft vertical light panels, cool blue-white light, crisp high-end automotive commercial photography, the left half of the frame is empty clean studio space. No truck, no tractor unit, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v9 product retry: semi-trailer wrong",
+  "submitted_at": "2026-10-06T12:55:38.698Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:55:39.426Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:01:00.237Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T13:01:20.785Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "aa647a1f-fbea-495a-9771-8e717c1c8536",
+  "status_url": "https://api.higgsfield.ai/requests/aa647a1f-fbea-495a-9771-8e717c1c8536/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/aa647a1f-fbea-495a-9771-8e717c1c8536/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "aa647a1f-fbea-495a-9771-8e717c1c8536",
+    "status_url": "https://api.higgsfield.ai/requests/aa647a1f-fbea-495a-9771-8e717c1c8536/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/aa647a1f-fbea-495a-9771-8e717c1c8536/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b2e3f0bb-060c-43ba-b0d9-7060e5b2150c.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:01:20.785Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v9-cq-product2/v9-cq-product2_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b2e3f0bb-060c-43ba-b0d9-7060e5b2150c.png",
+      "bytes": 1398778,
+      "sha256": "437930b1c2ce31fee3346edc83c2df0c528fe2a74cb36875d174ad7e6b424a40"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:01:22.167Z"
+}

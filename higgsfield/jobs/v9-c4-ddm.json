@@ -1,0 +1,51 @@
+{
+  "label": "v9-c4-ddm",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Night in Auckland CBD, outside a small Korean restaurant on the ground floor of a city building. Over-the-shoulder close shot of a young New Zealand woman holding up a modern iPhone 15 Pro with thin bezels, the phone screen fully facing the camera, large in frame and unobstructed, showing one perfectly uniform flat bright chroma-key green image filling the whole display. Behind, softly out of focus but recognisable: the restaurant front with a wide black signboard above the entrance that is completely blank with no lettering at all, a glass door and glass shopfront windows glowing warm, inside corrugated metal walls, wooden tables, a small red neon sign and fairy lights; white plastic cafe chairs and small tables on the pavement outside; a Korean man in a black t-shirt and black apron holds the glass door open and smiles. Her friends beside her laughing. Set in Auckland, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v9",
+  "submitted_at": "2026-10-06T12:49:15.123Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:49:15.873Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:54:25.243Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T12:54:45.812Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "d949b637-aac4-49cd-8647-b47915767375",
+  "status_url": "https://api.higgsfield.ai/requests/d949b637-aac4-49cd-8647-b47915767375/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/d949b637-aac4-49cd-8647-b47915767375/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "d949b637-aac4-49cd-8647-b47915767375",
+    "status_url": "https://api.higgsfield.ai/requests/d949b637-aac4-49cd-8647-b47915767375/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/d949b637-aac4-49cd-8647-b47915767375/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/c803d03d-1036-4938-bca9-01904f46454e.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:54:45.812Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v9-c4-ddm/v9-c4-ddm_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/c803d03d-1036-4938-bca9-01904f46454e.png",
+      "bytes": 2200173,
+      "sha256": "432fe2460b3836dca1f22b1c46aa4fa02e88599222d8ba3a25e6f329cd33f4da"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:54:47.354Z"
+}

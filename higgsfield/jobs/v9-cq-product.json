@@ -1,0 +1,47 @@
+{
+  "label": "v9-cq-product",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Product photograph for a premium commercial website hero, 16:9 wide. A large white enclosed tandem-axle refrigerated cargo trailer with a front-mounted refrigeration condenser unit with a round fan grille, aluminium diamond-plate stone guard at the front, chrome fenders and silver wheels, three-quarter front view with the trailer facing left and its long plain white side panel facing the camera, placed on the right half of the frame, in a vast minimal cool white-grey studio with tall vertical soft light panels, a glossy floor with soft reflections, cool blue-white light, crisp, high-end automotive commercial photography, the left half of the frame is clean empty studio space, plain white side panels with no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v9",
+  "submitted_at": "2026-10-06T12:49:17.729Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:49:18.475Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:55:12.876Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "2657eeb0-bc48-4cca-b549-1275d91488b8",
+  "status_url": "https://api.higgsfield.ai/requests/2657eeb0-bc48-4cca-b549-1275d91488b8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/2657eeb0-bc48-4cca-b549-1275d91488b8/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "2657eeb0-bc48-4cca-b549-1275d91488b8",
+    "status_url": "https://api.higgsfield.ai/requests/2657eeb0-bc48-4cca-b549-1275d91488b8/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/2657eeb0-bc48-4cca-b549-1275d91488b8/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/842a1107-43d0-4273-a02e-b47372711404.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:55:12.876Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v9-cq-product/v9-cq-product_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/842a1107-43d0-4273-a02e-b47372711404.png",
+      "bytes": 1482816,
+      "sha256": "cea48bcafbe52e7c872ac1e83dc813e8933fa8e8a6dd79b31c699539a819c626"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:55:14.443Z"
+}

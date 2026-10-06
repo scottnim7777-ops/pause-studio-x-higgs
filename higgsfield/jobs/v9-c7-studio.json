@@ -1,0 +1,51 @@
+{
+  "label": "v9-c7-studio",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Late night in a small premium web design studio. A Korean male designer sits at a clean oak desk, seen from behind and slightly to the left of a large Apple iMac so that his head does not cover the screen; the iMac screen is large in frame, fully visible and unobstructed, showing one perfectly uniform flat bright chroma-key green image filling the entire screen and lighting his face from the side. Printed website layouts and small photo prints pinned on the wall, a desk lamp, a plant. No cameras, no film equipment. Shot from a doorway, a dark door frame blurred at the edge of the frame. Set in Auckland, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v9",
+  "submitted_at": "2026-10-06T12:49:16.926Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:49:17.548Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:55:01.739Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T12:55:10.094Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "395da2bb-8488-46ce-96d2-dad05307d8bc",
+  "status_url": "https://api.higgsfield.ai/requests/395da2bb-8488-46ce-96d2-dad05307d8bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/395da2bb-8488-46ce-96d2-dad05307d8bc/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "395da2bb-8488-46ce-96d2-dad05307d8bc",
+    "status_url": "https://api.higgsfield.ai/requests/395da2bb-8488-46ce-96d2-dad05307d8bc/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/395da2bb-8488-46ce-96d2-dad05307d8bc/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5f54f1ec-984f-4cc7-842e-188ebcc17542.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:55:10.094Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v9-c7-studio/v9-c7-studio_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5f54f1ec-984f-4cc7-842e-188ebcc17542.png",
+      "bytes": 2406484,
+      "sha256": "32cbb18ddd1dc8771ee0e9b9b9df86a5878ece8f7976507a3fa9839115992fad"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:55:11.829Z"
+}

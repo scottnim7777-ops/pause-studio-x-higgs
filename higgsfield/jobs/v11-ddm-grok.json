@@ -1,0 +1,51 @@
+{
+  "label": "v11-ddm-grok",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "input": {
+    "prompt": "Use image 1 as the exact location: the same Korean restaurant storefront with the same black signboard reading DONG DE MOON TASTE OF KOREA, the same grey granite wall, the same glass door and glass windows. Use image 2 for the interior look seen through the glass: corrugated metal walls, wooden tables, black chairs, warm lights, fairy lights, a blue neon DDM sign. Make it a lively Friday night. Candid night photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, natural available light from the shop, true-to-life colour, realistic. On the pavement in front of the shop, at the black outdoor tables with cream-white plastic chairs, a mixed group of New Zealand and Korean friends in their twenties and thirties laugh and talk loudly, pouring makgeolli from a dented golden-yellow aluminium Korean kettle into small matching bowls, green soju bottles and Korean fried chicken on the tables, glasses raised in a cheers. In the foreground, over the shoulder of one young New Zealand woman at the table holding up an iPhone 15 Pro toward the camera; the phone screen is large, unobstructed and shows one perfectly uniform flat bright chroma-key green image filling the display. A staff member in a black t-shirt and black apron carries a tray of fried chicken toward the table, seen only from behind so his face is not visible. Nobody looks into the camera. No watermark.",
+    "image_urls": [
+      "<사용자가 준 동대문 실제 가게 사진(제3자 리뷰 사진) — 주소 기록 안 함>",
+      "<사용자가 준 동대문 실제 가게 사진(제3자 리뷰 사진) — 주소 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9",
+    "quality": "medium"
+  },
+  "note": "ref edit: user store photos",
+  "submitted_at": "2026-10-06T13:36:32.794Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:36:33.403Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:38:05.277Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "7b8df7a3-bcc4-473e-bdd3-2cf3e367fd57",
+  "status_url": "https://api.higgsfield.ai/requests/7b8df7a3-bcc4-473e-bdd3-2cf3e367fd57/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/7b8df7a3-bcc4-473e-bdd3-2cf3e367fd57/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "7b8df7a3-bcc4-473e-bdd3-2cf3e367fd57",
+    "status_url": "https://api.higgsfield.ai/requests/7b8df7a3-bcc4-473e-bdd3-2cf3e367fd57/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/7b8df7a3-bcc4-473e-bdd3-2cf3e367fd57/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9e1a41d4-8d4d-45f5-9a1b-4a5ca181ed2e.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:38:05.277Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v11-ddm-grok/v11-ddm-grok_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9e1a41d4-8d4d-45f5-9a1b-4a5ca181ed2e.png",
+      "bytes": 7044254,
+      "sha256": "ea02a36cb81dbc114ee985651f85f6700d3e0b466dd3be878ee4bcf3769cfeb7"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:38:07.231Z"
+}

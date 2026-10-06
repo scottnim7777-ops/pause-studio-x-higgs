@@ -1,0 +1,51 @@
+{
+  "label": "v14-ondo-before",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. An ordinary casual smartphone snapshot taken by a small cafe owner: a latte in a plain white ceramic cup on a wooden cafe counter, shot from slightly above, flat overhead indoor lighting, slightly cool white balance, a bit of clutter at the edge (a napkin, a receipt, a card machine), no depth of field, everything evenly sharp, ordinary and unstyled, realistic phone photo. No readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v14 fictional ONDO demo",
+  "submitted_at": "2026-10-06T13:59:50.406Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:59:51.237Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:00:23.704Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T14:00:39.668Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "f069261d-4834-4f31-8e9f-93441f7e6412",
+  "status_url": "https://api.higgsfield.ai/requests/f069261d-4834-4f31-8e9f-93441f7e6412/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/f069261d-4834-4f31-8e9f-93441f7e6412/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "f069261d-4834-4f31-8e9f-93441f7e6412",
+    "status_url": "https://api.higgsfield.ai/requests/f069261d-4834-4f31-8e9f-93441f7e6412/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/f069261d-4834-4f31-8e9f-93441f7e6412/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9ae53230-9e19-4089-a1c6-1e7f594e5885.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:00:39.668Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v14-ondo-before/v14-ondo-before_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9ae53230-9e19-4089-a1c6-1e7f594e5885.png",
+      "bytes": 2194361,
+      "sha256": "dee776159559f2fc6a2cbb517950dacb1e2498f7abcb841189e2f2ce7ba55a20"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:00:41.282Z"
+}

@@ -1,0 +1,47 @@
+{
+  "label": "v14-ondo-cafe",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. A bright, beautiful specialty coffee cafe in Auckland in the morning. On the oak counter in the sharp foreground stands an open silver MacBook Pro angled toward the camera; its screen is large, fully unobstructed and shows one perfectly uniform flat bright chroma-key green image filling the display. Behind the counter, softly out of focus, a Korean barista in a dark apron works the espresso machine; warm low sunlight through the front window, steam in the light, ceramic cups, plants. Photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, natural available light, true-to-life colour, crisp focus on the laptop, natural optical bokeh, a real candid moment. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v14 fictional ONDO demo",
+  "submitted_at": "2026-10-06T13:59:51.405Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:59:52.108Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:00:42.150Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "9511d836-d281-4816-bd92-711e5a5bab92",
+  "status_url": "https://api.higgsfield.ai/requests/9511d836-d281-4816-bd92-711e5a5bab92/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/9511d836-d281-4816-bd92-711e5a5bab92/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "9511d836-d281-4816-bd92-711e5a5bab92",
+    "status_url": "https://api.higgsfield.ai/requests/9511d836-d281-4816-bd92-711e5a5bab92/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/9511d836-d281-4816-bd92-711e5a5bab92/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/949d79e8-2e74-4b43-b8c1-e1306ff045bf.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:00:42.150Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v14-ondo-cafe/v14-ondo-cafe_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/949d79e8-2e74-4b43-b8c1-e1306ff045bf.png",
+      "bytes": 1797290,
+      "sha256": "ccb166309e10a84e465dcd046b39154bd8fdc583f799ad40d2dc0a749c71af8b"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:00:43.646Z"
+}

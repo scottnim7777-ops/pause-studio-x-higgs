@@ -1,0 +1,53 @@
+{
+  "label": "v14-ondo-after",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Turn this ordinary phone photo of a latte into a single frame from a premium coffee commercial. Keep the same white ceramic cup, the same heart latte art and the same position in the frame. Now: a barista's hand pours a thin silky stream of milk from a small steel pitcher into the cup, fine steam rising and glowing, warm low morning sunlight from the left side, a dark warm cafe background with soft round bokeh, the wooden counter clean and rich, shallow depth of field with the cup crisp, true-to-life colour, shot on a cinema camera with a 50mm lens. Remove the receipt, napkin and clutter. No text, no logos, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v14 before->after demo",
+  "submitted_at": "2026-10-06T14:01:04.203Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T14:01:04.919Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T14:01:05.646Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T14:02:12.993Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "79343e52-98a8-42ce-8199-04e34fcce803",
+  "status_url": "https://api.higgsfield.ai/requests/79343e52-98a8-42ce-8199-04e34fcce803/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/79343e52-98a8-42ce-8199-04e34fcce803/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "79343e52-98a8-42ce-8199-04e34fcce803",
+    "status_url": "https://api.higgsfield.ai/requests/79343e52-98a8-42ce-8199-04e34fcce803/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/79343e52-98a8-42ce-8199-04e34fcce803/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/0bd32500-e23b-49cd-b1aa-6013c0d6b9b2.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T14:02:12.992Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v14-ondo-after/v14-ondo-after_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/0bd32500-e23b-49cd-b1aa-6013c0d6b9b2.png",
+      "bytes": 2324201,
+      "sha256": "fa0af9d27108982ee6b02ccf5f5da1bab3ce6cd1984a4c545cd635deb12c075d"
+    }
+  ],
+  "downloaded_at": "2026-10-06T14:02:14.541Z"
+}

@@ -1,8 +1,17 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Pause Studio 3차 시안 — 움직이는 히어로</title>
-<meta name="viewport" content="width=device-width,initial-scale=1"><style id="hero-css">
+<title>Pause Studio Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap">
+<style>
+/* 단일 다크 무대: 1920×1080 장면을 화면에 맞춰 축소 */
+:root{--ink:#0D0D0C;--cream:#FCEED8;--f:'Noto Sans KR','Apple SD Gothic Neo',sans-serif;--fm:'Noto Sans KR','Apple SD Gothic Neo',sans-serif;color-scheme:dark}
+html,body{height:100%;margin:0;background:var(--ink);overflow:hidden}
+.fit{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%}
+.hero h1{font-weight:500} .hero .kp b,.hero .fee .zero,.hero .b1{font-weight:500}
+.replay{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;font:500 13px/1 var(--f);color:var(--cream);background:var(--ink);border:1px solid rgba(252,238,216,.4);border-radius:999px;padding:10px 16px;cursor:pointer}
+.replay:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;background:#0D0D0C;overflow:hidden}
-.fit{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+
 .hero{position:absolute;inset:0;overflow:hidden;background:#0D0D0C;color:#FCEED8;font-family:var(--f,'Apple SD Gothic Neo','Noto Sans KR',sans-serif);word-break:keep-all;-webkit-font-smoothing:antialiased}
 .hero a{color:inherit;text-decoration:none}
 .grid{position:absolute;inset:0}
@@ -46,8 +55,9 @@ h1 .caret{display:inline-block;width:4px;height:76px;background:#FCEED8;vertical
 .big .tiles{position:relative;width:960px;height:510px;overflow:hidden;background:#151513;border-radius:0 0 8px 8px}
 .big .tile{position:absolute;background-image:url(media/ref03-big.jpg);background-size:960px 540px}
 .label{position:absolute;right:96px;bottom:26px;font-size:12px;color:rgba(252,238,216,.5);background:#0D0D0C;padding:5px 0 5px 12px}
-</style></head>
-<body><div class="fit" id="fit"><!--HERO--><div class="hero" id="hero">
+
+</style>
+<div class="fit" id="fit"><div class="hero" id="hero">
 <svg class="grid" width="1920" height="1080" aria-hidden="true"><line x1="96" y1="0" x2="96" y2="1080"/><line x1="240" y1="0" x2="240" y2="1080"/><line x1="384" y1="0" x2="384" y2="1080"/><line x1="528" y1="0" x2="528" y2="1080"/><line x1="672" y1="0" x2="672" y2="1080"/><line x1="816" y1="0" x2="816" y2="1080"/><line x1="960" y1="0" x2="960" y2="1080"/><line x1="1104" y1="0" x2="1104" y2="1080"/><line x1="1248" y1="0" x2="1248" y2="1080"/><line x1="1392" y1="0" x2="1392" y2="1080"/><line x1="1536" y1="0" x2="1536" y2="1080"/><line x1="1680" y1="0" x2="1680" y2="1080"/><line x1="1824" y1="0" x2="1824" y2="1080"/></svg>
 <div class="stage"><div class="plane" id="plane"><div class="row r0"><div class="track"><figure class="card" data-r="1"><div class="scr"><video src="media/ref01.webm" poster="media/ref01-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 01<i>여행 / 유학원</i></figcaption></figure><figure class="card" data-r="3"><div class="scr"><img src="media/ref03.jpg" alt=""></div><figcaption>Ref. 03<i>한식당</i></figcaption></figure><figure class="card" data-r="11"><div class="scr"><img src="media/ref11.jpg" alt=""></div><figcaption>Ref. 11<i>여행사</i></figcaption></figure><figure class="card" data-r="7"><div class="scr"><video src="media/ref07.webm" poster="media/ref07-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 07<i>호스피스</i></figcaption></figure><figure class="card" data-r="13"><div class="scr"><img src="media/ref13.jpg" alt=""></div><figcaption>Ref. 13<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card" data-r="1"><div class="scr"><video src="media/ref01.webm" poster="media/ref01-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 01<i>여행 / 유학원</i></figcaption></figure><figure class="card" data-r="3"><div class="scr"><img src="media/ref03.jpg" alt=""></div><figcaption>Ref. 03<i>한식당</i></figcaption></figure><figure class="card" data-r="11"><div class="scr"><img src="media/ref11.jpg" alt=""></div><figcaption>Ref. 11<i>여행사</i></figcaption></figure><figure class="card" data-r="7"><div class="scr"><video src="media/ref07.webm" poster="media/ref07-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 07<i>호스피스</i></figcaption></figure><figure class="card" data-r="13"><div class="scr"><img src="media/ref13.jpg" alt=""></div><figcaption>Ref. 13<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure></div></div><div class="row r1"><div class="track"><figure class="card" data-r="8"><div class="scr"><img src="media/ref08.jpg" alt=""></div><figcaption>Ref. 08<i>미용실 / 헤어 살롱</i></figcaption></figure><figure class="card" data-r="2"><div class="scr"><video src="media/ref02.webm" poster="media/ref02-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 02</figcaption></figure><figure class="card" data-r="12"><div class="scr"><img src="media/ref12.jpg" alt=""></div><figcaption>Ref. 12<i>여행사</i></figcaption></figure><figure class="card" data-r="9"><div class="scr"><img src="media/ref09.jpg" alt=""></div><figcaption>Ref. 09<i>건강식품</i></figcaption></figure><figure class="card" data-r="5"><div class="scr"><img src="media/ref05.jpg" alt=""></div><figcaption>Ref. 05<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card" data-r="8"><div class="scr"><img src="media/ref08.jpg" alt=""></div><figcaption>Ref. 08<i>미용실 / 헤어 살롱</i></figcaption></figure><figure class="card" data-r="2"><div class="scr"><video src="media/ref02.webm" poster="media/ref02-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 02</figcaption></figure><figure class="card" data-r="12"><div class="scr"><img src="media/ref12.jpg" alt=""></div><figcaption>Ref. 12<i>여행사</i></figcaption></figure><figure class="card" data-r="9"><div class="scr"><img src="media/ref09.jpg" alt=""></div><figcaption>Ref. 09<i>건강식품</i></figcaption></figure><figure class="card" data-r="5"><div class="scr"><img src="media/ref05.jpg" alt=""></div><figcaption>Ref. 05<i>패스트푸드 프랜차이즈</i></figcaption></figure></div></div><div class="row r2"><div class="track"><figure class="card" data-r="14"><div class="scr"><img src="media/ref14.jpg" alt=""></div><figcaption>Ref. 14<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card" data-r="4"><div class="scr"><video src="media/ref04.webm" poster="media/ref04-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 04<i>오클랜드 현지 여행사</i></figcaption></figure><figure class="card" data-r="15"><div class="scr"><img src="media/ref15.jpg" alt=""></div><figcaption>Ref. 15<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card" data-r="6"><div class="scr"><img src="media/ref06.jpg" alt=""></div><figcaption>Ref. 06<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card" data-r="10"><div class="scr"><img src="media/ref10.jpg" alt=""></div><figcaption>Ref. 10<i>택시 호출 및 배차 플랫폼 개발</i></figcaption></figure><figure class="card" data-r="14"><div class="scr"><img src="media/ref14.jpg" alt=""></div><figcaption>Ref. 14<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card" data-r="4"><div class="scr"><video src="media/ref04.webm" poster="media/ref04-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption>Ref. 04<i>오클랜드 현지 여행사</i></figcaption></figure><figure class="card" data-r="15"><div class="scr"><img src="media/ref15.jpg" alt=""></div><figcaption>Ref. 15<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card" data-r="6"><div class="scr"><img src="media/ref06.jpg" alt=""></div><figcaption>Ref. 06<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card" data-r="10"><div class="scr"><img src="media/ref10.jpg" alt=""></div><figcaption>Ref. 10<i>택시 호출 및 배차 플랫폼 개발</i></figcaption></figure></div></div></div></div>
 <div class="big" id="big"><div class="bar"><i></i><i></i><i></i></div><div class="tiles" id="tiles"></div></div>
@@ -65,8 +75,9 @@ h1 .caret{display:inline-block;width:4px;height:76px;background:#FCEED8;vertical
 <p class="zero">0원</p><p class="lab">월·연 관리비 (무료)</p>
 <p class="pill">제작비 1회 결제 · 이후 추가비용 $0 · 기술지원</p></div>
 <p class="label">화면 속 작업물: 실제 제작 사이트 원본 · 움직임: 코드로 실시간 렌더링 시안</p>
-</div><!--/HERO--></div>
-<script id="hero-js">
+</div></div>
+<button class="replay" id="replay" type="button">인트로 다시 보기</button>
+<script>
 function initHero(root, opts){
   const $=(s)=>root.querySelector(s), $$=(s)=>[...root.querySelectorAll(s)];
   const INTRO=3.2, P=24, VID=8;
@@ -131,7 +142,11 @@ function initHero(root, opts){
   (function loop(){ frame((performance.now()-start)/1000); requestAnimationFrame(loop); })();
   return {INTRO,P,restart(){ start=performance.now(); vids.forEach(v=>{v.currentTime=0;v.play().catch(()=>{});}); }};
 }
+
+const fit=document.getElementById('fit');
+function rs(){const s=Math.min(innerWidth/1920,innerHeight/1080);fit.style.transform=`translate(-50%,-50%) scale(${s})`;}
+rs();addEventListener('resize',rs);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const H=initHero(document,{mode:'live',skipIntro:reduce});
+document.getElementById('replay').addEventListener('click',()=>H.restart());
 </script>
-<script>const q=new URLSearchParams(location.search);const fit=document.getElementById('fit');
-function rs(){const s=Math.min(innerWidth/1920,innerHeight/1080);fit.style.transform=`scale(${s}) translate(-50%,-50%)`;fit.style.left='50%';fit.style.top='50%';fit.style.transformOrigin='0 0';fit.style.transform=`translate(-50%,-50%) scale(${s})`;fit.style.transformOrigin='50% 50%';}
-rs();addEventListener('resize',rs);window.__hero=initHero(document,{mode:q.get('render')?'render':'live',skipIntro:!!q.get('loop')});</script></body></html>

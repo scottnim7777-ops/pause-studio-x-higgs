@@ -184,10 +184,10 @@ function initHero(root, opts){
       await Promise.all(vids.map(v=>new Promise(res=>{ const on=()=>{v.removeEventListener('seeked',on);res();}; v.addEventListener('seeked',on); v.currentTime=vt+1e-4; setTimeout(res,1500);})));
       return ph; }, INTRO, P };
   }
-  const start=performance.now()-(opts.skipIntro?INTRO*1000:0);
+  let start=performance.now()-(opts.skipIntro?INTRO*1000:0);
   vids.forEach(v=>{v.play().catch(()=>{});});
   (function loop(){ frame((performance.now()-start)/1000); requestAnimationFrame(loop); })();
-  return {INTRO,P};
+  return {INTRO,P,restart(){ start=performance.now(); vids.forEach(v=>{v.currentTime=0;v.play().catch(()=>{});}); }};
 }
 '''
 

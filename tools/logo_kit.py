@@ -14,47 +14,14 @@ KIT = ROOT / 'drafts' / 'logo'
 INK, CREAM, DARK, PAPER = '#1A1B1C', '#FCEED8', '#151515', '#F2F0EB'
 
 
-def favicons():
-    """제안안(확정 아님). 16~32px에서는 원본 두께의 선이 사라지므로 선 두께만 키운다(형태·비율 유지)."""
-    m = json.loads((NEW / 'measure.json').read_text())
-    r0, r1 = m['rings']
-    rx, ry, cy = r0['rx_used'], r0['ry_used'], r0['cy_used']
-    # A: 겹친 두 타원(끊김 없이), 정사각 캔버스 중앙
-    cxm = (r0['cx'] + r1['cx']) / 2
-    half_w = (r1['cx'] - r0['cx']) / 2 + rx
-    sw = 64  # 512 기준 약 1/16 → 32px에서 2px
-    side = max(2 * half_w, 2 * ry) + sw + 40
-    vb = f'{cxm - side / 2:.1f} {cy - side / 2:.1f} {side:.1f} {side:.1f}'
-    ell = ''.join(f'<ellipse cx="{r["cx"]:.2f}" cy="{cy:.2f}" rx="{rx:.2f}" ry="{ry:.2f}"/>' for r in (r0, r1))
-    for name, bg, fg in (('ink', None, INK), ('dark', DARK, CREAM)):
-        rect = f'<rect x="{cxm - side / 2:.1f}" y="{cy - side / 2:.1f}" width="{side:.1f}" height="{side:.1f}" rx="{side * 0.18:.1f}" fill="{bg}"/>' if bg else ''
-        (V / f'favicon-A-rings-{name}.svg').write_text(
-            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}">{rect}<g fill="none" stroke="{fg}" stroke-width="{sw}">{ell}</g></svg>\n')
-    # B: 로고의 P 한 글자(원본 윤곽 그대로)
-    s = (V / 'pause-studio-logo-ink.svg').read_text()
-    d = re.search(r'<path fill="[^"]+" d="([^"]+)"', s).group(1)
-    p_d = next(x for x in re.split(r'(?=M)', d) if x.strip() and SvgPath(x).bbox()[0] < 110)
-    x0, y0, x1, y1 = SvgPath(p_d).bbox()
-    side = (y1 - y0) * 1.5
-    cx, cyy = (x0 + x1) / 2, (y0 + y1) / 2
-    vb = f'{cx - side / 2:.1f} {cyy - side / 2:.1f} {side:.1f} {side:.1f}'
-    for name, bg, fg in (('ink', PAPER, INK), ('dark', DARK, CREAM)):
-        (V / f'favicon-B-P-{name}.svg').write_text(
-            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}"><rect x="{cx - side / 2:.1f}" y="{cyy - side / 2:.1f}" '
-            f'width="{side:.1f}" height="{side:.1f}" rx="{side * 0.18:.1f}" fill="{bg}"/><path fill="{fg}" d="{p_d}"/></svg>\n')
-
-
 def sheet():
     m = json.loads((NEW / 'measure.json').read_text())
     ver = json.loads((NEW / 'work' / 'verify.json').read_text())
     logo = lambda tone: f'../../content/assets/logo/new/vector/pause-studio-logo-{tone}.svg'
     sizes = ''.join(f'<div class="sz"><img src="{logo("ink")}" style="width:{w}px"><span>{w}px</span></div>' for w in (96, 120, 160, 200, 280))
     sizes_d = ''.join(f'<div class="sz"><img src="{logo("cream")}" style="width:{w}px"><span>{w}px</span></div>' for w in (96, 120, 160, 200, 280))
-    fav = ''
-    for k, label in (('A-rings', 'A · 겹친 두 원'), ('B-P', 'B · 로고의 P')):
-        cells = ''.join(f'<div class="fv"><img src="../../content/assets/logo/new/vector/favicon-{k}-{t}.svg" style="width:{px}px;height:{px}px"><span>{px}</span></div>'
-                        for t in ('ink', 'dark') for px in (16, 32, 64, 180))
-        fav += f'<div class="fr"><h3>{label}</h3><div class="fvs">{cells}</div></div>'
+    fav = ('<div class="fvs">' + ''.join(f'<div class="fv"><img src="../../content/assets/logo/new/favicon/png/favicon-{px}.png" style="width:{px}px;height:{px}px"><span>{px}</span></div>'
+                                        for px in (16, 32, 48, 64, 192)) + '</div>')
     pairs = ''
     for fid, name in (('sd-greta-sans', 'SD 그레타산스'), ('sd-jeongche', 'SD 정체'), ('ag-choijeongho-minburi-screen', 'AG 최정호 민부리 스크린'),
                       ('maru-buri', '마루 부리'), ('sd-gyeokdong-myeongjo2', 'SD 격동명조2'), ('favorit-hangul', 'ABC Favorit Hangul')):
@@ -85,8 +52,8 @@ figcaption{{font-size:22px;font-weight:700;margin-top:12px}} .note{{font-size:20
 <h2>2. 작은 크기 — 헤더·모바일에서 읽히는지</h2>
 <div class="row light">{sizes}</div><div class="row dark">{sizes_d}</div>
 <p class="note">가로 120px까지 글자·원 모두 읽힙니다. 96px부터 원 선이 1px 아래로 얇아져 흐려집니다 → 사이트 헤더는 가로 140px 이상 권장, 모바일 헤더 120px.</p>
-<h2>3. 파비콘(브라우저 탭 아이콘) — 제안, 확정 아님</h2>{fav}
-<p class="note">로고 전체는 16·32px에서 읽히지 않아 따로 필요합니다. A는 두 원만(작은 크기용으로 선만 굵게), B는 로고의 P 한 글자. 고르시면 그걸로 만듭니다.</p>
+<h2>3. 파비콘 — 사용자 제작 PS 모노그램</h2>{fav}
+<p class="note">자세한 확인: drafts/logo/PAUSE_favicon_check.png. 32px 이상에서 P·S가 읽히고, 16px(저해상도 화면)에서는 획이 1px 미만이라 뭉개집니다.</p>
 <h2>4. 로고와 한글 서체 조합</h2><div class="prs">{pairs}</div>
 <p class="note">로고는 대비가 큰 세리프 글자라, 한글도 획에 대비와 맺음이 있는 서체와 결이 맞습니다.</p>
 </body></html>'''
@@ -95,6 +62,5 @@ figcaption{{font-size:22px;font-weight:700;margin-top:12px}} .note{{font-size:20
 
 
 if __name__ == '__main__':
-    favicons()
     sheet()
     print('ok')

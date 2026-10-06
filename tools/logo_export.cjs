@@ -11,7 +11,6 @@ const PNG = path.join(ROOT, 'content/assets/logo/new/png');
   const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
   const jobs = [];
   for (const tone of ['ink', 'cream']) for (const w of [400, 800, 1600, 3200]) jobs.push([`pause-studio-logo-${tone}.svg`, w, `pause-studio-logo-${tone}_${w}w.png`]);
-  for (const f of ['favicon-A-rings-ink', 'favicon-A-rings-dark', 'favicon-B-P-ink', 'favicon-B-P-dark']) for (const w of [32, 180, 512]) jobs.push([`${f}.svg`, w, `${f}_${w}.png`]);
   for (const [src, w, out] of jobs) {
     const svg = fs.readFileSync(path.join(V, src), 'utf8');
     const [, , vw, vh] = svg.match(/viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);

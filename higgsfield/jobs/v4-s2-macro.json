@@ -1,0 +1,47 @@
+{
+  "label": "v4-s2-macro",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Cinematic film still, 16:9 extreme close-up. The thin black bezel edge and corner of a large desktop monitor seen at a steep angle from the left; the screen shows one perfectly uniform flat bright chroma-key green image filling the display. Very shallow depth of field: the near corner of the screen is in sharp focus, the far side falls into soft blur. A warm shaft of daylight grazes the bezel; the background is a dark studio with soft bokeh. Shot on 35mm anamorphic film, fine grain, natural motivated light, deep rich shadows, restrained colour, realistic materials, photographic, no people, no hands, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "4차 콘티 스틸(화면 초록 → 실제 작업물 합성)",
+  "submitted_at": "2026-10-06T11:19:46.832Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:19:47.845Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:22:45.564Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "0c299d75-482d-495d-8b4e-064a49661594",
+  "status_url": "https://api.higgsfield.ai/requests/0c299d75-482d-495d-8b4e-064a49661594/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/0c299d75-482d-495d-8b4e-064a49661594/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "0c299d75-482d-495d-8b4e-064a49661594",
+    "status_url": "https://api.higgsfield.ai/requests/0c299d75-482d-495d-8b4e-064a49661594/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/0c299d75-482d-495d-8b4e-064a49661594/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/54da39e9-afda-4087-8f1b-96f8b5a03cdb.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:22:45.564Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v4-s2-macro/v4-s2-macro_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/54da39e9-afda-4087-8f1b-96f8b5a03cdb.png",
+      "bytes": 2246166,
+      "sha256": "89171617d5b45df358eb05936b9deb21d3be263a02cd9232572578cf9a80064a"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:22:47.268Z"
+}

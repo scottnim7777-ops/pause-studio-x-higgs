@@ -1,0 +1,51 @@
+{
+  "label": "v4-s1-studio",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Cinematic film still, 16:9 wide shot. A quiet, dark, minimal design studio at early morning. A large slim desktop monitor stands on a long oiled walnut desk, slightly right of centre; its screen shows one perfectly uniform flat bright chroma-key green image filling the entire display edge to edge. Low morning sunlight comes through tall window blinds on the right, laying soft warm stripes of light across the back plaster wall and the desk; a few dust motes glow in the light. A ceramic cup and a closed notebook on the desk. The left 40% of the frame is calm shadowed wall - negative space. Shot on 35mm anamorphic film, fine grain, natural motivated light, deep rich shadows, restrained colour, realistic materials, photographic, no people, no hands, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "4차 콘티 스틸(화면 초록 → 실제 작업물 합성)",
+  "submitted_at": "2026-10-06T11:19:45.911Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:19:46.632Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:22:22.683Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T11:22:43.212Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "63c6df80-72ff-4840-bbe2-860329c7b9e9",
+  "status_url": "https://api.higgsfield.ai/requests/63c6df80-72ff-4840-bbe2-860329c7b9e9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/63c6df80-72ff-4840-bbe2-860329c7b9e9/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "63c6df80-72ff-4840-bbe2-860329c7b9e9",
+    "status_url": "https://api.higgsfield.ai/requests/63c6df80-72ff-4840-bbe2-860329c7b9e9/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/63c6df80-72ff-4840-bbe2-860329c7b9e9/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/a156808c-3d06-4cac-b006-e4f3e01f22ba.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:22:43.212Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v4-s1-studio/v4-s1-studio_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/a156808c-3d06-4cac-b006-e4f3e01f22ba.png",
+      "bytes": 2297335,
+      "sha256": "4460dfd159200f0cf88cc910b7211decfbd23c4533029d2cb3852d0ad9c107a5"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:22:44.872Z"
+}

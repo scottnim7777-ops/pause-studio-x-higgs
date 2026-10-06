@@ -1,0 +1,51 @@
+{
+  "label": "v4-s3-cafe",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Cinematic film still, 16:9 medium close-up. A modern smartphone standing upright in a small wooden stand on a white marble bakery-cafe counter, screen facing the camera, slightly left of centre; its screen shows one perfectly uniform flat bright chroma-key green image filling the whole display. Warm golden evening light from the side; behind, out of focus, a glass pastry case and warm round cafe lights as soft bokeh. Calm, intimate. Shot on 35mm anamorphic film, fine grain, natural motivated light, deep rich shadows, restrained colour, realistic materials, photographic, no people, no hands, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "4차 콘티 스틸(화면 초록 → 실제 작업물 합성)",
+  "submitted_at": "2026-10-06T11:19:48.018Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:19:48.652Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:22:47.795Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T11:22:58.551Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "e8e1607a-a8f9-4608-8c6b-9fb5ef7bcbb4",
+  "status_url": "https://api.higgsfield.ai/requests/e8e1607a-a8f9-4608-8c6b-9fb5ef7bcbb4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/e8e1607a-a8f9-4608-8c6b-9fb5ef7bcbb4/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "e8e1607a-a8f9-4608-8c6b-9fb5ef7bcbb4",
+    "status_url": "https://api.higgsfield.ai/requests/e8e1607a-a8f9-4608-8c6b-9fb5ef7bcbb4/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/e8e1607a-a8f9-4608-8c6b-9fb5ef7bcbb4/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3222e7ff-7ed7-44fa-87d9-fbf63c73725e.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:22:58.551Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v4-s3-cafe/v4-s3-cafe_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3222e7ff-7ed7-44fa-87d9-fbf63c73725e.png",
+      "bytes": 2404315,
+      "sha256": "d25a15623805663cddacaf76b1fec9649837486c5876f1a3c69120347056f7e3"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:23:00.275Z"
+}

@@ -1,0 +1,47 @@
+{
+  "label": "v4-s4-reception",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Cinematic film still, 16:9 medium shot. An open silver laptop on a pale oak reception desk in a calm, softly lit care-centre lobby at night; the laptop screen faces the camera at a slight angle and shows one perfectly uniform flat bright chroma-key green image filling the display. A brass desk lamp casts a warm pool of light on the desk; behind, a dim corridor with a potted plant and soft blue night light through a window. Quiet, caring, peaceful. Shot on 35mm anamorphic film, fine grain, natural motivated light, deep rich shadows, restrained colour, realistic materials, photographic, no people, no hands, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "4차 콘티 스틸(화면 초록 → 실제 작업물 합성)",
+  "submitted_at": "2026-10-06T11:19:48.818Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:19:49.568Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:23:00.923Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "170faf37-86bc-44d1-a439-5216f4433e4c",
+  "status_url": "https://api.higgsfield.ai/requests/170faf37-86bc-44d1-a439-5216f4433e4c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/170faf37-86bc-44d1-a439-5216f4433e4c/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "170faf37-86bc-44d1-a439-5216f4433e4c",
+    "status_url": "https://api.higgsfield.ai/requests/170faf37-86bc-44d1-a439-5216f4433e4c/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/170faf37-86bc-44d1-a439-5216f4433e4c/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/bc72da93-8330-4d5b-87e8-961d33f41b31.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:23:00.922Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v4-s4-reception/v4-s4-reception_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/bc72da93-8330-4d5b-87e8-961d33f41b31.png",
+      "bytes": 2666226,
+      "sha256": "45a55c48b5b8a5c186b4e92d5e87f1ab4129f2555a6a4dd551d879540b7763bc"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:23:02.624Z"
+}

@@ -1,0 +1,51 @@
+{
+  "label": "v13-c1-closeup",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Extreme close-up in a bright small cake shop in the morning: the hands of a Korean woman pastry chef in a cream linen apron hold a modern iPhone 15 Pro with thin bezels upright and very close to the camera; the phone is large and fills most of the frame height, its screen faces the camera straight on, fully unobstructed, and shows one perfectly uniform flat bright chroma-key green image filling the whole display; her right thumb rests near the bottom edge of the phone, not covering the screen. Behind, softly out of focus: a white marble counter and a white flower cake. Her face is out of frame. Photograph taken with a Sony A7 IV and a 50mm f/1.4 lens, natural window light, true-to-life colour, crisp focus on the phone and fingers, natural optical bokeh, a real candid moment. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v13 legibility: phone fills frame",
+  "submitted_at": "2026-10-06T13:52:46.053Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T13:52:47.024Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T13:53:29.968Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T13:53:49.294Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "23fc4c97-8e45-4cd1-890a-7a406b414c74",
+  "status_url": "https://api.higgsfield.ai/requests/23fc4c97-8e45-4cd1-890a-7a406b414c74/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/23fc4c97-8e45-4cd1-890a-7a406b414c74/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "23fc4c97-8e45-4cd1-890a-7a406b414c74",
+    "status_url": "https://api.higgsfield.ai/requests/23fc4c97-8e45-4cd1-890a-7a406b414c74/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/23fc4c97-8e45-4cd1-890a-7a406b414c74/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5057d690-77c2-464f-aba8-81daf808c994.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T13:53:49.294Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v13-c1-closeup/v13-c1-closeup_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5057d690-77c2-464f-aba8-81daf808c994.png",
+      "bytes": 2091817,
+      "sha256": "d3bbcf0b993d0507aa6a2e89f834e04accd09fd95258644cac26d4edf9a075d5"
+    }
+  ],
+  "downloaded_at": "2026-10-06T13:53:50.888Z"
+}

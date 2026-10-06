@@ -1,0 +1,47 @@
+{
+  "label": "v5-s1-studio-b",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Photograph, 16:9 wide shot. A spacious, luxurious, sunlit design studio with floor-to-ceiling windows and white plaster walls. On a long pale oak desk, slightly right of centre, stands a large silver Apple Studio Display with a thin aluminium stand, its screen facing the camera and showing one perfectly uniform flat bright chroma-key green image filling the entire display edge to edge. Beside it a closed silver MacBook Pro, a white ceramic cup, a small travertine object and a vase with a single olive branch. Morning sun pours in from the right, soft long window light on the floor and wall. The left 40% of the frame is bright, calm, minimal wall and window light - negative space. Bright, airy, high-key natural daylight, luxurious and expensive, clean editorial interior photography like a premium architecture magazine or an Apple product campaign, soft natural shadows, warm whites, realistic materials, photographic, sharp, no people, no hands, no text on anything, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v5 bright apple b",
+  "submitted_at": "2026-10-06T11:41:29.410Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:41:30.079Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:42:49.452Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "b026e529-6885-4d82-a0a2-12852fa98017",
+  "status_url": "https://api.higgsfield.ai/requests/b026e529-6885-4d82-a0a2-12852fa98017/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/b026e529-6885-4d82-a0a2-12852fa98017/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "b026e529-6885-4d82-a0a2-12852fa98017",
+    "status_url": "https://api.higgsfield.ai/requests/b026e529-6885-4d82-a0a2-12852fa98017/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/b026e529-6885-4d82-a0a2-12852fa98017/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3d978ecc-5437-485d-8512-933ee236e3a3.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:42:49.451Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v5-s1-studio-b/v5-s1-studio-b_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3d978ecc-5437-485d-8512-933ee236e3a3.png",
+      "bytes": 1837851,
+      "sha256": "2067f9e78c1b9666083e2222c0370c4c2473919c419a5a01831aa79c90d1dae5"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:42:51.101Z"
+}

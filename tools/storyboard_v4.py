@@ -57,8 +57,10 @@ def screen_quad(hard):
     return quad, comp
 
 
-def composite(name, scene_label, content, gain=0.92, dof=None, grain=6):
+def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=0.28, glow_amt=0.18, out_dir=None, fix=None):
     scene = cv2.imread(str(RAW / scene_label / f'{scene_label}_01.png'))
+    if fix:
+        scene = fix(scene)
     key, hard = green_mask(scene)
     quad, comp = screen_quad(hard)
     w = int(max(np.linalg.norm(quad[1] - quad[0]), np.linalg.norm(quad[2] - quad[3])))
@@ -87,16 +89,16 @@ def composite(name, scene_label, content, gain=0.92, dof=None, grain=6):
     out = out * (1 - alpha) + scr * alpha
     # 화면 빛 번짐(장면에 은은하게)
     glow = cv2.GaussianBlur(scr * alpha, (0, 0), 40)
-    out = out + glow * 0.18
+    out = out + glow * glow_amt
     # 필름 그레인·비네팅
     rng = np.random.default_rng(7)
     out += rng.normal(0, grain, out.shape[:2])[..., None]
     yy, xx = np.mgrid[0:H, 0:W]
-    vig = 1 - 0.28 * (((xx - W / 2) / (W / 2)) ** 2 + ((yy - H / 2) / (H / 2)) ** 2)
+    vig = 1 - vig_amt * (((xx - W / 2) / (W / 2)) ** 2 + ((yy - H / 2) / (H / 2)) ** 2)
     out *= np.clip(vig, 0.6, 1)[..., None]
     out = np.clip(out, 0, 255).astype(np.uint8)
     out = cv2.resize(out, (1920, 1080), interpolation=cv2.INTER_AREA) if out.shape[1] != 1920 else out
-    cv2.imwrite(str(OUT / f'{name}.jpg'), out, [cv2.IMWRITE_JPEG_QUALITY, 92])
+    cv2.imwrite(str((out_dir or OUT) / f'{name}.jpg'), out, [cv2.IMWRITE_JPEG_QUALITY, 92])
     return quad
 
 

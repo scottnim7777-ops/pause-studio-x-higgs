@@ -9,8 +9,9 @@ const ROOT = path.resolve(__dirname, '..');
     fonts: [['drafts/fonts/board.html', 'drafts/fonts/PAUSE_font_candidates.png', 2400]],
     v2: [['drafts/v2/board.html', 'drafts/v2/PAUSE_hero_drafts_v2_board.png', 3520]],
     v4: [['drafts/v4/board.html', 'drafts/v4/PAUSE_v4_storyboard.png', 3000]],
+    v5: [['drafts/v5/board.html', 'drafts/v5/PAUSE_v5_storyboard.png', 3000]],
   };
-  const which = process.argv[2] || 'heroes'; // 실행: node tools/capture_board.cjs [heroes|fonts|v2|v4]
+  const which = process.argv[2] || 'heroes'; // 실행: node tools/capture_board.cjs [heroes|fonts|v2|v4|v5]
   for (const [f, out, w] of jobs[which]) {
     const p = await b.newPage({ viewport: { width: w, height: 1000 }, deviceScaleFactor: 1 });
     await p.goto('file://' + path.join(ROOT, f));

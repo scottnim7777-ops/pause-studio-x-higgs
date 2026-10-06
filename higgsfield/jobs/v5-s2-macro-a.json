@@ -1,0 +1,51 @@
+{
+  "label": "v5-s2-macro-a",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Photograph, 16:9 macro close-up at a low angle along the edge of an open silver Apple MacBook Pro on a white travertine table; the laptop display fills most of the frame at a slight angle and shows one perfectly uniform flat bright chroma-key green image filling the whole display; the thin aluminium bezel and the top of the keyboard visible in the foreground; very shallow depth of field. Bright sunny room behind, white curtains glowing with daylight, soft creamy bokeh. Bright, airy, high-key natural daylight, luxurious and expensive, clean editorial interior photography like a premium architecture magazine or an Apple product campaign, soft natural shadows, warm whites, realistic materials, photographic, sharp, no people, no hands, no text on anything, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v5 bright apple a",
+  "submitted_at": "2026-10-06T11:41:30.371Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:41:31.036Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:43:22.292Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T11:43:38.259Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "8b4f2ff6-18ad-407e-9d2d-f9bf0a841618",
+  "status_url": "https://api.higgsfield.ai/requests/8b4f2ff6-18ad-407e-9d2d-f9bf0a841618/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/8b4f2ff6-18ad-407e-9d2d-f9bf0a841618/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "8b4f2ff6-18ad-407e-9d2d-f9bf0a841618",
+    "status_url": "https://api.higgsfield.ai/requests/8b4f2ff6-18ad-407e-9d2d-f9bf0a841618/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/8b4f2ff6-18ad-407e-9d2d-f9bf0a841618/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9b455bad-c845-4c84-8164-84f2eb0b9770.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:43:38.259Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v5-s2-macro-a/v5-s2-macro-a_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9b455bad-c845-4c84-8164-84f2eb0b9770.png",
+      "bytes": 2417413,
+      "sha256": "4a640b42aa702bc975677c57c971868b87eb5847db5532eeffa5e88935383e9d"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:43:39.785Z"
+}

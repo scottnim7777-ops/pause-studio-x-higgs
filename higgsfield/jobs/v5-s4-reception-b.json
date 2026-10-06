@@ -1,0 +1,47 @@
+{
+  "label": "v5-s4-reception-b",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Photograph, 16:9 medium shot. An open silver Apple MacBook Pro on a sculptural travertine reception desk in a bright luxurious boutique-hotel style lobby; the laptop screen faces the camera at a slight angle and shows one perfectly uniform flat bright chroma-key green image filling the display. Warm afternoon sun through tall windows, a large arrangement of white flowers, brushed brass details, limewash walls, a sofa softly out of focus behind. Bright, airy, high-key natural daylight, luxurious and expensive, clean editorial interior photography like a premium architecture magazine or an Apple product campaign, soft natural shadows, warm whites, realistic materials, photographic, sharp, no people, no hands, no text on anything, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v5 bright apple b",
+  "submitted_at": "2026-10-06T11:41:34.925Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:41:35.619Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:45:42.930Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "f94dbc19-205c-4e81-968b-288ff7f21e33",
+  "status_url": "https://api.higgsfield.ai/requests/f94dbc19-205c-4e81-968b-288ff7f21e33/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/f94dbc19-205c-4e81-968b-288ff7f21e33/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "f94dbc19-205c-4e81-968b-288ff7f21e33",
+    "status_url": "https://api.higgsfield.ai/requests/f94dbc19-205c-4e81-968b-288ff7f21e33/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/f94dbc19-205c-4e81-968b-288ff7f21e33/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/37673791-36fd-4bff-aa5f-2eefae50ea6c.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:45:42.929Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v5-s4-reception-b/v5-s4-reception-b_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/37673791-36fd-4bff-aa5f-2eefae50ea6c.png",
+      "bytes": 2155511,
+      "sha256": "2b5f0ff49e2c1b42cae1931ea9da64bcd43ebc89edb5b03c06593bb0b993a677"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:45:44.691Z"
+}

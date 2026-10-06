@@ -1,0 +1,14 @@
+{
+ "A": {
+  "name": "SD 격동명조2",
+  "fonts": "sd-gyeokdong-mj2"
+ },
+ "B": {
+  "name": "SD 정체",
+  "fonts": "sd-jeongche"
+ },
+ "C": {
+  "name": "AG 최정호",
+  "fonts": "ag-choijeongho"
+ }
+}

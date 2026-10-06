@@ -6,8 +6,8 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const V2 = path.join(ROOT, 'drafts/v4');
-const OUT = path.join(ROOT, 'drafts/v4/composites');
+const V2 = path.join(ROOT, process.env.DRAFT_DIR || 'drafts/v4');
+const OUT = path.join(V2, 'composites');
 const SOURCES = {
   'sd-gyeokdong-mj2': { url: 'https://www.sandollcloud.com/font/18510/SD-Gyeokdong-MJ2', sandoll: { head: '09 Sb', body: '08 Rg', ui: '08 Rg' }, credit: 'SD 격동명조2 (산돌)' },
   'sd-jeongche': { url: 'https://www.sandollcloud.com/font/21615/SD-Jeongche', sandoll: { head: '690', body: '630', ui: '630' }, credit: 'SD 정체 690·630 (산돌)' },

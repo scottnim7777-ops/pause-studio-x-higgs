@@ -25,9 +25,10 @@
 | v2-d4-ceramic | higgsfield-ai/soul/cinema | 1080p · 16:9 (고리 형태 결함 → 미사용) | 0.088 | 0.006 |
 | v2-d4-ceramic-v2 | marketing-studio/image | high · 2k · 16:9 (안별 보정 1회) | 4.026 | 0.252 |
 | v4-s1~s4 콘티 스틸 | higgsfield-ai/soul/cinema | 1080p · 16:9 × 4 (화면 초록) | 0.352 | 0.024 |
-| **합계** | | 25건 | **39.685** | **≈ 2.49** |
+| v5-s1~s4 a·b 밝은 콘티 스틸 | higgsfield-ai/soul/cinema | 1080p · 16:9 × 8 (장면당 2안, 애플 기기) | 0.704 | 0.048 |
+| **합계** | | 33건 | **40.389** | **≈ 2.54** |
 
-**남은 예산(추정): 약 7.51 USD** · soul/cinema의 num_images=4는 실제로 1장만 반환됨(견적도 1장 기준).
+**남은 예산(추정): 약 7.46 USD** · soul/cinema의 num_images=4는 실제로 1장만 반환됨(견적도 1장 기준).
 
 ## 영상 단가 — Seedance 2.0 image-to-video (16:9, 무음)
 공식 산식: 토큰 = ceil(초 × 가로 × 세로 × 24 / 1024), 1080p 이하 1천 토큰당 $0.014, 4K 1천 토큰당 $0.008.

@@ -1,0 +1,47 @@
+{
+  "label": "v5-s3-cafe-a",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Photograph, 16:9 medium close-up. A silver Apple iPhone Pro standing upright in a small minimal stand on a polished white Calacatta marble counter of an upscale patisserie, screen facing the camera, slightly left of centre; its screen shows one perfectly uniform flat bright chroma-key green image filling the whole display. Bright late-morning sunlight from a large window, a pristine glass cake case with elegant pastries and fresh flowers behind, softly out of focus as bright creamy bokeh. Bright, airy, high-key natural daylight, luxurious and expensive, clean editorial interior photography like a premium architecture magazine or an Apple product campaign, soft natural shadows, warm whites, realistic materials, photographic, sharp, no people, no hands, no text on anything, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v5 bright apple a",
+  "submitted_at": "2026-10-06T11:41:32.232Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:41:32.924Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:44:49.589Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "bb90145e-3bc8-4978-8d6c-e421059d6e35",
+  "status_url": "https://api.higgsfield.ai/requests/bb90145e-3bc8-4978-8d6c-e421059d6e35/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/bb90145e-3bc8-4978-8d6c-e421059d6e35/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "bb90145e-3bc8-4978-8d6c-e421059d6e35",
+    "status_url": "https://api.higgsfield.ai/requests/bb90145e-3bc8-4978-8d6c-e421059d6e35/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/bb90145e-3bc8-4978-8d6c-e421059d6e35/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/636e32f8-9805-4b4f-a731-2bd72b1690c8.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:44:49.589Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v5-s3-cafe-a/v5-s3-cafe-a_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/636e32f8-9805-4b4f-a731-2bd72b1690c8.png",
+      "bytes": 1868712,
+      "sha256": "ecdb6704fb7a827dc31b0796581beb8736ab3228f8ca2ff16cff4f8dbdd74ed2"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:44:50.972Z"
+}

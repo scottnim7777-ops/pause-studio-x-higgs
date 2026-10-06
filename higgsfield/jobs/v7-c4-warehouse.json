@@ -1,0 +1,51 @@
+{
+  "label": "v7-c4-warehouse",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Inside a huge, spotless, modern industrial warehouse with high ceilings and cool daylight from skylights, a row of large white refrigerated cargo trailers below. In the foreground, a glass-walled mezzanine office: a Korean executive in a sharp navy suit, seen from behind, stands in front of a very large wall-mounted display; the display shows one perfectly uniform flat bright chroma-key green image filling the entire screen. Corporate, confident, high-end. Set in Auckland, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v7 storyboard",
+  "submitted_at": "2026-10-06T12:16:18.170Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:16:18.939Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:22:17.526Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T12:22:22.047Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "25ebf697-a6cc-436d-bf23-22bf75947866",
+  "status_url": "https://api.higgsfield.ai/requests/25ebf697-a6cc-436d-bf23-22bf75947866/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/25ebf697-a6cc-436d-bf23-22bf75947866/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "25ebf697-a6cc-436d-bf23-22bf75947866",
+    "status_url": "https://api.higgsfield.ai/requests/25ebf697-a6cc-436d-bf23-22bf75947866/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/25ebf697-a6cc-436d-bf23-22bf75947866/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6a37901a-8fa5-4630-960c-2d72e3d55753.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:22:22.047Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v7-c4-warehouse/v7-c4-warehouse_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6a37901a-8fa5-4630-960c-2d72e3d55753.png",
+      "bytes": 2401669,
+      "sha256": "ef9fd01474a11868388bc1aa6910e9f7697c7c01009264a0236fa8215f9b8709"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:22:23.527Z"
+}

@@ -11,8 +11,9 @@ const ROOT = path.resolve(__dirname, '..');
     v4: [['drafts/v4/board.html', 'drafts/v4/PAUSE_v4_storyboard.png', 3000]],
     v5: [['drafts/v5/board.html', 'drafts/v5/PAUSE_v5_storyboard.png', 3000]],
     v6: [['drafts/v6/board.html', 'drafts/v6/PAUSE_v6_storyboard.png', 3000]],
+    v7: [['drafts/v7/board.html', 'drafts/v7/PAUSE_v7_storyboard.png', 3000]],
   };
-  const which = process.argv[2] || 'heroes'; // 실행: node tools/capture_board.cjs [heroes|fonts|v2|v4|v5|v6]
+  const which = process.argv[2] || 'heroes'; // 실행: node tools/capture_board.cjs [heroes|fonts|v2|v4|v5|v6|v7]
   for (const [f, out, w] of jobs[which]) {
     const p = await b.newPage({ viewport: { width: w, height: 1000 }, deviceScaleFactor: 1 });
     await p.goto('file://' + path.join(ROOT, f));

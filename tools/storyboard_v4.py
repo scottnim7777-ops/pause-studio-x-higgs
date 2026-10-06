@@ -38,9 +38,9 @@ def green_mask(img):
     return key, hard
 
 
-def screen_quad(hard):
+def screen_quad(hard, pick=0):
     n, lab, stats, _ = cv2.connectedComponentsWithStats(hard)
-    i = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
+    i = 1 + int(np.argsort(-stats[1:, cv2.CC_STAT_AREA])[pick])  # pick=0 가장 큰 화면, 1 두 번째 화면
     comp = (lab == i).astype(np.uint8)
     cnts, _ = cv2.findContours(comp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     c = max(cnts, key=cv2.contourArea)
@@ -57,12 +57,14 @@ def screen_quad(hard):
     return quad, comp
 
 
-def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=0.28, glow_amt=0.18, out_dir=None, fix=None):
-    scene = cv2.imread(str(RAW / scene_label / f'{scene_label}_01.png'))
+def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=0.28, glow_amt=0.18, out_dir=None, fix=None,
+              scene=None, pick=0, solid=False, finish=True, stray=True):
+    if scene is None:
+        scene = cv2.imread(str(RAW / scene_label / f'{scene_label}_01.png'))
     if fix:
         scene = fix(scene)
     key, hard = green_mask(scene)
-    quad, comp = screen_quad(hard)
+    quad, comp = screen_quad(hard, pick)
     w = int(max(np.linalg.norm(quad[1] - quad[0]), np.linalg.norm(quad[2] - quad[3])))
     h = int(max(np.linalg.norm(quad[3] - quad[0]), np.linalg.norm(quad[2] - quad[1])))
     src = crop_aspect(content, w / h)
@@ -76,6 +78,9 @@ def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=
         warped = (warped * (1 - ramp[..., None]) + blur * ramp[..., None]).astype(np.uint8)
     region = cv2.dilate(comp, np.ones((5, 5), np.uint8), iterations=2).astype(np.float32)
     alpha = np.clip(key * 1.15, 0, 1) * region
+    if solid:  # 초록 화면 안에 생성된 글자 등이 있으면 화면 사각형 전체를 덮음
+        poly = np.zeros(comp.shape, np.uint8); cv2.fillConvexPoly(poly, quad.astype(np.int32), 1)
+        alpha = np.maximum(alpha, cv2.erode(poly, np.ones((3, 3), np.uint8)).astype(np.float32))
     alpha = cv2.GaussianBlur(alpha, (0, 0), 0.8)[..., None]
     out = scene.astype(np.float32)
     # 가장자리 초록 번짐 제거: 화면 주변 픽셀의 초록을 빨강·파랑 최대치로 낮춤
@@ -83,13 +88,16 @@ def composite(name, scene_label, content, gain=0.92, dof=None, grain=6, vig_amt=
     gmax = np.maximum(out[..., 2], out[..., 0])
     out[..., 1] = np.where(ring[..., 0], np.minimum(out[..., 1], gmax * 1.05), out[..., 1])
     # 화면 밖에 남은 초록(배경 흐림 속 크로마키 반사)도 중성색으로
-    stray = (key > 0.05) & (region == 0)
-    out[..., 1] = np.where(stray, np.minimum(out[..., 1], gmax * 1.02), out[..., 1])
+    if stray:
+        strays = (key > 0.05) & (region == 0)
+        out[..., 1] = np.where(strays, np.minimum(out[..., 1], gmax * 1.02), out[..., 1])
     scr = warped.astype(np.float32) * gain
     out = out * (1 - alpha) + scr * alpha
     # 화면 빛 번짐(장면에 은은하게)
     glow = cv2.GaussianBlur(scr * alpha, (0, 0), 40)
     out = out + glow * glow_amt
+    if not finish:  # 여러 화면을 차례로 합성할 때: 마지막에만 그레인·비네팅
+        return np.clip(out, 0, 255).astype(np.uint8)
     # 필름 그레인·비네팅
     rng = np.random.default_rng(7)
     out += rng.normal(0, grain, out.shape[:2])[..., None]

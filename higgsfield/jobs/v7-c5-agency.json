@@ -1,0 +1,51 @@
+{
+  "label": "v7-c5-agency",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. A bright, elegant study-abroad and travel agency office in central Auckland, a large window with a soft view of the harbour and the Sky Tower in the distance. A Korean female consultant in a smart blazer, seen in profile, turns an open silver MacBook Pro toward a Korean mother and her teenage son sitting across the desk; the laptop screen faces the camera and shows one perfectly uniform flat bright chroma-key green image filling the display. Warm afternoon light, hopeful mood. Set in Auckland, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v7 storyboard",
+  "submitted_at": "2026-10-06T12:16:19.112Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:16:19.844Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:23:10.842Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T12:23:31.392Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "4320c3a8-0c7f-40dc-b659-dcdf58a8f8c9",
+  "status_url": "https://api.higgsfield.ai/requests/4320c3a8-0c7f-40dc-b659-dcdf58a8f8c9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/4320c3a8-0c7f-40dc-b659-dcdf58a8f8c9/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "4320c3a8-0c7f-40dc-b659-dcdf58a8f8c9",
+    "status_url": "https://api.higgsfield.ai/requests/4320c3a8-0c7f-40dc-b659-dcdf58a8f8c9/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/4320c3a8-0c7f-40dc-b659-dcdf58a8f8c9/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/82dce21c-08d4-4b05-9050-f431f6728aa1.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:23:31.392Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v7-c5-agency/v7-c5-agency_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/82dce21c-08d4-4b05-9050-f431f6728aa1.png",
+      "bytes": 2470183,
+      "sha256": "e90346255dd865b32a01ea8b1fbdfc07a5f1f1b6bf20cf927283125080c2acd1"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:23:32.995Z"
+}

@@ -1,0 +1,47 @@
+{
+  "label": "v7-c1-shoot",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. A video shoot in a bright, beautiful boutique cake studio in the morning. In the sharp foreground, the back of a professional cinema camera on a slider, its small on-camera field monitor facing us and showing one perfectly uniform flat bright chroma-key green image filling the monitor screen. Beyond it, softly out of focus, a young Korean female pastry chef in a cream linen apron gently places a sugar flower on top of an elegant white floral cake on a marble table, soft window light, a softbox glowing at the edge of frame. Set in Auckland, New Zealand. Candid cinematic film still, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, clean and premium but lived-in, natural motivated light, gentle motion blur on moving people, soft halation on highlights, subtle film grain, a real unposed moment, not staged, not a product shot, faces turned away, in profile or softly out of focus, photographic, no readable text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v7 storyboard",
+  "submitted_at": "2026-10-06T12:16:15.282Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T12:16:16.069Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T12:21:40.479Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "8e884158-745a-43a8-a4d0-09642c8f1e98",
+  "status_url": "https://api.higgsfield.ai/requests/8e884158-745a-43a8-a4d0-09642c8f1e98/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/8e884158-745a-43a8-a4d0-09642c8f1e98/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "8e884158-745a-43a8-a4d0-09642c8f1e98",
+    "status_url": "https://api.higgsfield.ai/requests/8e884158-745a-43a8-a4d0-09642c8f1e98/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/8e884158-745a-43a8-a4d0-09642c8f1e98/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/742456e2-3218-4053-b3a0-7ccb2ccf3fd1.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T12:21:40.478Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v7-c1-shoot/v7-c1-shoot_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/742456e2-3218-4053-b3a0-7ccb2ccf3fd1.png",
+      "bytes": 2563496,
+      "sha256": "4bc9a137416743af4596bc17cce6491a1ab7c290c1e90b4c918e8bb624ef830e"
+    }
+  ],
+  "downloaded_at": "2026-10-06T12:21:41.865Z"
+}

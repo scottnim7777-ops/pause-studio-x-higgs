@@ -1,0 +1,53 @@
+{
+  "label": "v21-morning-phone",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Exactly the same top-down composition, same table, same phone in the same position and size with the same perfectly uniform flat bright chroma-key green screen. Change only the time and mood: bright fresh morning, soft warm sunlight falling across the table from the left with gentle window shadows. Replace the cold tea with a fresh cup of coffee, replace the printed invoices with two neatly packed small kraft parcels tied with string and a sheet of tissue paper, the laptop corner stays at the top edge. Photograph, true-to-life neutral colour, realistic wood texture. No readable text, no logos, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v21 match-cut morning",
+  "submitted_at": "2026-10-06T22:31:37.732Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:31:38.412Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:31:38.958Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T22:32:45.732Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "10a22294-504c-4c1c-a0a1-53b48dcea3d7",
+  "status_url": "https://api.higgsfield.ai/requests/10a22294-504c-4c1c-a0a1-53b48dcea3d7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/10a22294-504c-4c1c-a0a1-53b48dcea3d7/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "10a22294-504c-4c1c-a0a1-53b48dcea3d7",
+    "status_url": "https://api.higgsfield.ai/requests/10a22294-504c-4c1c-a0a1-53b48dcea3d7/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/10a22294-504c-4c1c-a0a1-53b48dcea3d7/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/7f222c21-58de-4d13-ba16-55ca808667c6.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:32:45.732Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v21-morning-phone/v21-morning-phone_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/7f222c21-58de-4d13-ba16-55ca808667c6.png",
+      "bytes": 2931253,
+      "sha256": "d0963b34a9c7e324fa57d2f8d8591d2d0762a80606208cab8ea039fc2db8dcfa"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:32:47.454Z"
+}

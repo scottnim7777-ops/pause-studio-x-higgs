@@ -1,0 +1,51 @@
+{
+  "label": "v21-night-shoulder",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Late at night in a small Auckland apartment. Over-the-shoulder from behind and slightly to the left of a stylish Korean woman around thirty in a soft oversized knit, sitting at a dining table, her face not visible, chin resting on her hand. On the table in front of her an open silver MacBook Pro seen at a three-quarter angle, its screen visible to us and showing one perfectly uniform flat bright chroma-key green image filling the display, the main light in the room. Around the table, stacked unopened cardboard boxes of stock, a cold mug of tea. The left part of the frame is dark wall and her shoulder out of focus in the foreground. Cool neutral night light. Photograph taken with a Sony A7 IV and a 35mm f/1.8 lens, handheld, natural available light, true-to-life neutral colour (no teal and orange), realistic textures, slightly off-centre framing, natural optical bokeh, an unposed moment, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v21 design-doc storyboard",
+  "submitted_at": "2026-10-06T22:30:51.673Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:30:52.378Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:31:04.624Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T22:31:13.005Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "ef094bf4-ad69-4e2b-b46d-d6e2f8d872c9",
+  "status_url": "https://api.higgsfield.ai/requests/ef094bf4-ad69-4e2b-b46d-d6e2f8d872c9/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/ef094bf4-ad69-4e2b-b46d-d6e2f8d872c9/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "ef094bf4-ad69-4e2b-b46d-d6e2f8d872c9",
+    "status_url": "https://api.higgsfield.ai/requests/ef094bf4-ad69-4e2b-b46d-d6e2f8d872c9/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/ef094bf4-ad69-4e2b-b46d-d6e2f8d872c9/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/728ffd26-c783-4f1a-b482-57b45547ceb1.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:31:13.005Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v21-night-shoulder/v21-night-shoulder_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/728ffd26-c783-4f1a-b482-57b45547ceb1.png",
+      "bytes": 1699918,
+      "sha256": "06cdcf9101164a79d23e3a44fb5905fae313997ad630e26fc8a2bf0688db8e1c"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:31:14.573Z"
+}

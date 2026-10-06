@@ -1,0 +1,47 @@
+{
+  "label": "v21-night-phone",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Straight top-down overhead shot of a dark walnut dining table at night: an iPhone 15 Pro with thin bezels lies flat face up slightly right of centre, rotated a few degrees, large in frame filling about 80 percent of the frame height, its screen fully visible and showing one perfectly uniform flat bright chroma-key green image filling the whole display. Around it on the table: the corner of an open laptop at the top edge, a mug of cold tea, a pen and a few printed invoices partly out of frame, all in dim cool lamp light. The left third of the frame is plain dark table. Photograph taken with a Sony A7 IV and a 50mm f/2 lens, handheld, natural available light, true-to-life neutral colour (no teal and orange), realistic textures, slightly off-centre framing, natural optical bokeh, an unposed moment, documentary feel. Nobody looks into the camera. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v21 design-doc storyboard",
+  "submitted_at": "2026-10-06T22:30:52.595Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:30:53.175Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:31:15.246Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "3ba27883-1632-434b-b2d2-6ebab2ae3e1a",
+  "status_url": "https://api.higgsfield.ai/requests/3ba27883-1632-434b-b2d2-6ebab2ae3e1a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/3ba27883-1632-434b-b2d2-6ebab2ae3e1a/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "3ba27883-1632-434b-b2d2-6ebab2ae3e1a",
+    "status_url": "https://api.higgsfield.ai/requests/3ba27883-1632-434b-b2d2-6ebab2ae3e1a/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/3ba27883-1632-434b-b2d2-6ebab2ae3e1a/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9f3bac0b-aa17-4d57-b666-0fd40cb575f7.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:31:15.246Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v21-night-phone/v21-night-phone_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9f3bac0b-aa17-4d57-b666-0fd40cb575f7.png",
+      "bytes": 1984930,
+      "sha256": "1159e3f9b457bfd4446fbd2c83b1e848f12380972efd43819ffc8c1a2ac21ebe"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:31:17.054Z"
+}

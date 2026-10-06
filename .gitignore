@@ -31,3 +31,4 @@ drafts/logos/work/*.pbm
 drafts/logos/_check.html
 content/assets/logo/new/work/*.pbm
 content/assets/logo/new/favicon/work/*.pbm
+__pycache__/

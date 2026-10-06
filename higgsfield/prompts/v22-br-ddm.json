@@ -1,0 +1,8 @@
+{
+ "prompt": "Remove the smartphone and the hand holding it in the left foreground completely, and fill that area naturally with the dark street pavement and the edge of an outdoor table in shadow. Keep everything else exactly the same: the restaurant front, its signboard, the people at the tables, the lights. No watermark.",
+ "image_urls": [
+  "<참고 이미지 업로드 주소 — 기록 안 함>"
+ ],
+ "resolution": "2k",
+ "aspect_ratio": "16:9"
+}

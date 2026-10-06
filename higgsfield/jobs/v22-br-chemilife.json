@@ -1,0 +1,47 @@
+{
+  "label": "v22-br-chemilife",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Macro shot of golden New Zealand manuka honey slowly dripping from a wooden honey dipper into a small glass jar, warm backlight through the honey, a sprig of white manuka flowers out of focus on a pale linen table, morning light. Photograph taken on a cinema camera, natural light, true-to-life neutral colour (no teal and orange), realistic textures, slightly off-centre framing, natural optical depth of field, documentary feel, no people's faces, no readable text, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v22 b-roll",
+  "submitted_at": "2026-10-06T22:39:31.728Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:39:32.387Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:42:23.590Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "200a8f44-d507-4440-96a7-a0f4478e61fe",
+  "status_url": "https://api.higgsfield.ai/requests/200a8f44-d507-4440-96a7-a0f4478e61fe/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/200a8f44-d507-4440-96a7-a0f4478e61fe/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "200a8f44-d507-4440-96a7-a0f4478e61fe",
+    "status_url": "https://api.higgsfield.ai/requests/200a8f44-d507-4440-96a7-a0f4478e61fe/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/200a8f44-d507-4440-96a7-a0f4478e61fe/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9e9e18a1-84a5-4457-8a31-9d3e9b6bf892.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:42:23.590Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v22-br-chemilife/v22-br-chemilife_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9e9e18a1-84a5-4457-8a31-9d3e9b6bf892.png",
+      "bytes": 2294198,
+      "sha256": "f9b24bfc2b7610086c9a723af90776c7108f30eb41c6f03508adbb86228a8f40"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:42:25.215Z"
+}

@@ -1,0 +1,49 @@
+{
+  "label": "v22-br-chillenq",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Use the same white enclosed refrigerated cargo trailer design from image 1 (white box body, front-mounted refrigeration unit with round fan, chrome fenders). Show a row of five of these identical trailers parked neatly in a large clean industrial yard at dawn, low golden sun from behind, long shadows, a light haze, wide shot from a low angle along the row, the nearest trailer large on the right. Photograph taken on a cinema camera, natural light, true-to-life neutral colour (no teal and orange), realistic textures, slightly off-centre framing, natural optical depth of field, documentary feel, no people's faces, no readable text, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v22 b-roll",
+  "submitted_at": "2026-10-06T22:39:28.894Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:39:29.343Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:40:42.622Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "856c51c2-2364-4211-bdc6-641e124f5806",
+  "status_url": "https://api.higgsfield.ai/requests/856c51c2-2364-4211-bdc6-641e124f5806/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/856c51c2-2364-4211-bdc6-641e124f5806/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "856c51c2-2364-4211-bdc6-641e124f5806",
+    "status_url": "https://api.higgsfield.ai/requests/856c51c2-2364-4211-bdc6-641e124f5806/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/856c51c2-2364-4211-bdc6-641e124f5806/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3ecac7e4-a01b-4926-8fa7-1e60849b953c.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:40:42.622Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v22-br-chillenq/v22-br-chillenq_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3ecac7e4-a01b-4926-8fa7-1e60849b953c.png",
+      "bytes": 2274444,
+      "sha256": "72d439e2bce41ca1921c334eadebf60b9ce9bcf1db2724c9756a3e13c1ca8a97"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:40:44.371Z"
+}

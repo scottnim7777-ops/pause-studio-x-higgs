@@ -1,0 +1,53 @@
+{
+  "label": "v22-br-blooming",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Keep exactly the same cake from image 1 — the same piped white and cream bean-paste flowers, daisies with yellow centres and pale green base — but remove all surrounding text and lettering. Place it on a white cake turntable on a clean pale marble kitchen counter in a bright, minimal, beautifully styled home kitchen, soft morning window light from the left, a linen cloth and a few piping tips neatly placed, the cake right of centre, low camera at cake height, shallow depth of field. Photograph taken on a cinema camera, natural light, true-to-life neutral colour (no teal and orange), realistic textures, slightly off-centre framing, natural optical depth of field, documentary feel, no people's faces, no readable text, no watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v22 b-roll",
+  "submitted_at": "2026-10-06T22:39:28.270Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:39:28.725Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:39:33.086Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T22:40:40.305Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "d67e81e5-07b9-4100-bb3f-70e646ee390b",
+  "status_url": "https://api.higgsfield.ai/requests/d67e81e5-07b9-4100-bb3f-70e646ee390b/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/d67e81e5-07b9-4100-bb3f-70e646ee390b/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "d67e81e5-07b9-4100-bb3f-70e646ee390b",
+    "status_url": "https://api.higgsfield.ai/requests/d67e81e5-07b9-4100-bb3f-70e646ee390b/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/d67e81e5-07b9-4100-bb3f-70e646ee390b/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6d41b5ca-01cc-4b61-aca8-563bb0827a21.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:40:40.305Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v22-br-blooming/v22-br-blooming_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6d41b5ca-01cc-4b61-aca8-563bb0827a21.png",
+      "bytes": 2332686,
+      "sha256": "23c35406194f36c912d608fbe0e7abc12d5e001e32b8c64f01f64adc82f64937"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:40:41.932Z"
+}

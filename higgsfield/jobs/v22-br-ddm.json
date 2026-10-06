@@ -1,0 +1,53 @@
+{
+  "label": "v22-br-ddm",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Remove the smartphone and the hand holding it in the left foreground completely, and fill that area naturally with the dark street pavement and the edge of an outdoor table in shadow. Keep everything else exactly the same: the restaurant front, its signboard, the people at the tables, the lights. No watermark.",
+    "image_urls": [
+      "<참고 이미지 업로드 주소 — 기록 안 함>"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "v22 b-roll",
+  "submitted_at": "2026-10-06T22:39:29.516Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:39:29.932Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:41:15.550Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T22:42:12.535Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "10d2412b-3b60-48f3-9de0-fddd133820d5",
+  "status_url": "https://api.higgsfield.ai/requests/10d2412b-3b60-48f3-9de0-fddd133820d5/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/10d2412b-3b60-48f3-9de0-fddd133820d5/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "10d2412b-3b60-48f3-9de0-fddd133820d5",
+    "status_url": "https://api.higgsfield.ai/requests/10d2412b-3b60-48f3-9de0-fddd133820d5/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/10d2412b-3b60-48f3-9de0-fddd133820d5/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1d67f99a-67bd-4a59-a7b3-8ba3c52ecaa6.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:42:12.535Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v22-br-ddm/v22-br-ddm_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1d67f99a-67bd-4a59-a7b3-8ba3c52ecaa6.png",
+      "bytes": 2603409,
+      "sha256": "1cd0725532fc82e3ac50e40fa2933d5a4cfafcf215663c2c2d474daa29a8ed83"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:42:14.172Z"
+}

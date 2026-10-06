@@ -1,0 +1,47 @@
+{
+  "label": "v22-br-kvibe",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Aerial drone shot over Auckland at golden hour: the Waitemata Harbour, the Sky Tower and the city centre, sailboats on the water, the harbour bridge in soft haze, gentle warm light. Photograph taken on a cinema camera, natural light, true-to-life neutral colour (no teal and orange), realistic textures, slightly off-centre framing, natural optical depth of field, documentary feel, no people's faces, no readable text, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v22 b-roll",
+  "submitted_at": "2026-10-06T22:39:30.080Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:39:30.695Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:42:14.790Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "9216390c-88ef-4f4d-9bb9-899805a9b4a8",
+  "status_url": "https://api.higgsfield.ai/requests/9216390c-88ef-4f4d-9bb9-899805a9b4a8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/9216390c-88ef-4f4d-9bb9-899805a9b4a8/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "9216390c-88ef-4f4d-9bb9-899805a9b4a8",
+    "status_url": "https://api.higgsfield.ai/requests/9216390c-88ef-4f4d-9bb9-899805a9b4a8/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/9216390c-88ef-4f4d-9bb9-899805a9b4a8/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/67b47b51-4569-4bff-9569-992367754e89.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:42:14.790Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v22-br-kvibe/v22-br-kvibe_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/67b47b51-4569-4bff-9569-992367754e89.png",
+      "bytes": 2151213,
+      "sha256": "438fa9d959fff442748b8edd75f79260392675e7f7818a7ae21a07e0838e3e37"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:42:16.162Z"
+}

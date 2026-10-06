@@ -1,0 +1,51 @@
+{
+  "label": "v22-br-blessings",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Close-up of an elderly person's hand resting on a soft knitted blanket, gently held by a younger caregiver's hand, warm soft window light, quiet and tender, very shallow depth of field, a cup of tea out of focus. Photograph taken on a cinema camera, natural light, true-to-life neutral colour (no teal and orange), realistic textures, slightly off-centre framing, natural optical depth of field, documentary feel, no people's faces, no readable text, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v22 b-roll",
+  "submitted_at": "2026-10-06T22:39:30.850Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T22:39:31.561Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T22:42:16.806Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T22:42:21.358Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "96692b6f-f2da-473e-8811-651d52ad8769",
+  "status_url": "https://api.higgsfield.ai/requests/96692b6f-f2da-473e-8811-651d52ad8769/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/96692b6f-f2da-473e-8811-651d52ad8769/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "96692b6f-f2da-473e-8811-651d52ad8769",
+    "status_url": "https://api.higgsfield.ai/requests/96692b6f-f2da-473e-8811-651d52ad8769/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/96692b6f-f2da-473e-8811-651d52ad8769/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/24565451-f001-4861-9ea7-f2761805d906.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T22:42:21.358Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v22-br-blessings/v22-br-blessings_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/24565451-f001-4861-9ea7-f2761805d906.png",
+      "bytes": 2077503,
+      "sha256": "750ee97c7837957cf9ad464eb45412f64c60e3c856abc014257b67304aa41971"
+    }
+  ],
+  "downloaded_at": "2026-10-06T22:42:22.929Z"
+}

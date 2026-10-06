@@ -1,0 +1,47 @@
+{
+  "label": "v6-s2-restaurant",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Night, rain. Shot from the street through the rain-streaked front window of a small Korean restaurant at closing time; reflections of passing car lights and neon on the glass in the foreground. Inside, warm tungsten light, the owner, a middle-aged man seen from behind, stacks chairs, slightly motion blurred. On the wooden counter near the window an open silver MacBook Pro faces the camera, its screen showing one perfectly uniform flat bright chroma-key green image filling the display, glowing in the dim room. Candid film still from a Korean independent movie, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, lived-in and slightly messy, natural available light, motion blur on moving people, soft halation on highlights, subtle film grain, imperfect real-life moment, not staged, not a product shot, faces turned away or out of focus, photographic, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v6 cinematic candid",
+  "submitted_at": "2026-10-06T11:58:00.908Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:58:01.892Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:58:17.320Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "5a48618e-f39b-4a6f-b832-8b23ccb037ca",
+  "status_url": "https://api.higgsfield.ai/requests/5a48618e-f39b-4a6f-b832-8b23ccb037ca/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/5a48618e-f39b-4a6f-b832-8b23ccb037ca/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "5a48618e-f39b-4a6f-b832-8b23ccb037ca",
+    "status_url": "https://api.higgsfield.ai/requests/5a48618e-f39b-4a6f-b832-8b23ccb037ca/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/5a48618e-f39b-4a6f-b832-8b23ccb037ca/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/528155e7-8b29-46d5-9bd3-f1f27b05f678.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:58:17.319Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v6-s2-restaurant/v6-s2-restaurant_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/528155e7-8b29-46d5-9bd3-f1f27b05f678.png",
+      "bytes": 2228270,
+      "sha256": "f476bafab5a0f84ab7eac9bedcf9c9dd8c345303a8539c7999d776d0c0fb8a87"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:58:19.010Z"
+}

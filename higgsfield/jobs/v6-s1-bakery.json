@@ -1,0 +1,51 @@
+{
+  "label": "v6-s1-bakery",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Early morning inside a small busy cake bakery kitchen. In the soft-focus foreground, a pastry chef in a white apron, seen from behind and the side, pipes cream onto a cake, her hands slightly motion blurred. On the steel counter in the sharp midground an iPhone leans against a flour tin, its screen facing the camera and showing one perfectly uniform flat bright chroma-key green image filling the whole display. Low golden sunlight through a dusty window, flour particles floating in the light beams, trays of pastries, piping bags, real clutter. Candid film still from a Korean independent movie, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, lived-in and slightly messy, natural available light, motion blur on moving people, soft halation on highlights, subtle film grain, imperfect real-life moment, not staged, not a product shot, faces turned away or out of focus, photographic, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v6 cinematic candid",
+  "submitted_at": "2026-10-06T11:57:59.843Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:58:00.572Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:58:10.524Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T11:58:15.069Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "63c2cbac-7a49-485d-b498-5b56ffb54f97",
+  "status_url": "https://api.higgsfield.ai/requests/63c2cbac-7a49-485d-b498-5b56ffb54f97/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/63c2cbac-7a49-485d-b498-5b56ffb54f97/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "63c2cbac-7a49-485d-b498-5b56ffb54f97",
+    "status_url": "https://api.higgsfield.ai/requests/63c2cbac-7a49-485d-b498-5b56ffb54f97/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/63c2cbac-7a49-485d-b498-5b56ffb54f97/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/77ba71f8-14be-4c88-b2fc-7ffe77c6f196.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:58:15.069Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v6-s1-bakery/v6-s1-bakery_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/77ba71f8-14be-4c88-b2fc-7ffe77c6f196.png",
+      "bytes": 2267995,
+      "sha256": "1e1e082d4ef6b043e44dcf5b4879f009fb0181c546ca6e1e7402c789f6384658"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:58:16.594Z"
+}

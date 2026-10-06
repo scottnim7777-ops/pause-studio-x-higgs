@@ -1,0 +1,51 @@
+{
+  "label": "v6-s3-street",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. Golden hour on a busy city street. Over-the-shoulder shot from behind a young woman in a beige coat waiting at a crosswalk, holding an iPhone up in her right hand, the phone screen fully visible to the camera and showing one perfectly uniform flat bright chroma-key green image filling the whole display. Low sun flaring through the street, blurred pedestrians and a passing bus in the background, warm backlight on her hair. Candid film still from a Korean independent movie, shot handheld on ARRI Alexa with vintage anamorphic lens, real location, lived-in and slightly messy, natural available light, motion blur on moving people, soft halation on highlights, subtle film grain, imperfect real-life moment, not staged, not a product shot, faces turned away or out of focus, photographic, no text, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v6 cinematic candid",
+  "submitted_at": "2026-10-06T11:58:02.076Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-06T11:58:02.777Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-06T11:58:19.797Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-06T11:58:24.350Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "2ee89304-cb3a-419c-af75-41ef672c1a68",
+  "status_url": "https://api.higgsfield.ai/requests/2ee89304-cb3a-419c-af75-41ef672c1a68/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/2ee89304-cb3a-419c-af75-41ef672c1a68/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "2ee89304-cb3a-419c-af75-41ef672c1a68",
+    "status_url": "https://api.higgsfield.ai/requests/2ee89304-cb3a-419c-af75-41ef672c1a68/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/2ee89304-cb3a-419c-af75-41ef672c1a68/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/f1d28f35-fcb2-469a-8551-671fa27a64d5.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-06T11:58:24.350Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v6-s3-street/v6-s3-street_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/f1d28f35-fcb2-469a-8551-671fa27a64d5.png",
+      "bytes": 2347266,
+      "sha256": "f4c4b99b729bd41fa248cdcdf6ed18bf765f04f101f8cdaebe76ec13d2ebaebc"
+    }
+  ],
+  "downloaded_at": "2026-10-06T11:58:26.024Z"
+}

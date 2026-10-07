@@ -36,3 +36,6 @@ drafts/v3/work/frames/
 
 # 업로드 주소(사용자가 준 제3자 사진 포함) — 저장소에 남기지 않음
 higgsfield/uploads.json
+
+# 히어로 영상 렌더용 임시 프레임
+drafts/v27/out/frames/

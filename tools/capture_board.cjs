@@ -27,8 +27,9 @@ const ROOT = path.resolve(__dirname, '..');
     v23: [['drafts/v23/board.html', 'drafts/v23/PAUSE_v23_storyboard.png', 3000]],
     v24: [['drafts/v24/board.html', 'drafts/v24/PAUSE_v24_storyboard.png', 3000]],
     v25: [['drafts/v25/board.html', 'drafts/v25/PAUSE_v25_storyboard.png', 3000]],
+    v26: [['drafts/v26/board.html', 'drafts/v26/PAUSE_v26_storyboard.png', 3000]],
   };
-  const which = process.argv[2] || 'heroes'; // 실행: node tools/capture_board.cjs [heroes|fonts|v2|v4|v5|v6|v7|v8|v9|v10|v11|v12|v13|v14|v15|v18|v19|v21|v22|v23|v24|v25]
+  const which = process.argv[2] || 'heroes'; // 실행: node tools/capture_board.cjs [heroes|fonts|v2|v4|v5|v6|v7|v8|v9|v10|v11|v12|v13|v14|v15|v18|v19|v21|v22|v23|v24|v25|v26]
   for (const [f, out, w] of jobs[which]) {
     const p = await b.newPage({ viewport: { width: w, height: 1000 }, deviceScaleFactor: 1 });
     await p.goto('file://' + path.join(ROOT, f));

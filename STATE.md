@@ -127,4 +127,6 @@
   - **AI 광고영상(정책 반영)**: SHORT 490 · BRAND 890(대표) · HERO 1,490부터 · MONTHLY 2,490/월, 가로 16:9·세로 9:16 기본 제공, 숏버전·수정·결과물 표, 세 상품 공통 포함 7가지, 수정 규칙, 추가 작업 14가지(펼쳐 보기), 제작 6단계, 1차 시안 일정, 알아두실 점 5가지, 질문 13개, 상담 창 '관심 있는 영상 상품'.
   - **샘플 4편**: SOOM(쇼핑몰 상세페이지 영상) + 새로 만든 ONDO COFFEE · SOUTHERN ROUTE · DAON HONEY(가상 업체, 콘티·편집·서체 `tools/ad_edit.py`, Higgsfield 스틸 soul/cinema + DoP 영상).
   - 점검 130/130(Playwright 크로미엄에는 H.264가 없어 재생 점검은 `tests/fixtures/tiny.webm`으로 대신), 접근성 위반 0.
-  - **사용자 확인 대기**: ① '디자인 수정 2회'(정책 §11) 유지? ② 결합 상품 WEBSITE + AI BRAND AD $2,690은 없어진 WEBSITE $1,990 기준 — STARTER 기준으로 바꿀지(예: 1,490 + 890 = 2,380에서 같은 190 할인이면 2,190), 넣지 않을지. ③ 상담 메일 받는 주소는 그대로 CONTACT_TO(기본 scottnim7777@gmail.com) — 화면에 보이는 주소만 info@.
+  - 미리보기 링크 3번째 버전으로 다시 게시(같은 주소).
+- ★ 2026-10-08 사용자 결정: ① **'정식 디자인 수정 2회' 유지** ② **결합 상품(WEBSITE + AI BRAND AD) 넣지 않음** ③ **상담 메일 받는 주소도 info@pause8studio.com**(사용자 글의 'pause8sutdio'는 오타로 보고 사이트 도메인으로) → `server.ts` 기본값·`.env.example` 변경. SMTP 없이 FormSubmit을 쓰면 처음 한 번 info@로 오는 확인 메일을 승인해야 함.
+  - 사용자 질문 '미국은 GST가 없지?' → 미국은 GST·VAT가 없고 주별 판매세(sales tax)만 있음, 뉴질랜드 밖 고객에게 주는 서비스는 GST 0%(zero-rated)라 USD 화면에 GST 문구 없음. 'GST 15% 별도'는 GST 등록 사업자일 때만 받을 수 있음(회계사 확인 권장)으로 답함.

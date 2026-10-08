@@ -14,7 +14,8 @@ import { consult } from './src/content/ko';
 import { currencyFor, withCurrency } from './src/geo/currency';
 
 const PORT = Number(process.env.PORT || 3000);
-const TO = process.env.CONTACT_TO || 'scottnim7777@gmail.com';
+// 상담 메일 받는 주소(2026-10-08 사용자: info@pause8studio.com). 배포 환경에서 CONTACT_TO로 바꿀 수 있음
+const TO = process.env.CONTACT_TO || 'info@pause8studio.com';
 const DIST = path.resolve(process.env.STATIC_DIR || 'dist');
 const PROD = process.env.NODE_ENV === 'production';
 const MAX_TOTAL = 25 * 1024 * 1024;

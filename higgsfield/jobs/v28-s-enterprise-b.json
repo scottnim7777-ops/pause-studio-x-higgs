@@ -1,0 +1,47 @@
+{
+  "label": "v28-s-enterprise-b",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Macro photograph inside a precision Swiss watch movement: polished steel gears, ruby jewels and a balance wheel, perfectly machined, fine perlage finish on the plate, dark graphite surroundings, single soft key light, very shallow depth of field with focus on one gear's teeth. Calm, engineered, luxurious. Shot on a Sony A7R V, true-to-life colour, realistic exposure, fine natural grain, restrained cinematic grade with soft highlights and warm shadows. Quiet luxury, architectural photography. No people. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v28 retake",
+  "submitted_at": "2026-10-07T20:39:57.142Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-07T20:39:57.763Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-07T20:41:39.344Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "220d8cc3-e176-4e8b-b331-ebc931c29afd",
+  "status_url": "https://api.higgsfield.ai/requests/220d8cc3-e176-4e8b-b331-ebc931c29afd/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/220d8cc3-e176-4e8b-b331-ebc931c29afd/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "220d8cc3-e176-4e8b-b331-ebc931c29afd",
+    "status_url": "https://api.higgsfield.ai/requests/220d8cc3-e176-4e8b-b331-ebc931c29afd/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/220d8cc3-e176-4e8b-b331-ebc931c29afd/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3512f186-8c64-4423-b2ed-f166872d9cf9.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-07T20:41:39.344Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v28-s-enterprise-b/v28-s-enterprise-b_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3512f186-8c64-4423-b2ed-f166872d9cf9.png",
+      "bytes": 2405165,
+      "sha256": "33cd9c0e3e7299ef9e2c4c815a399e1fea504b68cc65611a548003688bb71a50"
+    }
+  ],
+  "downloaded_at": "2026-10-07T20:41:41.163Z"
+}

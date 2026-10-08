@@ -18,4 +18,6 @@ get "https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-V
 if [ ! -s PretendardVariable.ttf ]; then T=$(mktemp -d); (cd "$T" && npm pack pretendard@1.3.9 --silent >/dev/null && tar xzf pretendard-1.3.9.tgz); cp "$T/package/dist/public/variable/PretendardVariable.ttf" .; fi
 # 마루 부리(네이버 글꼴 OFL) — 폰트 후보 보드의 설명 글자용
 if [ ! -s MaruBuri-Regular.woff2 ]; then T=$(mktemp -d); git clone -q --depth 1 https://github.com/fonts-archive/MaruBuri "$T/m" && cp "$T"/m/MaruBuri-{Regular,SemiBold,Bold}.woff2 .; fi
+# Grandiflora One(해성 조, OFL) — 29차 히어로 시안 C의 헤드라인
+get "$G/grandifloraone/GrandifloraOne-Regular.ttf" GrandifloraOne-Regular.ttf
 echo "fonts ready: $(ls | wc -l) files"

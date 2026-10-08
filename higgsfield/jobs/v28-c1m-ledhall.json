@@ -1,0 +1,47 @@
+{
+  "label": "v28-c1m-ledhall",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Vertical architectural photograph of a tall dark exposed-concrete hall with board-formed concrete walls and a polished dark concrete floor. On the far wall is one tall seamless rectangular LED screen in portrait orientation, perfectly flat and front-facing, displaying one plain uniform soft white-grey glow and nothing else. The screen is the only light source; its light falls on the floor as a long soft reflection on polished concrete and fades into deep shadow. Camera at eye level, centred, 24mm lens, symmetrical. Shot on a Sony A7R V, true-to-life colour, realistic exposure, fine natural grain, restrained cinematic grade with soft highlights and warm shadows. Quiet luxury, architectural photography. No people. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "9:16",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v28 plan stills",
+  "submitted_at": "2026-10-07T20:36:03.463Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-07T20:36:04.330Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-07T20:38:31.635Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "42cdd1b7-384a-48f3-bdad-7f3cfb20a93d",
+  "status_url": "https://api.higgsfield.ai/requests/42cdd1b7-384a-48f3-bdad-7f3cfb20a93d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/42cdd1b7-384a-48f3-bdad-7f3cfb20a93d/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "42cdd1b7-384a-48f3-bdad-7f3cfb20a93d",
+    "status_url": "https://api.higgsfield.ai/requests/42cdd1b7-384a-48f3-bdad-7f3cfb20a93d/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/42cdd1b7-384a-48f3-bdad-7f3cfb20a93d/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b52aded6-b7fa-409e-bd6f-70b2b628a573.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-07T20:38:31.635Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v28-c1m-ledhall/v28-c1m-ledhall_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b52aded6-b7fa-409e-bd6f-70b2b628a573.png",
+      "bytes": 2823063,
+      "sha256": "c7d821bb2117857a20a43f8d0c6a90b8d24c20ef094c5f68e78e4d912e106f77"
+    }
+  ],
+  "downloaded_at": "2026-10-07T20:38:33.496Z"
+}

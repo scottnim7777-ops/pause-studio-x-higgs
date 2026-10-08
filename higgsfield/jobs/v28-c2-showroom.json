@@ -1,0 +1,47 @@
+{
+  "label": "v28-c2-showroom",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Photograph of a minimal travertine stone showroom in late afternoon. Low warm sunlight enters from a tall window on the left and casts long diagonal shadows of the window mullions across the textured travertine wall and floor. In the centre stands a single solid travertine plinth, and on it an open silver MacBook Pro seen from a slight three-quarter front angle; its screen faces the camera and shows one plain uniform soft white-grey glow and nothing else. Linen curtain edge on the left. 50mm lens at f/2.8, shallow depth of field, background softly out of focus. Shot on a Sony A7R V, true-to-life colour, realistic exposure, fine natural grain, restrained cinematic grade with soft highlights and warm shadows. Quiet luxury, architectural photography. No people. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v28 plan stills",
+  "submitted_at": "2026-10-07T20:35:59.984Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-07T20:36:00.726Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-07T20:38:23.818Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "c5a4e940-9e77-4d09-8271-2b68271474c4",
+  "status_url": "https://api.higgsfield.ai/requests/c5a4e940-9e77-4d09-8271-2b68271474c4/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/c5a4e940-9e77-4d09-8271-2b68271474c4/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "c5a4e940-9e77-4d09-8271-2b68271474c4",
+    "status_url": "https://api.higgsfield.ai/requests/c5a4e940-9e77-4d09-8271-2b68271474c4/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/c5a4e940-9e77-4d09-8271-2b68271474c4/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1b4815ea-4640-436e-9e62-f8a351a899d9.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-07T20:38:23.818Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v28-c2-showroom/v28-c2-showroom_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1b4815ea-4640-436e-9e62-f8a351a899d9.png",
+      "bytes": 2794708,
+      "sha256": "9d354ae0faf3380eddac706ff9540c45ffd37dd49dc197f43ef14ead397c2b12"
+    }
+  ],
+  "downloaded_at": "2026-10-07T20:38:25.720Z"
+}

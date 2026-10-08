@@ -1,0 +1,47 @@
+{
+  "label": "v28-s-enterprise",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Macro photograph of precision-machined brushed aluminium gears and shafts meshing together inside a fine watch-like mechanism, dark graphite background, single soft key light catching the hairline brushed metal, very shallow depth of field. Minimal, engineered, calm. Shot on a Sony A7R V, true-to-life colour, realistic exposure, fine natural grain, restrained cinematic grade with soft highlights and warm shadows. Quiet luxury, architectural photography. No people. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v28 plan stills",
+  "submitted_at": "2026-10-07T20:36:06.300Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-07T20:36:06.938Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-07T20:38:39.501Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "db484e82-79a2-441e-ad7e-34280cb7f1ff",
+  "status_url": "https://api.higgsfield.ai/requests/db484e82-79a2-441e-ad7e-34280cb7f1ff/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/db484e82-79a2-441e-ad7e-34280cb7f1ff/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "db484e82-79a2-441e-ad7e-34280cb7f1ff",
+    "status_url": "https://api.higgsfield.ai/requests/db484e82-79a2-441e-ad7e-34280cb7f1ff/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/db484e82-79a2-441e-ad7e-34280cb7f1ff/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/59c795d5-3757-49df-b305-cd08c7ff136e.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-07T20:38:39.500Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v28-s-enterprise/v28-s-enterprise_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/59c795d5-3757-49df-b305-cd08c7ff136e.png",
+      "bytes": 2544749,
+      "sha256": "1b87bbe71bc7831a9eb5e3b325dc3979787f015c563fc94f42fb1fbe1ca73055"
+    }
+  ],
+  "downloaded_at": "2026-10-07T20:38:41.285Z"
+}

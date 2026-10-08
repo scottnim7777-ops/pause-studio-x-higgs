@@ -1,0 +1,47 @@
+{
+  "label": "v28-c4-rain",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Night photograph through the large glass shopfront window of a refined design studio in Auckland city, seen from the wet street outside. Raindrops and streaks on the glass in the foreground, soft bokeh reflections of street lights and passing car lights on the glass. Inside, a large wall-mounted flat display faces the window directly and shows one plain uniform soft white-grey glow and nothing else; the interior is dim with warm concrete and timber. 50mm lens at f/2, focus on the display, rain drops softly blurred. Shot on a Sony A7R V, true-to-life colour, realistic exposure, fine natural grain, restrained cinematic grade with soft highlights and warm shadows. Quiet luxury, architectural photography. No people. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v28 plan stills",
+  "submitted_at": "2026-10-07T20:36:02.144Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-07T20:36:03.168Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-07T20:38:29.165Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "1cece069-6fad-421e-b2a6-2b198e648def",
+  "status_url": "https://api.higgsfield.ai/requests/1cece069-6fad-421e-b2a6-2b198e648def/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/1cece069-6fad-421e-b2a6-2b198e648def/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "1cece069-6fad-421e-b2a6-2b198e648def",
+    "status_url": "https://api.higgsfield.ai/requests/1cece069-6fad-421e-b2a6-2b198e648def/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/1cece069-6fad-421e-b2a6-2b198e648def/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/57c441d9-ca05-4af1-9a1d-28e589c4220f.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-07T20:38:29.165Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v28-c4-rain/v28-c4-rain_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/57c441d9-ca05-4af1-9a1d-28e589c4220f.png",
+      "bytes": 2525571,
+      "sha256": "897369512696219e0c32d443916712049de6aa48407525f02ab8a66db58832e3"
+    }
+  ],
+  "downloaded_at": "2026-10-07T20:38:30.892Z"
+}

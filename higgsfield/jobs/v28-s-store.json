@@ -1,0 +1,47 @@
+{
+  "label": "v28-s-store",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Close still-life photograph of a matte bone-white rigid gift box with its lid being closed, tied with a thin natural linen ribbon, on a travertine surface, soft window light from the side, gentle shadows. Elegant, minimal, no branding, no text. Shot on a Sony A7R V, true-to-life colour, realistic exposure, fine natural grain, restrained cinematic grade with soft highlights and warm shadows. Quiet luxury, architectural photography. No people. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v28 plan stills",
+  "submitted_at": "2026-10-07T20:36:05.406Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-07T20:36:06.042Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-07T20:38:37.031Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "f727ebaf-4233-433a-b95e-adb241d6a17e",
+  "status_url": "https://api.higgsfield.ai/requests/f727ebaf-4233-433a-b95e-adb241d6a17e/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/f727ebaf-4233-433a-b95e-adb241d6a17e/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "f727ebaf-4233-433a-b95e-adb241d6a17e",
+    "status_url": "https://api.higgsfield.ai/requests/f727ebaf-4233-433a-b95e-adb241d6a17e/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/f727ebaf-4233-433a-b95e-adb241d6a17e/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9070e34c-cdef-41e6-b7ed-e862c2a05908.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-07T20:38:37.031Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v28-s-store/v28-s-store_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9070e34c-cdef-41e6-b7ed-e862c2a05908.png",
+      "bytes": 3000334,
+      "sha256": "223534ab5e5ca87ba94628c84305a16f4be42b6e0ff98fe2ea6ca0a022b7ef1f"
+    }
+  ],
+  "downloaded_at": "2026-10-07T20:38:38.755Z"
+}

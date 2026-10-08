@@ -1,0 +1,207 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Pause Studio 29차 시안 — 히어로</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><style id="hero-css">
+/* 29차: 3차(가로로 흐르는 작업물 벽 + 마우스 기울기) 기반 개선
+   - 시안 A 그레타산스 / B 격동고딕2 / C Grandiflora One — .hero[data-v] 로 전환
+   - 렌더링 도구가 산돌 테스터 서체를 묶음별로 나눠 그리므로, 글자 묶음([data-g])끼리 위치가 서로 영향을 주지 않게 절대 위치·고정 폭으로 배치 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#0C0C0B;overflow:hidden}
+.fit{position:absolute;left:50%;top:50%;width:1920px;height:1080px}
+.hero{--bg:#0C0C0B;--fg:#FCEED8;--fg2:rgba(252,238,216,.74);--fg3:rgba(252,238,216,.5);--line:rgba(252,238,216,.2);
+  --kr:var(--greta-rg,'Noto Sans KR'),sans-serif;
+  position:absolute;inset:0;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--kr);font-weight:400;
+  word-break:keep-all;-webkit-font-smoothing:antialiased;font-synthesis:none}
+.hero a{color:inherit;text-decoration:none;cursor:pointer}
+.hero p,.hero h1{position:absolute}
+
+/* ── 작업물 벽(3차와 같은 구조) */
+.stage{position:absolute;inset:0;perspective:2200px;perspective-origin:62% 46%}
+.plane{position:absolute;left:740px;top:150px;width:1700px;height:980px;transform-style:preserve-3d;transform:rotateY(-24deg) rotateX(9deg) rotateZ(-3deg)}
+.row{position:absolute;left:0;height:300px;width:100%;transform-style:preserve-3d}
+.row.r0{top:0}.row.r1{top:320px}.row.r2{top:640px}
+.track{position:absolute;left:0;top:0;display:flex;gap:28px;will-change:transform;transform-style:preserve-3d}
+.card{width:440px;flex:none}
+.scr{width:440px;height:248px;overflow:hidden;background:#1a1a18;border-radius:3px;box-shadow:0 30px 60px -30px rgba(0,0,0,.85),0 0 0 1px rgba(252,238,216,.06)}
+.scr img,.scr video{width:100%;height:100%;object-fit:cover;display:block;transform-origin:50% 0}
+.card figcaption{margin-top:13px;height:20px;font-size:14.5px;line-height:20px;letter-spacing:.01em;color:var(--fg3);white-space:nowrap}
+.card figcaption i{font-style:normal;color:rgba(252,238,216,.84);margin-left:12px}
+.veil{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,#0C0C0B 0%,#0C0C0B 38%,rgba(12,12,11,.9) 51%,rgba(12,12,11,0) 68%),
+  linear-gradient(0deg,rgba(12,12,11,.78),rgba(12,12,11,0) 24%),
+  linear-gradient(180deg,#0C0C0B 0%,rgba(12,12,11,.92) 11%,rgba(12,12,11,0) 24%)}
+
+/* ── 머리줄: 로고를 키우고(204px, 기존 122px) 메뉴·문의 버튼 크기는 그대로(16px · 13px 22px) */
+.logo{position:absolute;left:92px;top:30px;width:204px;height:103px}
+.logo img{width:100%;height:100%;display:block}
+.nav{position:absolute;right:96px;top:57px;height:46px;display:flex;align-items:center;gap:38px;font-size:16px;line-height:20px;white-space:nowrap}
+.nav .cta{display:flex;align-items:center;gap:10px;height:46px;padding:13px 22px;border:1px solid rgba(252,238,216,.5)}
+.nav .cta svg{width:14px;height:10px}
+
+/* ── 공통 문구 */
+.eyebrow{left:100px;top:258px;height:24px;font-size:16px;line-height:24px;color:var(--fg2);white-space:nowrap}
+h1{left:96px;top:298px;font-weight:400;white-space:nowrap}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+h1 .ln>span{display:block;will-change:transform}
+.sub{left:100px;font-size:20px;line-height:35px;color:var(--fg2);white-space:nowrap}
+.ctas{position:absolute;left:100px}
+.btn{white-space:nowrap}
+.ar{display:block;flex:none}
+.kpis{position:absolute;left:100px;display:grid}
+.k{position:relative;height:150px}
+.k .num,.k .lab{left:0;white-space:nowrap}
+.num{font-weight:400}
+.num .u{letter-spacing:0}
+.lab{font-size:15px;line-height:22px;color:var(--fg3)}
+.note{left:100px;font-size:12.5px;line-height:18px;color:rgba(252,238,216,.36);white-space:nowrap}
+
+/* ━━ 시안 A · 그레타산스 — 조용한 갤러리 */
+.hero[data-v="a"] .nav .cta{border-radius:0}
+.hero[data-v="a"] .eyebrow .rule{display:inline-block;width:40px;height:1px;background:currentColor;vertical-align:middle;margin:0 16px 4px 0;opacity:.6}
+.hero[data-v="a"] h1{font-family:var(--greta-lt,'Noto Sans KR'),sans-serif;font-size:78px;line-height:96px;letter-spacing:-.045em}
+.hero[data-v="a"] h1 em{font-style:normal;font-family:var(--greta-rg,'Noto Sans KR'),sans-serif}
+.hero[data-v="a"] .sub{top:524px}
+.hero[data-v="a"] .ctas{top:636px;display:flex;gap:12px}
+.hero[data-v="a"] .btn{display:flex;align-items:center;justify-content:space-between;width:336px;height:68px;padding:0 26px 0 28px;font-family:var(--greta-md,'Noto Sans KR'),sans-serif;font-size:17px}
+.hero[data-v="a"] .b1{background:var(--fg);color:var(--bg)}
+.hero[data-v="a"] .b2{border:1px solid rgba(252,238,216,.34)}
+.hero[data-v="a"] .ix{display:none}
+.hero[data-v="a"] .kpis{top:796px;width:684px;grid-template-columns:repeat(3,228px);border-top:1px solid var(--line)}
+.hero[data-v="a"] .k+.k{border-left:1px solid var(--line)}
+.hero[data-v="a"] .k .num,.hero[data-v="a"] .k .lab{left:0}
+.hero[data-v="a"] .k+.k .num,.hero[data-v="a"] .k+.k .lab{left:32px}
+.hero[data-v="a"] .num{top:30px;font-family:var(--greta-th,'Noto Sans KR'),sans-serif;font-size:80px;line-height:80px;letter-spacing:-.05em}
+.hero[data-v="a"] .num .u{font-family:var(--greta-rg,'Noto Sans KR'),sans-serif;font-size:22px;margin-left:8px}
+.hero[data-v="a"] .lab{top:122px}
+.hero[data-v="a"] .note{top:1006px}
+
+/* ━━ 시안 B · 격동고딕2 — 에디토리얼 */
+.hero[data-v="b"] .nav .cta{border-radius:0;border-color:rgba(252,238,216,.5)}
+.hero[data-v="b"] .eyebrow{font-family:var(--greta-md,'Noto Sans KR'),sans-serif;font-size:16px;color:var(--fg2)}
+.hero[data-v="b"] .eyebrow .rule{display:inline-block;width:22px;height:2px;background:var(--fg);vertical-align:middle;margin:0 14px 4px 0}
+.hero[data-v="b"] h1{font-family:var(--gd-rg,'Noto Sans KR'),sans-serif;font-size:74px;line-height:92px;letter-spacing:-.035em}
+.hero[data-v="b"] h1 em{font-style:normal}
+.hero[data-v="b"] .sub{top:516px}
+.hero[data-v="b"] .ctas{top:614px;width:690px}
+.hero[data-v="b"] .btn{display:grid;grid-template-columns:52px 1fr 30px;align-items:center;height:64px;border-top:1px solid var(--line);font-family:var(--greta-md,'Noto Sans KR'),sans-serif;font-size:18px}
+.hero[data-v="b"] .b2{border-bottom:1px solid var(--line);color:var(--fg2)}
+.hero[data-v="b"] .ix{font-family:var(--greta-rg,'Noto Sans KR'),sans-serif;font-size:13px;letter-spacing:.08em;color:var(--fg3)}
+.hero[data-v="b"] .b1 .lb{color:var(--fg)}
+.hero[data-v="b"] .kpis{top:822px;width:690px;grid-template-columns:repeat(3,230px)}
+.hero[data-v="b"] .num{top:0;font-family:var(--gd-lt,'Noto Sans KR'),sans-serif;font-size:84px;line-height:84px;letter-spacing:-.04em}
+.hero[data-v="b"] .num .u{font-family:var(--gd-rg,'Noto Sans KR'),sans-serif;font-size:24px;margin-left:8px}
+.hero[data-v="b"] .lab{top:100px;font-family:var(--greta-rg,'Noto Sans KR'),sans-serif}
+.hero[data-v="b"] .note{top:1006px}
+
+/* ━━ 시안 C · Grandiflora One — 세리프 럭셔리 */
+.hero[data-v="c"] .nav .cta{border-radius:999px}
+.hero[data-v="c"] .eyebrow{letter-spacing:.14em;font-size:15px;color:var(--fg2)}
+.hero[data-v="c"] .eyebrow .rule{display:none}
+.hero[data-v="c"] h1{top:292px;font-family:'Grandiflora One',serif;font-size:84px;line-height:108px;letter-spacing:-.07em}
+.hero[data-v="c"] h1 em{font-style:normal}
+.hero[data-v="c"] .sub{top:540px}
+.hero[data-v="c"] .ctas{top:644px;display:flex;align-items:center;gap:44px}
+.hero[data-v="c"] .btn{display:flex;align-items:center;font-family:var(--greta-md,'Noto Sans KR'),sans-serif;font-size:17px}
+.hero[data-v="c"] .b1{gap:22px;height:66px;padding:0 30px;background:var(--fg);color:var(--bg)}
+.hero[data-v="c"] .b2{gap:14px;height:66px;color:var(--fg);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:10px;text-decoration-color:rgba(252,238,216,.45)}
+.hero[data-v="c"] .ix{display:none}
+.hero[data-v="c"] .kpis{top:816px;width:684px;grid-template-columns:repeat(3,228px)}
+.hero[data-v="c"] .k+.k{border-left:1px solid var(--line)}
+.hero[data-v="c"] .k+.k .num,.hero[data-v="c"] .k+.k .lab{left:34px}
+.hero[data-v="c"] .num{top:6px;font-family:'Grandiflora One',serif;font-size:84px;line-height:84px;letter-spacing:-.04em}
+.hero[data-v="c"] .num .u{font-family:'Grandiflora One',serif;font-size:24px;margin-left:8px}
+.hero[data-v="c"] .lab{top:104px}
+.hero[data-v="c"] .note{top:1006px}
+
+/* 인트로 2(작업물 하나가 벽 속 자리로 돌아감) 전용 */
+.fly{position:absolute;left:0;top:0;width:440px;height:248px;border-radius:3px;overflow:hidden;opacity:0;transform-origin:50% 50%;box-shadow:0 60px 120px -40px rgba(0,0,0,.9);backface-visibility:hidden}
+.fly img{width:100%;height:100%;object-fit:cover;display:block}
+</style></head>
+<body><div class="fit" id="fit"><!--HERO--><div class="hero" id="hero" data-v="a">
+<div class="stage"><div class="plane" id="plane"><div class="row r0"><div class="track"><figure class="card"><div class="scr"><video src="../../v3/media/ref01.webm" poster="../../v3/media/ref01-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 01<i>여행 / 유학원</i></figcaption></figure><figure class="card" id="slot03"><div class="scr"><img src="../../v3/media/ref03.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 03<i>한식당</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref11.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 11<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref07.webm" poster="../../v3/media/ref07-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 07<i>호스피스</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref13.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 13<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref01.webm" poster="../../v3/media/ref01-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 01<i>여행 / 유학원</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref03.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 03<i>한식당</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref11.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 11<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref07.webm" poster="../../v3/media/ref07-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 07<i>호스피스</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref13.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 13<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><div class="fly" id="fly"><img src="../../v3/media/ref03-big.jpg" alt=""></div></div></div><div class="row r1"><div class="track"><figure class="card"><div class="scr"><img src="../../v3/media/ref08.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 08<i>미용실 / 헤어 살롱</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref02.webm" poster="../../v3/media/ref02-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 02</figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref12.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 12<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref09.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 09<i>건강식품</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref05.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 05<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref08.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 08<i>미용실 / 헤어 살롱</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref02.webm" poster="../../v3/media/ref02-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 02</figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref12.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 12<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref09.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 09<i>건강식품</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref05.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 05<i>패스트푸드 프랜차이즈</i></figcaption></figure></div></div><div class="row r2"><div class="track"><figure class="card"><div class="scr"><img src="../../v3/media/ref14.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 14<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref04.webm" poster="../../v3/media/ref04-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 04<i>오클랜드 현지 여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref15.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 15<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref06.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 06<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref10.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 10<i>택시 호출 및 배차 플랫폼 개발</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref14.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 14<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref04.webm" poster="../../v3/media/ref04-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 04<i>오클랜드 현지 여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref15.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 15<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref06.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 06<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref10.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 10<i>택시 호출 및 배차 플랫폼 개발</i></figcaption></figure></div></div></div></div>
+<div class="veil"></div>
+<div class="logo" id="logo"><img src="../../../content/assets/logo/new/vector/pause-studio-logo-cream.svg" alt="Pause Studio"></div>
+<nav class="nav" id="nav" data-g="greta:nav"><a>포트폴리오</a><a>서비스</a><a>요금</a><a>자주 묻는 질문</a><a>한국어</a><a class="cta">문의하기<svg viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></nav>
+<p class="eyebrow" id="eb" data-g="greta:eb"><span class="rule"></span>한인 비즈니스를 위한 브랜딩 스튜디오</p>
+<h1 id="h1" data-g="H:h1"><span class="ln"><span>선택받는 브랜드는</span></span><span class="ln"><span><em>보여지는 방식</em>이 다릅니다.</span></span></h1>
+<p class="sub" id="sub" data-g="greta:sub">웹사이트 제작부터 AI 영상 제작까지,<br>브랜드가 고객에게 보여지는 모든 순간을 만듭니다.</p>
+<div class="ctas" id="ctas" data-g="greta:cta"><a class="btn b1"><span class="ix">01</span><span class="lb">무료 웹사이트 정밀 상담신청</span><svg class="ar" width="30" height="12" viewBox="0 0 30 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 6h28.5M23.5 1l5 5-5 5"/></svg></a><a class="btn b2"><span class="ix">02</span><span class="lb">카카오톡 1:1 실시간 상담</span><svg class="ar" width="30" height="12" viewBox="0 0 30 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 6h28.5M23.5 1l5 5-5 5"/></svg></a></div>
+<div class="kpis" id="kpis"><div class="k"><p class="num" data-g="N:kn"><span class="cnt" data-kind="count" data-to="42">42</span><span class="u">건+</span></p><p class="lab" data-g="greta:kl">누적 작업</p></div><div class="k"><p class="num" data-g="N:kn"><span class="cnt" data-kind="range" data-to="2">2–3</span><span class="u">주</span></p><p class="lab" data-g="greta:kl">평균 오픈 기간</p></div><div class="k"><p class="num" data-g="N:kn"><span class="cnt" data-kind="roll" data-to="0">$0</span></p><p class="lab" data-g="greta:kl">기본 월 관리비*</p></div></div>
+<p class="note" id="note" data-g="greta:note">* 기본 호스팅·기존 기능의 기술적 오류 보수 포함 · 도메인·외부 서비스 비용 별도</p>
+</div><!--/HERO--></div>
+<script id="hero-js">
+/* initHero(root,{mode:'live'|'render', intro:1|2, skipIntro})
+   - 모든 상태는 시간 t의 함수 → 시안 캡처는 프레임 단위로 정확, 실제 사이트는 requestAnimationFrame 재생
+   - 인트로 1: 어둠 속 초점이 맞으며 벽이 다가옴(흐림→선명, 깊이 이동) + 제목 줄 단위 마스크 등장 + 숫자 카운트
+   - 인트로 2: 작업물 하나가 화면 가까이 떠 있다가 벽 속 제자리로 날아가 꽂힘 */
+function initHero(root, opts){
+  opts = opts || {};
+  const $=(s)=>root.querySelector(s), $$=(s)=>[...root.querySelectorAll(s)];
+  const INTRO=3.0, P=24, VID=8;
+  const FX=+(opts.fx??600), FY=+(opts.fy??470), FZ=+(opts.fz??560), FS=+(opts.fs??1.6);  // 인트로 2 시작 위치(벽 좌표)
+  const clamp=(x)=>x<0?0:x>1?1:x, span=(t,a,b)=>clamp((t-a)/(b-a)), mod=(a,n)=>((a%n)+n)%n;
+  const eOut=(x)=>1-Math.pow(1-clamp(x),3), eExpo=(x)=>x>=1?1:1-Math.pow(2,-10*clamp(x)), io=(x)=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;};
+  const rows=$$('.row .track'), rowW=5*(440+28), cards=$$('.card');
+  const vids=$$('video'), imgs=$$('.card img');
+  const plane=$('#plane'), fly=$('#fly'), slot=$('#slot03'), veil=$('.veil');
+  const lines=$$('#h1 .ln>span');
+  const cnts=$$('.cnt');
+  let mx=0,my=0;
+  if(opts.mode==='live') addEventListener('mousemove',(ev)=>{mx=ev.clientX/innerWidth-.5; my=ev.clientY/innerHeight-.5;});
+  const show=(el,o,y)=>{ if(!el) return; el.style.opacity=o; el.style.transform=y?`translateY(${y.toFixed(2)}px)`:''; };
+  // 카운팅: 42는 0→42, 2–3주는 0→2 후 '–3' 등장, $0은 숫자가 굴러가다 0에 멈춤
+  function counts(t){
+    const a=1.55, d=1.5;
+    cnts.forEach((el)=>{ const k=eExpo(span(t,a,a+d)), kind=el.dataset.kind, to=+el.dataset.to;
+      let s;
+      if(kind==='count') s=String(Math.round(to*k));
+      else if(kind==='range') s=(k<0.55?String(Math.round(2*k/0.55)):'2')+(k>=0.55?'–3':'');
+      else { const n=Math.floor((1-k)*23); s='$'+String(n%10); }
+      if(el.textContent!==s) el.textContent=s; });
+  }
+  function frame(t){
+    const intro2=opts.intro===2;
+    const ph=mod(t,P);
+    show($('#logo'),eOut(span(t,0.05,0.9)));
+    show($('#nav'),eOut(span(t,0.2,1.0)));
+    show($('#eb'),eOut(span(t,0.35,1.05)),10*(1-eOut(span(t,0.35,1.05))));
+    lines.forEach((l,i)=>{ const k=eExpo(span(t,0.5+i*0.16,1.6+i*0.16)); l.style.transform=`translateY(${((1-k)*112).toFixed(2)}%)`; });
+    show($('#sub'),eOut(span(t,1.15,1.9)),16*(1-eOut(span(t,1.15,1.9))));
+    show($('#ctas'),eOut(span(t,1.3,2.05)),16*(1-eOut(span(t,1.3,2.05))));
+    show($('#kpis'),eOut(span(t,1.45,2.1)));
+    show($('#note'),eOut(span(t,1.9,2.6)));
+    counts(t);
+    // 벽
+    let wallIn, blur=0, z=0, ry=0;
+    if(!intro2){ wallIn=io(span(t,0.1,2.5)); blur=(1-eOut(span(t,0.1,2.3)))*16; z=(1-wallIn)*-460; ry=(1-wallIn)*-7; }
+    else { wallIn=io(span(t,0.9,2.4)); z=(1-wallIn)*-120; }
+    plane.style.opacity=intro2?1:wallIn.toFixed(4);
+    plane.style.filter=blur>0.05?`blur(${blur.toFixed(2)}px)`:'none';
+    if(intro2) cards.forEach((c)=>{ c.style.opacity=(c===slot?span(t,2.2,2.5):wallIn).toFixed(4); });
+    plane.style.transform=`rotateY(${(-24+ry+mx*6).toFixed(3)}deg) rotateX(${(9-my*4).toFixed(3)}deg) rotateZ(-3deg) translateZ(${z.toFixed(1)}px)`;
+    rows.forEach((r,i)=>{ const f=ph/P*rowW; const x=i%2===0?-f:-rowW+f; r.style.transform=`translate3d(${x.toFixed(2)}px,0,0)`; });
+    imgs.forEach((im,i)=>{ const s=1.0+0.05*(0.5-0.5*Math.cos(2*Math.PI*(ph/P)+i)); im.style.transform=`scale(${s.toFixed(4)})`; });
+    // 인트로 2: 하나의 작업물(동대문)이 화면 앞에 정면으로 떠 있다가 벽의 제자리로
+    if(intro2){
+      const k=io(span(t,0.85,2.35));
+      const x0=slot.offsetLeft;
+      // 시작: 벽의 회전을 되돌려 정면, 앞으로 당겨 크게 / 끝: 제자리(변환 없음)
+      const tx=x0+(1-k)*(-x0+FX), ty=(1-k)*FY, tz=(1-k)*FZ;
+      fly.style.opacity=(t<0.05?0:eOut(span(t,0.05,0.5))*(1-span(t,2.25,2.6))).toFixed(4);
+      fly.style.transform=`translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,${tz.toFixed(1)}px) rotateZ(${(3*(1-k)).toFixed(3)}deg) rotateX(${(-9*(1-k)).toFixed(3)}deg) rotateY(${(24*(1-k)).toFixed(3)}deg) scale(${(1+(FS-1)*(1-k)).toFixed(4)})`;
+      veil.style.opacity=(0.25+0.75*eOut(span(t,0.9,2.2))).toFixed(4);
+    } else { fly.style.opacity=0; veil.style.opacity=1; }
+    return ph;
+  }
+  if(opts.mode==='render'){
+    return { INTRO, P, async renderAt(t, o){ const ph=frame(t); if(o&&o.noVideo) return ph; const vt=mod(t,VID);
+      await Promise.all(vids.map(v=>new Promise(res=>{ if(Math.abs(v.currentTime-vt)<1e-3&&v.readyState>=2) return res(); const on=()=>{v.removeEventListener('seeked',on);res();}; v.addEventListener('seeked',on); v.currentTime=vt+1e-4; setTimeout(res,2000);})));
+      return ph; } };
+  }
+  const start=performance.now()-(opts.skipIntro?INTRO*1000:0);
+  vids.forEach(v=>{v.play().catch(()=>{});});
+  (function loop(){ frame((performance.now()-start)/1000); requestAnimationFrame(loop); })();
+  return {INTRO,P};
+}
+</script>
+<script>const q=new URLSearchParams(location.search);const fit=document.getElementById('fit');document.getElementById('hero').dataset.v=q.get('v')||'a';
+function rs(){const s=Math.min(innerWidth/1920,innerHeight/1080);fit.style.transform=`translate(-50%,-50%) scale(${s})`;}
+rs();addEventListener('resize',rs);window.__hero=initHero(document,{mode:q.get('render')?'render':'live',intro:+(q.get('intro')||1),skipIntro:!!q.get('loop')});</script></body></html>

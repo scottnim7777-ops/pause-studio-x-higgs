@@ -1,0 +1,47 @@
+{
+  "label": "v28-c3-gallery",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Photograph of a quiet contemporary art gallery at dusk. A large plain white wall with a sharp rectangular area of projected light on it — a flat front-facing rectangle of uniform soft white-grey projected light. A thin beam from a ceiling projector behind the camera is visible as a faint shaft of light with tiny floating dust particles catching it. Grey polished floor, a single low wooden bench in the foreground slightly out of focus. Camera low, 35mm lens, calm and still. Shot on a Sony A7R V, true-to-life colour, realistic exposure, fine natural grain, restrained cinematic grade with soft highlights and warm shadows. Quiet luxury, architectural photography. No people. No readable text anywhere, no logos, no watermark.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "v28 plan stills",
+  "submitted_at": "2026-10-07T20:36:00.991Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-07T20:36:01.860Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-07T20:38:26.502Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "2a4f3ea0-03e2-4c2e-8a6e-b0bfaf254b4f",
+  "status_url": "https://api.higgsfield.ai/requests/2a4f3ea0-03e2-4c2e-8a6e-b0bfaf254b4f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/2a4f3ea0-03e2-4c2e-8a6e-b0bfaf254b4f/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "2a4f3ea0-03e2-4c2e-8a6e-b0bfaf254b4f",
+    "status_url": "https://api.higgsfield.ai/requests/2a4f3ea0-03e2-4c2e-8a6e-b0bfaf254b4f/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/2a4f3ea0-03e2-4c2e-8a6e-b0bfaf254b4f/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5664f95a-be69-4221-988e-9ba75788f517.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-07T20:38:26.501Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v28-c3-gallery/v28-c3-gallery_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/5664f95a-be69-4221-988e-9ba75788f517.png",
+      "bytes": 2277192,
+      "sha256": "1206f8806cb445673c01c263db479635a2a8c9fd62665ec4a2ab3c944c1cb672"
+    }
+  ],
+  "downloaded_at": "2026-10-07T20:38:28.329Z"
+}

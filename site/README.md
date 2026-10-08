@@ -28,18 +28,21 @@ npm run check        # 타입 검사 + 빌드
 | `scripts/render.ts` | `index.template.html` → `index.html` |
 | `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4) + `src/content/media.json`(실제 크기) |
 | `tests/smoke.cjs` | 브라우저 점검 79개(화면 폭 7종, 상담 4종 흐름, 크게 보기, 메뉴, 계산기, 동작 줄이기, JS 없음) |
-| `tests/preview.cjs` | 실제 산돌 서체로 전체 미리보기 이미지 만들기(산돌 테스터 페이지 안에서만 그림) |
+| `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
+| `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2) + `src/styles/fonts.css` |
+| `Dockerfile` | 배포용(Cloud Run 등) — `node dist/server.cjs`, 포트는 `PORT`(기본 8080) |
 
-## ★ 운영 전에 꼭 할 일
-1. **산돌구름 웹폰트 연결**(디자인의 핵심). 산돌구름에서 *SD 격동고딕2*, *SD 그레타산스* 웹폰트를 구독하고(표준 요금 기준 월 ₩33,000 — 2종) pause8studio.com 도메인을 등록한 뒤, 받은 연결 코드를 `site/webfont.html`에 넣습니다. 서체 이름은 같은 파일에서 지정합니다:
-   ```html
-   <!-- site/webfont.html (예시 — 실제 코드는 산돌구름에서 받은 것으로) -->
-   <link rel="stylesheet" href="(산돌구름이 준 주소)">
-   <style>:root{--font-display:'(격동고딕2 이름)';--font-text:'(그레타산스 Regular 이름)';--font-text-md:'(그레타산스 Medium 이름)';--weight-text-md:500}</style>
-   ```
-   `npm run build`가 이 내용을 `<head>`에 넣습니다. 연결 전에는 시스템 고딕으로 보입니다(기능은 모두 정상).
-2. **메일 설정**: `.env.example`을 참고해 배포 환경에 `SMTP_HOST/PORT/USER/PASS`를 넣습니다(Gmail은 앱 비밀번호). 비워 두면 FormSubmit으로 보냅니다 — FormSubmit은 처음 한 번 받는 주소로 확인 메일이 가므로 승인해야 합니다.
-3. 배포 후 상담 창에서 실제로 한 번 보내 보고 메일이 오는지 확인합니다(이 저장소에서는 실제 메일을 보내지 않았습니다).
+## 폰트(무료 · 직접 호스팅)
+- 제목 **PS Display** = 나눔스퀘어 네오 Bold(한글, 네이버 · 디자인 산돌) + Archivo 폭 70·굵기 500(영문·숫자) — 산돌 격동고딕2와 가장 비슷한 무드
+- 본문 **PS Text** = 나눔스퀘어 네오 Regular / 강조 Bold — 산돌 그레타산스와 본문 밀도·줄바꿈이 거의 같음
+- 모두 SIL OFL 1.1(무료, 상업 사용 가능). 웹용으로 글자를 줄이고 이름을 바꾼 파일이 `public/fonts/`에 있고, 라이선스는 `public/fonts/LICENSE.txt`.
+- 첫 화면에는 사이트에 쓰인 글자 묶음(약 90KB)만, 나머지 자주 쓰는 한글 2,350자는 필요할 때만 받습니다.
+- 문구를 많이 바꿨다면: `npm run render && python3 scripts/fonts.py` (안 해도 글자는 모두 나옵니다 — 첫 화면이 조금 더 가벼워질 뿐). 필요: Python 3, `pip install fonttools brotli`.
+
+## ★ 운영 전에 할 일
+1. **메일 설정**: 배포 환경에 `SMTP_HOST/PORT/USER/PASS`(`.env.example` 참고, Gmail은 앱 비밀번호). 비워 두면 FormSubmit으로 보내며, 처음 한 번 받는 주소로 확인 메일이 오니 승인해야 합니다.
+2. 배포 후 상담 창에서 실제로 한 번 보내 보고 메일이 오는지 확인(이 저장소에서는 실제 메일을 보내지 않았습니다).
+3. 기존 사이트를 바꾸는 순서·되돌리기: `../docs/DEPLOY.md` (도메인은 그대로, `Dockerfile`로 Cloud Run 등에 배포).
 
 ## 상담 신청(`/api/contact`)
 - 상담 종류: 웹사이트 제작 · AI 영상광고 · 웹사이트 + AI 영상광고 · AI 업무 자동화/맞춤 개발 → 종류에 맞는 질문만 보이고, 숨긴 질문은 보내지 않습니다.
@@ -58,9 +61,11 @@ npm run check        # 타입 검사 + 빌드
 npm run build && PORT=3100 NODE_ENV=production node dist/server.cjs &
 NODE_PATH=/opt/node22/lib/node_modules node tests/smoke.cjs http://localhost:3100 tests/out
 ```
-결과(2026-10-08): 79/79 통과 — 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택, 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
+NODE_PATH=/opt/node22/lib/node_modules node tests/a11y.cjs http://localhost:3100
+```
+결과(2026-10-08): 79/79 통과, 접근성 위반 0 — — 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택, 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
 
 ## 접근성·성능 메모
 - 키보드로 모든 기능 사용 가능, 창은 Esc로 닫고 원래 버튼으로 초점이 돌아갑니다. 타이핑 제목은 화면 읽기 프로그램에 전체 문장으로 읽힙니다.
 - 5초 넘게 움직이는 것(작업물 벽·자동 재생 영상)은 멈출 수 있고, '움직임 멈추기'는 다음 방문에도 기억됩니다. 운영체제의 '동작 줄이기'를 켜면 인트로와 자동 재생이 없습니다.
-- 첫 화면: HTML 28KB(gzip) · CSS 10KB · JS 8KB. 사진은 WebP 우선·지연 로딩, 히어로 영상은 PC에서 화면에 보이는 카드만 재생(모바일은 사진).
+- 첫 화면: HTML 28KB(gzip) · CSS 10KB · JS 8KB · 폰트 약 90KB. 사진은 WebP 우선·지연 로딩, 히어로 영상은 PC에서 화면에 보이는 카드만 재생(모바일은 사진).

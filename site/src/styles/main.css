@@ -1,5 +1,7 @@
 /* PAUSE STUDIO — 디자인 규칙은 docs/DESIGN_SYSTEM.md
-   서체: 제목 SD 격동고딕2 · 본문 SD 그레타산스 (산돌구름 웹폰트). 웹폰트가 연결되지 않으면 시스템 고딕으로 대체 */
+   서체(무료·직접 호스팅): 제목 PS Display = 나눔스퀘어 네오 Bold + Archivo 좁은 폭(영문·숫자), 본문 PS Text = 나눔스퀘어 네오
+   폰트 파일·@font-face는 scripts/fonts.py 가 만든다(fonts.css) */
+@import './fonts.css';
 
 /* ───────── 토큰 ───────── */
 :root {
@@ -18,12 +20,12 @@
   --paper-line: rgba(20, 19, 17, .16);
 
   --fallback-sans: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', sans-serif;
-  --f-display: var(--font-display, 'SD Gyeokdong Gothic 2', var(--fallback-sans));
-  --w-display: var(--weight-display, 400);
-  --f-text: var(--font-text, 'SD Greta Sans', var(--fallback-sans));
-  --w-text: var(--weight-text, 400);
-  --f-text-md: var(--font-text-md, 'SD Greta Sans', var(--fallback-sans));
-  --w-text-md: var(--weight-text-md, 500);
+  --f-display: 'PS Display', var(--fallback-sans);
+  --w-display: 400;
+  --f-text: 'PS Text', var(--fallback-sans);
+  --w-text: 400;
+  --f-text-md: 'PS Text', var(--fallback-sans);
+  --w-text-md: 700;
 
   --fs-hero: clamp(36px, 3.96vw, 76px);
   --fs-h2: clamp(34px, 3.3vw, 64px);
@@ -61,8 +63,8 @@ ul, ol { list-style: none; }
 em { font-style: normal; }
 :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 .sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.skip { position: fixed; left: 16px; top: -80px; z-index: 300; padding: 12px 18px; background: var(--cream); color: var(--ink); font-family: var(--f-text-md); font-weight: var(--w-text-md); }
-.skip:focus { top: 16px; }
+.skip { position: fixed; left: 16px; top: 16px; z-index: 300; padding: 12px 18px; background: var(--cream); color: var(--ink); font-family: var(--f-text-md); font-weight: var(--w-text-md); }
+.skip:not(:focus) { width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
 .sec { position: relative; padding-block: var(--sec-pad); }
@@ -181,9 +183,7 @@ em { font-style: normal; }
 .wall-toggle:hover { color: var(--cream); }
 
 /* ───────── 포트폴리오 ───────── */
-.work-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(40px, 3.6vw, 72px) clamp(16px, 1.4vw, 28px); }
-.wk { grid-column: span 4; }
-.wk.s7 { grid-column: span 7; } .wk.s5 { grid-column: span 5; } .wk.s3 { grid-column: span 3; }
+.work-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(36px, 3vw, 56px) clamp(16px, 1.4vw, 28px); }
 .wk-btn { display: block; width: 100%; text-align: left; }
 .wk-media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--ink-raise); border-radius: 2px; }
 .wk-media img, .wk-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transition: transform 1.1s var(--ease), opacity .6s; }
@@ -233,6 +233,8 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .pillars { margin-top: clamp(80px, 7vw, 136px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--paper-line); }
 .pillars li { padding: clamp(28px, 2.4vw, 44px) clamp(20px, 2vw, 40px) 0 0; }
 .pillars li + li { padding-left: clamp(20px, 2vw, 40px); border-left: 1px solid var(--paper-line); }
+.pillars li:nth-child(3n+1) { padding-left: 0; border-left: 0; }
+.pillars li:nth-child(n+4) { margin-top: clamp(28px, 2.4vw, 44px); border-top: 1px solid var(--paper-line); }
 .pillars .h3 { margin-top: 14px; }
 .pillars p { margin-top: 14px; color: var(--on-paper-2); }
 
@@ -269,6 +271,14 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .grp.wide ul { columns: 3; column-gap: clamp(28px, 3vw, 56px); }
 .grp.wide li { break-inside: avoid; }
 .grp.off li { color: var(--cream-2); }
+.grp.key { padding: clamp(20px, 1.8vw, 32px) clamp(20px, 1.8vw, 32px) clamp(14px, 1.2vw, 22px); background: rgba(252, 238, 216, .045); border: 1px solid rgba(252, 238, 216, .24); }
+.grp.key h4 { display: flex; align-items: center; gap: 12px; font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(19px, 1.35vw, 25px); letter-spacing: -.01em; color: var(--cream); border-bottom-color: rgba(252, 238, 216, .3); }
+.plus { display: inline-grid; place-items: center; width: 1.25em; height: 1.25em; border: 1px solid currentColor; font-size: .78em; line-height: 1; flex: none; }
+.grp.key li { font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(17px, 1.1vw, 20px); color: var(--cream); padding-left: 24px; }
+.grp.key li::before { content: "+"; width: auto; height: auto; background: none; top: 6px; left: 1px; color: var(--cream); font-family: var(--f-display); }
+.grp.base { grid-column: 1 / -1; }
+.grp.base h4 { border-bottom: 0; padding-bottom: 4px; margin-bottom: 0; }
+.grp.base p { font-size: var(--fs-small); line-height: 1.75; color: var(--cream-3); }
 .svc-notes { margin-top: clamp(28px, 2.4vw, 44px); display: grid; gap: 8px; font-size: var(--fs-small); line-height: 1.7; color: var(--cream-3); }
 .svc-notes li { position: relative; padding-left: 16px; }
 .svc-notes li::before { content: "·"; position: absolute; left: 2px; }
@@ -369,7 +379,7 @@ html:not(.js) .vctrl { display: none; }
 .calc label { display: grid; gap: 6px; font-size: var(--fs-small); color: var(--cream-3); }
 .money { display: flex; align-items: center; height: 54px; border-bottom: 1px solid rgba(252, 238, 216, .4); font-size: clamp(18px, 1.2vw, 22px); color: var(--cream); }
 .money span { color: var(--cream-3); margin-right: 6px; }
-.money input { flex: 1; min-width: 0; height: 100%; background: transparent; border: 0; outline: 0; font-variant-numeric: tabular-nums; }
+.money input { flex: 1; width: 0; min-width: 0; height: 100%; background: transparent; border: 0; outline: 0; font-variant-numeric: tabular-nums; }
 .money:focus-within { border-bottom-color: var(--cream); }
 .calc-pause { display: grid; align-content: start; gap: 12px; }
 .calc-pause .fixed { display: flex; align-items: center; height: 54px; border-bottom: 1px solid var(--cream-line); font-size: clamp(18px, 1.2vw, 22px); }
@@ -396,6 +406,7 @@ html:not(.js) .vctrl { display: none; }
 .closing .stmt em { color: var(--on-paper); font-family: var(--f-text-md); font-weight: var(--w-text-md); }
 
 /* ───────── 요금 ───────── */
+.price-hook .ln + .ln > span { color: var(--cream); }
 .price-banner { font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(22px, 1.9vw, 36px); line-height: 1.4; letter-spacing: -.02em; color: var(--cream-2); }
 .price-banner .ln { display: block; }
 .price-banner .ln + .ln { color: var(--cream); }
@@ -411,7 +422,19 @@ html:not(.js) .vctrl { display: none; }
 .plan .type { margin-top: 8px; font-size: var(--fs-small); color: var(--cream-2); }
 .plan .price { margin-top: clamp(24px, 2.2vw, 42px); font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(42px, 3.9vw, 76px); line-height: 1; letter-spacing: -.035em; }
 .plan .price small { font-family: var(--f-text); font-weight: var(--w-text); font-size: .3em; letter-spacing: 0; margin-left: 8px; }
-.plan ul { margin-top: clamp(24px, 2.2vw, 40px); padding-top: clamp(18px, 1.6vw, 28px); border-top: 1px solid currentColor; border-top-color: rgba(127, 127, 127, .3); display: grid; gap: 4px; flex: 1; }
+.plan .pl-body { flex: 1; display: grid; align-content: start; gap: 12px; margin-top: clamp(24px, 2.2vw, 40px); padding-top: clamp(18px, 1.6vw, 28px); border-top: 1px solid rgba(127, 127, 127, .3); }
+.plan .pl-lab { font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-label); letter-spacing: .04em; color: var(--cream-3); }
+.plan ul { display: grid; gap: 2px; }
+.plan ul.adds li { font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(17px, 1.15vw, 20px); color: var(--cream); padding: 7px 0 7px 26px; }
+.plan ul.adds li::before { content: "+"; width: auto; height: auto; background: none; top: 7px; left: 2px; color: inherit; font-family: var(--f-display); }
+.plan .pl-scope { font-size: var(--fs-small); line-height: 1.6; color: var(--cream-2); }
+.plan .pl-base { margin-top: 4px; padding-top: 14px; border-top: 1px dashed rgba(127, 127, 127, .35); display: grid; gap: 6px; }
+.plan .pl-base p:last-child { font-size: 14.5px; line-height: 1.7; color: var(--cream-3); }
+.plan .pl-lab.add { display: flex; align-items: center; gap: 10px; font-size: var(--fs-small); letter-spacing: .02em; color: var(--cream); }
+.plan .pl-lab.add::before { content: ""; width: 18px; height: 1.5px; background: currentColor; }
+.plan.featured .pl-lab, .plan.featured .pl-base p:last-child { color: rgba(12, 12, 11, .62); }
+.plan.featured .pl-lab.add { color: var(--ink); }
+.plan.featured ul.adds li, .plan.featured .pl-scope { color: var(--ink); }
 .plan li { position: relative; padding: 6px 0 6px 22px; line-height: 1.6; color: var(--cream-2); }
 .plan li::before { content: ""; position: absolute; left: 2px; top: calc(6px + .8em); width: 9px; height: 1px; background: var(--cream-3); }
 .plan .btn { margin-top: clamp(28px, 2.4vw, 44px); width: 100%; }
@@ -564,6 +587,7 @@ html:not(.js) .vctrl { display: none; }
   .basics-grid { grid-template-columns: repeat(2, 1fr); }
   .terms { grid-template-columns: repeat(2, 1fr); }
   .grp.wide ul { columns: 2; }
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
   .hd-nav { display: none; }
@@ -592,8 +616,7 @@ html:not(.js) .vctrl { display: none; }
   .film-steps li, .film-steps li + li { padding: 24px 0 0; border-left: 0; }
   .film-steps li + li { margin-top: 24px; border-top: 1px solid var(--cream-line); }
   .cmp-case { grid-template-columns: 1fr; }
-  .work-grid { grid-template-columns: repeat(2, 1fr); }
-  .wk, .wk.s7, .wk.s5, .wk.s3 { grid-column: span 1; }
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ft-cols { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 767px) {
@@ -653,6 +676,7 @@ html:not(.js) .vctrl { display: none; }
   html { scroll-behavior: auto; }
   .js .rv, .js .rv .ln > span, .js .line-draw, .js .ledger :is(.ledger-zero span, .ledger-months b, .ledger-total b) { opacity: 1 !important; transform: none !important; transition: none !important; }
   .ct-window .dot { animation: none; }
+  .sig .st { stroke-dashoffset: 0 !important; animation: none !important; }
   .btn, .btn::before, .btn .ar { transition: none; }
 }
 

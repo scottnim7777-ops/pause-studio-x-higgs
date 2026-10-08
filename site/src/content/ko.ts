@@ -23,7 +23,7 @@ export const meta = {
   keywords: 'pausestudio, pausestudio.com, pause studio, 퍼즈스튜디오, 퍼즈 스튜디오, 웹사이트 제작, AI 영상광고, 오클랜드 웹사이트 제작, 뉴질랜드 웹 제작, 한인 비즈니스',
   canonical: 'https://pause8studio.com/',
   ogTitle: 'PAUSE Studio | 한인 비즈니스를 위한 브랜딩 스튜디오',
-  ogDescription: '웹사이트 제작부터 AI 영상광고까지, 브랜드가 고객에게 보여지는 모든 순간을 만듭니다. 제작비는 한 번, 기본 월 관리비 $0.',
+  ogDescription: '브랜드는 더 돋보이게. 매달 관리비는 없게. 웹사이트 제작부터 AI 영상광고까지, 브랜드가 고객에게 보여지는 모든 순간을 만듭니다.',
   ogImage: 'https://pause8studio.com/og.jpg',
   googleSiteVerification: 'YRTNSno7nYptgfm08ZthTl09DUbhS9NT6hKgg9iOQ4U',
 };
@@ -89,10 +89,14 @@ export const why = {
     "'한 번 받았으니 이제 남'이라는 뜻이 아닙니다. 오히려 그 반대입니다. 계약된 기능에 오류가 나거나 서버에 문제가 생기면 추가 비용 없이 제가 직접 챙깁니다. 제작비는 한 번만 받되, 대표님 사이트는 제 일처럼 꼼꼼히 봐드립니다.",
   ],
   signatureLabel: 'PAUSE STUDIO 대표',
+  /** 사업 정책 §2 '고객이 PAUSE를 선택해야 할 이유' */
   pillars: [
-    { title: '직접 관리가능한 어드민', desc: '블로그나 인스타그램처럼 쉽습니다. 계약에서 정한 텍스트, 이미지, 상품을 직접 수정하세요.' },
-    { title: '전문 기술지원', desc: '제작 후에도 계약된 기능의 오류와 기본적인 서버 문제는 무료로 지원합니다.' },
-    { title: '합리적인 독립', desc: '도메인은 가능한 대표님 명의로 등록하고, 콘텐츠·데이터와 계약된 제작 결과물의 권리와 인계 범위를 명확히 드립니다.' },
+    { title: '브랜드 맞춤 디자인', desc: '템플릿을 조립하지 않습니다. 브랜드의 분위기와 특성을 담아 화면을 처음부터 설계합니다.' },
+    { title: '기본 월 관리비 $0', desc: '제작 후 PAUSE Studio에 매달 내는 기본 관리비가 없습니다. 기본 호스팅과 기존 기능의 기술적 오류 보수도 무료입니다.' },
+    { title: '대표 직접 제작', desc: '상담부터 디자인, 개발, 최종 검수까지 대표가 직접 참여합니다. 담당자가 바뀌거나 하청으로 넘어가지 않습니다.' },
+    { title: '직접 관리하는 웹사이트', desc: '블로그나 인스타그램처럼 쉽습니다. 지정된 텍스트, 이미지, 메뉴와 가격을 직접 수정하세요.' },
+    { title: '명확한 소유권', desc: '도메인은 가능한 대표님 명의로 등록하고, 콘텐츠·데이터와 계약된 제작 결과물의 권리와 인계 범위를 명확히 드립니다.' },
+    { title: '비즈니스 솔루션 개발', desc: '웹사이트를 넘어 온라인 주문, AI 업무 자동화, 고객·재고 관리, 외부 시스템 연동까지 개발합니다.' },
   ],
 };
 
@@ -110,9 +114,11 @@ export const who = {
   ],
 };
 
+/** tone: key = 이 상품만의 핵심(강조, 맨 위) · base = 아래 상품에 이미 있는 기본(작게, 강조 없이) */
+export type Group = { title: string; items: string[]; tone?: 'key' | 'base' };
 export type Service = {
   key: string; index: string; name: string; ko: string; price: string; priceNote?: string;
-  headline: string; purpose: string; groups: { title: string; items: string[] }[]; footnotes?: string[];
+  headline: string; purpose: string; groups: Group[]; footnotes?: string[];
 };
 
 export const services = {
@@ -135,9 +141,10 @@ export const services = {
       headline: '온라인 주문과 결제를 받는 웹사이트',
       purpose: '고객이 상품이나 음식을 직접 선택하고 온라인으로 주문·결제할 수 있는 웹사이트입니다. 일반 쇼핑몰과 식당 온라인 주문 웹사이트를 하나의 상품으로 통합했습니다.',
       groups: [
-        { title: 'WEBSITE에 더해지는 핵심 기능', items: ['온라인 주문 접수', '장바구니 및 카드 결제', '주문 내역·상태 관리', '상품·메뉴 직접 수정', '기본 주문 알림'] },
-        { title: '기본 제공', items: ['WEBSITE의 기본 디자인 및 소개 기능', '일반 콘텐츠 페이지 최대 5개', '상품·메뉴 최대 20개 등록', '상품 목록 및 상세 화면', '주문 완료 화면', '주문 이메일 알림', '표준 결제 서비스 1개 연동', '단일 매장 운영 · 기본 주문 처리 방식 1개', '관리자 기능', '기본 호스팅', '기존 기능 기술적 오류 보수', 'PAUSE Studio 월 관리비 $0'] },
+        { title: 'WEBSITE에 더해지는 핵심 기능', tone: 'key', items: ['온라인 주문 접수', '장바구니 및 카드 결제', '주문 내역·상태 관리', '상품·메뉴 직접 수정', '기본 주문 알림'] },
+        { title: 'ONLINE STORE 기본 범위', items: ['상품·메뉴 최대 20개 등록', '상품명 및 가격 직접 수정', '상품 목록 및 상세 화면', '주문 완료 화면', '주문 이메일 알림', '표준 결제 서비스 1개 연동', '단일 매장 운영 · 기본 주문 처리 방식 1개'] },
         { title: '별도 견적', items: ['주방 디스플레이(KDS)', '주문 프린터 자동 출력', 'POS 시스템 연동', '복잡한 재고 관리', '다중 매장 운영', '고급 회원 등급 및 포인트', '복잡한 상품·메뉴 옵션', '특수 배송비 계산', '외부 ERP·CRM 연동'] },
+        { title: 'WEBSITE 기본 제공 사항은 그대로 포함', tone: 'base', items: ['WEBSITE의 기본 디자인 및 소개 기능', '일반 콘텐츠 페이지 최대 5개', '관리자 기능', '기본 호스팅', '기존 기능 기술적 오류 보수', 'PAUSE Studio 월 관리비 $0'] },
       ],
       footnotes: ['$4,490부터는 표준 주문·결제 기능을 구현하는 기본 상품의 시작 가격입니다.', '기본 범위: 한 개의 사업장 · 하나의 판매 통화 · 표준 결제대행사 한 곳 · 단순한 픽업 또는 표준 배송.', '외부 결제대행사 수수료나 필수 플랫폼 이용료는 별도로 발생할 수 있습니다.'],
     },
@@ -146,7 +153,7 @@ export const services = {
       headline: 'AI 기반 업무 자동화(AX)부터 비즈니스 전용 시스템 구축까지.',
       purpose: '반복되는 업무는 줄이고, 복잡한 운영은 더 간편하게. PAUSE Studio는 비즈니스의 실제 업무 흐름을 분석하고, AI와 자동화 기술을 활용해 필요한 시스템을 맞춤 설계·개발합니다. 단순한 웹사이트를 넘어, 비즈니스가 더 효율적으로 운영될 수 있는 디지털 환경을 만듭니다.',
       groups: [
-        { title: 'AI 기반 업무 자동화(AX)', items: ['AI 고객 상담', '고객 문의 자동 분류', '이메일 응대 초안 작성', '견적서 작성 자동화', '인보이스 및 문서 처리', '예약·문의 정보 자동 등록', '반복적인 데이터 입력 자동화', '업무 알림 및 보고 자동화'] },
+        { title: 'AI 기반 업무 자동화(AX)', tone: 'key', items: ['AI 고객 상담', '고객 문의 자동 분류', '이메일 응대 초안 작성', '견적서 작성 자동화', '인보이스 및 문서 처리', '예약·문의 정보 자동 등록', '반복적인 데이터 입력 자동화', '업무 알림 및 보고 자동화'] },
         { title: '비즈니스 운영 시스템', items: ['고객 관리', '예약 관리', '주문 관리', '제품·재고 관리', '직원 및 업무 관리', '회원 관리', '맞춤형 관리자 시스템'] },
         { title: '외부 시스템 연동', items: ['POS', 'CRM', 'ERP', '결제 시스템', '이메일', '외부 API', '예약·주문 플랫폼'] },
         { title: '데이터 분석 및 대시보드', items: ['매출 현황', '주문 현황', '고객 통계', '재고 상태', '예약 현황', '업무 처리 현황', '운영 리포트'] },
@@ -260,17 +267,32 @@ export const process = {
   closing: { kicker: '단순히 시키는 대로만 만들지 않습니다', quote: ['“사장님보다 더 ', '사장님', ' 같은 마음으로”'], statement: ['무엇이 ', '진짜 필요한지', ' 먼저 고민하고 제안합니다'] },
 };
 
+export type Plan = { key: string; name: string; type: string; price: string; priceNote: string; featured?: boolean; addsTitle: string; adds: string[]; scope?: string; baseTitle?: string; base?: string[] };
 export const pricing = {
   eyebrow: 'PRICING PLANS',
   title: '제작 비용',
-  banner: ['제작비는 한 번,', 'PAUSE Studio 기본 월 관리비는 $0.'],
+  /** 사업 정책 §13·§20 확정 후킹 */
+  banner: ['브랜드는 더 돋보이게.', '매달 관리비는 없게.'],
+  bannerLead: '우리 비즈니스만의 분위기를 담은 맞춤형 웹사이트. 디자인부터 개발까지 PAUSE Studio 대표가 직접 함께합니다.',
   currency: '뉴질랜드 사업장: NZD / 미국 및 기타 지역: USD',
   currencyNote: '모든 방문자에게 같은 가격 숫자를 안내하며, 실제 청구 통화는 접속 위치가 아닌 사업장 소재 국가를 기준으로 견적서에 명확히 기재합니다.',
+  /** adds = 이 상품의 핵심(위·강조) · scope = 기본 범위 · base = 아래 상품에서 그대로 이어지는 것(아래·작게) */
   plans: [
-    { key: 'website', name: 'WEBSITE', type: '브랜드 소개와 고객 문의', price: '$1,990', priceNote: '', points: ['브랜드 맞춤형 디자인 · 페이지 최대 5개', '반응형 · 기본 SEO · 문의 폼 · 구글 지도', '전화·이메일·카카오톡 버튼 · 외부 예약 링크', '지정된 콘텐츠를 직접 수정하는 관리자 기능', '정식 디자인 수정 2회', '기본 호스팅 · 오류 보수 무료', 'PAUSE Studio 월 관리비 $0'] },
-    { key: 'store', name: 'ONLINE STORE', type: '온라인 주문과 결제', price: '$4,490', priceNote: '부터', featured: true, points: ['WEBSITE의 디자인·소개 기능', '장바구니 · 온라인 카드 결제 · 주문 접수', '주문 내역·상태 관리 · 주문 이메일 알림', '상품·메뉴 최대 20개 · 직접 수정', '표준 결제 서비스 1개 · 단일 매장', '기본 호스팅 · 오류 보수 무료', 'PAUSE Studio 월 관리비 $0'] },
-    { key: 'enterprise', name: 'ENTERPRISE', type: 'AI 업무 자동화 · 맞춤 개발', price: '맞춤 견적', priceNote: '', points: ['AI 기반 업무 자동화(AX)', '고객·예약·주문·재고 등 운영 시스템', 'POS · CRM · ERP · 외부 API 연동', '데이터 분석 및 대시보드', '맞춤형 웹 애플리케이션', '상담 후 범위·난이도에 따라 견적', '운영 조건은 별도 계약'] },
-  ],
+    { key: 'website', name: 'WEBSITE', type: '브랜드 소개와 고객 문의', price: '$1,990', priceNote: '',
+      addsTitle: '기본 제공',
+      adds: ['브랜드 맞춤형 디자인 · 페이지 최대 5개', '반응형 · 기본 SEO · 문의 폼 · 구글 지도', '전화·이메일·카카오톡 버튼 · 외부 예약 링크', '지정된 콘텐츠를 직접 수정하는 관리자 기능', '정식 디자인 수정 2회', '기본 호스팅 · 오류 보수 무료', 'PAUSE Studio 월 관리비 $0'] },
+    { key: 'store', name: 'ONLINE STORE', type: '온라인 주문과 결제', price: '$4,490', priceNote: '부터', featured: true,
+      addsTitle: 'WEBSITE에 더해지는 기능',
+      adds: ['온라인 주문 접수', '장바구니 · 온라인 카드 결제', '주문 내역·상태 관리', '상품·메뉴 직접 수정(최대 20개)', '주문 이메일 알림'],
+      scope: '표준 결제 서비스 1개 · 단일 매장 · 기본 주문 처리 방식 1개',
+      baseTitle: 'WEBSITE 기본 제공 사항 모두 포함',
+      base: ['브랜드 맞춤형 디자인', '페이지 최대 5개', '반응형 · 기본 SEO', '관리자 기능', '정식 디자인 수정 2회', '기본 호스팅 · 오류 보수 무료', '월 관리비 $0'] },
+    { key: 'enterprise', name: 'ENTERPRISE', type: 'AI 업무 자동화 · 맞춤 개발', price: '맞춤 견적', priceNote: '',
+      addsTitle: '맞춤 개발 범위',
+      adds: ['AI 기반 업무 자동화(AX)', '고객·예약·주문·재고 등 운영 시스템', 'POS · CRM · ERP · 외부 API 연동', '데이터 분석 및 대시보드', '맞춤형 웹 애플리케이션'],
+      baseTitle: '진행 방식',
+      base: ['상담 후 범위·난이도에 따라 견적', 'AI·API·서버 이용료 별도', '운영 조건은 별도 계약'] },
+  ] as Plan[],
   filmPlan: { name: 'AI 영상광고', price: '상담 후 견적', desc: '촬영 없이, 가지고 계신 사진만으로 만드는 브랜드 광고 영상 — 길이와 용도에 따라 견적을 드립니다.' },
   featuredBadge: '주문·결제가 필요하다면',
   planCta: '이 상품으로 상담하기',

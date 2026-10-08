@@ -86,15 +86,14 @@ function hero() {
 </section>`;
 }
 
-/* 포트폴리오: 12칸 격자에 넓고 좁은 칸을 번갈아(7·5 / 4·4·4 / 5·7 / 4·4·4 / 7·5 / 3·3·3·3) */
-const SPANS = ['s7', 's5', '', '', '', 's5', 's7', '', '', '', 's7', 's5', 's3', 's3', 's3', 's3'];
+/* 포트폴리오: 모든 작업물을 같은 크기·같은 비율 칸으로(사용자 요청 2026-10-08) — PC 4열, 태블릿·모바일 2열 */
 function work() {
   const w = C.work;
   const items = w.items.map((it, i) => {
     const b = base(it.image);
     const vid = it.video && exists(`${it.video}.mp4`) ? `<video muted playsinline loop preload="none" data-src="${it.video}.mp4" aria-hidden="true"></video>` : '';
-    const sizes = SPANS[i] === 's7' ? '(max-width: 1023px) 50vw, 58vw' : '(max-width: 1023px) 50vw, 34vw';
-    return `<li class="wk ${SPANS[i] || ''} rv" style="--d:${(i % 3) * 0.08}s"><button class="wk-btn" type="button" data-work="${i}" aria-label="${esc(`${it.ref} ${it.category} 크게 보기`)}"><span class="wk-media">${img(b, `${it.ref} ${it.category} 웹사이트 화면`, sizes)}${vid}</span><span class="wk-cap"><span class="wk-ref">${esc(it.ref)}</span><span class="wk-cat">${esc(it.category)}</span>${arrow()}</span></button></li>`;
+    const sizes = '(max-width: 1279px) 50vw, 25vw';
+    return `<li class="wk rv" style="--d:${(i % 4) * 0.06}s"><button class="wk-btn" type="button" data-work="${i}" aria-label="${esc(`${it.ref} ${it.category} 크게 보기`)}"><span class="wk-media">${img(b, `${it.ref} ${it.category} 웹사이트 화면`, sizes)}${vid}</span><span class="wk-cap"><span class="wk-ref">${esc(it.ref)}</span><span class="wk-cat">${esc(it.category)}</span>${arrow()}</span></button></li>`;
   }).join('');
   const data = JSON.stringify(w.items.map((it) => {
     const b = base(it.image);
@@ -155,11 +154,14 @@ function services() {
   const tabs = s.items.map((it) => `<a href="#svc-${it.key}"><span class="idx">${it.index}</span><span class="n">${esc(it.name)}</span><span class="p">${esc(it.ko)} · ${esc(it.price)}${esc(it.priceNote || '')}</span></a>`).join('');
   const typeOf: Record<string, string> = { website: '웹사이트 제작', store: '웹사이트 제작', enterprise: 'AI 업무 자동화 · 맞춤 개발', film: 'AI 영상광고' };
   const blocks = s.items.map((it) => {
-    const many = it.groups.length > 2;
+    const normal = it.groups.filter((g) => !g.tone).length;
+    const many = normal === 3 || normal >= 5;
     const groups = it.groups.map((g) => {
-      const wide = !many && g.items.length > 8;
+      if (g.tone === 'base') return `<div class="grp base"><h4>${esc(g.title)}</h4><p>${g.items.map(esc).join(' · ')}</p></div>`;
+      const key = g.tone === 'key';
+      const wide = key || (!many && g.items.length > 12);
       const off = /포함되지|별도/.test(g.title);
-      return `<div class="grp${wide ? ' wide' : ''}${off ? ' off' : ''}"><h4>${esc(g.title)}</h4><ul>${g.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+      return `<div class="grp${key ? ' key' : ''}${wide ? ' wide' : ''}${off ? ' off' : ''}"><h4>${key ? '<span class="plus" aria-hidden="true">+</span>' : ''}${esc(g.title)}</h4><ul>${g.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
     }).join('');
     const notes = it.footnotes?.length ? `<ul class="svc-notes">${it.footnotes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : '';
     return `<article class="svc" id="svc-${it.key}" aria-labelledby="svc-${it.key}-name">
@@ -283,14 +285,19 @@ function pricingSec() {
   const plans = p.plans.map((pl, i) => `<article class="plan${pl.featured ? ' featured' : ''} rv" style="--d:${i * 0.08}s" aria-labelledby="plan-${pl.key}">
       ${pl.featured ? `<span class="badge">${esc(p.featuredBadge)}</span>` : ''}<h3 class="plan-name" id="plan-${pl.key}">${esc(pl.name)}</h3><p class="type">${esc(pl.type)}</p>
       <p class="price">${esc(pl.price)}${pl.priceNote ? `<small>${esc(pl.priceNote)}</small>` : ''}</p>
-      <ul>${pl.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+      <div class="pl-body">
+        <p class="pl-lab${pl.base ? ' add' : ''}">${esc(pl.addsTitle)}</p>
+        <ul class="${pl.base ? 'adds' : 'std'}">${pl.adds.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+        ${pl.scope ? `<p class="pl-scope">${esc(pl.scope)}</p>` : ''}
+        ${pl.base ? `<div class="pl-base"><p class="pl-lab">${esc(pl.baseTitle || '')}</p><p>${pl.base.map(esc).join(' · ')}</p></div>` : ''}
+      </div>
       <a class="btn btn-solid" href="#contact" data-consult data-type="${esc(typeFor[pl.key][0])}"${typeFor[pl.key][1] ? ` data-product="${esc(typeFor[pl.key][1])}"` : ''}><span class="lb">${esc(p.planCta)}</span>${arrow()}</a>
     </article>`).join('');
   const terms = p.terms.map((t) => `<li><h4>${esc(t.title)}</h4><p>${esc(t.desc)}</p></li>`).join('');
   const rows = p.restaurant.rows.map((r) => `<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)}</p><h2 class="h2 rv" id="pricing-title">${lines([p.title])}</h2><p class="price-banner rv" style="--d:.1s">${p.banner.map((l) => `<span class="ln">${esc(l)}</span>`).join('')}</p><p class="currency rv" style="--d:.15s">${esc(p.currency)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)} · ${esc(p.title)}</p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner)}</h2><p class="lead rv" style="--d:.12s">${esc(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${esc(p.currency)}</p></header>
     <div class="plans">${plans}</div>
     <div class="plan-film rv"><h3 class="plan-name">${esc(p.filmPlan.name)}</h3><p class="d">${esc(p.filmPlan.desc)}</p><div><p class="price">${esc(p.filmPlan.price)}</p><a class="btn-text" href="#contact" data-consult data-type="AI 영상광고">${esc(p.planCta)}${arrow()}</a></div></div>
     <p class="currency-note">${esc(p.currencyNote)}</p>

@@ -1,0 +1,13 @@
+PAUSE STUDIO 웹사이트에 쓰인 폰트
+
+1) PS Display(한글) · PS Text
+   원본: 나눔스퀘어 네오(NanumSquare Neo) Regular·Bold — Copyright (c) 2022 NAVER Corp. (디자인: Sandoll)
+   라이선스: SIL Open Font License 1.1 (네이버 나눔글꼴 라이선스)
+   이 파일들은 웹 전송을 위해 글자를 줄이고(subset) 이름을 바꾼 수정본입니다(OFL 예약 이름 규정).
+
+2) PS Display Latin(영문·숫자)
+   원본: Archivo — Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)
+   라이선스: SIL Open Font License 1.1
+   폭 70 · 굵기 500으로 고정하고 글자를 줄인 수정본입니다.
+
+SIL Open Font License 1.1 전문: https://openfontlicense.org/open-font-license-official-text/

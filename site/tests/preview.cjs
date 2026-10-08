@@ -73,8 +73,9 @@ function shadowCss(css, metrics) {
     + `
 /* 미리보기 전용: 머리줄을 맨 위에 고정(스크롤 따라오지 않게), 커서·건너뛰기 숨김 */
 .hd{position:absolute!important}
-.__w{white-space:nowrap}
-.__c{display:inline-block;text-align:left;overflow:visible;white-space:pre;text-indent:0}
+*,*::before,*::after{animation:none!important;transition:none!important}
+x-w{white-space:nowrap}
+x-c{display:inline-block;line-height:0;vertical-align:baseline;text-align:left;overflow:visible;white-space:pre;text-indent:0}
 :host{--font-text:'PV-greta-rg';--font-text-md:'PV-greta-md';--font-display:'PV-gd-rg'}
 `;
 }
@@ -197,7 +198,7 @@ async function lockLayout(browser, snap, adv, batchOf) {
       const inlineCtx = !/flex|grid/.test(getComputedStyle(el).display);
       if (!t.nodeValue.trim()) {
         if (!face || !inlineCtx) continue;
-        const sp = document.createElement('span'); sp.className = '__sp';
+        const sp = document.createElement('x-s');
         sp.style.wordSpacing = ((adv[face][' '] || 0.25) * fsz + ls - SP * fsz) + 'px';
         sp.textContent = t.nodeValue; t.replaceWith(sp); continue;
       }
@@ -208,14 +209,14 @@ async function lockLayout(browser, snap, adv, batchOf) {
       for (const tok of t.nodeValue.split(/(\\s+)/)) {
         if (!tok) continue;
         if (/^\\s+$/.test(tok)) {
-          const sp = document.createElement('span'); sp.className = '__sp';
+          const sp = document.createElement('x-s');
           sp.style.wordSpacing = ((adv[face][' '] || 0.25) * fsz + ls - SP * fsz) + 'px';
           sp.textContent = tok; frag.append(sp); continue;
         }
-        const wd = document.createElement('span'); wd.className = '__w';
+        const wd = document.createElement('x-w');
         for (const raw of tok) {
           const ch = up ? raw.toUpperCase() : raw;
-          const c = document.createElement('span'); c.className = '__c';
+          const c = document.createElement('x-c');
           c.dataset.f = face; c.dataset.b = String(batchOf[face][ch] ?? -1);
           const a = adv[face][ch];
           c.style.width = ((a == null ? 0.6 : a) * fsz + ls) + 'px';
@@ -224,7 +225,8 @@ async function lockLayout(browser, snap, adv, batchOf) {
         }
         frag.append(wd);
       }
-      t.replaceWith(frag);
+      if (!inlineCtx) { const one = document.createElement('x-g'); one.append(frag); t.replaceWith(one); }
+      else t.replaceWith(frag);
     }
     return document.body.innerHTML;
   })(${JSON.stringify({ adv, batchOf })})`);
@@ -266,6 +268,9 @@ async function shoot(page, H, name, transparent) {
   const batchOf = { 'greta-rg': {}, 'greta-md': {}, 'gd-rg': {} };
   const famsBy = { greta: [], gd: [] };
   const metrics = {};
+  const metBy = {};
+  // 같은 줄 높이 안에서 기준선 위치 = (L + A − D)/2 → 첫 묶음과의 차이만큼 글자를 옮김(em)
+  const off = (f, bi) => { const a = metrics[f], b = (metBy[f] || [])[bi] || a; return (((a.a - a.d) - (b.a - b.d)) / 2).toFixed(4); };
   for (const src of ['greta', 'gd']) {
     await page.goto(SRC[src].url, { waitUntil: 'domcontentloaded', timeout: 90000 });
     await page.waitForTimeout(7000);
@@ -284,18 +289,18 @@ async function shoot(page, H, name, transparent) {
         }
         return { o, met };
       }, { fams, text });
-      for (const [face, mm] of Object.entries(m.met)) metrics[face] = metrics[face] || mm;
+      for (const [face, mm] of Object.entries(m.met)) { metrics[face] = metrics[face] || mm; (metBy[face] = metBy[face] || [])[bi] = mm; }
       for (const [face, map] of Object.entries(m.o)) {
         for (const [ch, a] of Object.entries(map)) {
           if (ch === ' ') { adv[face][' '] = adv[face][' '] ?? a; continue; }
-          if ((chars[face] || '').includes(ch)) { adv[face][ch] = a; batchOf[face][ch] = bi; }
+          if ((chars[face] || '').includes(ch) && batchOf[face][ch] == null) { adv[face][ch] = a; batchOf[face][ch] = bi; }
         }
       }
       log(`  폭 측정 ${src} 묶음 ${bi + 1}/${batches[src].length}`);
     }
   }
 
-  log('  서체 높이', JSON.stringify(metrics));
+  log('  서체 높이(묶음별)', JSON.stringify(metBy));
   /* ── 3) 배치 고정 */
   const locked = await lockLayout(browser, snap, adv, batchOf);
 
@@ -311,25 +316,20 @@ async function shoot(page, H, name, transparent) {
     await page.waitForTimeout(400);
     H = await page.evaluate(() => Math.ceil(document.getElementById('__pv').getBoundingClientRect().height));
     if (src === 'greta') {
-      await setStyle(page, 'pass', '.__c{-webkit-text-fill-color:transparent!important}');
+      await setStyle(page, 'pass', 'x-c{-webkit-text-fill-color:transparent!important}');
       layers.push({ files: await shoot(page, H, 'base', false), transparent: false });
       log('  배경 패스', `${VW}×${H}`);
     }
     for (let bi = 0; bi < batches[src].length; bi++) {
       const fams = await typeBatch(page, src, batches[src][bi] + ' ');
       const faces = Object.keys(SRC[src].faces);
-      await setStyle(page, 'vars', faces.map((f) => `.__c[data-f="${f}"][data-b="${bi}"]{font-family:"${fams[f]}"!important}`).join('\n'));
-      const show = faces.map((f) => `.__c[data-f="${f}"][data-b="${bi}"]`).join(',');
+      await setStyle(page, 'vars', faces.map((f) => `x-c[data-f="${f}"][data-b="${bi}"]{font-family:"${fams[f]}"!important}`).join('\n'));
+      const show = faces.map((f) => `x-c[data-f="${f}"][data-b="${bi}"]`).join(',');
       await page.setViewportSize(SHOT_VP);
-      await setStyle(page, 'pass', `
-        :host *, :host *::before, :host *::after { background: transparent !important; border-color: transparent !important; box-shadow: none !important; outline: none !important; text-decoration-color: transparent !important; -webkit-text-fill-color: transparent !important; }
-        :host *::before, :host *::after { visibility: hidden !important; }
-        img, picture, video, svg, canvas, .veil, .qr, input, output, .chips { visibility: hidden !important; }
-        ${show} { -webkit-text-fill-color: currentColor !important; }
-      `);
+      await setStyle(page, 'pass', `x-c{-webkit-text-fill-color:transparent!important} ${show}{-webkit-text-fill-color:currentColor!important}`);
       await page.evaluate(async () => { await document.fonts.ready; });
       await page.waitForTimeout(300);
-      layers.push({ files: await shoot(page, H, `${src}${bi}`, true), transparent: true });
+      layers.push({ files: await shoot(page, H, `${src}${bi}`, false), transparent: false });
       log(`  글자 패스 ${src} ${bi + 1}/${batches[src].length}`);
     }
   }
@@ -340,15 +340,17 @@ async function shoot(page, H, name, transparent) {
   fs.writeFileSync(spec, JSON.stringify({ layers, out: OUT, vw: VW, dpr: DPR }));
   execFileSync('python3', ['-I', '-c', `
 import json, sys
+import numpy as np
 from PIL import Image
 s = json.load(open(sys.argv[1]))
 n = len(s['layers'][0]['files'])
 slices = []
 for i in range(n):
-    base = Image.open(s['layers'][0]['files'][i]).convert('RGBA')
+    base = np.asarray(Image.open(s['layers'][0]['files'][i]).convert('RGB'), dtype=np.int32)
+    acc = base.copy()
     for L in s['layers'][1:]:
-        base.alpha_composite(Image.open(L['files'][i]).convert('RGBA'))
-    slices.append(base.convert('RGB'))
+        acc += np.asarray(Image.open(L['files'][i]).convert('RGB'), dtype=np.int32) - base
+    slices.append(Image.fromarray(np.clip(acc, 0, 255).astype(np.uint8)))
 W = slices[0].width; H = sum(x.height for x in slices)
 full = Image.new('RGB', (W, H))
 y = 0

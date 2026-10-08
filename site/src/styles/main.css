@@ -14,7 +14,7 @@
   --paper-raise: #E7DFD1;
   --on-paper: #141311;
   --on-paper-2: rgba(20, 19, 17, .76);
-  --on-paper-3: rgba(20, 19, 17, .54);
+  --on-paper-3: rgba(20, 19, 17, .66);
   --paper-line: rgba(20, 19, 17, .16);
 
   --fallback-sans: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', sans-serif;
@@ -79,7 +79,7 @@ em { font-style: normal; }
 .lead { font-size: var(--fs-lead); line-height: 1.7; letter-spacing: -.01em; max-width: 34em; }
 .sec-dark .lead, .sec-black .lead { color: var(--cream-2); }
 .sec-paper .lead { color: var(--on-paper-2); }
-.idx { font-family: var(--f-text); font-weight: var(--w-text); font-size: var(--fs-label); letter-spacing: .1em; font-variant-numeric: tabular-nums; opacity: .58; }
+.idx { font-family: var(--f-text); font-weight: var(--w-text); font-size: var(--fs-label); letter-spacing: .1em; font-variant-numeric: tabular-nums; opacity: .7; }
 .sec-head { display: grid; gap: clamp(18px, 1.6vw, 30px); margin-bottom: clamp(56px, 5.4vw, 104px); }
 
 /* ───────── 버튼 (히어로 A안 모양) ───────── */
@@ -287,7 +287,7 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .film-after .media { aspect-ratio: 16 / 9; }
 .film-stage img, .film-stage video { width: 100%; height: 100%; object-fit: cover; }
 .film-stage figcaption { margin-top: 14px; font-size: var(--fs-small); color: var(--cream-2); display: flex; align-items: center; gap: 12px; }
-.film-stage figcaption .idx { opacity: .58; }
+.film-stage figcaption .idx { opacity: 1; color: var(--cream-3); }
 .film-arrow { width: clamp(36px, 3vw, 60px); height: 14px; color: var(--cream-3); }
 .film-sample { margin-top: 18px; font-size: 13.5px; color: var(--cream-3); }
 .film-steps { margin-top: clamp(64px, 5.4vw, 104px); display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--cream-line); }
@@ -327,7 +327,7 @@ html:not(.js) .vctrl { display: none; }
 .mock .heroimg h5 { font-size: clamp(12px, 1.25vw, 24px); font-weight: 700; letter-spacing: .01em; }
 .mock .heroimg p { font-size: clamp(8px, .62vw, 12px); margin-top: 4px; }
 .mock .heroimg i { display: inline-block; margin-top: 10px; padding: 6px 14px; background: #3d6fb6; border-radius: 16px; font-style: normal; font-size: clamp(7px, .55vw, 11px); }
-.mock.bakery .heroimg i { background: #c0846c; }
+.mock.bakery .heroimg i { background: #8f5440; }
 .mock .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4%; padding: 3% 5%; background: #fff; }
 .mock .tiles span { background: #e6e6e2; border-radius: 6px; }
 

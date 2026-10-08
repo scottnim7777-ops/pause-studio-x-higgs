@@ -100,3 +100,5 @@
 - 제작 진행(2026-10-08): `site/` — Vite+TS(프레임워크 없음) + Express(`/api/contact`: SMTP → FormSubmit, 성공 확인 시에만 접수 완료). 문구 `site/src/content/ko.ts`, 본문은 빌드 때 HTML로(`scripts/render.ts`), 미디어 `scripts/media.py`.
 - **사용자: 관리비 섹션의 영수증 프린터 사진(28차 합성) "너무 구림, 안 씀"** → 사이트에서 제거, 그 자리는 사진 없이 글자로 만든 1년치 내역(큰 $0 + 1~12월 $0 + 합계). **규칙: 28차(시네마틱 공간) 자산은 쓰지 않는다.**
 - AI 영상광고 예시 영상: SOOM 물가 사진(19차, 사용자 승인 장면)을 Seedance 2.0 image-to-video 720p 5초로(시작=끝 프레임, 반복 재생 이음새 차이 1.1/255), 약 $1.51. 사용자 확인 필요(마음에 안 들면 사진만 사용).
+- 검증(2026-10-08): 브라우저 점검 79/79(`site/tests/smoke.cjs`), 접근성 axe WCAG 2.1 A·AA 위반 0(`site/tests/a11y.cjs`), 타입 검사·빌드 통과. 실제 산돌 서체 전체 미리보기 `docs/preview/`(`site/tests/preview.cjs` — 글자 폭 고정 + 100자 묶음 패스 합성, 묶음별 서체 높이 차이는 글자 칸 line-height 0으로 해결).
+- 공유 미리보기 이미지(og.jpg)를 실제 서체 첫 화면으로 교체.

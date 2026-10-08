@@ -137,13 +137,12 @@ def brand():
     shutil.copyfile(ROOT / 'content/assets/other/kakao-qr_from-repo-base64_233x236.png', PUB / 'media/kakao-qr.png')
 
 
-def og(src=ROOT / 'drafts/v31/out/pc.png'):
-    """공유 미리보기 1200×630 — 승인된 히어로 화면(산돌 서체로 조판한 정지 화면)"""
+def og(src=ROOT / 'docs/preview/pc-1440-first-screen.jpg'):
+    """공유 미리보기 1200×630 — 실제 산돌 서체로 그린 첫 화면(tests/preview.cjs 결과)의 위쪽"""
     print('공유 미리보기 이미지', src.relative_to(ROOT))
     im = rgb(Image.open(src))
     h = round(im.width * 630 / 1200)
-    y = (im.height - h) // 2
-    im.crop((0, y, im.width, y + h)).resize((1200, 630), Image.LANCZOS).save(PUB / 'og.jpg', 'JPEG', quality=86, optimize=True, progressive=True)
+    im.crop((0, 0, im.width, h)).resize((1200, 630), Image.LANCZOS).save(PUB / 'og.jpg', 'JPEG', quality=86, optimize=True, progressive=True)
 
 
 if __name__ == '__main__':

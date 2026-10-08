@@ -31,6 +31,7 @@ npm run check        # 타입 검사 + 빌드
 | `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
 | `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2) + `src/styles/fonts.css` |
 | `Dockerfile` | 배포용(Cloud Run 등) — `node dist/server.cjs`, 포트는 `PORT`(기본 8080) |
+| `scripts/artifact.py` | 미리보기 링크(claude.ai 아티팩트)용 묶음 — `dist`를 상대 경로로 바꿔 `.cache/artifact`에. 주소는 `../STATE.md` |
 
 ## 폰트(무료 · 직접 호스팅)
 - 제목 **PS Display** = 나눔스퀘어 네오 Bold(한글, 네이버 · 디자인 산돌) + Archivo 폭 70·굵기 500(영문·숫자) — 산돌 격동고딕2와 가장 비슷한 무드

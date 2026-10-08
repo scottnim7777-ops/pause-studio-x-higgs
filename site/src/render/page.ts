@@ -111,7 +111,7 @@ function work() {
 }
 
 function lightbox() {
-  return `<dialog class="lb" id="lightbox" aria-label="작업물 크게 보기">
+  return `<dialog class="lightbox" id="lightbox" aria-label="작업물 크게 보기">
   <div class="lb-in">
     <div class="lb-top"><span data-lb-count>01 / 16</span><button class="lb-close" type="button" data-lb-close><span>닫기</span><i aria-hidden="true"></i></button></div>
     <div class="lb-fig" data-lb-fig></div>
@@ -319,7 +319,7 @@ function contactSec() {
   <div class="wrap contact-grid">
     <div class="ct-main">
       <p class="ct-window rv"><span class="dot" aria-hidden="true"></span>${esc(c.windowLabel)} · ${esc(c.status)}</p>
-      <h2 class="ct-title rv" id="contact-title"><span class="ln"><span>${esc(c.title[0])}<em>${esc(c.title[1])}</em></span></span><span class="ln" style="--li:1"><span>${esc(c.title[2])}${esc(c.title[3])}</span></span></h2>
+      <h2 class="ct-title rv" id="contact-title"><span class="ln"><span>${esc(c.title[0].trim())}<br class="m-br"> <em>${esc(c.title[1])}</em></span></span><span class="ln" style="--li:1"><span>${esc(c.title[2])}${esc(c.title[3])}</span></span></h2>
       <p class="ct-desc rv" style="--d:.1s">${esc(c.desc[0])}${esc(c.desc[1])}<em>${esc(c.desc[2])}</em>${esc(c.desc[3])}</p>
       <div class="ctas rv" style="--d:.15s">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
       <p class="ct-note">${esc(c.channelsNote[0])}<em>${esc(c.channelsNote[1])}</em>${esc(c.channelsNote[2])}</p>

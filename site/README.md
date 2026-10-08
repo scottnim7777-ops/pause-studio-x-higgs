@@ -1,0 +1,66 @@
+# PAUSE STUDIO 웹사이트 (pause8studio.com 리뉴얼)
+
+한 페이지짜리 사이트입니다. 프레임워크 없이 **Vite + TypeScript**로 만들고, 상담 신청 메일은 **Express 서버**(`/api/contact`)가 보냅니다.
+본문은 빌드할 때 문구 파일(`src/content/ko.ts`)로부터 HTML로 미리 만들어 둡니다. 그래서 검색엔진이나 JS가 꺼진 환경에서도 모든 내용이 보입니다.
+
+## 바로 실행
+```bash
+cd site
+npm install
+npm run dev          # 개발: http://localhost:3000 (문구를 바꾸면 npm run render 후 새로고침)
+npm run build        # 배포용: dist/ (정적 파일 + dist/server.cjs)
+npm start            # 배포용 실행: NODE_ENV=production node dist/server.cjs (포트 3000, PORT로 변경)
+npm run check        # 타입 검사 + 빌드
+```
+필요: Node.js 20 이상. 미디어를 다시 만들 때만 Python 3(Pillow)와 ffmpeg.
+
+## 폴더
+| 위치 | 내용 |
+|---|---|
+| `src/content/ko.ts` | **모든 화면 문구**(가격·FAQ·상담 질문·연락처). 문구 수정은 여기서만 |
+| `src/render/page.ts` | 문구 → 섹션 HTML(빌드 때 실행) |
+| `src/styles/main.css` | 디자인 토큰·전 섹션 스타일(규칙: `../docs/DESIGN_SYSTEM.md`) |
+| `src/ts/hero.ts` | 히어로 인트로(벽이 다가오며 선명해짐 + 한글 타이핑)·작업물 벽 |
+| `src/ts/consult.ts` | 브랜딩 무료 상담 신청 창 |
+| `src/ts/ui.ts` | 머리줄·모바일 메뉴·등장 움직임·크게 보기·자동 재생 영상·계산기·이메일 보기 |
+| `src/ts/motion.ts` | 움직임 멈추기(기억됨)·운영체제 '동작 줄이기' |
+| `server.ts` | 정적 파일 + `/api/contact` + `/api/health` |
+| `scripts/render.ts` | `index.template.html` → `index.html` |
+| `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4) + `src/content/media.json`(실제 크기) |
+| `tests/smoke.cjs` | 브라우저 점검 79개(화면 폭 7종, 상담 4종 흐름, 크게 보기, 메뉴, 계산기, 동작 줄이기, JS 없음) |
+| `tests/preview.cjs` | 실제 산돌 서체로 전체 미리보기 이미지 만들기(산돌 테스터 페이지 안에서만 그림) |
+
+## ★ 운영 전에 꼭 할 일
+1. **산돌구름 웹폰트 연결**(디자인의 핵심). 산돌구름에서 *SD 격동고딕2*, *SD 그레타산스* 웹폰트를 구독하고(표준 요금 기준 월 ₩33,000 — 2종) pause8studio.com 도메인을 등록한 뒤, 받은 연결 코드를 `site/webfont.html`에 넣습니다. 서체 이름은 같은 파일에서 지정합니다:
+   ```html
+   <!-- site/webfont.html (예시 — 실제 코드는 산돌구름에서 받은 것으로) -->
+   <link rel="stylesheet" href="(산돌구름이 준 주소)">
+   <style>:root{--font-display:'(격동고딕2 이름)';--font-text:'(그레타산스 Regular 이름)';--font-text-md:'(그레타산스 Medium 이름)';--weight-text-md:500}</style>
+   ```
+   `npm run build`가 이 내용을 `<head>`에 넣습니다. 연결 전에는 시스템 고딕으로 보입니다(기능은 모두 정상).
+2. **메일 설정**: `.env.example`을 참고해 배포 환경에 `SMTP_HOST/PORT/USER/PASS`를 넣습니다(Gmail은 앱 비밀번호). 비워 두면 FormSubmit으로 보냅니다 — FormSubmit은 처음 한 번 받는 주소로 확인 메일이 가므로 승인해야 합니다.
+3. 배포 후 상담 창에서 실제로 한 번 보내 보고 메일이 오는지 확인합니다(이 저장소에서는 실제 메일을 보내지 않았습니다).
+
+## 상담 신청(`/api/contact`)
+- 상담 종류: 웹사이트 제작 · AI 영상광고 · 웹사이트 + AI 영상광고 · AI 업무 자동화/맞춤 개발 → 종류에 맞는 질문만 보이고, 숨긴 질문은 보내지 않습니다.
+- 서비스·요금의 버튼에서 열면 종류(와 상품)가 미리 선택되어 '기본 정보'부터 시작합니다.
+- 메일 제목: `[브랜딩 상담] {종류} · {성함}`, 답장 주소는 신청자 이메일. 첨부 최대 10개·합계 25MB.
+- **서버가 성공(2xx + `{ok:true}`)을 돌려줄 때만** '접수 완료'. 실패하면 메일 앱으로 보내기 · 내용 복사 · 카카오톡 문의를 보여 줍니다.
+- 보안: TLS 인증서 검증을 끄지 않음(기존 서버의 `rejectUnauthorized:false` 제거), 상담 내용·연락처를 로그나 파일에 남기지 않음, 같은 곳에서 10분에 8번 넘게 보내면 거절, 숨은 입력칸으로 자동 입력 프로그램 차단.
+
+## 미디어
+- 포트폴리오: 실제 고객 사이트 화면(Ref.01~15, ChillenQ). Ref.16~39는 소유 확인 전이라 넣지 않았습니다.
+- AI 영상광고 예시: 가상 브랜드 SOOM(사진 → 광고 장면, Higgsfield Seedance 5초 반복 영상). 화면에 '예시 · 실제 고객 작업물 아님' 표시.
+- 다시 만들기: `python3 scripts/media.py` (전체) · `python3 scripts/media.py film` · `python3 scripts/media.py og=<PNG>`.
+
+## 점검
+```bash
+npm run build && PORT=3100 NODE_ENV=production node dist/server.cjs &
+NODE_PATH=/opt/node22/lib/node_modules node tests/smoke.cjs http://localhost:3100 tests/out
+```
+결과(2026-10-08): 79/79 통과 — 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택, 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
+
+## 접근성·성능 메모
+- 키보드로 모든 기능 사용 가능, 창은 Esc로 닫고 원래 버튼으로 초점이 돌아갑니다. 타이핑 제목은 화면 읽기 프로그램에 전체 문장으로 읽힙니다.
+- 5초 넘게 움직이는 것(작업물 벽·자동 재생 영상)은 멈출 수 있고, '움직임 멈추기'는 다음 방문에도 기억됩니다. 운영체제의 '동작 줄이기'를 켜면 인트로와 자동 재생이 없습니다.
+- 첫 화면: HTML 28KB(gzip) · CSS 10KB · JS 8KB. 사진은 WebP 우선·지연 로딩, 히어로 영상은 PC에서 화면에 보이는 카드만 재생(모바일은 사진).

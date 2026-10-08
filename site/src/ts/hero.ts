@@ -53,7 +53,8 @@ export function initHero(onIntroDone: () => void) {
   /* ── 무대 크기: 설계 좌표계(PC 1920×1080, 모바일 390×1120)를 화면에 맞춤 */
   const fit = () => {
     const w = hero.clientWidth, h = hero.clientHeight;
-    const s = mobileMq.matches ? w / 390 : Math.max(w / 1920, h / 1080);
+    // 태블릿(768~1023)은 휴대폰 구도를 0.72배로 — CSS의 .hero-wall 높이·위치와 같은 비율
+    const s = mobileMq.matches ? (w / 390) * (w >= 768 ? 0.72 : 1) : Math.max(w / 1920, h / 1080);
     hero.style.setProperty('--ws', s.toFixed(4));
   };
   fit();

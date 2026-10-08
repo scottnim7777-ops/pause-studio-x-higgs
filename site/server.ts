@@ -3,6 +3,7 @@
  * - 메일: SMTP(SMTP_HOST/PORT/USER/PASS) → 실패하거나 설정이 없으면 FormSubmit으로 대신 보냄(기존 사이트와 같은 방식)
  * - 성공을 확인했을 때만 { ok: true } (화면은 이것을 받아야 '접수 완료'를 보여줌)
  * - 보안: TLS 인증서 검증을 끄지 않음, 상담 내용·연락처를 로그나 파일에 남기지 않음, 같은 곳에서 짧은 시간에 너무 많이 보내면 거절
+ * - 통화: 첫 화면(/)을 줄 때 접속 위치로 NZD(뉴질랜드) / USD(그 밖의 나라) 표기를 고른다(src/geo/currency.ts, 확인용 ?cur=usd)
  */
 import express, { type NextFunction, type Request, type Response } from 'express';
 import multer from 'multer';
@@ -10,6 +11,7 @@ import nodemailer from 'nodemailer';
 import path from 'node:path';
 import fs from 'node:fs';
 import { consult } from './src/content/ko';
+import { currencyFor, withCurrency } from './src/geo/currency';
 
 const PORT = Number(process.env.PORT || 3000);
 const TO = process.env.CONTACT_TO || 'scottnim7777@gmail.com';
@@ -149,16 +151,30 @@ app.use('/api', (err: unknown, _req: Request, res: Response, _next: NextFunction
   res.status(500).json({ ok: false });
 });
 
+/** 첫 화면: 방문자마다 통화가 달라 공용 캐시에 저장하지 않게 한다 */
+function sendPage(req: Request, res: Response, html: string) {
+  res.setHeader('Cache-Control', 'private, no-cache');
+  res.type('html').send(withCurrency(html, currencyFor(req.query.cur, req.headers, req.ip)));
+}
+
 async function start() {
   if (!PROD) {
-    // 개발: Vite가 index.html·스크립트·스타일을 바로 처리
+    // 개발: Vite가 index.html·스크립트·스타일을 바로 처리(첫 화면만 통화 표시를 넣어 직접 보냄)
     const { createServer } = await import('vite');
     const vite = await createServer({ server: { middlewareMode: true }, appType: 'spa' });
+    app.get(['/', '/index.html'], async (req, res, next) => {
+      try {
+        sendPage(req, res, await vite.transformIndexHtml(req.originalUrl, fs.readFileSync(path.resolve('index.html'), 'utf8')));
+      } catch (err) { next(err); }
+    });
     app.use(vite.middlewares);
   } else {
     if (!fs.existsSync(path.join(DIST, 'index.html'))) throw new Error(`빌드 결과가 없습니다: ${DIST} (npm run build)`);
+    const page = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+    withCurrency(page, 'USD'); // 시작할 때 한 번 확인(통화 표시를 넣을 자리가 없으면 바로 알림)
+    app.get(['/', '/index.html'], (req, res) => sendPage(req, res, page));
     app.use(express.static(DIST, {
-      index: 'index.html',
+      index: false,
       setHeaders(res, file) {
         const rel = path.relative(DIST, file).split(path.sep).join('/');
         if (rel.startsWith('assets/')) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');

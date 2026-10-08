@@ -116,39 +116,50 @@ export const who = {
 };
 
 /**
+ * 통화: 숫자는 같고 접속 위치(IP)로 표기만 바꾼다(2026-10-08 사용자) — 뉴질랜드 = NZD(GST 포함), 뉴질랜드 외 모든 나라(미국 포함) = USD.
+ * 예) NZD 1,490 → USD 1,490. 서버가 html에 usd 클래스를 넣고(src/geo/currency.ts), 화면은 두 표기 중 하나만 보인다(main.css).
+ * Txt = 통화와 관계없는 글 또는 { NZD, USD } 두 가지 글(빈 글이면 그 통화에서는 보이지 않음)
+ */
+export type Cur = 'NZD' | 'USD';
+export type Txt = string | Record<Cur, string>;
+export const byCur = (f: (c: Cur) => string): Record<Cur, string> => ({ NZD: f('NZD'), USD: f('USD') });
+/** GST는 뉴질랜드 세금이라 NZD에만 */
+const GST: Txt = { NZD: 'GST 포함', USD: '' };
+
+/**
  * 플랜 = 사용자 견적서(PAUSE Studio 웹사이트 제작 견적서, 2026.10.07) 그대로 — 요금 카드와 서비스 상세가 모두 이 값을 쓴다.
  * 2026-10-08 사용자: "기존에 만든 견적서 안의 플랜 내용으로 교체" → 사업 정책 문서의 WEBSITE·ONLINE STORE 대신 STARTER·BUSINESS·ENTERPRISE.
  * only = 이 플랜만의 기능(위·강조) · base = 다른 플랜과 같은 기본 기능(아래·작게, 강조 없이)
  */
 export const plans = {
   starter: {
-    name: 'STARTER', ko: '기본형', price: 'NZD 1,490',
+    name: 'STARTER', ko: '기본형', price: '1,490',
     target: '브랜드와 서비스를 효과적으로 소개하고, 고객 문의로 이어질 수 있도록 설계된 맞춤형 웹사이트가 필요한 경우',
     features: ['최대 5페이지 구성', '반응형 디자인 (모바일 최적화)', '브랜드 맞춤 디자인', '회사소개 / 서비스 소개 / 오시는 길 등 기본 페이지 구성', '문의 폼 / 이메일 연동', '기본 SEO 설정', 'SSL 보안 인증서 적용'],
   },
   business: {
-    name: 'BUSINESS', ko: '비즈니스형', price: 'NZD 2,900',
+    name: 'BUSINESS', ko: '비즈니스형', price: '2,900',
     target: '제품·재고 관리부터 예약, 주문, 온라인 결제까지 통합하여 고객 응대와 판매 과정을 효율적으로 운영할 수 있는 비즈니스 웹사이트가 필요한 경우',
     only: ['최대 10페이지 구성', '제품·재고 관리 시스템', '예약 / 주문 / 온라인 결제 기능', '고객 관리 시스템 (주문 내역, 회원 관리)'],
     base: ['반응형 디자인 (모바일 최적화)', '브랜드 맞춤 디자인', '문의 폼 / 이메일 연동', '기본 SEO 설정', 'SSL 보안 인증서 적용'],
   },
   enterprise: {
-    name: 'ENTERPRISE', ko: '기업형', price: 'NZD 5,500+',
+    name: 'ENTERPRISE', ko: '기업형', price: '5,500+',
     target: 'AI 기반 업무 자동화(AX)와 외부 시스템 연동 등 복잡한 비즈니스 운영에 필요한 다양한 기능을 맞춤형으로 구축하는 기업용 웹사이트가 필요한 경우',
     only: ['맞춤 페이지 구성 (무제한 가능)', 'AI 기반 업무 자동화 (AX)', '회원 관리 및 고객 데이터 관리', '외부 시스템 연동 (ERP, POS, CRM 등)', '맞춤형 기능 개발'],
     base: ['반응형 디자인 (모바일 최적화)', '브랜드 맞춤 디자인', '문의 폼 / 이메일 연동', '고급 SEO 설정', 'SSL 보안 인증서 적용'],
   },
   /** 견적서: 모든 플랜에 포함되는 무료 혜택 */
   free: ['웹사이트 유지보수 무료', '웹사이트 관리비 무료', '웹 호스팅 무료'],
-  /** 견적서: 추가 안내사항(1~5) + 외부 서비스 비용 안내(히어로 주석과 같은 문장) */
+  /** 견적서: 추가 안내사항(1~5, 1번은 통화에 따라) + 외부 서비스 비용 안내(히어로 주석과 같은 문장) */
   notes: [
-    '위 금액은 뉴질랜드 달러(NZD) 기준이며, GST가 포함된 금액입니다.',
+    { NZD: '위 금액은 뉴질랜드 달러(NZD) 기준이며, GST가 포함된 금액입니다.', USD: '위 금액은 미국 달러(USD) 기준입니다.' },
     '페이지 추가, 특정 기능 개발, 외부 시스템 연동 등은 별도 견적이 적용될 수 있습니다.',
     '제작 기간은 프로젝트 규모에 따라 상이하며, 보통 2~6주 내에 진행됩니다.',
     '호스팅은 기본적으로 무료로 제공되지만, 트래픽 및 서버 자원 사용량이 무상 제공 범위를 초과할 경우 호스팅 환경 및 추가 비용은 별도 협의가 필요할 수 있습니다.',
     '자세한 상담을 통해 비즈니스에 맞는 최적의 구성을 제안드립니다.',
     '도메인·결제 수수료 등 외부 서비스 비용은 별도입니다.',
-  ],
+  ] as Txt[],
 };
 const P = plans;
 
@@ -163,8 +174,8 @@ export const consultPreset: Record<string, { type: string; product?: string }> =
 /** tone: key = 이 플랜만의 기능(강조, 맨 위) · base = 다른 플랜과 같은 기본 기능(작게, 강조 없이) */
 export type Group = { title: string; items: string[]; tone?: 'key' | 'base' };
 export type Service = {
-  key: string; index: string; name: string; ko: string; price: string; priceNote?: string;
-  headline: string; target?: string; purpose?: string; groups: Group[]; footnotes?: string[];
+  key: string; index: string; name: string; ko: string; price: string; priceNote?: Txt;
+  headline: string; target?: string; purpose?: string; groups: Group[]; footnotes?: Txt[];
 };
 
 export const services = {
@@ -173,13 +184,13 @@ export const services = {
   lead: '브랜드 소개가 필요한지, 예약·주문·결제까지 운영해야 하는지, 업무 자동화와 외부 시스템 연동이 필요한지에 따라 고르시면 됩니다. 기획부터 디자인, 개발까지 모든 과정을 한 번에 진행합니다.',
   items: [
     {
-      key: 'starter', index: '01', name: P.starter.name, ko: P.starter.ko, price: P.starter.price, priceNote: 'GST 포함',
+      key: 'starter', index: '01', name: P.starter.name, ko: P.starter.ko, price: P.starter.price, priceNote: GST,
       headline: '브랜드를 소개하고, 고객 문의로 이어지는 웹사이트',
       target: P.starter.target,
       groups: [{ title: '포함 기능', items: P.starter.features }],
     },
     {
-      key: 'business', index: '02', name: P.business.name, ko: P.business.ko, price: P.business.price, priceNote: 'GST 포함',
+      key: 'business', index: '02', name: P.business.name, ko: P.business.ko, price: P.business.price, priceNote: GST,
       headline: '제품·재고 관리부터 예약·주문·온라인 결제까지 한 번에 운영하는 웹사이트',
       target: P.business.target,
       groups: [
@@ -189,7 +200,7 @@ export const services = {
       footnotes: ['카드 결제 수수료 등 결제 서비스 이용료는 별도입니다.'],
     },
     {
-      key: 'enterprise', index: '03', name: P.enterprise.name, ko: P.enterprise.ko, price: P.enterprise.price, priceNote: 'GST 포함',
+      key: 'enterprise', index: '03', name: P.enterprise.name, ko: P.enterprise.ko, price: P.enterprise.price, priceNote: GST,
       headline: 'AI 기반 업무 자동화(AX)부터 비즈니스 전용 시스템 구축까지.',
       target: P.enterprise.target,
       groups: [
@@ -197,7 +208,7 @@ export const services = {
         { title: 'AI 업무 자동화(AX) — 예를 들면', items: ['AI 고객 상담', '고객 문의 자동 분류', '이메일 응대 초안 작성', '견적서 작성 자동화', '인보이스 및 문서 처리', '예약·문의 정보 자동 등록', '반복적인 데이터 입력 자동화', '업무 알림 및 보고 자동화'] },
         { title: '기본 포함', tone: 'base', items: P.enterprise.base },
       ],
-      footnotes: ['NZD 5,500부터 시작하며, 필요한 기능과 개발 범위를 상담으로 확인한 뒤 견적을 확정합니다.', 'AI 모델 이용료, 외부 API, 유료 플랫폼, 서버 및 시스템 운영비가 발생할 수 있습니다.'],
+      footnotes: [byCur((c) => `${c} 5,500부터 시작하며, 필요한 기능과 개발 범위를 상담으로 확인한 뒤 견적을 확정합니다.`), 'AI 모델 이용료, 외부 API, 유료 플랫폼, 서버 및 시스템 운영비가 발생할 수 있습니다.'],
     },
     {
       key: 'film', index: '04', name: 'AI VIDEO AD', ko: 'AI 영상광고', price: '상담 후 견적',
@@ -278,7 +289,7 @@ export const fee = {
     setupLabel: '초기 제작비',
     monthlyLabel: '월 관리비',
     yearsLabel: '기간',
-    product: 'STARTER(NZD 1,490, GST 포함) 기준',
+    product: { NZD: 'STARTER(NZD 1,490, GST 포함) 기준', USD: 'STARTER(USD 1,490) 기준' } as Txt,
     /** PAUSE 쪽 초기 제작비 = STARTER 견적가 */
     pauseSetup: 1490,
     totalLabel: '총비용',
@@ -300,7 +311,7 @@ export const process = {
   subtitle: '프로젝트 진행 과정',
   steps: [
     { id: '01', title: '1:1 기획 및 상담', highlight: '핵심 가치 분석', desc: '단순한 제작 상담이 아닙니다. 사장님의 비즈니스 상황을 깊이 있게 이해하고, 가장 필요한 해결책을 함께 고민하는 진정성 있는 대화로 시작합니다.' },
-    { id: '02', title: '투명한 안심 결제', highlight: '계약금 50% · 잔금 50%', desc: '상호 합의한 명확한 작업 범위로 견적을 확정한 뒤 계약금 50%로 제작을 시작하고, 최종 검수·승인 후 잔금 50%를 결제합니다. ENTERPRISE처럼 복잡한 프로젝트는 단계별 결제를 적용할 수 있습니다.' },
+    { id: '02', title: '투명한 안심 결제', highlight: '선금 결제', desc: '상호 합의한 명확한 작업 범위로 견적을 확정한 뒤, 제작비를 선금으로 결제하시면 바로 제작을 시작합니다.' },
     { id: '03', title: '맞춤형 디자인 및 개발', highlight: '정교한 맞춤 개발', desc: '브랜드의 정수를 코드로 고스란히 담아냅니다. 사장님만의 유니크하고 강력한 웹사이트를 구축합니다.' },
     { id: '04', title: '꼼꼼한 검수 및 피드백', highlight: '정식 디자인 수정 2회', desc: '작은 디테일 하나도 놓치지 않습니다. 긴밀한 소통과 보완 작업으로 완성도를 높입니다. 제작 오류나 계약된 기능의 누락은 수정 횟수와 관계없이 바로잡습니다.' },
     { id: '05', title: '안전한 인계 및 완성', highlight: '기본 월 관리비 $0', desc: '지정된 콘텐츠를 직접 수정할 수 있는 관리자 기능과 함께, 계약된 자료와 인계 범위를 정리해 전달합니다. 이후 PAUSE Studio에 매달 내는 기본 관리비는 없습니다.' },
@@ -316,7 +327,7 @@ export const pricing = {
   banner: ['브랜드는 더 돋보이게.', '매달 관리비는 없게.'],
   /** 견적서 머리말 */
   bannerLead: '브랜드의 방향과 비즈니스 목표에 맞는 웹사이트를 제작합니다. 기획부터 디자인, 개발까지 모든 과정을 한 번에 진행합니다.',
-  currency: 'NZD 기준 · GST 포함',
+  currency: { NZD: 'NZD 기준 · GST 포함', USD: 'USD 기준' } as Txt,
   targetLabel: '추천 대상',
   /** 견적서 STARTER · BUSINESS · ENTERPRISE — adds = 이 플랜만의 기능(위·강조) · base = 다른 플랜과 같은 기본 기능(아래·작게) */
   plans: [
@@ -341,14 +352,14 @@ export const faq = {
   title: ['궁금하신 점들을', '모았습니다.'],
   items: [
     { q: '정말 나중에 추가로 나가는 비용이 없나요?', a: '웹사이트 유지보수·관리비·웹 호스팅은 모든 플랜에 무료로 포함되어, PAUSE Studio에 매달 내는 관리비가 없습니다. 유지보수는 계약된 기존 기능이 정상적으로 동작하도록 보수하는 것입니다. 도메인 등록·갱신, 카드 결제 수수료, 유료 외부 플랫폼·API, 페이지 추가·신규 기능 개발처럼 별도 비용이 생길 수 있는 항목은 견적 단계에서 미리 안내해 드립니다.' },
-    { q: '정말 제작비 한 번만 내면 되나요?', a: '네, 제작비는 계약금 50%와 잔금 50%로 한 번 결제하시면 됩니다. 웹 호스팅은 무상 제공 범위 안에서 무료로 제공되고, 텍스트나 사진 등 지정된 콘텐츠는 관리자 기능으로 직접 수정하실 수 있어 매달 관리비를 낼 필요가 없습니다.' },
+    { q: '정말 제작비 한 번만 내면 되나요?', a: '네, 제작비는 선금으로 한 번 결제하시면 됩니다. 웹 호스팅은 무상 제공 범위 안에서 무료로 제공되고, 텍스트나 사진 등 지정된 콘텐츠는 관리자 기능으로 직접 수정하실 수 있어 매달 관리비를 낼 필요가 없습니다.' },
     { q: '어떤 플랜을 골라야 하나요?', a: '브랜드와 서비스를 소개하고 고객 문의를 받는 웹사이트라면 STARTER, 제품·재고 관리와 예약·주문·온라인 결제까지 운영하려면 BUSINESS, AI 업무 자동화(AX)나 외부 시스템(ERP, POS, CRM 등) 연동이 필요하다면 ENTERPRISE가 맞습니다. 잘 모르시겠다면 상담을 통해 비즈니스에 맞는 최적의 구성을 제안드립니다.' },
     { q: '제작 기간은 얼마나 걸리나요?', a: '프로젝트 규모에 따라 다르며, 보통 2~6주 안에 진행됩니다.' },
     { q: '사이트 소유권은 누구에게 있나요?', a: '웹사이트는 대표님의 자산입니다. 대표님의 콘텐츠와 데이터, 계약된 제작 결과물에 대한 권리를 명확하게 안내하고, 필요한 경우 다른 개발자에게 운영을 맡길 수 있도록 인계 범위를 제공합니다. 공통 개발 코드·오픈소스·외부 플랫폼·유료 라이선스는 각 계약과 라이선스 조건을 따릅니다.' },
     { q: '나중에 다른 곳에 맡기거나 직접 관리하고 싶어지면요?', a: '도메인은 가능한 대표님 명의로 등록해 드리고, 다른 개발자에게 운영을 맡기실 수 있도록 계약된 자료를 인계해 드립니다. 물론 그럴 일이 없도록 끝까지 함께하겠습니다.' },
     { q: '만약 Pause Studio가 폐업하거나 서비스를 종료하면 어떻게 되나요?', a: '완성된 웹사이트의 콘텐츠와 데이터, 계약된 제작 결과물은 대표님의 자산이며, 인계 자료로 다른 개발자나 호스팅 업체를 통해 계속 운영하실 수 있습니다. (※ 무료 기술 보수는 당사가 서비스를 운영하는 기간에 한하며, 별도로 대가를 받지 않는 부가 서비스입니다.)' },
     { q: '디자인 수정은 몇 번까지 가능한가요?', a: '계약 범위 안에서 정식 디자인 수정 2회를 제공합니다. 여러 의견을 모아 전달해 주시는 한 번의 피드백을 수정 1회로 봅니다. PAUSE Studio의 제작 오류나 계약된 기능의 누락·오작동은 횟수와 관계없이 바로잡습니다. 승인한 디자인의 전면 변경, 신규 페이지·기능, 전체 구조 변경은 별도 비용입니다.' },
-    { q: '미국에서도 의뢰할 수 있나요?', a: '네. Auckland를 기반으로 뉴질랜드와 미국 등 해외 한인 사장님들의 웹사이트를 제작합니다. 안내된 금액은 뉴질랜드 달러(NZD, GST 포함) 기준이며, 해외 사업장은 상담 후 청구 통화와 금액을 견적서에 명확히 안내해 드립니다.' },
+    { q: '미국에서도 의뢰할 수 있나요?', a: '네. Auckland를 기반으로 뉴질랜드와 미국 등 해외 한인 사장님들의 웹사이트를 제작합니다. 가격은 같은 숫자로, 뉴질랜드에서는 NZD(GST 포함), 뉴질랜드 외 지역(미국 포함)에서는 USD로 안내합니다.' },
     { q: '해외(뉴질랜드/미국 등)인데 소통에 문제가 없을까요?', a: '전혀 걱정하지 않으셔도 됩니다. 오클랜드 기반으로 운영되며 Zoom 비디오 미팅, 전화, 카카오톡, 이메일 등 사장님께 가장 편리한 소통 방식을 지원합니다. 모든 기획과 커뮤니케이션은 한국어로 명확하게 진행됩니다.' },
     { q: '다국어 사이트 제작도 가능한가요?', a: '네, 다국어 레이아웃과 서체를 고려해 디자인할 수 있습니다. 기본 가격은 한 가지 콘텐츠 언어 기준이며, 추가 언어 페이지 제작과 전문 번역, 원어민 검수는 범위에 따라 별도 견적으로 진행합니다.' },
     { q: '검색 엔진(SEO) 최적화도 포함되나요?', a: '네, 모든 플랜에 포함됩니다. STARTER와 BUSINESS는 구글 및 네이버에 잘 노출될 수 있도록 메타데이터, 사이트맵, 구조화 데이터 등 기본 SEO를 설정해 드리고, ENTERPRISE는 고급 SEO 설정이 포함됩니다.' },

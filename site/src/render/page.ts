@@ -30,11 +30,13 @@ const img = (base: string, alt: string, sizes: string, cls = '', lazy = true) =>
 const dim = (base: string, tag: string): Dim => M[base]?.[tag] ?? [1600, 900];
 const base = (p: string) => p.replace(/\.jpg$/, '');
 
-/** 'NZD 1,490' → 통화 표기만 작게 */
-const priceHtml = (s: string) => {
-  const m = /^([A-Z]{3}) (.+)$/.exec(s);
-  return m ? `<span class="cur">${m[1]}</span> ${esc(m[2])}` : esc(s);
-};
+/** 통화별 글(ko.ts Txt): 문자열은 그대로, { NZD, USD }는 두 표기를 모두 넣고 CSS가 방문자 통화 하나만 보여 준다(빈 글은 넣지 않음) */
+const t = (x: C.Txt) => typeof x === 'string' ? esc(x)
+  : (['NZD', 'USD'] as const).filter((c) => x[c]).map((c) => `<span data-c="${c}">${esc(x[c])}</span>`).join('');
+const CODE: C.Txt = { NZD: 'NZD', USD: 'USD' };
+/** '1,490' → 통화 표기(작게) + 숫자. 숫자가 아니면('상담 후 견적') 그대로 */
+const priceHtml = (s: string) => /^\d/.test(s) ? `<span class="cur">${t(CODE)}</span> ${esc(s)}` : esc(s);
+const priceText = (s: string) => /^\d/.test(s) ? `${t(CODE)} ${esc(s)}` : esc(s);
 /** 서비스·요금 버튼 → 상담 창에서 종류·플랜 미리 선택(ko.ts consultPreset) */
 const preset = (key: string) => {
   const p = C.consultPreset[key];
@@ -162,7 +164,7 @@ function who() {
 
 function services() {
   const s = C.services;
-  const tabs = s.items.map((it) => `<a href="#svc-${it.key}"><span class="idx">${it.index}</span><span class="n">${esc(it.name)}</span><span class="p">${esc(it.ko)} · ${esc(it.price)}</span></a>`).join('');
+  const tabs = s.items.map((it) => `<a href="#svc-${it.key}"><span class="idx">${it.index}</span><span class="n">${esc(it.name)}</span><span class="p">${esc(it.ko)} · ${priceText(it.price)}</span></a>`).join('');
   const blocks = s.items.map((it) => {
     const normal = it.groups.filter((g) => !g.tone).length;
     const many = normal === 3 || normal >= 5;
@@ -174,12 +176,12 @@ function services() {
       const off = /포함되지|별도/.test(g.title);
       return `<div class="grp${key ? ' key' : ''}${solo ? ' solo' : ''}${wide ? ' wide' : ''}${off ? ' off' : ''}"><h4>${key ? '<span class="plus" aria-hidden="true">+</span>' : ''}${esc(g.title)}</h4><ul>${g.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
     }).join('');
-    const notes = it.footnotes?.length ? `<ul class="svc-notes">${it.footnotes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : '';
+    const notes = it.footnotes?.length ? `<ul class="svc-notes">${it.footnotes.map((n) => `<li>${t(n)}</li>`).join('')}</ul>` : '';
     const about = it.target
       ? `<p class="svc-target rv" style="--d:.08s"><span class="lab">${esc(C.pricing.targetLabel)}</span>${esc(it.target)}</p>`
       : `<p class="svc-purpose rv" style="--d:.08s">${esc(it.purpose || '')}</p>`;
     return `<article class="svc" id="svc-${it.key}" aria-labelledby="svc-${it.key}-name">
-    <header class="svc-hd rv"><span class="idx">${it.index}</span><h3 class="svc-name" id="svc-${it.key}-name">${esc(it.name)}</h3><p class="svc-ko">${esc(it.ko)}</p><p class="svc-price">${priceHtml(it.price)}${it.priceNote ? `<small>${esc(it.priceNote)}</small>` : ''}</p>
+    <header class="svc-hd rv"><span class="idx">${it.index}</span><h3 class="svc-name" id="svc-${it.key}-name">${esc(it.name)}</h3><p class="svc-ko">${esc(it.ko)}</p><p class="svc-price">${priceHtml(it.price)}${it.priceNote ? `<small>${t(it.priceNote)}</small>` : ''}</p>
       <a class="btn-text" href="#contact" data-consult${preset(it.key)}>이 서비스로 상담하기${arrow()}</a></header>
     <div class="svc-body"><p class="svc-headline rv">${esc(it.headline)}</p>${about}
       <div class="svc-groups${many ? ' cols-3' : ''} rv" style="--d:.12s">${groups}</div>${notes}</div>
@@ -274,7 +276,7 @@ function fee() {
         </div>
         <label class="calc-years"><span>${esc(c.yearsLabel)}</span><input type="range" min="1" max="10" step="1" value="5" data-c="years"><output data-o="years">5${esc(c.unit)}</output></label>
         <div class="calc-out" aria-live="polite"><p>${esc(c.otherLabel)} ${esc(c.totalLabel)}<strong data-o="other">—</strong></p><p>${esc(c.pauseLabel)} ${esc(c.totalLabel)}<strong data-o="pause">${setup}</strong></p></div>
-        <p class="calc-note">${esc(c.product)} · ${esc(c.note)}</p>
+        <p class="calc-note">${t(c.product)} · ${esc(c.note)}</p>
       </div>
     </div>
   </div>
@@ -308,10 +310,10 @@ function pricingSec() {
       <a class="btn btn-solid" href="#contact" data-consult${preset(pl.key)}><span class="lb">${esc(p.planCta)}</span>${arrow()}</a>
     </article>`).join('');
   const free = p.free.map((x, i) => `<li><span class="idx">${String(i + 1).padStart(2, '0')}</span><b>${esc(x)}</b></li>`).join('');
-  const notes = p.notes.map((n) => `<li>${esc(n)}</li>`).join('');
+  const notes = p.notes.map((n) => `<li>${t(n)}</li>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)} · ${esc(p.title)}</p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner)}</h2><p class="lead rv" style="--d:.12s">${esc(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${esc(p.currency)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)} · ${esc(p.title)}</p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner)}</h2><p class="lead rv" style="--d:.12s">${esc(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(p.currency)}</p></header>
     <div class="plans">${plans}</div>
     <div class="free-band rv"><h3 class="fb-title">${esc(p.freeTitle[0])} <br>${esc(p.freeTitle[1])}</h3><ul>${free}</ul></div>
     <div class="plan-film rv"><h3 class="plan-name">${esc(p.filmPlan.name)}</h3><p class="d">${esc(p.filmPlan.desc)}</p><div><p class="price">${esc(p.filmPlan.price)}</p><a class="btn-text" href="#contact" data-consult${preset('film')}>${esc(p.filmPlan.cta)}${arrow()}</a></div></div>

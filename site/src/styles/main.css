@@ -264,6 +264,10 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .svc-purpose { margin-top: 18px; font-size: var(--fs-lead); line-height: 1.7; color: var(--cream-2); max-width: 36em; }
 .svc-target { margin-top: 18px; font-size: var(--fs-lead); line-height: 1.7; color: var(--cream-2); max-width: 36em; }
 .svc-target .lab { display: block; margin-bottom: 6px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-small); letter-spacing: .02em; color: var(--cream-3); }
+/* 통화: 같은 숫자, 접속 위치로 표기만 — 서버가 뉴질랜드 외 방문자에게 html.usd (src/geo/currency.ts) */
+[data-c="USD"] { display: none; }
+.usd [data-c="NZD"] { display: none; }
+.usd [data-c="USD"] { display: inline; }
 .price .cur, .svc-price .cur { font-size: .42em; letter-spacing: .02em; margin-right: .06em; vertical-align: .12em; }
 .svc-groups { margin-top: clamp(36px, 3vw, 56px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 2.4vw, 44px) clamp(28px, 3vw, 56px); }
 .svc-groups.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }

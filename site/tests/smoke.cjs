@@ -138,7 +138,7 @@ async function page(browser, vp, opts = {}) {
     const { ctx, p } = await page(browser, { width: 1440, height: 900 });
     await p.goto(`${BASE}/#pricing`, { waitUntil: 'networkidle' });
     const st = await p.evaluate(() => ({
-      plans: [...document.querySelectorAll('.plan')].map((el) => `${el.querySelector('.plan-name').textContent} ${el.querySelector('.price').textContent}`),
+      plans: [...document.querySelectorAll('.plan')].map((el) => `${el.querySelector('.plan-name').textContent} ${el.querySelector('.price').innerText}`),
       featured: document.querySelector('.plan.featured .plan-name')?.textContent,
       adds: [...document.querySelectorAll('.plan.featured ul.adds li')].map((li) => li.textContent),
       free: [...document.querySelectorAll('.free-band b')].map((b) => b.textContent),
@@ -152,6 +152,37 @@ async function page(browser, vp, opts = {}) {
     check('서비스: STARTER · BUSINESS · ENTERPRISE · AI 영상광고', st.svc.join('|') === 'STARTER|BUSINESS|ENTERPRISE|AI VIDEO AD', st.svc.join(', '));
     check('요금·서비스·FAQ에 식당 위주 문구 없음, 예전 상품명·가격 없음', !st.restaurant && !st.old);
     await ctx.close();
+  }
+
+  // 3-2) 통화: 같은 숫자, 접속 위치로 표기 — 뉴질랜드 NZD(GST 포함) / 그 밖의 나라(미국 포함) USD. 프록시가 알려 주는 접속 주소(X-Forwarded-For)로 흉내
+  {
+    const cases = [
+      { name: '로컬(알 수 없음) → NZD', headers: {}, url: '/', cur: 'NZD' },
+      { name: '미국 IP 8.8.8.8 → USD', headers: { 'X-Forwarded-For': '8.8.8.8' }, url: '/', cur: 'USD' },
+      { name: '뉴질랜드 IP(Spark) → NZD', headers: { 'X-Forwarded-For': '122.56.1.1' }, url: '/', cur: 'NZD' },
+      { name: '미국 IPv6 → USD', headers: { 'X-Forwarded-For': '2001:4860:4860::8888' }, url: '/', cur: 'USD' },
+      { name: '확인용 ?cur=usd → USD', headers: {}, url: '/?cur=usd', cur: 'USD' },
+    ];
+    for (const c of cases) {
+      const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, extraHTTPHeaders: c.headers });
+      const p = await ctx.newPage();
+      const res = await p.goto(`${BASE}${c.url}`, { waitUntil: 'networkidle' });
+      const st = await p.evaluate(() => ({
+        usd: document.documentElement.classList.contains('usd'),
+        prices: [...document.querySelectorAll('.plan .price')].map((e) => e.innerText).join(' | '),
+        chip: document.querySelector('.pricing .currency').innerText,
+        note1: document.querySelector('.pnotes li').innerText,
+        tab: document.querySelector('.svc-tabs .p').innerText,
+        calc: document.querySelector('.calc-note').innerText,
+        visible: document.querySelector('#pricing').innerText + document.querySelector('#services').innerText,
+      }));
+      const C = c.cur, O = C === 'NZD' ? 'USD' : 'NZD';
+      const ok = st.usd === (C === 'USD') && st.prices === `${C} 1,490 | ${C} 2,900 | ${C} 5,500+` && st.chip === (C === 'NZD' ? 'NZD 기준 · GST 포함' : 'USD 기준')
+        && st.note1.includes(`(${C})`) && st.tab === `기본형 · ${C} 1,490` && st.calc.includes(`STARTER(${C} 1,490`) && !st.visible.includes(O) && (C === 'NZD' || !st.visible.includes('GST'));
+      check(`통화: ${c.name}`, ok, `${st.prices} · ${st.chip}`);
+      if (c.cur === 'USD' && c.url === '/') check('통화: 첫 화면은 공용 캐시에 저장 안 함(방문자마다 다름)', /private/.test(res.headers()['cache-control'] || ''), res.headers()['cache-control']);
+      await ctx.close();
+    }
   }
 
   // 4) 작업물 크게 보기·키보드

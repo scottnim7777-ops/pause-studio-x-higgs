@@ -25,6 +25,7 @@ gcloud run deploy pause-studio-2026 --source . --region australia-southeast1 --a
 - [ ] PC·휴대폰으로 열어 보기(히어로 인트로, 포트폴리오 크게 보기, 요금, FAQ)
 - [ ] 상담 신청을 실제로 한 번 보내 보고 메일이 오는지(SMTP를 안 쓰면 FormSubmit이 처음 한 번 '확인 메일'을 보냄 → 승인)
 - [ ] 카카오톡·문자 버튼, 이메일 보기
+- [ ] 통화: 뉴질랜드에서 열면 요금이 **NZD**(GST 포함), 주소 끝에 `?cur=usd`를 붙이면 **USD**로 보이는지(뉴질랜드 밖 방문자 화면). 실제로 미국 등에서 보면 자동으로 USD
 
 ## 2. 도메인을 새 사이트로 돌리기
 - **Cloud Run**: 도메인 매핑에서 pause8studio.com(과 www)을 새 서비스 `pause-studio-2026`으로 바꿈
@@ -43,3 +44,7 @@ gcloud run deploy pause-studio-2026 --source . --region australia-southeast1 --a
 ## 참고
 - 코드 위치: `scottnim7777-ops/pause-studio-x-higgs` 저장소의 `site/` 폴더(브랜치 `claude/charming-euler-bt8uf2`). 원하시면 기존 `pause-studio-v2` 저장소에 옮겨 넣을 수도 있습니다.
 - 환경 변수: `site/.env.example` 참고. 비밀번호(SMTP_PASS)는 코드나 저장소에 넣지 말고 배포 서비스의 비밀값 기능으로.
+- **통화(접속 위치)**: 서버가 첫 화면을 줄 때 방문자 IP로 뉴질랜드 = NZD, 그 밖의 나라 = USD(같은 숫자)를 고릅니다. 따로 설정할 것은 없습니다.
+  - Cloud Run처럼 앞에 프록시가 한 단계 있으면 `TRUST_PROXY=1`(기본값) 그대로. Cloudflare·Vercel 등을 쓰면 그쪽이 알려 주는 국가 정보를 먼저 씁니다.
+  - 뉴질랜드 IP 목록(`site/src/geo/nz-ip.json`)은 인터넷 등록기관 공개 자료로 만든 것 — 몇 달에 한 번 `python3 scripts/nz-ip.py` 후 다시 배포하면 최신.
+  - 첫 화면은 방문자마다 다르므로 `Cache-Control: private` — CDN을 앞에 둘 때 HTML은 캐시하지 않게.

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--HEAD-->
+<script>
+  /* 움직임은 JS가 켜졌을 때만. 스크립트를 못 불러오면 4초 뒤 모든 내용을 그대로 보여준다 */
+  document.documentElement.classList.add('js');
+  setTimeout(function () { if (!window.__ps) document.documentElement.classList.remove('js'); }, 4000);
+</script>
+<!--WEBFONT-->
+<link rel="stylesheet" href="/src/styles/main.css">
+<script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+<!--BODY-->
+</body>
+</html>

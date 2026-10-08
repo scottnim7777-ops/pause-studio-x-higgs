@@ -39,12 +39,13 @@ const big = (base: string): Dim => { const m = M[base]; if (!m) return [1600, 90
 /** 통화별 글(ko.ts Txt): 문자열은 그대로, { NZD, USD }는 두 표기를 모두 넣고 CSS가 방문자 통화 하나만 보여 준다(빈 글은 넣지 않음) */
 const t = (x: C.Txt) => typeof x === 'string' ? nl(x)
   : (['NZD', 'USD'] as const).filter((c) => x[c]).map((c) => `<span data-c="${c}">${nl(x[c])}</span>`).join('');
-const CODE: C.Txt = { NZD: 'NZD', USD: 'USD' };
+/** 가격 앞 통화 표시: 뉴질랜드 NZ$ · 그 외 US$(사용자 예시 NZ$1,990 · US$1,990) */
+const SYM: C.Txt = C.currencySymbol;
 const isNum = (s: string) => /^\d/.test(s);
-/** '1,490' → 통화 표기(작게) + 숫자 + 꼬리(부터, /월). 숫자가 아니면('맞춤 견적') 그대로 */
+/** '1,990' → 통화 표시(작게) + 숫자 + 꼬리(부터, /월). 숫자가 아니면('맞춤 견적') 그대로 */
 const priceHtml = (s: string, suffix = '') => isNum(s)
-  ? `<span class="cur">${t(CODE)}</span> ${esc(s)}${suffix ? `<small>${esc(suffix)}</small>` : ''}`
-  : `${esc(s)}${suffix ? `<small>${esc(suffix)}</small>` : ''}`;
+  ? `<span class="cur">${t(SYM)}</span>${esc(s)}${suffix ? `<small>${esc(suffix)}</small>` : ''}`
+  : `<span class="txt">${esc(s)}</span>${suffix ? `<small>${esc(suffix)}</small>` : ''}`;
 /** 서비스·요금 버튼 → 상담 창에서 종류·상품 미리 선택(ko.ts consultPreset) */
 const preset = (key: string) => {
   const p = C.consultPreset[key];
@@ -194,10 +195,13 @@ function mock(m: C.CompareCase['mock']) {
   const b = m.image;
   const has = exists(`${b}-880.jpg`);
   const pic = has ? `<picture><source type="image/webp" srcset="${b}-880.webp"><img src="${b}-880.jpg" alt="" loading="lazy" decoding="async"></picture>` : '';
-  return `<div class="mock" style="--acc:${m.accent}${has ? `;--img:url(${b}-880.jpg)` : ''}" aria-hidden="true">
+  // 사진 주소는 사용자 지정 속성(--img) 대신 칸마다 직접 넣는다: 상대 주소일 때(미리보기 묶음) 일부 브라우저가
+  // var() 안의 주소를 CSS 파일 위치 기준으로 풀어 사진이 빠지기 때문
+  const thumb = has ? ` style="background-image:url(${b}-880.jpg)"` : '';
+  return `<div class="mock" style="--acc:${m.accent}" aria-hidden="true">
     <div class="m-bar"><b>${esc(m.brand)}</b><span class="m-nav">${m.nav.map((n, i) => `<i${i === 0 ? ' class="on"' : ''}>${esc(n)}</i>`).join('')}</span><span class="m-btn">${esc(m.btn)}</span></div>
     <div class="m-hero">${pic}<div class="m-copy"><span class="m-h">${esc(m.title)}</span><span class="m-p">${esc(m.sub)}</span><span class="m-cta">${esc(m.btn)}</span></div></div>
-    <div class="m-sec"><span class="m-st">Our Services</span><span class="m-cards">${m.cards.map(([t, d]) => `<span class="m-card"><span class="m-thumb"></span><b>${esc(t)}</b><span>${esc(d)}</span></span>`).join('')}</span></div>
+    <div class="m-sec"><span class="m-st">Our Services</span><span class="m-cards">${m.cards.map(([t, d]) => `<span class="m-card"><span class="m-thumb"${thumb}></span><b>${esc(t)}</b><span>${esc(d)}</span></span>`).join('')}</span></div>
   </div>`;
 }
 function compare() {
@@ -225,16 +229,19 @@ function compare() {
 </section>`;
 }
 
-/* ───────── 웹사이트 요금: 견적서 플랜, 이 플랜만의 기능은 위에 크게(+), 기본 포함은 체크 목록으로 또렷하게 ───────── */
+/* ───────── 웹사이트 요금: WEBSITE · ONLINE STORE · ENTERPRISE, 그 상품만의 기능은 위에 크게(+), 함께 들어 있는 것은 체크 목록으로 또렷하게 ───────── */
 function planCard(pl: C.Plan, i: number) {
   const p = C.pricing;
   const adds = pl.base
     ? `<p class="pl-lab add"><span class="plus" aria-hidden="true">+</span>${esc(pl.addsTitle)}</p><ul class="adds">${pl.adds.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`
     : `<p class="pl-lab">${esc(pl.addsTitle)}</p><ul class="chk">${pl.adds.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul>`;
-  const base = pl.base ? `<div class="pl-base"><p class="pl-lab">${esc(p.baseLabel)}</p><ul class="chk">${pl.base.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul></div>` : '';
+  const baseList = (items: string[]) => pl.baseStyle === 'dots'
+    ? `<ul class="dots">${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`
+    : `<ul class="chk">${items.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul>`;
+  const base = pl.base ? `<div class="pl-base"><p class="pl-lab">${esc(pl.baseTitle || p.baseLabel)}</p>${baseList(pl.base)}</div>` : '';
   return `<article class="plan${pl.featured ? ' featured' : ''} rv" style="--d:${i * 0.08}s" aria-labelledby="plan-${pl.key}">
       ${pl.featured ? `<span class="badge">${esc(p.featuredBadge)}</span>` : ''}<h3 class="plan-name" id="plan-${pl.key}">${esc(pl.name)}</h3><p class="type">${esc(pl.type)}</p>
-      <p class="price">${priceHtml(pl.price)}</p>
+      <p class="price">${priceHtml(pl.price, pl.suffix)}</p>
       <p class="pl-target"><span>${esc(p.targetLabel)}</span>${esc(pl.target)}</p>
       <div class="pl-body">${adds}${base}</div>
       ${consultBtn(C.cta.free, 'btn btn-solid', pl.key)}
@@ -246,7 +253,7 @@ function pricingSec() {
   const notes = p.notes.map((n) => `<li>${t(n)}</li>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner)}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner)}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="plans">${p.plans.map(planCard).join('')}</div>
     <div class="free-band rv"><h3 class="fb-title">${esc(p.freeTitle[0])} <br>${esc(p.freeTitle[1])}</h3><ul>${free}</ul></div>
     <div class="pnotes rv"><h3 class="pnotes-title">${esc(p.notesTitle)}</h3><ol>${notes}</ol></div>
@@ -255,50 +262,64 @@ function pricingSec() {
 }
 
 /* ───────── 관리비 $0 + 총비용 계산기 ───────── */
+/** 큰 $0: 빌드 결과는 마지막 모습($0, 홀쭉). JS가 예시 금액에서 세어 내려가는 움직임을 붙인다(ui.ts initLedger) */
+function ledger() {
+  const l = C.fee.ledger;
+  return `<figure class="ledger rv" style="--d:.15s" role="img" aria-label="${esc(l.aria)}" data-ledger data-from="${l.from}">
+        <div class="ledger-head" aria-hidden="true"><span>${esc(l.head[0])}</span><span>${esc(l.head[1])}</span></div>
+        <p class="ledger-cap" aria-hidden="true"><span class="from">${esc(l.capFrom)}</span><span class="to">${esc(l.capTo)}</span></p>
+        <p class="ledger-zero" aria-hidden="true"><span class="ld-fig"><span class="cur">$</span><b data-ledger-num>0</b></span><i class="ld-belt"></i></p>
+        <ol class="ledger-months" aria-hidden="true">${l.months.map((m, i) => `<li style="--i:${i}"><span>${m}</span><b>$0</b></li>`).join('')}</ol>
+        <p class="ledger-total" aria-hidden="true"><span>${esc(l.totalLabel)}</span><b>$0</b></p>
+      </figure>`;
+}
+/** 계산기: 왼쪽(타사 견적, 직접 입력) VS 오른쪽(PAUSE Studio, 상품 선택) — 휴대폰에서도 두 칸이 분명히 구분되게 */
+function calc() {
+  const c = C.fee.calc;
+  const money = (n: number) => `${t(SYM)}${n.toLocaleString('en-US')}`;
+  const def = c.plans[0];
+  const plans = c.plans.map((pl, i) => `<label class="cp"><input type="radio" name="calcPlan" value="${pl.price}" data-suffix="${esc(pl.suffix || '')}"${i === 0 ? ' checked' : ''}><span>${esc(pl.label)}</span></label>`).join('');
+  return `<div class="calc rv" data-calc>
+      <div class="calc-intro"><h3 class="h3">${esc(c.title)}</h3><p class="calc-lead">${nl(c.lead)}</p></div>
+      <div class="calc-form">
+        <div class="calc-vs">
+          <fieldset class="calc-side other"><legend><span class="side-tag">${esc(c.otherLabel)}</span></legend>
+            <label>${esc(c.setupLabel)}<span class="money"><span class="sym">${t(SYM)}</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-c="setup" aria-label="${esc(c.otherLabel)} ${esc(c.setupLabel)}"></span></label>
+            <label>${esc(c.monthlyLabel)}<span class="money"><span class="sym">${t(SYM)}</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-c="monthly" aria-label="${esc(c.otherLabel)} ${esc(c.monthlyLabel)}"></span></label>
+          </fieldset>
+          <span class="vs" aria-hidden="true">${esc(c.vs)}</span>
+          <fieldset class="calc-side pause"><legend><img src="/brand/logo-cream.svg" alt="${esc(c.pauseLabel)}" width="204" height="103"></legend>
+            <div class="calc-plans" role="radiogroup" aria-label="${esc(c.pauseLabel)} ${esc(c.planLabel)}">${plans}</div>
+            <p class="calc-row"><span>${esc(c.setupLabel)}</span><b class="fixed" data-o="setup">${money(def.price)}</b></p>
+            <p class="calc-row"><span>${esc(c.monthlyLabel)}</span><b class="fixed">${money(0)}</b></p>
+          </fieldset>
+        </div>
+        <label class="calc-years"><span>${esc(c.yearsLabel)}</span><input type="range" min="1" max="10" step="1" value="5" data-c="years"><output data-o="years">5${esc(c.unit)}</output></label>
+        <div class="calc-out">
+          <p class="other"><span>${esc(c.otherLabel)} ${esc(c.totalLabel)}</span><strong data-o="other">${money(0)}</strong><i class="bar" data-bar="other"></i></p>
+          <p class="pause"><span>${esc(c.pauseLabel)} ${esc(c.totalLabel)}</span><strong data-o="pause">${money(def.price)}</strong><i class="bar" data-bar="pause"></i></p>
+        </div>
+        <p class="calc-save" data-save hidden><span>${esc(c.saveLabel)}</span><strong data-o="save">${money(0)}</strong></p>
+        <p class="sr" aria-live="polite" data-calc-live></p>
+        <p class="calc-note">${esc(c.note)}</p>
+      </div>
+    </div>`;
+}
 function fee() {
   const f = C.fee;
-  const c = f.calc;
-  const setup = `$${c.pauseSetup.toLocaleString('en-US')}`;
   const extra = f.extra.map((x) => `<li><b>${esc(x.title)}</b><span>${esc(x.desc)}</span></li>`).join('');
   return `<section class="sec sec-black fee" id="fee" aria-labelledby="fee-title">
   <div class="wrap">
     <div class="fee-top">
       <header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 fee-title rv" id="fee-title">${lines(f.title)}</h2><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></header>
-      <figure class="ledger rv" style="--d:.15s" role="img" aria-label="${esc(f.ledger.aria)}" data-ledger>
-        <div class="ledger-head" aria-hidden="true"><span>${esc(f.ledger.head[0])}</span><span>${esc(f.ledger.head[1])}</span></div>
-        <p class="ledger-zero" aria-hidden="true"><span>$0</span></p>
-        <ol class="ledger-months" aria-hidden="true">${f.ledger.months.map((m, i) => `<li style="--i:${i}"><span>${m}</span><b>$0</b></li>`).join('')}</ol>
-        <p class="ledger-total" aria-hidden="true"><span>${esc(f.ledger.totalLabel)}</span><b>$0</b></p>
-      </figure>
+      ${ledger()}
     </div>
     <div class="fee-lists">
       <div class="fl-free rv"><h3>${esc(f.freeTitle)}</h3><ul class="chk">${f.free.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul></div>
       <div class="fl-extra rv" style="--d:.1s"><h3>${esc(f.extraTitle)}</h3><ul>${extra}</ul></div>
     </div>
     <div class="fee-notes">${f.notes.map((n) => `<p class="rv">${nl(n)}</p>`).join('')}</div>
-    <div class="calc rv" data-calc data-pause-setup="${c.pauseSetup}">
-      <div><h3 class="h3">${esc(c.title)}</h3><p class="calc-lead">${nl(c.lead)}</p></div>
-      <div class="calc-form">
-        <div class="calc-cols">
-          <fieldset><legend>${esc(c.otherLabel)}</legend>
-            <label>${esc(c.setupLabel)}<span class="money"><span>$</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-c="setup" aria-label="${esc(c.otherLabel)} ${esc(c.setupLabel)}"></span></label>
-            <label>${esc(c.monthlyLabel)}<span class="money"><span>$</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-c="monthly" aria-label="${esc(c.otherLabel)} ${esc(c.monthlyLabel)}"></span></label>
-          </fieldset>
-          <div class="calc-pause"><p class="lbl"><img src="/brand/logo-cream.svg" alt="${esc(c.pauseLabel)}" width="204" height="103"></p>
-            <label>${esc(c.setupLabel)}<span class="fixed">${setup}</span></label>
-            <label>${esc(c.monthlyLabel)}<span class="fixed">$0</span></label>
-          </div>
-        </div>
-        <label class="calc-years"><span>${esc(c.yearsLabel)}</span><input type="range" min="1" max="10" step="1" value="5" data-c="years"><output data-o="years">5${esc(c.unit)}</output></label>
-        <div class="calc-out">
-          <p><span>${esc(c.otherLabel)} ${esc(c.totalLabel)}</span><strong data-o="other">$0</strong><i class="bar" data-bar="other"></i></p>
-          <p class="pause"><span>${esc(c.pauseLabel)} ${esc(c.totalLabel)}</span><strong data-o="pause">${setup}</strong><i class="bar" data-bar="pause"></i></p>
-        </div>
-        <p class="calc-save" data-save hidden><span>${esc(c.saveLabel)}</span><strong data-o="save">$0</strong></p>
-        <p class="sr" aria-live="polite" data-calc-live></p>
-        <p class="calc-note">${t(c.product)} · ${esc(c.note)}</p>
-      </div>
-    </div>
+    ${calc()}
   </div>
 </section>`;
 }
@@ -350,17 +371,19 @@ function videoPlanCard(pl: C.VideoPlan, i: number) {
 function videoPricing() {
   const v = C.videoPricing;
   const fm = v.formats;
-  const formats = fm.items.map((x, i) => `<li class="fmt fmt-${i ? 'v' : 'h'}"><span class="frame" aria-hidden="true"><span>${esc(x.ratio)}</span></span><b>${esc(x.name)} <em>${esc(x.ratio)}</em></b><span class="size">${esc(x.size)}</span><span class="use">${esc(x.use)}</span></li>`).join('');
+  // 두 틀은 긴 변이 같게(같은 영상을 돌려 세운 크기) 한 바닥선에 세우고, 틀 안에는 피사체(원)와 자막(두 줄)이 화면마다 다른 자리에
+  const frames = fm.items.map((x, i) => `<span class="frame fr-${i ? 'v' : 'h'}"><span class="fr-ratio">${esc(x.ratio)}</span><i class="fr-subj"></i><i class="fr-cap"></i></span>`).join('');
+  const formats = fm.items.map((x) => `<li class="fmt"><b>${esc(x.name)}<span class="sr"> ${esc(x.ratio)}</span></b><span class="size">${esc(x.size)}</span><span class="use">${esc(x.use)}</span></li>`).join('');
   const mo = v.monthly;
-  const rows = v.addons.rows.map(([k, price, unit]) => `<tr><th scope="row">${esc(k)}</th><td>${isNum(price) ? `${t(CODE)} ${esc(price)}${unit ? ` <small>${esc(unit)}</small>` : ''}` : esc(price)}</td></tr>`).join('');
+  const rows = v.addons.rows.map(([k, price, unit]) => `<tr><th scope="row">${esc(k)}</th><td>${isNum(price) ? `${t(SYM)}${esc(price)}${unit ? ` <small>${esc(unit)}</small>` : ''}` : esc(price)}</td></tr>`).join('');
   const steps = v.steps.map((s, i) => `<li class="rv" style="--d:${i * 0.06}s"><span class="idx">${s.id}</span><h4>${esc(s.title)}</h4><p>${esc(s.desc)}</p></li>`).join('');
   const sched = v.schedule.map(([k, d]) => `<div><dt>${esc(k)}</dt><dd>${esc(d)}</dd></div>`).join('');
   return `<section class="sec sec-dark vpricing" id="video-pricing" aria-labelledby="vpricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv">${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading)}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading)}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="formats rv">
       <div class="fm-copy"><p class="kicker">${esc(fm.kicker)}</p><h3>${nl(fm.title)}</h3><p>${esc(fm.desc)}</p></div>
-      <ul class="fm-list">${formats}</ul>
+      <div class="fm-art"><div class="fm-frames" aria-hidden="true">${frames}</div><ul class="fm-list">${formats}</ul></div>
     </div>
     <div class="vplans">${v.plans.map(videoPlanCard).join('')}</div>
     <div class="v-included rv"><h3>${esc(v.includedTitle)}</h3><ul class="chk">${v.included.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul></div>
@@ -509,10 +532,14 @@ function consultDialog() {
 
 /**
  * 줄바꿈 다듬기(2026-10-08 사용자: 줄바꿈 신경 쓸 것): 한 글자 낱말(쓸·더·웹·월…) 뒤의 공백과 'Full HD MP4'를 붙는 공백으로.
- * 'ㅇㅇ을 쓸 / 곳을'처럼 한 글자만 줄 끝에 남지 않는다. 태그 안(속성 값)과 <script>는 건드리지 않는다.
+ * 'ㅇㅇ을 쓸 / 곳을'처럼 한 글자만 줄 끝에 남지 않고, 가운뎃점으로 이은 말(갤러리·포트폴리오)은 붙어 있다. 태그 안(속성 값)과 <script>는 건드리지 않는다.
  */
 const glue = (html: string) => html.replace(/(<script[\s\S]*?<\/script>)|(?<=>)([^<]+)(?=<)/g, (m, script, text) => script ? m
-  : text.replace(/(?<=^|[\s(\u00A0])([가-힣])[ ](?=[^\s])/g, '$1\u00A0').replace(/Full HD MP4/g, 'Full\u00A0HD\u00A0MP4'));
+  : text.replace(/(?<=^|[\s(\u00A0])([가-힣])[ ](?=[^\s])/g, '$1\u00A0').replace(/Full HD MP4/g, 'Full\u00A0HD\u00A0MP4')
+    // 가운뎃점(·) 양옆에서 줄이 바뀌지 않게('갤러리 / ·포트폴리오' 방지): 보이지 않는 단어 이음표(U+2060)
+    .replace(/(?<=\S)·(?=\S)/g, '\u2060·\u2060')
+    // 띄어 쓴 가운뎃점('릴스 · 틱톡')은 앞말에 붙여 줄 첫머리가 '·'로 시작하지 않게
+    .replace(/ · /g, '\u00A0· '));
 
 export function renderBody() {
   return glue([
@@ -533,7 +560,7 @@ export function renderHead() {
     '@context': 'https://schema.org', '@type': 'ProfessionalService', name: 'PAUSE Studio', alternateName: '퍼즈 스튜디오',
     description: m.description, url: m.canonical, image: m.ogImage, email: C.contact.email, telephone: '+64-20-488-7198',
     address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
-    areaServed: ['NZ', 'US'], serviceType: ['웹사이트 제작', '비즈니스 웹사이트(예약·주문·결제) 제작', 'AI 업무 자동화', 'AI 광고영상 제작'],
+    areaServed: ['NZ', 'US'], serviceType: ['웹사이트 제작', '온라인 스토어(주문·결제) 제작', 'AI 업무 자동화', 'AI 광고영상 제작'],
   };
   return `<title>${esc(m.title)}</title>
 <meta name="description" content="${esc(m.description)}">

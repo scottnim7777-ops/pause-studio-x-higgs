@@ -5,7 +5,8 @@
 - 모든 경로를 상대 경로로 바꾼다(아티팩트는 페이지와 함께 게시한 파일만 상대 경로로 읽는다).
 - 검색엔진용 메타·파비콘·매니페스트는 미리보기에 필요 없어 뺀다.
 - 서버가 없으므로 상담 신청(/api/contact)은 보내지지 않고 '전송 실패' 화면(메일 앱·복사·카카오톡)이 나온다.
-- 통화도 서버가 접속 위치로 고르므로, 미리보기에는 왼쪽 아래에 'NZD / USD' 전환 버튼을 붙인다(미리보기 전용, 주소 끝 #usd 로 USD부터).
+- 통화는 서버가 접속 위치로 고르므로(뉴질랜드만 NZ$, 그 외·판별 실패 US$), 서버가 없는 미리보기는 US$로 시작하고
+  왼쪽 아래에 미리보기 전용 전환 버튼을 붙인다(실제 사이트에는 없음, 주소 끝 #nzd 로 NZ$부터).
 - 결과: .cache/artifact/index.html(게시할 페이지) + 함께 게시할 파일들, .cache/artifact-files.json(게시용 파일 목록)
   _local.html 은 로컬 확인용(뼈대를 씌운 페이지)이며 게시하지 않는다.
 - 게시된 미리보기 주소는 STATE.md 에 적어 둔다(같은 주소로 다시 게시해야 링크가 유지됨).
@@ -38,9 +39,9 @@ def main():
                             "document.documentElement.classList.add('js');\n  document.documentElement.lang = 'ko';")
 
     # 미리보기 전용: 통화 전환(실제 사이트는 서버가 접속 위치로 html에 usd 클래스를 넣음)
-    switch = '''<div class="pv-cur" role="group" aria-label="미리보기 통화 — 실제 사이트는 접속 위치로 자동"><span>미리보기 통화</span><button type="button" data-pv="NZD" aria-pressed="true">NZD · 뉴질랜드</button><button type="button" data-pv="USD" aria-pressed="false">USD · 그 외</button></div>
+    switch = '''<div class="pv-cur" role="group" aria-label="미리보기 전용 통화 전환, 실제 사이트에는 없음"><span>미리보기 전용</span><button type="button" data-pv="USD" aria-pressed="true">US$ · 뉴질랜드 외</button><button type="button" data-pv="NZD" aria-pressed="false">NZ$ · 뉴질랜드</button></div>
 <style>.pv-cur{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:stretch;font-family:var(--f-text);font-size:13px;line-height:1;color:var(--cream);background:rgba(12,12,11,.92);border:1px solid rgba(252,238,216,.35)}.pv-cur span{display:flex;align-items:center;padding:10px 12px;color:rgba(252,238,216,.72)}.pv-cur button{padding:10px 12px;border-left:1px solid rgba(252,238,216,.35);font-weight:700}.pv-cur button[aria-pressed="true"]{background:var(--cream);color:var(--ink)}.pv-cur button:focus-visible{outline:2px solid var(--cream);outline-offset:2px}@media (max-width:420px){.pv-cur span{display:none}}</style>
-<script>(function(){var r=document.documentElement,b=document.querySelectorAll('[data-pv]');function set(c){r.classList.toggle('usd',c==='USD');b.forEach(function(x){x.setAttribute('aria-pressed',String(x.getAttribute('data-pv')===c))})}b.forEach(function(x){x.addEventListener('click',function(){set(x.getAttribute('data-pv'))})});if(location.hash.toLowerCase()==='#usd')set('USD')})();</script>'''
+<script>(function(){var r=document.documentElement,b=document.querySelectorAll('[data-pv]');function set(c){r.classList.toggle('nzd',c==='NZD');b.forEach(function(x){x.setAttribute('aria-pressed',String(x.getAttribute('data-pv')===c))})}b.forEach(function(x){x.addEventListener('click',function(){set(x.getAttribute('data-pv'))})});if(location.hash.toLowerCase()==='#nzd')set('NZD')})();</script>'''
 
     def rel(s):  # "/media/…" → "media/…" (따옴표·공백·쉼표·괄호 뒤의 사이트 경로만)
         return re.sub(r'(?<=["\'\s,(])/(media|brand|fonts|assets)/', r'\1/', s)

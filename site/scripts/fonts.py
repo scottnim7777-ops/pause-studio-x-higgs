@@ -137,6 +137,13 @@ def main():
         css.append(f"@font-face{{font-family:'{family}';src:url('/fonts/{file}') format('woff2');font-weight:{weight};font-style:normal;font-display:swap;unicode-range:{urange(cps)}}}")
 
     face('PS Display', 400, 'ps-display-latin.woff2', lat)
+
+    # 관리비 $0 숫자: 세어 내려가며 점점 홀쭉해지는 움직임(폭·굵기를 부드럽게 바꿈) — 숫자와 $ , 만 남긴 가변 글꼴
+    print('관리비 숫자(가변 폭 62~125 · 굵기 400~800): Archivo $0~9, → PS Ledger')
+    lv = instancer.instantiateVariableFont(TTFont(arch), {'wdth': (62, 125), 'wght': (400, 800)})
+    buf = io.BytesIO(); lv.save(buf)
+    build(buf.getvalue(), {ord(c) for c in '$0123456789,'}, 'PS Ledger', 'Regular', 'ps-ledger.woff2')
+    css.append("@font-face{font-family:'PS Ledger';src:url('/fonts/ps-ledger.woff2') format('woff2');font-weight:400 800;font-stretch:62% 125%;font-style:normal;font-display:swap}")
     for key, src, family, weight in (('display', nsn_b, 'PS Display', 400), ('text', nsn_r, 'PS Text', 400), ('text-bold', nsn_b, 'PS Text', 700)):
         print(f'한글 {family} {weight}')
         cmap = TTFont(src).getBestCmap()
@@ -165,6 +172,10 @@ LICENSE = """PAUSE STUDIO 웹사이트에 쓰인 폰트
    원본: Archivo — Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)
    라이선스: SIL Open Font License 1.1
    폭 70 · 굵기 500으로 고정하고 글자를 줄인 수정본입니다.
+
+3) PS Ledger(관리비 숫자)
+   원본: Archivo(위와 같음) — SIL Open Font License 1.1
+   숫자·$·쉼표만 남기고 폭 62~125 · 굵기 400~800 축을 남긴 가변 글꼴 수정본입니다.
 
 SIL Open Font License 1.1 전문: https://openfontlicense.org/open-font-license-official-text/
 """

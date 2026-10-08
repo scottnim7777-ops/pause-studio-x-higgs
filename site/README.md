@@ -17,31 +17,32 @@ npm run check        # 타입 검사 + 빌드
 ## 폴더
 | 위치 | 내용 |
 |---|---|
-| `src/content/ko.ts` | **모든 화면 문구**(가격·FAQ·상담 질문·연락처). 문구 수정은 여기서만. 플랜(이름·가격·기능)은 맨 위 `plans` 한 곳 = 견적서(`../docs/QUOTATION_2026-10-07.md`) |
+| `src/content/ko.ts` | **모든 화면 문구**(가격·FAQ·상담 질문·연락처). 문구 수정은 여기서만. 웹사이트 상품(WEBSITE · ONLINE STORE · ENTERPRISE, 이름·가격·기능)은 맨 위 `plans` 한 곳 = 최종 가격 정책(`../docs/PRICING_CURRENCY_POLICY_2026-10-08.md`). 예전 견적서(`../docs/QUOTATION_2026-10-07.md`)의 STARTER · BUSINESS 가격은 폐지 |
 | `src/render/page.ts` | 문구 → 섹션 HTML(빌드 때 실행) |
 | `src/styles/main.css` | 디자인 토큰·전 섹션 스타일(규칙: `../docs/DESIGN_SYSTEM.md`) |
 | `src/ts/hero.ts` | 히어로 인트로(벽이 다가오며 선명해짐 + 한글 타이핑)·작업물 벽 |
 | `src/ts/consult.ts` | 브랜딩 무료 상담 신청 창 |
-| `src/ts/ui.ts` | 머리줄(내려가면 숨김·지금 보는 장)·모바일 메뉴·등장 움직임·포트폴리오 반복 재생·'보기' 원 커서·크게 보기·BEFORE/AFTER 손잡이·광고 샘플 탭·열고 닫는 목록·질문 탭·계산기(숫자 세기)·전화 상담 메뉴·이메일 보기·스크롤에 따른 큰 글자 |
+| `src/ts/ui.ts` | 머리줄(내려가면 숨김·지금 보는 장)·모바일 메뉴·등장 움직임·포트폴리오 반복 재생·'보기' 원 커서·크게 보기·BEFORE/AFTER 손잡이·광고 샘플 탭·열고 닫는 목록·질문 탭·계산기(상품 선택·숫자 세기)·관리비 $0 '다이어트'(세어 내려가며 홀쭉해짐)·전화 상담 메뉴·이메일 보기·스크롤에 따른 큰 글자 |
 | `src/ts/motion.ts` | 움직임 멈추기(기억됨)·운영체제 '동작 줄이기' → 멈춰야 하면 `html.still` |
-| `server.ts` | 정적 파일 + `/api/contact` + `/api/health` + 첫 화면 통화 표시(접속 위치) |
-| `src/geo/currency.ts` | 접속 IP → NZD(뉴질랜드) / USD(그 밖의 나라). 확인용 `?cur=usd` |
+| `server.ts` | 정적 파일 + `/api/contact` + `/api/health` + 첫 화면 통화 표시(접속 위치, 뉴질랜드면 `<html class="nzd">`) + `/api/currency`(판별 결과 확인용, IP는 돌려주지 않음) |
+| `src/geo/currency.ts` | 뉴질랜드로 판별된 방문자만 NZD, 그 밖의 모든 나라와 판별 실패는 USD(숫자는 같음). 순서: 믿을 수 있는 국가 헤더(`GEO_HEADER`) → 접속 IP가 뉴질랜드 목록에 있는지 → USD. 확인용 `?cur=nzd`는 개발 중이거나 `CURRENCY_OVERRIDE=1`일 때만 |
 | `scripts/nz-ip.py` | 뉴질랜드 IP 목록 `src/geo/nz-ip.json` 만들기(인터넷 등록기관 공개 자료) — 가끔 다시 실행 |
 | `scripts/render.ts` | `index.template.html` → `index.html` |
 | `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4, 받은 화면 녹화는 끊김 없이 반복되게 1초 겹침) + `src/content/media.json`(실제 크기) |
 | `../tools/ad_edit.py` | AI 광고영상 샘플 편집(ONDO · SOUTHERN ROUTE · DAON): Higgsfield 영상 두 컷 → 색보정·비네팅·그레인 + 움직이는 글씨(MaruBuri · Instrument Serif · Archivo) + 끝 화면 → `public/media/film/*.mp4`·포스터·BEFORE 사진 |
-| `tests/smoke.cjs` | 브라우저 점검 130개(화면 폭 7종·커서, 상담 4종 흐름·영상 상품, 요금 = 견적서 플랜·AI 광고영상 상품, 통화 NZD/USD·GST 15% 별도, 포트폴리오 반복 재생·잘림 없음, 비교 손잡이, 광고 샘플 탭·자동 넘김, 질문 탭·열고 닫기, 전화 상담·이메일, 줄표·별표 없음, 머리줄, 계산기, 동작 줄이기, JS 없음) |
+| `tests/smoke.cjs` | 브라우저 점검 138개(화면 폭 7종·커서, 상담 4종 흐름·관심 상품, 요금 = 최종 가격(WEBSITE · ONLINE STORE · ENTERPRISE · AI 광고영상)·결합 상품·예전 가격·GST 문구 없음, 통화(뉴질랜드 IP만 NZ$, 미국·한국·호주·IPv6·판별 실패는 US$, 꾸민 국가 헤더·?cur 무시), 포트폴리오 반복 재생·잘림 없음, 비교 손잡이, 광고 샘플 탭·자동 넘김, 질문 탭·열고 닫기, 전화 상담·이메일, 줄표·별표 없음, 머리줄, 계산기 상품 선택, $0 다이어트, 가로·세로 틀 배치(긴 변·바닥선), 동작 줄이기, JS 없음) |
 | `tests/fixtures/tiny.webm` | 점검용 6초 영상 — Playwright의 Chromium에는 H.264가 없어 재생 점검 때 .mp4 대신 보냄 |
 | `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
-| `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2) + `src/styles/fonts.css` |
+| `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2, 관리비 숫자용 PS Ledger) + `src/styles/fonts.css` |
 | `Dockerfile` | 배포용(Cloud Run 등) — `node dist/server.cjs`, 포트는 `PORT`(기본 8080) |
 | `scripts/artifact.py` | 미리보기 링크(claude.ai 아티팩트)용 묶음 — `dist`를 상대 경로로 바꿔 `.cache/artifact`에. 주소는 `../STATE.md` |
 
 ## 폰트(무료 · 직접 호스팅)
 - 제목 **PS Display** = 나눔스퀘어 네오 Bold(한글, 네이버 · 디자인 산돌) + Archivo 폭 70·굵기 500(영문·숫자) — 산돌 격동고딕2와 가장 비슷한 무드
 - 본문 **PS Text** = 나눔스퀘어 네오 Regular / 강조 Bold — 산돌 그레타산스와 본문 밀도·줄바꿈이 거의 같음
+- 관리비 $0 큰 숫자 **PS Ledger** = Archivo 가변 글꼴(폭 62~125 · 굵기 400~800)에서 `$0123456789,`만 남긴 11KB — 숫자가 세어 내려가며 홀쭉해지는 움직임용
 - 모두 SIL OFL 1.1(무료, 상업 사용 가능). 웹용으로 글자를 줄이고 이름을 바꾼 파일이 `public/fonts/`에 있고, 라이선스는 `public/fonts/LICENSE.txt`.
-- 첫 화면에는 사이트에 쓰인 글자 묶음(약 90KB)만, 나머지 자주 쓰는 한글 2,350자는 필요할 때만 받습니다.
+- 첫 화면에는 사이트에 쓰인 글자 묶음(약 105KB)만, 나머지 자주 쓰는 한글 2,350자는 필요할 때만 받습니다.
 - 문구를 많이 바꿨다면: `npm run render && python3 scripts/fonts.py` (안 해도 글자는 모두 나옵니다 — 첫 화면이 조금 더 가벼워질 뿐). 필요: Python 3, `pip install fonttools brotli`.
 
 ## ★ 운영 전에 할 일
@@ -70,10 +71,10 @@ npm run build && PORT=3100 NODE_ENV=production node dist/server.cjs &
 NODE_PATH=/opt/node22/lib/node_modules node tests/smoke.cjs http://localhost:3100 tests/out
 NODE_PATH=/opt/node22/lib/node_modules node tests/a11y.cjs http://localhost:3100
 ```
-결과(2026-10-08 2차 개편): 130/130 통과, 접근성 위반 0. 그 전 회차에서 확인한 것(그대로 포함): 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금·서비스 = 견적서 플랜(STARTER · BUSINESS · ENTERPRISE)·무료 혜택·식당 문구 없음, 통화(로컬·뉴질랜드 IP → NZD, 미국 IPv4·IPv6·?cur=usd → USD, 첫 화면 private 캐시), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
+결과(2026-10-08 최종 가격 정책): 138/138 통과, 접근성 위반 0. 확인한 것: 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(ONLINE STORE), 요금 = 최종 가격(US$1,990 · US$4,490부터 · 맞춤 견적, 영상 US$490 · 890 · 1,490부터 · 2,490/월)·무료 혜택, 결합 상품·STARTER·BUSINESS·GST 문구 없음, 통화(로컬 → USD, 뉴질랜드 IP → NZD, 미국·한국·호주·미국 IPv6 → USD, 운영에서 ?cur=nzd·설정 안 된 cf-ipcountry 무시, 첫 화면 private 캐시, `/api/currency`), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기(상품 바꾸면 US$4,490부터·절약액 다시 계산), $0 다이어트($100 → $0, 12달 채움, 동작 줄이기면 바로 $0), 가로·세로 틀(1440·390에서 긴 변 같음·바닥선 같음·설명 정렬), 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시(질문 27개·$0).
 
 ## 접근성·성능 메모
 - 키보드로 모든 기능 사용 가능, 창은 Esc로 닫고 원래 버튼으로 초점이 돌아갑니다. 타이핑 제목은 화면 읽기 프로그램에 전체 문장으로 읽힙니다.
 - 5초 넘게 움직이는 것(작업물 벽·포트폴리오 반복 재생·광고 샘플 자동 넘김·제목 끝 커서)은 멈출 수 있고(히어로와 포트폴리오의 '움직임 멈추기', 영상마다 재생·일시정지), 다음 방문에도 기억됩니다. 운영체제의 '동작 줄이기'를 켜면 인트로·자동 재생·깜빡임이 없습니다.
 - 계산기 숫자는 세면서 바뀌지만, 화면 읽기 프로그램에는 입력을 멈춘 뒤 최종 결과만 한 번 읽어 줍니다.
-- 첫 화면: HTML 28KB(gzip) · CSS 10KB · JS 8KB · 폰트 약 90KB. 사진은 WebP 우선·지연 로딩, 히어로 영상은 PC에서 화면에 보이는 카드만 재생(모바일은 사진).
+- 첫 화면: HTML 34KB(gzip) · CSS 24KB(폰트 글자 범위 목록 포함) · JS 12KB · 폰트 약 105KB + 관리비 숫자 11KB. 사진은 WebP 우선·지연 로딩, 히어로 영상은 PC에서 화면에 보이는 카드만 재생(모바일은 사진).

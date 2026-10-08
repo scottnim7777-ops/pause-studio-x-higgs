@@ -1,16 +1,24 @@
 /**
- * 접속 위치(IP)로 통화 고르기 — 서버 전용
- * 2026-10-08 사용자: 숫자는 같고, 뉴질랜드 = NZD, 뉴질랜드 외 모든 나라(미국 포함) = USD.
- *   예) NZD 1,490 → 뉴질랜드 외에서는 USD 1,490
+ * 접속 위치(공인 IP)로 표시 통화 고르기 — 서버 전용
+ * 2026-10-08 사용자 최종 정책(docs/PRICING_CURRENCY_POLICY_2026-10-08.md):
+ *   뉴질랜드로 판별된 방문자만 NZD, 그 밖의 모든 나라와 판별 실패는 USD. 숫자는 같고 환율로 바꾸지 않는다.
+ *   위치 권한(GPS)은 묻지 않고, 방문자가 고르는 버튼도 없다. IP는 판별에만 쓰고 저장하거나 기록하지 않는다.
  * 고르는 순서
- *   1) 확인용 주소: ?cur=usd · ?cur=nzd
- *   2) 배포 환경이 알려 주는 국가(Cloudflare·Vercel·App Engine·CloudFront 등의 국가 헤더)
- *   3) 접속 IP가 뉴질랜드 주소 목록(nz-ip.json — 인터넷 등록기관 할당 자료, scripts/nz-ip.py)에 있는지
- * 알 수 없으면(사설망·로컬 개발 등) NZD. 표기만 바꾸며, 화면은 html의 usd 클래스로 전환한다(main.css).
+ *   1) 배포 환경이 알려 주는 국가 헤더(신뢰할 수 있는 것만): GEO_HEADER 환경 변수로 지정
+ *      예) Cloudflare 앞단 → GEO_HEADER=cf-ipcountry
+ *          구글 부하분산기 사용자 지정 헤더 'X-Client-Geo-Location:{client_region}' → GEO_HEADER=x-client-geo-location
+ *      지정이 없으면 Vercel(x-vercel-ip-country)·App Engine(x-appengine-country)에서만 자동으로 씀.
+ *      (그 밖의 곳에서는 방문자가 헤더를 직접 꾸며 보낼 수 있으므로 믿지 않는다)
+ *   2) 접속 IP가 뉴질랜드 주소 목록(nz-ip.json — 인터넷 등록기관 APNIC 등의 공개 할당 자료, scripts/nz-ip.py)에 있는지
+ *   3) 둘 다 아니면 USD
+ * 화면: 빌드된 페이지는 USD가 기본이고, 뉴질랜드면 서버가 <html class="nzd">를 넣는다(main.css가 NZD 표기만 보여 줌).
+ *   그래서 서버를 거치지 않은 복사본·캐시도 정책의 '판별 실패 = USD'와 같다.
  */
 import nz from './nz-ip.json';
 
 export type Currency = 'NZD' | 'USD';
+export type Source = 'header' | 'ip' | 'none';
+type Headers = Record<string, string | string[] | undefined>;
 
 const V4 = nz.v4 as [number, number][];
 const V6 = (nz.v6 as [string, number][]).map(([hex, len]) => {
@@ -18,7 +26,13 @@ const V6 = (nz.v6 as [string, number][]).map(([hex, len]) => {
   return { shift, prefix: BigInt(`0x${hex}`) >> shift };
 });
 
-const GEO_HEADERS = ['cf-ipcountry', 'x-vercel-ip-country', 'x-appengine-country', 'cloudfront-viewer-country', 'x-country-code'];
+/** 믿을 수 있는 국가 헤더 목록(소문자). 지정이 없으면 플랫폼이 직접 덮어쓰는 헤더만 */
+export function geoHeaders(env: Record<string, string | undefined> = process.env): string[] {
+  if (env.GEO_HEADER) return env.GEO_HEADER.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+  if (env.VERCEL) return ['x-vercel-ip-country'];
+  if (env.GAE_ENV) return ['x-appengine-country'];
+  return [];
+}
 
 function v4ToInt(ip: string): number | null {
   const p = ip.split('.');
@@ -76,21 +90,37 @@ export function isNZ(ip: string | undefined | null): boolean | null {
   return V6.some(({ shift, prefix }) => v >> shift === prefix);
 }
 
-/** 이 방문자에게 보여 줄 통화 */
-export function currencyFor(query: unknown, headers: Record<string, string | string[] | undefined>, ip: string | undefined): Currency {
-  const q = String(Array.isArray(query) ? query[0] : query ?? '').toUpperCase();
-  if (q === 'USD' || q === 'NZD') return q;
-  for (const h of GEO_HEADERS) {
-    const v = String(headers[h] ?? '').trim().toUpperCase();
-    if (/^[A-Z]{2}$/.test(v) && v !== 'XX' && v !== 'ZZ') return v === 'NZ' ? 'NZD' : 'USD';
-  }
-  return isNZ(ip) === false ? 'USD' : 'NZD';
+/** 헤더 값의 첫 부분이 두 글자 국가 코드면 돌려줌('US,Mountain View' 같은 값도 처리). 알 수 없음(XX·ZZ·T1)은 null */
+function countryOf(value: string | string[] | undefined): string | null {
+  const v = String(Array.isArray(value) ? value[0] : value ?? '').split(',')[0].trim().toUpperCase();
+  return /^[A-Z]{2}$/.test(v) && v !== 'XX' && v !== 'ZZ' ? v : null;
 }
 
-/** 빌드된 페이지(기본 NZD)에 통화 표시를 넣는다 — USD면 <html class="usd"> */
+/** 이 방문자에게 보여 줄 통화와, 무엇으로 판별했는지 */
+export function detectCurrency(headers: Headers, ip: string | undefined, trusted: string[] = geoHeaders()): { currency: Currency; source: Source } {
+  for (const h of trusted) {
+    const c = countryOf(headers[h]);
+    if (c) return { currency: c === 'NZ' ? 'NZD' : 'USD', source: 'header' };
+  }
+  const nzIp = isNZ(ip);
+  if (nzIp === true) return { currency: 'NZD', source: 'ip' };
+  if (nzIp === false) return { currency: 'USD', source: 'ip' };
+  return { currency: 'USD', source: 'none' }; // 판별 실패 = USD
+}
+
+/**
+ * 개발·점검용 덮어쓰기(?cur=nzd|usd). 운영에서는 CURRENCY_OVERRIDE=1일 때만 — 방문자가 통화를 고를 수 없게
+ */
+export function overrideFrom(query: unknown, allowed: boolean): Currency | null {
+  if (!allowed) return null;
+  const q = String(Array.isArray(query) ? query[0] : query ?? '').toUpperCase();
+  return q === 'USD' || q === 'NZD' ? q : null;
+}
+
+/** 빌드된 페이지(기본 USD)에 통화 표시를 넣는다 — 뉴질랜드면 <html class="nzd"> */
 export function withCurrency(html: string, cur: Currency): string {
-  if (cur === 'NZD') return html;
-  const out = html.replace('<html lang="ko">', '<html lang="ko" class="usd">');
+  if (cur === 'USD') return html;
+  const out = html.replace('<html lang="ko">', '<html lang="ko" class="nzd">');
   if (out === html) throw new Error('index.html에 <html lang="ko"> 가 없습니다 — 통화 표시를 넣을 수 없음');
   return out;
 }

@@ -3,7 +3,8 @@
  * - 메일: SMTP(SMTP_HOST/PORT/USER/PASS) → 실패하거나 설정이 없으면 FormSubmit으로 대신 보냄(기존 사이트와 같은 방식)
  * - 성공을 확인했을 때만 { ok: true } (화면은 이것을 받아야 '접수 완료'를 보여줌)
  * - 보안: TLS 인증서 검증을 끄지 않음, 상담 내용·연락처를 로그나 파일에 남기지 않음, 같은 곳에서 짧은 시간에 너무 많이 보내면 거절
- * - 통화: 첫 화면(/)을 줄 때 접속 위치로 NZD(뉴질랜드) / USD(그 밖의 나라) 표기를 고른다(src/geo/currency.ts, 확인용 ?cur=usd)
+ * - 통화: 첫 화면(/)을 줄 때 방문자 공인 IP(또는 배포 환경의 국가 헤더)로 고른다 — 뉴질랜드만 NZD, 그 밖의 나라와 판별 실패는 USD
+ *   (src/geo/currency.ts). IP는 판별에만 쓰고 기록하지 않는다. 배포 후 확인: /api/currency
  */
 import express, { type NextFunction, type Request, type Response } from 'express';
 import multer from 'multer';
@@ -11,13 +12,17 @@ import nodemailer from 'nodemailer';
 import path from 'node:path';
 import fs from 'node:fs';
 import { consult } from './src/content/ko';
-import { currencyFor, withCurrency } from './src/geo/currency';
+import { detectCurrency, geoHeaders, overrideFrom, withCurrency } from './src/geo/currency';
 
 const PORT = Number(process.env.PORT || 3000);
 // 상담 메일 받는 주소(2026-10-08 사용자: info@pause8studio.com). 배포 환경에서 CONTACT_TO로 바꿀 수 있음
 const TO = process.env.CONTACT_TO || 'info@pause8studio.com';
 const DIST = path.resolve(process.env.STATIC_DIR || 'dist');
 const PROD = process.env.NODE_ENV === 'production';
+/** 통화: 믿을 수 있는 국가 헤더(GEO_HEADER, 없으면 Vercel·App Engine만) · ?cur 덮어쓰기는 개발 또는 CURRENCY_OVERRIDE=1일 때만 */
+const GEO = geoHeaders();
+const ALLOW_CUR_OVERRIDE = !PROD || process.env.CURRENCY_OVERRIDE === '1';
+console.log(`통화 판별: ${GEO.length ? `국가 헤더(${GEO.join(', ')}) → ` : ''}뉴질랜드 IP 목록 → 그 밖은 USD${ALLOW_CUR_OVERRIDE ? ' · ?cur 확인용 덮어쓰기 켜짐' : ''}`);
 const MAX_TOTAL = 25 * 1024 * 1024;
 
 const app = express();
@@ -140,6 +145,11 @@ app.post('/api/contact', (req, res, next) => {
 });
 
 app.get('/api/health', (_req, res) => { res.json({ ok: true }); });
+/** 배포 후 확인용: 이 접속이 어떤 통화로 보이는지와 판별 근거만(IP 등 개인 정보는 돌려주지 않음) */
+app.get('/api/currency', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.json(detectCurrency(req.headers, req.ip, GEO));
+});
 
 // 업로드 크기 초과 등
 app.use('/api', (err: unknown, _req: Request, res: Response, _next: NextFunction) => {
@@ -152,10 +162,11 @@ app.use('/api', (err: unknown, _req: Request, res: Response, _next: NextFunction
   res.status(500).json({ ok: false });
 });
 
-/** 첫 화면: 방문자마다 통화가 달라 공용 캐시에 저장하지 않게 한다 */
+/** 첫 화면: 방문자마다 통화가 달라 공용 캐시(CDN)에 저장하지 않게 하고, 처음부터 맞는 통화로 보낸다(바뀌며 깜빡이지 않게) */
 function sendPage(req: Request, res: Response, html: string) {
   res.setHeader('Cache-Control', 'private, no-cache');
-  res.type('html').send(withCurrency(html, currencyFor(req.query.cur, req.headers, req.ip)));
+  const cur = overrideFrom(req.query.cur, ALLOW_CUR_OVERRIDE) ?? detectCurrency(req.headers, req.ip, GEO).currency;
+  res.type('html').send(withCurrency(html, cur));
 }
 
 async function start() {
@@ -172,7 +183,7 @@ async function start() {
   } else {
     if (!fs.existsSync(path.join(DIST, 'index.html'))) throw new Error(`빌드 결과가 없습니다: ${DIST} (npm run build)`);
     const page = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
-    withCurrency(page, 'USD'); // 시작할 때 한 번 확인(통화 표시를 넣을 자리가 없으면 바로 알림)
+    withCurrency(page, 'NZD'); // 시작할 때 한 번 확인(통화 표시를 넣을 자리가 없으면 바로 알림)
     app.get(['/', '/index.html'], (req, res) => sendPage(req, res, page));
     app.use(express.static(DIST, {
       index: false,

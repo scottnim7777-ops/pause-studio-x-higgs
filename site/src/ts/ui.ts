@@ -525,14 +525,20 @@ export function initFaqTabs() {
   document.fonts?.ready.then(place).catch(() => {});
 }
 
-/* ── 관리비 계산기: 입력한 견적만으로 계산(임의의 업계 평균 없음). 숫자는 세면서 바뀌고, 화면 읽기는 결과만 */
+/** 가격 앞 통화 표시: 서버가 뉴질랜드 방문자에게만 html.nzd → NZ$, 그 밖은 US$(같은 숫자, 환율 변환 없음) */
+const sym = () => (document.documentElement.classList.contains('nzd') ? 'NZ$' : 'US$');
+
+/* ── 관리비 계산기: 입력한 견적만으로 계산(임의의 업계 평균 없음). PAUSE 쪽은 고른 상품 가격.
+      숫자는 세면서 바뀌고, 화면 읽기는 입력을 멈춘 뒤 결과만 */
 export function initCalc() {
   const root = $('[data-calc]');
   if (!root) return;
   const setup = $<HTMLInputElement>('[data-c="setup"]', root)!;
   const monthly = $<HTMLInputElement>('[data-c="monthly"]', root)!;
   const years = $<HTMLInputElement>('[data-c="years"]', root)!;
+  const plans = $$<HTMLInputElement>('input[name="calcPlan"]', root);
   const out = { other: $('[data-o="other"]', root)!, pause: $('[data-o="pause"]', root)!, save: $('[data-o="save"]', root)! };
+  const pauseSetupEl = $('[data-o="setup"]', root);
   const outYears = $('[data-o="years"]', root)!;
   const bars = { other: $('[data-bar="other"]', root), pause: $('[data-bar="pause"]', root) };
   const saveBox = $('[data-save]', root);
@@ -540,9 +546,10 @@ export function initCalc() {
   const labels = $$('.calc-out p > span:first-child, .calc-save > span', root).map((s) => s.textContent || '');
   const unit = (outYears.textContent || '').replace(/[\d\s]/g, '') || '년';
   const num = (s: string) => Number(s.replace(/[^\d]/g, '')) || 0;
-  const money = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
-  const PAUSE_SETUP = Number(root.dataset.pauseSetup) || 0; // 문구 파일(fee.calc.pauseSetup) 값
-  const shown = { other: 0, pause: PAUSE_SETUP, save: 0 };
+  const money = (n: number) => `${sym()}${Math.round(n).toLocaleString('en-US')}`;
+  const plan = () => plans.find((p) => p.checked) ?? plans[0];
+  const pauseSetup = () => Number(plan()?.value) || 0;
+  const shown = { other: 0, pause: pauseSetup(), save: 0 };
   const stops: Partial<Record<keyof typeof shown, () => void>> = {};
   const count = (k: keyof typeof shown, to: number) => {
     stops[k]?.();
@@ -553,9 +560,14 @@ export function initCalc() {
     const y = Number(years.value);
     const a = num(setup.value), m = num(monthly.value);
     const other = a + m * 12 * y;
-    const pause = PAUSE_SETUP;
+    const pause = pauseSetup();
     const save = Math.max(0, other - pause);
     outYears.textContent = `${y}${unit}`;
+    if (pauseSetupEl) {
+      pauseSetupEl.textContent = money(pause);
+      const suffix = plan()?.dataset.suffix;
+      if (suffix) { const sm = document.createElement('small'); sm.textContent = suffix; pauseSetupEl.append(sm); }
+    }
     count('other', other);
     count('pause', pause);
     const max = Math.max(other, pause, 1);
@@ -577,7 +589,65 @@ export function initCalc() {
     calc();
   }));
   years.addEventListener('input', calc);
+  plans.forEach((p) => p.addEventListener('change', calc));
+  // 통화 표시가 바뀌면(미리보기 전용 전환) 숫자도 같은 표시로
+  new MutationObserver(calc).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
   calc();
+}
+
+/* ── 큰 $0의 '허리띠' 움직임(사용자): 예시 월 관리비($100)에서 세어 내려가며 숫자가 점점 홀쭉해지고(가변 글꼴 폭·굵기),
+      달마다 $0이 하나씩 채워진 뒤 $0에서 허리띠가 한 번 조여짐. 빌드 결과는 마지막 모습이라 JS·움직임이 없으면 그대로 $0 */
+export function initLedger() {
+  const el = $('[data-ledger]');
+  if (!el) return;
+  const zero = $('.ledger-zero', el);
+  const fig = $('.ld-fig', el);
+  const numEl = $('[data-ledger-num]', el);
+  if (!zero || !fig || !numEl) return;
+  const months = $$('.ledger-months li', el);
+  const from = Number(el.dataset.from) || 100;
+  const FAT = { wd: 115, wg: 760 }, SLIM = { wd: 70, wg: 500 };
+  const shape = (k: number) => { // k: 1 = 처음(두꺼움) → 0 = 끝(홀쭉)
+    zero.style.setProperty('--wd', (SLIM.wd + (FAT.wd - SLIM.wd) * k).toFixed(1));
+    zero.style.setProperty('--wg', (SLIM.wg + (FAT.wg - SLIM.wg) * k).toFixed(0));
+  };
+  const fit = () => { // 두꺼운 숫자가 칸을 넘으면 그만큼만 줄여 보여 줌
+    zero.style.setProperty('--fit', '1');
+    const room = zero.clientWidth - 8, w = fig.scrollWidth;
+    const s = w > room && w > 0 ? room / w : 1;
+    zero.style.setProperty('--fit', s.toFixed(3));
+    zero.style.setProperty('--bw', `${Math.min(room, w * s)}px`);
+  };
+  if (motion.reduced || !('IntersectionObserver' in window)) { fit(); return; }
+  el.classList.add('armed');
+  numEl.textContent = String(from);
+  shape(1);
+  document.fonts?.ready.then(fit).catch(fit);
+  fit();
+  addEventListener('resize', fit);
+  const run = () => {
+    const dur = 2600, t0 = performance.now();
+    requestAnimationFrame(function f(now) {
+      const k = clamp01((now - t0) / dur);
+      const v = from * (1 - easeIo(k));
+      numEl.textContent = String(Math.ceil(v - 1e-6));
+      shape(Math.pow(v / from, 0.85));
+      months.forEach((m, i) => m.classList.toggle('on', v <= from * (1 - (i + 1) / months.length) + 1e-6));
+      fit();
+      if (k < 1) { requestAnimationFrame(f); return; }
+      numEl.textContent = '0';
+      shape(0);
+      fit();
+      months.forEach((m) => m.classList.add('on'));
+      el.classList.add('done', 'cinch');
+    });
+  };
+  const io = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    setTimeout(run, 1000); // 숫자가 아래에서 올라온 뒤 시작
+  }, { threshold: 0.45 });
+  io.observe(el);
 }
 
 /* ── 전화 상담: 누르면 전화 걸기 · 문자 보내기 · 번호 복사 중에서 고름 */

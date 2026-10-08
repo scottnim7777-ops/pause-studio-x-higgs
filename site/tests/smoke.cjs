@@ -95,7 +95,7 @@ async function page(browser, vp, opts = {}) {
     const vis = await p.evaluate(() => Object.fromEntries([...document.querySelectorAll('[data-detail]')].map((d) => [d.dataset.detail, !d.hidden])));
     const okDetails = f.show.every((k) => vis[k]) && f.hide.every((k) => !vis[k]);
     if (vis.film) { await p.check('input[name="videoUse"][value="SNS 광고"]', { force: true }); await p.check('input[name="videoProduct"][value="AI BRAND AD · 30초"]', { force: true }); }
-    if (vis.web) await p.check('input[name="product"][value="ONLINE STORE · 주문·결제"]', { force: true });
+    if (vis.web) await p.check('input[name="product"][value="BUSINESS · 비즈니스형"]', { force: true });
     if (vis.ax) await p.fill('textarea[name="automation"]', '견적서 자동화');
     await p.fill('textarea[name="message"]', '테스트 문의');
     await p.click('[data-cs-next]');
@@ -130,7 +130,7 @@ async function page(browser, vp, opts = {}) {
       product: document.querySelector('input[name="product"]:checked')?.value,
       step: [...document.querySelectorAll('[data-step]')].find((s) => !s.hidden)?.dataset.step,
     }));
-    check('요금(ONLINE STORE) 버튼 → 종류·상품 미리 선택, 2단계부터', st.type === '웹사이트 제작' && st.product === 'ONLINE STORE · 주문·결제' && st.step === '1', JSON.stringify(st));
+    check('요금(BUSINESS) 버튼 → 종류·플랜 미리 선택, 2단계부터', st.type === '웹사이트 제작' && st.product === 'BUSINESS · 비즈니스형' && st.step === '1', JSON.stringify(st));
     await p.screenshot({ path: path.join(OUT, 'consult-mobile.png') });
     await p.keyboard.press('Escape');
     const closing = await p.evaluate(() => document.querySelector('#consult').classList.contains('closing'));
@@ -166,18 +166,18 @@ async function page(browser, vp, opts = {}) {
       services: !!document.querySelector('#services, .svc-tabs, .svc-name'),
       ctas: [...document.querySelectorAll('.plan .btn, .vplan .btn, .vmonthly .btn')].map((b) => b.textContent.trim()),
       restaurant: /식당|메뉴판|주방/.test(document.querySelector('#pricing').textContent + document.querySelector('#video-pricing').textContent + document.querySelector('#faq').textContent),
-      old: (document.body.textContent.match(/STARTER|BUSINESS|2,900|5,500|2,690|\$190|결합\s?상품|패키지 할인|번들/g) || []).join(','),
+      old: (document.body.textContent.match(/WEBSITE ·|ONLINE STORE|STARTER\s*(?:US\$|NZ\$|NZD|USD)?\s*1,490|2,900|5,500|2,690|\$190|결합\s?상품|패키지 할인|번들/g) || []).join(','),
       gst: /GST/.test(document.body.textContent),
     }));
-    check('요금: 최종 가격 WEBSITE US$1,990 · ONLINE STORE US$4,490부터 · ENTERPRISE 맞춤 견적(판별 실패 = USD)', st.plans.join('|') === 'WEBSITE US$1,990|ONLINE STORE US$4,490부터|ENTERPRISE 맞춤 견적', st.plans.join(' | '));
-    check('요금: ONLINE STORE는 WEBSITE에 더해지는 기능 5가지를 위에 강조', st.featured === 'ONLINE STORE' && st.adds.length === 5 && st.adds[0] === '온라인 주문 접수', st.adds.join(', '));
+    check('요금: 견적서 플랜 이름 + 최종 가격 STARTER US$1,990 · BUSINESS US$4,490부터 · ENTERPRISE 맞춤 견적(판별 실패 = USD)', st.plans.join('|') === 'STARTER US$1,990|BUSINESS US$4,490부터|ENTERPRISE 맞춤 견적', st.plans.join(' | '));
+    check('요금: BUSINESS만의 기능 4가지를 위에 강조(견적서 그대로)', st.featured === 'BUSINESS' && st.adds.length === 4 && st.adds[0] === '최대 10페이지 구성', st.adds.join(', '));
     check('요금: 모든 플랜 무료 혜택 3가지', st.free.join('|') === '유지보수 무료|관리비 무료|웹 호스팅 무료', st.free.join(', '));
-    check('요금: 기본 포함은 체크 표시와 또렷한 글자(ONLINE STORE 5개)', st.base.length === 1 && st.base[0].label === '기본 포함' && st.base[0].n === 5, JSON.stringify(st.base));
+    check('요금: 기본 포함은 체크 표시와 또렷한 글자(BUSINESS 5개)', st.base.length === 1 && st.base[0].label === '기본 포함' && st.base[0].n === 5, JSON.stringify(st.base));
     check('요금: 플랜 버튼은 모두 무료 상담받기', st.ctas.length === 7 && st.ctas.every((t) => t === '무료 상담받기'), st.ctas.join(', '));
     check('요금: 같은 플랜이 두 번 나오지 않음(서비스 칸 없음)', !st.services);
     check('AI 광고영상: SHORT 490 · BRAND 890 · HERO 1,490부터 · 월간 2,490/월', st.vplans.join('|') === 'AI SHORT AD US$490|AI BRAND AD US$890|AI HERO FILM US$1,490부터' && st.monthly === 'US$2,490/월', `${st.vplans.join(' | ')} · ${st.monthly}`);
     check('AI 광고영상: 가로 16:9 · 세로 9:16 기본 제공, 추가 작업 14가지', st.formats === '가로형 16:9 | 세로형 9:16' && st.addons === 14, `${st.formats} · ${st.addons}`);
-    check('요금·FAQ에 식당 위주 문구 없음 · 폐지된 가격(STARTER·BUSINESS·2,900·5,500)·결합 상품(2,690·$190 할인) 없음 · GST 문구 없음', !st.restaurant && !st.old && !st.gst, `old: ${st.old || '-'} · GST ${st.gst}`);
+    check('요금·FAQ에 식당 위주 문구 없음 · 폐지된 가격(1,490·2,900·5,500)·다른 상품 이름(WEBSITE·ONLINE STORE)·결합 상품(2,690·$190 할인) 없음 · GST 문구 없음', !st.restaurant && !st.old && !st.gst, `old: ${st.old || '-'} · GST ${st.gst}`);
     // 가로·세로 틀(2026-10-08 사용자: 배치가 어색함): 긴 변이 같고(돌려 세운 같은 영상) 한 바닥선에, 설명은 틀 바로 아래 같은 왼쪽 선에
     const fmBox = () => p.evaluate(() => {
       const [h, v] = [...document.querySelectorAll('.fm-frames .frame')].map((f) => f.getBoundingClientRect());
@@ -225,7 +225,7 @@ async function page(browser, vp, opts = {}) {
       }));
       const api = await (await ctx.request.get(`${BASE}/api/currency`, { headers: c.headers })).json();
       const C = c.cur, S = C === 'NZD' ? 'NZ$' : 'US$', O = C === 'NZD' ? ['US$', 'USD'] : ['NZ$', 'NZD'];
-      const ok = st.nzd === (C === 'NZD') && st.prices === `WEBSITE ${S}1,990 | ${S}4,490부터 | 맞춤 견적`.replace('WEBSITE ', '')
+      const ok = st.nzd === (C === 'NZD') && st.prices === `${S}1,990 | ${S}4,490부터 | 맞춤 견적`
         && st.video === `${S}490 | ${S}890 | ${S}1,490부터 | ${S}2,490/월` && st.addon === S && st.chip === `${C} 기준`
         && st.note1.includes(`(${C})`) && st.note1.includes('사업장 소재 국가') && st.calcSetup === `${S}1,990`
         && O.every((o) => !st.visible.includes(o)) && !st.gst && api.currency === C && api.source === c.source && !JSON.stringify(api).match(/\d+\.\d+\.\d+/);
@@ -285,13 +285,13 @@ async function page(browser, vp, opts = {}) {
     const setupVal = await p.inputValue('[data-c="setup"]');
     check('계산기: US$3,000 + US$150×12×5 = US$12,000(숫자가 세면서 바뀜)', out === 'US$12,000' && setupVal === '3,000' && mid !== 'US$12,000', `${mid} → ${out}, ${setupVal}`);
     const pauseOut = await p.textContent('[data-o="pause"]');
-    check('계산기: PAUSE 쪽 기본 선택 = WEBSITE US$1,990', pauseOut === 'US$1,990' && await p.isChecked('input[name="calcPlan"][value="1990"]'), pauseOut);
+    check('계산기: PAUSE 쪽 기본 선택 = STARTER US$1,990', pauseOut === 'US$1,990' && await p.isChecked('input[name="calcPlan"][value="1990"]'), pauseOut);
     const sv = await p.evaluate(() => ({ hidden: document.querySelector('[data-save]').hidden, save: document.querySelector('[data-o="save"]').textContent, w: document.querySelector('[data-bar="pause"]').style.getPropertyValue('--w'), live: document.querySelector('[data-calc-live]').textContent, logo: !!document.querySelector('.calc-side.pause legend img[alt="PAUSE Studio"]'), label: document.querySelector('.calc-side.other legend').textContent, vs: !!document.querySelector('.calc-vs .vs') }));
     check('계산기: 아끼는 금액 US$10,010 · 막대 비율 · 화면 읽기용 결과 · 로고 · 타사 견적 VS PAUSE Studio', !sv.hidden && sv.save === 'US$10,010' && Math.abs(Number(sv.w) - 1990 / 12000) < 0.001 && sv.live.includes('US$12,000') && sv.logo && sv.label === '타사 견적' && sv.vs, JSON.stringify(sv));
     await p.check('input[name="calcPlan"][value="4490"]', { force: true });
     await p.waitForTimeout(1200);
     const st2 = await p.evaluate(() => ({ setup: document.querySelector('[data-o="setup"]').textContent, pause: document.querySelector('[data-o="pause"]').textContent, save: document.querySelector('[data-o="save"]').textContent }));
-    check('계산기: 상품을 ONLINE STORE로 고르면 US$4,490부터 · 총비용 US$4,490 · 아끼는 금액 US$7,510', st2.setup === 'US$4,490부터' && st2.pause === 'US$4,490' && st2.save === 'US$7,510', JSON.stringify(st2));
+    check('계산기: 플랜을 BUSINESS로 고르면 US$4,490부터 · 총비용 US$4,490 · 아끼는 금액 US$7,510', st2.setup === 'US$4,490부터' && st2.pause === 'US$4,490' && st2.save === 'US$7,510', JSON.stringify(st2));
     await ctx.close();
   }
 

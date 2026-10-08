@@ -1,7 +1,10 @@
 <!-- 사용자 제공 문서(2026-10-08 대화로 받음) 원문 그대로(맨 앞 줄에 제목 표시 '# '만 덧붙임). 아래 본문은 고치지 않는다.
 이 문서가 가격·통화·GST·결합 상품의 최종 기준이다(docs/QUOTATION_2026-10-07.md의 STARTER·BUSINESS·ENTERPRISE 가격, AI_VIDEO_POLICY의 결합 상품·GST 문구보다 우선).
+★ 같은 날 사용자 바로잡음: "website online store enterprise가 아니라, 플랜이름과 내용과 설명은 이전 starter business enterprise 그대로임."
+  → 웹사이트 플랜의 이름·기능·추천 대상·추가 안내는 견적서(docs/QUOTATION_2026-10-07.md) 그대로. 이 문서에서는 가격 숫자만 단계별로 가져온다:
+     STARTER = 1,990 · BUSINESS = 4,490부터 · ENTERPRISE = 맞춤 견적 (본문의 WEBSITE · ONLINE STORE 이름은 화면에 쓰지 않는다)
 사이트에 옮긴 곳: site/src/content/ko.ts(plans · pricing · fee.calc · videoPricing · faq · consult), site/src/geo/currency.ts·server.ts(IP 판별), main.css(html.nzd)
-같은 날 이어진 사용자 요청: 계산기에서 PAUSE 쪽 상품을 고를 수 있게(기본 선택 = 가장 기본 상품 WEBSITE), 큰 $0 숫자 '허리띠' 움직임, 계산기 VS 구분, 요금 카드 들러리 개선. -->
+같은 날 이어진 사용자 요청: 계산기에서 PAUSE 쪽 플랜을 고를 수 있게(기본 선택 = STARTER), 큰 $0 숫자 '허리띠' 움직임, 계산기 VS 구분, 요금 카드 들러리 개선. -->
 
 # PAUSE Studio의 최종 가격 정책 및 국가별 통화 표시 방식에 대한 변경사항을 전달합니다.
 

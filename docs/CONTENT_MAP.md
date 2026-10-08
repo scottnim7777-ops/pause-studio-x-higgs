@@ -3,7 +3,7 @@
 - 원문: `content/site-content.ko.json`(기존 사이트 한국어 원문, 보존용 — 수정하지 않음)
 - 새 문구: `site/src/content/ko.ts` (모든 화면 문구가 이 파일 한 곳에 있음)
 - 바꾼 기준: `docs/BUSINESS_POLICY_2026-10.md`(사업 정책) · `docs/CONTENT_POLICY_AUDIT.md`(원문 대조표) · 사용자 확정 사항(STATE.md)
-- **플랜(상품명·가격·기능)은 사용자 견적서 `docs/QUOTATION_2026-10-07.md`가 기준**(2026-10-08 사용자: "기존에 만든 견적서 안의 플랜 내용으로 교체") — 정책 문서의 WEBSITE·ONLINE STORE·식당 예시는 쓰지 않음
+- **플랜(상품명·기능·설명)은 사용자 견적서 `docs/QUOTATION_2026-10-07.md`가 기준**(2026-10-08 사용자: "기존에 만든 견적서 안의 플랜 내용으로 교체", 같은 날 다시 "플랜이름과 내용과 설명은 이전 starter business enterprise 그대로") — 정책 문서의 WEBSITE·ONLINE STORE 이름·식당 예시는 쓰지 않음. **가격만** 최종 가격 정책(`docs/PRICING_CURRENCY_POLICY_2026-10-08.md`): STARTER 1,990 · BUSINESS 4,490부터 · ENTERPRISE 맞춤 견적
 - 표시: **그대로** = 원문 유지 · **수정** = 정책·사실에 맞게 고침 · **새로** = 원문에 없던 내용 · **뺌** = 쓰지 않음
 
 ## 순서(새 사이트)
@@ -32,7 +32,7 @@
 | `who` 5개 | 추천 대상 | 그대로 + 새로 1 | "가지고 있는 사진으로 브랜드 광고 영상을 만들고 싶으신 분" 추가 |
 | `includes` 6개 | 서비스 > 모든 플랜에 기본으로 | 수정 | 견적서의 공통 기능(브랜드 맞춤 디자인 · 반응형 · 문의 폼/이메일 연동 · SEO · SSL) + 관리자 기능(원문, 지정된 콘텐츠 직접 수정) |
 | `includes.feature_banner` | 서비스 BUSINESS·ENTERPRISE | 수정 | 예약·주문·결제는 BUSINESS, AI 자동화·외부 연동은 ENTERPRISE(견적서) |
-| `pricing.plans` Starter/Business/Enterprise | 서비스 + 요금 | **견적서(사용자, 2026-10-08)** | STARTER 기본형 NZD 1,490 · BUSINESS 비즈니스형 NZD 2,900 · ENTERPRISE 기업형 NZD 5,500+ (GST 포함). 추천 대상·포함 기능 견적서 그대로. (한때 정책 §3의 WEBSITE $1,990 · ONLINE STORE $4,490부터로 바꿨다가 사용자 지시로 되돌림) |
+| `pricing.plans` Starter/Business/Enterprise | 서비스 + 요금 | **견적서(사용자, 2026-10-08)** | STARTER 기본형 1,990 · BUSINESS 비즈니스형 4,490부터 · ENTERPRISE 기업형 맞춤 견적(최종 가격 정책, 견적서의 1,490 · 2,900 · 5,500+는 폐지, GST 문구 없음). 추천 대상·포함 기능 견적서 그대로. (정책 문서의 WEBSITE · ONLINE STORE 이름으로 두 번 바꿨다가 두 번 모두 사용자 지시로 되돌림) |
 | (없음) | 서비스 04 · 요금 · 영상 섹션 | **새로(사용자)** | AI 영상광고 — 촬영 없이 가진 사진으로. 가격은 "상담 후 견적"(정해진 가격이 없어 임의로 쓰지 않음) |
 | `pricing.banner/benefits` | 요금 머리 · 무료 혜택 · 추가 안내 | 수정 | 요금 제목 = 정책 §13 후킹 **"브랜드는 더 돋보이게. / 매달 관리비는 없게."** + 견적서 머리말. 아래에 견적서의 '모든 플랜에 포함되는 무료 혜택'(유지보수·관리비·웹 호스팅 무료)과 '추가 안내사항' 1~5 + 외부 서비스 비용 별도 |
 | (요금 카드 구성) | 요금 · 서비스 상세 | **새로(사용자)** | 견적서와 같은 원리: BUSINESS·ENTERPRISE는 'OO만의 기능'을 맨 위에 + 표시로 강조, 다른 플랜과 같은 기능은 아래 '기본 포함'에 작게 |
@@ -71,13 +71,13 @@
 ## 2026-10-08 최종 가격 정책(docs/PRICING_CURRENCY_POLICY_2026-10-08.md)
 | 원래 | 지금 | 이유 |
 |---|---|---|
-| STARTER 1,490 · BUSINESS 2,900 · ENTERPRISE 5,500+(견적서) | WEBSITE 1,990 · ONLINE STORE 4,490부터 · ENTERPRISE 맞춤 견적, 기능은 사업 정책 §4~§6 | 사용자: 견적서 가격은 폐지 |
+| STARTER 1,490 · BUSINESS 2,900 · ENTERPRISE 5,500+(견적서) | STARTER 1,990 · BUSINESS 4,490부터 · ENTERPRISE 맞춤 견적. 이름·기능·추천 대상·추가 안내는 견적서 그대로 | 사용자: 가격만 최종 정책, '플랜 이름과 내용과 설명은 이전 그대로' |
 | NZD 표기 'GST 15% 별도' · 추가 안내 1번 GST | GST 문구 없음, 추가 안내 1번 = 표시 통화 + 실제 계약 통화는 사업장 소재 국가 기준 | 사용자: GST 미등록 사업자 |
 | 'NZD 1,490' 표기, 판별 실패 = NZD | 'NZ$1,990 · US$1,990' 표기, 뉴질랜드만 NZ$, 판별 실패 = US$ | 사용자 |
 | (결합 상품 보류) | 없음, FAQ에 '함께 의뢰하면 각 가격을 더해 견적' | 사용자 |
-| FAQ '어떤 플랜을 골라야' · '미국에서도 의뢰' · SEO | WEBSITE·ONLINE STORE·ENTERPRISE 기준, '해외에서도 의뢰할 수 있나요?'(접속 통화 · 계약 통화) | 정책 |
-| 상담 창 '관심 있는 플랜' STARTER·BUSINESS·ENTERPRISE | '관심 있는 상품' WEBSITE·ONLINE STORE·ENTERPRISE | 정책 |
-| 계산기 PAUSE = STARTER 1,490 고정 | 상품 선택(WEBSITE 1,990 기본 · ONLINE STORE 4,490부터), 통화 표시 NZ$/US$ | 사용자 |
+| FAQ '미국에서도 의뢰할 수 있나요?'(GST 15% 별도) | '해외에서도 의뢰할 수 있나요?'(접속 통화 · 계약 통화). '어떤 플랜을 골라야'·SEO는 견적서 플랜 그대로 | 정책 |
+| (없음) | FAQ '웹사이트와 광고영상을 함께 맡길 수 있나요?'(각 가격의 합) | 정책: 결합 상품 없음 |
+| 계산기 PAUSE = STARTER 1,490 고정 | 플랜 선택(STARTER 1,990 기본 · BUSINESS 4,490부터), 통화 표시 NZ$/US$ | 사용자 |
 | 큰 $0(그대로) | 예시 월 관리비 $100 → $0로 세어 내려가며 홀쭉해짐('예를 들어 월 관리비가' → 'PAUSE Studio라면') | 사용자 |
 
 ## 사용자 결정(2026-10-08)

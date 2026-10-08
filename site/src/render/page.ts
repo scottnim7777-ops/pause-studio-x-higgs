@@ -229,16 +229,13 @@ function compare() {
 </section>`;
 }
 
-/* ───────── 웹사이트 요금: WEBSITE · ONLINE STORE · ENTERPRISE, 그 상품만의 기능은 위에 크게(+), 함께 들어 있는 것은 체크 목록으로 또렷하게 ───────── */
+/* ───────── 웹사이트 요금: STARTER · BUSINESS · ENTERPRISE(견적서), 그 플랜만의 기능은 위에 크게(+), 다른 플랜과 같은 기능은 체크 목록으로 또렷하게 ───────── */
 function planCard(pl: C.Plan, i: number) {
   const p = C.pricing;
   const adds = pl.base
     ? `<p class="pl-lab add"><span class="plus" aria-hidden="true">+</span>${esc(pl.addsTitle)}</p><ul class="adds">${pl.adds.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`
     : `<p class="pl-lab">${esc(pl.addsTitle)}</p><ul class="chk">${pl.adds.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul>`;
-  const baseList = (items: string[]) => pl.baseStyle === 'dots'
-    ? `<ul class="dots">${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`
-    : `<ul class="chk">${items.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul>`;
-  const base = pl.base ? `<div class="pl-base"><p class="pl-lab">${esc(pl.baseTitle || p.baseLabel)}</p>${baseList(pl.base)}</div>` : '';
+  const base = pl.base ? `<div class="pl-base"><p class="pl-lab">${esc(p.baseLabel)}</p><ul class="chk">${pl.base.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul></div>` : '';
   return `<article class="plan${pl.featured ? ' featured' : ''} rv" style="--d:${i * 0.08}s" aria-labelledby="plan-${pl.key}">
       ${pl.featured ? `<span class="badge">${esc(p.featuredBadge)}</span>` : ''}<h3 class="plan-name" id="plan-${pl.key}">${esc(pl.name)}</h3><p class="type">${esc(pl.type)}</p>
       <p class="price">${priceHtml(pl.price, pl.suffix)}</p>
@@ -560,7 +557,7 @@ export function renderHead() {
     '@context': 'https://schema.org', '@type': 'ProfessionalService', name: 'PAUSE Studio', alternateName: '퍼즈 스튜디오',
     description: m.description, url: m.canonical, image: m.ogImage, email: C.contact.email, telephone: '+64-20-488-7198',
     address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
-    areaServed: ['NZ', 'US'], serviceType: ['웹사이트 제작', '온라인 스토어(주문·결제) 제작', 'AI 업무 자동화', 'AI 광고영상 제작'],
+    areaServed: ['NZ', 'US'], serviceType: ['웹사이트 제작', '비즈니스 웹사이트(예약·주문·결제) 제작', 'AI 업무 자동화', 'AI 광고영상 제작'],
   };
   return `<title>${esc(m.title)}</title>
 <meta name="description" content="${esc(m.description)}">

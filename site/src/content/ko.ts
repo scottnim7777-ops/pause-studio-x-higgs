@@ -1,7 +1,8 @@
 /**
  * PAUSE STUDIO 사이트 문구(한국어) — 한 곳에서 관리
  * 기준: 기존 사이트 원문(content/site-content.ko.json) + 사업 정책(docs/BUSINESS_POLICY_2026-10.md)
- *       + 최종 가격·통화·GST = 사용자 최종 정책(docs/PRICING_CURRENCY_POLICY_2026-10-08.md): WEBSITE 1,990 · ONLINE STORE 4,490부터 · ENTERPRISE 맞춤 견적,
+ *       + 웹사이트 플랜(이름·기능·설명) = 사용자 견적서(docs/QUOTATION_2026-10-07.md) STARTER · BUSINESS · ENTERPRISE 그대로
+ *       + 가격·통화·GST = 사용자 최종 정책(docs/PRICING_CURRENCY_POLICY_2026-10-08.md): STARTER 1,990 · BUSINESS 4,490부터 · ENTERPRISE 맞춤 견적,
  *         뉴질랜드 IP만 NZ$ · 그 외 US$(같은 숫자), GST 미등록(별도 청구·포함 표시 없음), 결합 상품 없음
  *       + AI 광고영상 상품·포함 조건·운영 = 사용자 정책(docs/AI_VIDEO_POLICY_2026-10.md)
  * 표기 규칙(2026-10-08 사용자): 화면 글에 줄표·하이픈·별표·참고표(※)를 쓰지 않는다. 문장 안의 '\n'은 의도한 줄바꿈(page.ts가 <br>로).
@@ -173,35 +174,36 @@ export const compare = {
 };
 
 /**
- * 웹사이트 상품 = 사용자 최종 가격 정책(2026-10-08): WEBSITE 1,990 · ONLINE STORE 4,490부터 · ENTERPRISE 맞춤 견적.
- * 기능은 사업 정책 §4~§6(docs/BUSINESS_POLICY_2026-10.md). STARTER 1,490 · BUSINESS 2,900 · ENTERPRISE 5,500부터는 폐지된 과거 가격.
- * adds = 이 상품의 핵심(위, ONLINE STORE·ENTERPRISE는 + 표시로 강조) · base = 함께 들어 있는 것(아래, 체크 표시로 분명히)
+ * 웹사이트 플랜 = 사용자 견적서(2026.10.07)의 이름·기능·설명 그대로(2026-10-08 사용자: 'WEBSITE·ONLINE STORE·ENTERPRISE가 아니라 STARTER·BUSINESS·ENTERPRISE 그대로').
+ * 가격만 최종 정책: STARTER 1,990 · BUSINESS 4,490부터 · ENTERPRISE 맞춤 견적(예전 1,490 · 2,900 · 5,500+는 폐지).
+ * only = 이 플랜만의 기능(위·강조) · base = 다른 플랜과 같은 기본 기능(아래, 체크 표시로 분명히)
+ * 2026-10-08 사용자: '기본 포함'이 너무 안 보여 포함 안 된 것처럼 읽힘 → 체크 목록으로 또렷하게
  */
 export const plans = {
-  website: {
-    name: 'WEBSITE', ko: '브랜드 소개와 고객 문의', price: '1,990',
-    target: '회사·매장·서비스를 소개하고, 고객이 정보를 확인한 뒤 바로 문의할 수 있는 웹사이트가 필요한 경우',
-    features: ['브랜드 맞춤형 디자인', '콘텐츠 페이지 최대 5개', 'PC·태블릿·모바일 반응형', '회사·매장·서비스 소개, 갤러리·포트폴리오', '문의 폼 · 구글 지도 · 전화·이메일·카카오톡 버튼', '기존 외부 예약 서비스 링크', '기본 검색엔진 최적화(SEO)', '지정된 콘텐츠를 직접 수정하는 관리자 기능', '메뉴·상품 소개 최대 20개, 기본 이미지 최적화 5장', '정식 디자인 수정 2회'],
+  starter: {
+    name: 'STARTER', ko: '기본형', price: '1,990',
+    target: '브랜드와 서비스를 효과적으로 소개하고, 고객 문의로 이어질 수 있도록 설계된 맞춤형 웹사이트가 필요한 경우',
+    features: ['최대 5페이지 구성', '반응형 디자인 (모바일 최적화)', '브랜드 맞춤 디자인', '회사소개 / 서비스 소개 / 오시는 길 등 기본 페이지 구성', '문의 폼 / 이메일 연동', '기본 SEO 설정', 'SSL 보안 인증서 적용'],
   },
-  store: {
-    name: 'ONLINE STORE', ko: '온라인 주문과 결제', price: '4,490', suffix: '부터',
-    target: '고객이 상품이나 메뉴를 직접 고르고, 온라인으로 주문하고 결제하는 웹사이트가 필요한 경우',
-    only: ['온라인 주문 접수', '장바구니 · 온라인 카드 결제', '주문 내역·상태 관리', '상품·메뉴 최대 20개, 이름과 가격 직접 수정', '주문 이메일 알림'],
-    base: ['WEBSITE의 디자인과 소개 기능', '콘텐츠 페이지 최대 5개', '상품 목록·상세 화면, 주문 완료 화면', '표준 결제 서비스 1개 연동', '단일 매장 · 기본 주문 처리 방식 1개'],
+  business: {
+    name: 'BUSINESS', ko: '비즈니스형', price: '4,490', suffix: '부터',
+    target: '제품·재고 관리부터 예약, 주문, 온라인 결제까지 통합하여 고객 응대와 판매 과정을 효율적으로 운영할 수 있는 비즈니스 웹사이트가 필요한 경우',
+    only: ['최대 10페이지 구성', '제품·재고 관리 시스템', '예약 / 주문 / 온라인 결제 기능', '고객 관리 시스템 (주문 내역, 회원 관리)'],
+    base: ['반응형 디자인 (모바일 최적화)', '브랜드 맞춤 디자인', '문의 폼 / 이메일 연동', '기본 SEO 설정', 'SSL 보안 인증서 적용'],
   },
   enterprise: {
-    name: 'ENTERPRISE', ko: 'AI 업무 자동화 · 맞춤 개발', price: '맞춤 견적',
-    target: 'AI 기반 업무 자동화(AX)부터 비즈니스 전용 시스템 구축까지, 실제 업무 흐름에 맞춘 개발이 필요한 경우',
-    only: ['AI 기반 업무 자동화(AX)', '고객·예약·주문·재고 등 운영 시스템', 'POS · CRM · ERP · 외부 API 연동', '데이터 분석 대시보드', '맞춤형 웹 애플리케이션'],
-    process: ['상담으로 업무 범위와 개발 난이도를 확인한 뒤 견적', 'AI 모델·외부 API·서버 이용료는 별도', '중요한 자동화에는 사람의 검토 단계를 둠'],
+    name: 'ENTERPRISE', ko: '기업형', price: '맞춤 견적',
+    target: 'AI 기반 업무 자동화(AX)와 외부 시스템 연동 등 복잡한 비즈니스 운영에 필요한 다양한 기능을 맞춤형으로 구축하는 기업용 웹사이트가 필요한 경우',
+    only: ['맞춤 페이지 구성 (무제한 가능)', 'AI 기반 업무 자동화 (AX)', '회원 관리 및 고객 데이터 관리', '외부 시스템 연동 (ERP, POS, CRM 등)', '맞춤형 기능 개발'],
+    base: ['반응형 디자인 (모바일 최적화)', '브랜드 맞춤 디자인', '문의 폼 / 이메일 연동', '고급 SEO 설정', 'SSL 보안 인증서 적용'],
   },
 };
 const P = plans;
 
 /** 서비스·요금 버튼 → 상담 창에서 미리 고를 종류와 상품(consult.types · consult.fields 값과 같아야 함) */
 export const consultPreset: Record<string, { type: string; field?: string; value?: string }> = {
-  website: { type: '웹사이트 제작', field: 'product', value: 'WEBSITE · 브랜드 소개' },
-  store: { type: '웹사이트 제작', field: 'product', value: 'ONLINE STORE · 주문·결제' },
+  starter: { type: '웹사이트 제작', field: 'product', value: 'STARTER · 기본형' },
+  business: { type: '웹사이트 제작', field: 'product', value: 'BUSINESS · 비즈니스형' },
   enterprise: { type: 'AI 업무 자동화 · 맞춤 개발' },
   short: { type: 'AI 광고영상', field: 'videoProduct', value: 'AI SHORT AD · 15초' },
   brand: { type: 'AI 광고영상', field: 'videoProduct', value: 'AI BRAND AD · 30초' },
@@ -210,21 +212,22 @@ export const consultPreset: Record<string, { type: string; field?: string; value
   video: { type: 'AI 광고영상' },
 };
 
-export type Plan = { key: string; name: string; type: string; price: string; suffix?: string; target: string; featured?: boolean; addsTitle: string; adds: string[]; base?: string[]; baseTitle?: string; baseStyle?: 'chk' | 'dots' };
+export type Plan = { key: string; name: string; type: string; price: string; suffix?: string; target: string; featured?: boolean; addsTitle: string; adds: string[]; base?: string[] };
 export const pricing = {
   eyebrow: 'PRICING',
   title: '웹사이트 제작 비용',
   /** 사업 정책 §13·§20 확정 후킹 */
   banner: ['브랜드는 더 돋보이게.', '매달 관리비는 없게.'],
+  /** 견적서 머리말 */
   bannerLead: '브랜드의 방향과 비즈니스 목표에 맞는 웹사이트를 제작합니다.\n기획부터 디자인, 개발까지 모든 과정을 한 번에 진행합니다.',
   targetLabel: '추천 대상',
   baseLabel: '기본 포함',
   plans: [
-    { key: 'website', name: P.website.name, type: P.website.ko, price: P.website.price, target: P.website.target, addsTitle: '포함 기능', adds: P.website.features },
-    { key: 'store', name: P.store.name, type: P.store.ko, price: P.store.price, suffix: P.store.suffix, target: P.store.target, featured: true, addsTitle: 'WEBSITE에 더해지는 기능', adds: P.store.only, base: P.store.base },
-    { key: 'enterprise', name: P.enterprise.name, type: P.enterprise.ko, price: P.enterprise.price, target: P.enterprise.target, addsTitle: '맞춤 개발 범위', adds: P.enterprise.only, base: P.enterprise.process, baseTitle: '진행 방식', baseStyle: 'dots' },
+    { key: 'starter', name: P.starter.name, type: P.starter.ko, price: P.starter.price, target: P.starter.target, addsTitle: '포함 기능', adds: P.starter.features },
+    { key: 'business', name: P.business.name, type: P.business.ko, price: P.business.price, suffix: P.business.suffix, target: P.business.target, featured: true, addsTitle: 'BUSINESS만의 기능', adds: P.business.only, base: P.business.base },
+    { key: 'enterprise', name: P.enterprise.name, type: P.enterprise.ko, price: P.enterprise.price, target: P.enterprise.target, addsTitle: 'ENTERPRISE만의 기능', adds: P.enterprise.only, base: P.enterprise.base },
   ] as Plan[],
-  featuredBadge: '주문·결제가 필요하다면',
+  featuredBadge: '예약·주문·결제가 필요하다면',
   freeTitle: ['모든 플랜에 포함되는', '무료 혜택'],
   free: [
     { title: '유지보수 무료', note: '계약된 기능이 계속 잘 동작하도록' },
@@ -232,15 +235,14 @@ export const pricing = {
     { title: '웹 호스팅 무료', note: '트래픽이 크게 늘어날 때만 미리 협의' },
   ],
   notesTitle: '추가 안내사항',
-  /** 1번: 표시 통화와 실제 계약 통화(사업장 소재 국가)의 구분 · 2~3번: '부터'와 '맞춤 견적'의 뜻(사업 정책 §5·§6) */
+  /** 견적서 추가 안내 그대로 + 외부 서비스 비용. 1번만 최종 정책(표시 통화와 실제 계약 통화 = 사업장 소재 국가, GST 문구 없음) */
   notes: [
     { NZD: '위 금액은 뉴질랜드 달러(NZD) 기준입니다. 실제 계약 통화는 사업장 소재 국가를 기준으로 하며, 견적서에서 적용 통화와 총액을 먼저 확인해 드립니다.', USD: '위 금액은 미국 달러(USD) 기준입니다. 실제 계약 통화는 사업장 소재 국가를 기준으로 하며, 견적서에서 적용 통화와 총액을 먼저 확인해 드립니다.' },
-    'ONLINE STORE의 시작 가격은 표준 주문·결제 기능 기준입니다. 재고 관리, 다중 매장, POS 연동 같은 특수 기능은 별도 견적입니다.',
-    'ENTERPRISE는 고정 가격 없이 상담 후 견적을 드리며, AI 모델·외부 API·서버 이용료와 운영 조건은 별도 계약을 따릅니다.',
     '페이지 추가, 특정 기능 개발, 외부 시스템 연동 등은 별도 견적이 적용될 수 있습니다.',
     '제작 기간은 프로젝트 규모에 따라 다르며, 보통 2~6주 안에 진행됩니다.',
     '호스팅은 기본적으로 무료로 제공되며, 트래픽과 서버 사용량이 무상 제공 범위를 크게 넘는 경우에만 호스팅 환경과 추가 비용을 협의합니다.',
-    '도메인 등 외부 서비스 비용은 별도이며, 견적 단계에서 미리 안내합니다.',
+    '자세한 상담을 통해 비즈니스에 맞는 최적의 구성을 제안드립니다.',
+    '도메인 등 외부 서비스 비용은 별도입니다.',
   ] as Txt[],
 };
 
@@ -273,14 +275,14 @@ export const fee = {
     totalLabel: '총비용',
     saveLabel: 'PAUSE Studio로 아끼는 금액',
     unit: '년',
-    /** PAUSE 쪽 초기 제작비: 상품을 고를 수 있게(사용자). 기본 선택 = 가장 기본 상품 WEBSITE(사용자: '기본은 starter 플랜 가격' → STARTER는 폐지돼 WEBSITE) */
-    planLabel: '상품 선택',
+    /** PAUSE 쪽 초기 제작비: 플랜을 고를 수 있게, 기본 선택 = STARTER(2026-10-08 사용자) */
+    planLabel: '플랜 선택',
     plans: [
-      { key: 'website', label: 'WEBSITE', price: 1990 },
-      { key: 'store', label: 'ONLINE STORE', price: 4490, suffix: '부터' },
+      { key: 'starter', label: 'STARTER', price: 1990 },
+      { key: 'business', label: 'BUSINESS', price: 4490, suffix: '부터' },
     ] as { key: string; label: string; price: number; suffix?: string }[],
     vs: 'VS',
-    note: 'PAUSE Studio 쪽은 고르신 상품의 가격 기준이며, ONLINE STORE는 시작 가격입니다. 도메인 등 외부 서비스 비용은 양쪽 모두 별도라 계산에서 뺐습니다.',
+    note: 'PAUSE Studio 쪽은 고르신 플랜의 가격 기준이며, BUSINESS는 시작 가격입니다. 도메인 등 외부 서비스 비용은 양쪽 모두 별도라 계산에서 뺐습니다.',
   },
   /** 사진 대신 글자로 보여주는 1년치 관리비 내역(사용자: 영수증 사진 사용 안 함) */
   ledger: {
@@ -433,7 +435,7 @@ export const faq = {
       items: [
         { q: '정말 나중에 추가로 나가는 비용이 없나요?', a: '유지보수, 관리비, 웹 호스팅이 모든 플랜에 무료로 포함되어 PAUSE Studio에 매달 내는 관리비가 없습니다. 도메인 등록·갱신, 카드 결제 수수료, 유료 외부 서비스, 새 페이지·새 기능 개발처럼 비용이 생길 수 있는 경우는 견적 단계에서 미리 안내해 드립니다.' },
         { q: '정말 제작비 한 번만 내면 되나요?', a: '네, 제작비는 선금으로 한 번 결제하시면 됩니다. 웹 호스팅은 무상 제공 범위 안에서 무료이고, 텍스트나 사진 등 지정된 콘텐츠는 관리자 기능으로 직접 수정하실 수 있어 매달 관리비를 낼 필요가 없습니다.' },
-        { q: '어떤 상품을 골라야 하나요?', a: '브랜드와 서비스를 소개하고 고객 문의를 받는 웹사이트라면 WEBSITE, 고객이 상품이나 메뉴를 직접 골라 온라인으로 주문하고 결제하게 하려면 ONLINE STORE, AI 업무 자동화(AX)나 운영 시스템, 외부 시스템(POS, CRM, ERP 등) 연동이 필요하다면 ENTERPRISE가 맞습니다. 잘 모르시겠다면 무료 상담에서 비즈니스에 맞는 구성을 제안드립니다.' },
+        { q: '어떤 플랜을 골라야 하나요?', a: '브랜드와 서비스를 소개하고 고객 문의를 받는 웹사이트라면 STARTER, 제품·재고 관리와 예약·주문·온라인 결제까지 운영하려면 BUSINESS, AI 업무 자동화(AX)나 외부 시스템(ERP, POS, CRM 등) 연동이 필요하다면 ENTERPRISE가 맞습니다. 잘 모르시겠다면 무료 상담에서 비즈니스에 맞는 구성을 제안드립니다.' },
         { q: '웹사이트와 광고영상을 함께 맡길 수 있나요?', a: '네. 같은 브랜드 방향으로 웹사이트와 AI 광고영상을 함께 만들 수 있습니다. 견적은 각 상품의 가격을 더해 안내해 드립니다.' },
         { q: '제작 기간은 얼마나 걸리나요?', a: '프로젝트 규모에 따라 다르며, 보통 2~6주 안에 진행됩니다.' },
         { q: '무료 유지보수와 관리비, 혹시 회사가 없어지면 어떻게 되나요?', a: '실제로 가장 많이 받는 질문입니다. 무료 유지보수와 관리비 면제는 계약상 기본으로 드리는 것이 아니라, PAUSE Studio가 서비스 차원에서 제공해 드리는 혜택입니다. 만에 하나 PAUSE Studio가 문을 닫게 되더라도 웹사이트의 콘텐츠와 데이터, 계약된 제작 결과물의 소유권은 모두 대표님께 있으니, 인계 자료로 다른 개발자나 호스팅 업체를 통해 그대로 유지보수하며 운영하시면 됩니다. 물론 그런 일이 없도록 오래 곁에 있겠습니다.' },
@@ -443,7 +445,7 @@ export const faq = {
         { q: '해외에서도 의뢰할 수 있나요?', a: '네. 오클랜드를 기반으로 뉴질랜드와 미국 등 해외 한인 사장님들의 웹사이트와 광고영상을 만듭니다. 홈페이지의 가격은 접속하신 나라에 맞는 통화로 같은 숫자를 보여 드리며, 환율로 바꾸지 않습니다. 실제 계약 통화는 사업장이 있는 나라를 기준으로 견적서에서 확정해 드립니다.' },
         { q: '해외(뉴질랜드, 미국 등)인데 소통에 문제가 없을까요?', a: '전혀 걱정하지 않으셔도 됩니다. Zoom 화상 미팅, 전화, 카카오톡, 이메일 등 사장님께 가장 편한 방식으로 소통하며, 모든 기획과 커뮤니케이션은 한국어로 진행됩니다.' },
         { q: '다국어 사이트 제작도 가능한가요?', a: '네, 다국어 레이아웃과 서체를 고려해 디자인할 수 있습니다. 기본 가격은 한 가지 콘텐츠 언어 기준이며, 추가 언어 페이지와 전문 번역, 원어민 검수는 범위에 따라 별도 견적으로 진행합니다.' },
-        { q: '검색 엔진(SEO) 최적화도 포함되나요?', a: '네. WEBSITE와 ONLINE STORE에는 구글과 네이버에 잘 노출되도록 메타데이터, 사이트맵, 구조화 데이터 등 기본 검색엔진 최적화(SEO)가 포함됩니다. ENTERPRISE는 프로젝트에 맞춰 범위를 정합니다.' },
+        { q: '검색 엔진(SEO) 최적화도 포함되나요?', a: '네, 모든 플랜에 포함됩니다. STARTER와 BUSINESS는 구글과 네이버에 잘 노출되도록 메타데이터, 사이트맵, 구조화 데이터 등 기본 SEO를 설정해 드리고, ENTERPRISE는 고급 SEO 설정이 포함됩니다.' },
         { q: '도메인과 호스팅은 어떻게 되나요?', a: '도메인은 가능한 대표님 명의로 등록하며, 도메인 등록·갱신 비용은 별도입니다. 웹 호스팅은 모든 플랜에 무료로 제공되며, 트래픽과 서버 사용량이 무상 제공 범위를 크게 넘는 경우에만 호스팅 환경과 추가 비용을 협의합니다.' },
       ] as Faq[],
     },
@@ -492,15 +494,15 @@ export const consult = {
   title: '브랜딩 무료 상담 신청',
   steps: ['상담 종류', '기본 정보', '상세 내용', '확인'],
   types: [
-    { value: '웹사이트 제작', label: '웹사이트 제작', desc: 'WEBSITE · ONLINE STORE · 브랜드 소개부터 온라인 주문·결제까지' },
+    { value: '웹사이트 제작', label: '웹사이트 제작', desc: 'STARTER · BUSINESS · 브랜드 소개부터 예약·주문·결제까지' },
     { value: 'AI 광고영상', label: 'AI 광고영상', desc: '가지고 계신 사진으로 만드는 광고영상, 가로·세로 함께' },
     { value: '웹사이트 + AI 광고영상', label: '둘 다 함께', desc: '웹사이트와 광고영상을 같은 톤으로' },
-    { value: 'AI 업무 자동화 · 맞춤 개발', label: 'AI 업무 자동화 · 맞춤 개발', desc: 'ENTERPRISE · AI 자동화(AX) · 운영 시스템 · 외부 연동' },
+    { value: 'AI 업무 자동화 · 맞춤 개발', label: 'AI 업무 자동화 · 맞춤 개발', desc: 'ENTERPRISE · AI 자동화(AX) · 외부 시스템 연동' },
   ],
   fields: {
     company: '회사 / 브랜드명', name: '성함', email: '이메일', phone: '연락처', country: '사업장 소재 국가', industry: '업종', currentSite: '기존 웹사이트 주소',
     countries: ['뉴질랜드', '미국', '기타'],
-    product: '관심 있는 상품', products: ['WEBSITE · 브랜드 소개', 'ONLINE STORE · 주문·결제', 'ENTERPRISE · 맞춤 개발', '잘 모르겠어요'],
+    product: '관심 있는 플랜', products: ['STARTER · 기본형', 'BUSINESS · 비즈니스형', 'ENTERPRISE · 기업형', '잘 모르겠어요'],
     needs: '필요한 페이지·기능', needOptions: ['회사·서비스 소개', '오시는 길', '갤러리·포트폴리오', '문의 폼·이메일 연동', '예약', '온라인 주문·결제', '제품·재고 관리', '회원·고객 관리', '추가 언어 페이지', '관리자 기능'],
     itemCount: '페이지·상품 수(대략)', bookingPay: '사용 중인 예약·결제 서비스', integrations: '추가 연동이 필요한 시스템',
     videoProduct: '관심 있는 영상 상품', videoProducts: ['AI SHORT AD · 15초', 'AI BRAND AD · 30초', 'AI HERO FILM · 60초', 'MONTHLY CREATIVE · 월 4편', '잘 모르겠어요'],

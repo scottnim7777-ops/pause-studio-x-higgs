@@ -1,7 +1,7 @@
 <!-- 사용자 제공 문서(2026-10-08 대화로 받음) 원문 그대로. 아래 본문은 고치지 않는다.
 사이트에 옮긴 곳: site/src/content/ko.ts → film(샘플) · videoPricing(상품·규격·추가 작업·과정·일정·알아두실 점) · faq.tabs[video] · consult(영상 상품 선택)
 이 문서보다 우선하는 사용자 지시(같은 날 대화):
-- 웹사이트 상품: 최종 가격 정책(2026-10-08)으로 다시 WEBSITE $1,990 / ONLINE STORE $4,490부터 / ENTERPRISE 맞춤 견적(견적서의 STARTER·BUSINESS·ENTERPRISE 5,500+는 폐지).
+- 웹사이트 플랜: 이름·기능·설명은 견적서(docs/QUOTATION_2026-10-07.md)의 STARTER·BUSINESS·ENTERPRISE 그대로, 가격만 최종 가격 정책(2026-10-08) STARTER $1,990 · BUSINESS $4,490부터 · ENTERPRISE 맞춤 견적. 본문의 WEBSITE · ONLINE STORE 이름은 쓰지 않는다.
 - GST: 최종 가격 정책(docs/PRICING_CURRENCY_POLICY_2026-10-08.md)에 따라 PAUSE Studio는 GST 미등록 사업자 → GST를 더하거나 포함했다고 쓰지 않음(화면에 GST 문구 없음). 통화는 뉴질랜드 IP만 NZ$, 그 밖은 US$.
 - §16 결합 상품(WEBSITE + AI BRAND AD $2,690): 사용자 결정(2026-10-08) '빼' → 사이트에 넣지 않는다.
 - 화면 글에는 줄표·하이픈·별표·참고표를 쓰지 않는다(사이트 표기 규칙). 이 문서 자체는 원문 보존. -->

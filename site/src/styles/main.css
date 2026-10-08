@@ -405,9 +405,6 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .plan ul.adds li { position: relative; padding: 6px 0 6px 26px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(17px, 1.12vw, 20px); line-height: 1.5; color: var(--cream); }
 .plan ul.adds li::before { content: "+"; position: absolute; left: 3px; top: 6px; font-family: var(--f-display); }
 .plan ul.chk li { font-size: var(--fs-body); color: var(--cream-2); }
-.plan ul.dots { display: grid; gap: 2px; }
-.plan ul.dots li { position: relative; padding: 5px 0 5px 18px; font-size: var(--fs-small); line-height: 1.6; color: var(--cream-2); }
-.plan ul.dots li::before { content: ""; position: absolute; left: 3px; top: calc(5px + .8em - 2px); width: 4px; height: 4px; border-radius: 50%; background: var(--cream-3); }
 .plan ul.chk .ck { color: var(--cream); }
 /* 기본 포함: 이 플랜에도 들어 있는 기능 — 흐리지 않게 */
 .plan .pl-base { margin-top: 8px; padding-top: 16px; border-top: 1px solid rgba(127, 127, 127, .3); display: grid; gap: 8px; }

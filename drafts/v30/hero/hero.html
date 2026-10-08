@@ -1,0 +1,173 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Pause Studio 30차 시안 — 히어로(B 확정안)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><style id="hero-css">
+/* 30차: 29차 시안 B(격동고딕2) 채택 + A안 버튼 + 숫자 줄 → 서비스(웹사이트 제작 · AI 영상광고) + 글씨 크기 위계 재정리 + 모바일
+   - PC 캔버스 1920×1080, 모바일 캔버스 390×844(.hero.m)
+   - 렌더링 도구가 산돌 테스터 서체를 묶음([data-g])별로 나눠 그리므로, 묶음끼리 위치가 서로 영향을 주지 않게 절대 위치·고정 폭으로 배치 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#0C0C0B;overflow:hidden}
+.fit{position:absolute;left:50%;top:50%;width:1920px;height:1080px}
+.fit.m{width:390px;height:844px}
+.hero{--bg:#0C0C0B;--fg:#FCEED8;--fg2:rgba(252,238,216,.8);--fg3:rgba(252,238,216,.55);--line:rgba(252,238,216,.22);
+  --tx:var(--greta-rg,'Noto Sans KR'),sans-serif;--tm:var(--greta-md,'Noto Sans KR'),sans-serif;--dp:var(--gd-rg,'Noto Sans KR'),sans-serif;
+  position:absolute;inset:0;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--tx);font-weight:400;
+  word-break:keep-all;-webkit-font-smoothing:antialiased;font-synthesis:none}
+.hero a{color:inherit;text-decoration:none;cursor:pointer}
+.hero p,.hero h1{position:absolute}
+.mo{display:none!important}
+
+/* ── 작업물 벽(3차 구조) */
+.stage{position:absolute;inset:0;perspective:2200px;perspective-origin:62% 46%}
+.plane{position:absolute;left:740px;top:150px;width:1700px;height:980px;transform-style:preserve-3d;transform:rotateY(-24deg) rotateX(9deg) rotateZ(-3deg)}
+.row{position:absolute;left:0;height:300px;width:100%;transform-style:preserve-3d}
+.row.r0{top:0}.row.r1{top:320px}.row.r2{top:640px}
+.track{position:absolute;left:0;top:0;display:flex;gap:28px;transform-style:preserve-3d}
+.card{width:440px;flex:none}
+.scr{width:440px;height:248px;overflow:hidden;background:#1a1a18;border-radius:3px;box-shadow:0 30px 60px -30px rgba(0,0,0,.85),0 0 0 1px rgba(252,238,216,.06)}
+.scr img,.scr video{width:100%;height:100%;object-fit:cover;display:block;transform-origin:50% 0}
+.card figcaption{margin-top:14px;height:22px;font-size:16px;line-height:22px;letter-spacing:.01em;color:var(--fg3);white-space:nowrap}
+.card figcaption i{font-style:normal;color:rgba(252,238,216,.86);margin-left:12px}
+.veil{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,#0C0C0B 0%,#0C0C0B 38%,rgba(12,12,11,.9) 51%,rgba(12,12,11,0) 68%),
+  linear-gradient(0deg,rgba(12,12,11,.78),rgba(12,12,11,0) 24%),
+  linear-gradient(180deg,#0C0C0B 0%,rgba(12,12,11,.92) 11%,rgba(12,12,11,0) 24%)}
+.fly{position:absolute;left:0;top:0;width:440px;height:248px;border-radius:3px;overflow:hidden;opacity:0;transform-origin:50% 50%;box-shadow:0 60px 120px -40px rgba(0,0,0,.9);backface-visibility:hidden}
+.fly img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ── 머리줄: 로고 204px · 메뉴 16px · 문의 버튼 13px 22px(기존 크기 유지) */
+.logo{position:absolute;left:92px;top:30px;width:204px;height:103px}
+.logo img{width:100%;height:100%;display:block}
+.nav{position:absolute;right:96px;top:57px;height:46px;display:flex;align-items:center;gap:38px;font-size:16px;line-height:20px;white-space:nowrap}
+.nav .cta{display:flex;align-items:center;gap:10px;height:46px;padding:13px 22px;border:1px solid rgba(252,238,216,.5);transition:background .3s,color .3s}
+.hero .nav .cta:hover{background:var(--fg);color:var(--bg)}
+.nav .cta svg{width:14px;height:10px}
+.menu{display:none;position:absolute;width:26px;height:14px}
+.menu i{position:absolute;left:0;width:100%;height:1.5px;background:var(--fg)}
+.menu i:first-child{top:0}.menu i:last-child{bottom:0}
+
+/* ── 글씨 크기 위계(PC): 제목 76 · 서비스명 30 · 설명 24 · 버튼 19 · 머리말 19 · 서비스 설명 18 · 캡션 16 */
+.eyebrow{left:100px;top:258px;height:26px;font-family:var(--tm);font-size:19px;line-height:26px;letter-spacing:.01em;color:var(--fg2);white-space:nowrap}
+.eyebrow .rule{display:inline-block;width:24px;height:2px;background:var(--fg);vertical-align:middle;margin:0 14px 5px 0}
+h1{left:96px;top:298px;font-weight:400;white-space:nowrap;font-family:var(--dp);font-size:76px;line-height:92px;letter-spacing:-.035em}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+h1 .ln>span{display:block;will-change:transform}
+.sub{left:100px;top:524px;font-size:24px;line-height:38px;color:var(--fg2);white-space:nowrap}
+.ctas{position:absolute;left:100px;top:648px;display:grid;grid-template-columns:380px 380px;gap:12px}
+.btn{position:relative;display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 26px 0 28px;font-family:var(--tm);font-size:19px;white-space:nowrap;overflow:hidden;transition:color .35s}
+.btn .lb{display:flex;align-items:center;gap:12px;position:relative}
+.btn .ar{display:block;flex:none;position:relative;transition:transform .35s}
+.btn:hover .ar{transform:translateX(6px)}
+.hero .b1{background:var(--fg);color:var(--bg)}
+.b2{border:1px solid rgba(252,238,216,.38)}
+.b2::before{content:"";position:absolute;inset:0;background:var(--fg);transform:scaleX(0);transform-origin:0 50%;transition:transform .45s cubic-bezier(.2,.7,.1,1)}
+.hero .b2:hover{color:var(--bg)}.b2:hover::before{transform:scaleX(1)}
+.b2 .kk{width:20px;height:19px;flex:none}
+.svc{position:absolute;left:100px;top:796px;width:772px;display:grid;grid-template-columns:380px 380px;gap:12px;border-top:1px solid var(--line)}
+.it{position:relative;height:130px}
+.it .ix,.it .nm,.it .ds{left:0;white-space:nowrap}
+.ix{top:22px;font-size:15px;line-height:20px;letter-spacing:.08em;color:var(--fg3)}
+.nm{top:48px;font-family:var(--dp);font-size:30px;line-height:36px;letter-spacing:-.02em}
+.ds{top:94px;font-size:18px;line-height:28px;color:var(--fg2)}
+
+/* ━━ 모바일 390×844 — 제목 36 · 설명 15.5 · 버튼 16 · 서비스명 18 · 서비스 설명 13.5 */
+.m .d{display:none!important}
+.m .mo{display:block!important}
+.m .logo{left:12px;top:10px;width:132px;height:66px}
+.m .nav{display:none}
+.m .menu{display:block;right:20px;top:36px}
+.m .stage{perspective:1300px;perspective-origin:50% 22%}
+.m .plane{left:-655px;top:-300px}
+.m .card figcaption{font-size:22px;height:30px;line-height:30px;margin-top:16px}
+.m .veil{background:linear-gradient(180deg,#0C0C0B 0%,rgba(12,12,11,.55) 8%,rgba(12,12,11,0) 15%,rgba(12,12,11,0) 30%,rgba(12,12,11,.9) 38.5%,#0C0C0B 42%)}
+.m .eyebrow{left:20px;top:338px;height:20px;font-size:14px;line-height:20px}
+.m .eyebrow .rule{width:16px;height:1.5px;margin:0 10px 4px 0}
+.m h1{left:18px;top:366px;font-size:36px;line-height:44px;letter-spacing:-.035em}
+.m .sub{left:20px;top:510px;width:350px;font-size:15.5px;line-height:25px;white-space:normal}
+.m .ctas{left:20px;top:604px;grid-template-columns:350px;gap:8px}
+.m .btn{height:54px;padding:0 18px 0 20px;font-size:16px}
+.m .btn .ar{width:24px}
+.m .b2 .kk{width:18px;height:17px}
+.m .svc{left:20px;top:738px;width:350px;grid-template-columns:170px 170px;gap:10px}
+.m .it{height:100px}
+.m .ix{top:12px;font-size:11.5px;line-height:16px}
+.m .nm{top:30px;font-size:18px;line-height:22px}
+.m .ds{top:56px;width:168px;font-size:13.5px;line-height:19px;white-space:normal}
+</style></head>
+<body><div class="fit" id="fit"><!--HERO--><div class="hero" id="hero">
+<div class="stage"><div class="plane" id="plane"><div class="row r0"><div class="track"><figure class="card"><div class="scr"><video src="../../v3/media/ref01.webm" poster="../../v3/media/ref01-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 01<i>여행 / 유학원</i></figcaption></figure><figure class="card" id="slot03"><div class="scr"><img src="../../v3/media/ref03.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 03<i>한식당</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref11.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 11<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref07.webm" poster="../../v3/media/ref07-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 07<i>호스피스</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref13.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 13<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref01.webm" poster="../../v3/media/ref01-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 01<i>여행 / 유학원</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref03.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 03<i>한식당</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref11.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 11<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref07.webm" poster="../../v3/media/ref07-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 07<i>호스피스</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref13.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 13<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><div class="fly" id="fly"><img src="../../v3/media/ref03-big.jpg" alt=""></div></div></div><div class="row r1"><div class="track"><figure class="card"><div class="scr"><img src="../../v3/media/ref08.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 08<i>미용실 / 헤어 살롱</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref02.webm" poster="../../v3/media/ref02-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 02</figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref12.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 12<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref09.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 09<i>건강식품</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref05.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 05<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref08.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 08<i>미용실 / 헤어 살롱</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref02.webm" poster="../../v3/media/ref02-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 02</figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref12.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 12<i>여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref09.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 09<i>건강식품</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref05.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 05<i>패스트푸드 프랜차이즈</i></figcaption></figure></div></div><div class="row r2"><div class="track"><figure class="card"><div class="scr"><img src="../../v3/media/ref14.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 14<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref04.webm" poster="../../v3/media/ref04-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 04<i>오클랜드 현지 여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref15.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 15<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref06.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 06<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref10.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 10<i>택시 호출 및 배차 플랫폼 개발</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref14.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 14<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><video src="../../v3/media/ref04.webm" poster="../../v3/media/ref04-poster.jpg" muted playsinline loop preload="auto"></video></div><figcaption data-g="greta:cap">Ref. 04<i>오클랜드 현지 여행사</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref15.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 15<i>토스 핀테크 파트너 앱 개발</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref06.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 06<i>패스트푸드 프랜차이즈</i></figcaption></figure><figure class="card"><div class="scr"><img src="../../v3/media/ref10.jpg" alt=""></div><figcaption data-g="greta:cap">Ref. 10<i>택시 호출 및 배차 플랫폼 개발</i></figcaption></figure></div></div></div></div>
+<div class="veil" id="veil"></div>
+<div class="logo" id="logo"><img src="../../../content/assets/logo/new/vector/pause-studio-logo-cream.svg" alt="Pause Studio"></div>
+<nav class="nav" id="nav" data-g="greta:nav"><a>포트폴리오</a><a>서비스</a><a>요금</a><a>자주 묻는 질문</a><a>한국어</a><a class="cta">문의하기<svg viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></nav>
+<a class="menu" id="menu" aria-label="메뉴"><i></i><i></i></a>
+<p class="eyebrow" id="eb" data-g="greta:eb"><span class="rule"></span>한인 비즈니스를 위한 브랜딩 스튜디오</p>
+<h1 class="d" id="h1" data-g="gd:h1"><span class="ln"><span>선택받는 브랜드는</span></span><span class="ln"><span>보여지는 방식이 다릅니다.</span></span></h1>
+<h1 class="mo" id="h1m" data-g="gd:h1"><span class="ln"><span>선택받는 브랜드는</span></span><span class="ln"><span>보여지는 방식이</span></span><span class="ln"><span>다릅니다.</span></span></h1>
+<p class="sub d" id="sub" data-g="greta:sub">웹사이트 제작부터 AI 영상 제작까지,<br>브랜드가 고객에게 보여지는 모든 순간을 만듭니다.</p>
+<p class="sub mo" id="subm" data-g="greta:sub">웹사이트 제작부터 AI 영상 제작까지, 브랜드가 고객에게 보여지는 모든 순간을 만듭니다.</p>
+<div class="ctas" id="ctas" data-g="greta:cta"><a class="btn b1"><span class="lb">브랜딩 무료 상담 신청</span><svg class="ar" width="30" height="12" viewBox="0 0 30 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 6h28.5M23.5 1l5 5-5 5"/></svg></a><a class="btn b2"><span class="lb"><svg class="kk" viewBox="0 0 20 19" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M10 1.5c4.97 0 9 3.13 9 7s-4.03 7-9 7c-.86 0-1.69-.09-2.47-.27L3.5 17.5l1.06-3.37C2.39 12.86 1 10.83 1 8.5c0-3.87 4.03-7 9-7z"/></svg>카카오톡 1:1 실시간 상담</span><svg class="ar" width="30" height="12" viewBox="0 0 30 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 6h28.5M23.5 1l5 5-5 5"/></svg></a></div>
+<div class="svc" id="svc"><div class="it"><p class="ix" data-g="greta:svd">01</p><p class="nm" data-g="gd:svn">웹사이트 제작</p><p class="ds" data-g="greta:svd">브랜드 맞춤 웹사이트와 온라인 스토어</p></div><div class="it"><p class="ix" data-g="greta:svd">02</p><p class="nm" data-g="gd:svn">AI 영상광고</p><p class="ds" data-g="greta:svd">가지고 계신 사진만으로 만드는 광고 영상</p></div></div>
+</div><!--/HERO--></div>
+<script id="hero-js">
+/* initHero(root,{mode:'live'|'render', intro:1|2, skipIntro})
+   - 모든 상태는 시간 t의 함수 → 시안 캡처는 프레임 단위로 정확, 실제 사이트는 requestAnimationFrame 재생
+   - 인트로 1: 어둠 속 초점이 맞으며 벽이 다가옴 + 제목 줄 단위 마스크 등장 / 인트로 2(PC): 작업물 하나가 벽 속 제자리로 날아가 꽂힘 */
+function initHero(root, opts){
+  opts = opts || {};
+  const $=(s)=>root.querySelector(s), $$=(s)=>[...root.querySelectorAll(s)];
+  const hero=$('#hero'), mob=()=>hero.classList.contains('m');
+  const INTRO=3.0, P=24, VID=8;
+  const FX=600, FY=470, FZ=560, FS=1.6;
+  const clamp=(x)=>x<0?0:x>1?1:x, span=(t,a,b)=>clamp((t-a)/(b-a)), mod=(a,n)=>((a%n)+n)%n;
+  const eOut=(x)=>1-Math.pow(1-clamp(x),3), eExpo=(x)=>x>=1?1:1-Math.pow(2,-10*clamp(x)), io=(x)=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;};
+  const rows=$$('.row .track'), rowW=5*(440+28), cards=$$('.card');
+  const vids=$$('video'), imgs=$$('.card img');
+  const plane=$('#plane'), fly=$('#fly'), slot=$('#slot03'), veil=$('#veil');
+  const svcItems=$$('#svc .it');
+  let mx=0,my=0;
+  if(opts.mode==='live') addEventListener('mousemove',(ev)=>{mx=ev.clientX/innerWidth-.5; my=ev.clientY/innerHeight-.5;});
+  const show=(el,o,y)=>{ if(!el) return; el.style.opacity=o; el.style.transform=y?`translateY(${y.toFixed(2)}px)`:''; };
+  function frame(t){
+    const m=mob(), intro2=opts.intro===2&&!m;
+    const ph=mod(t,P);
+    show($('#logo'),eOut(span(t,0.05,0.9)));
+    show($('#nav'),eOut(span(t,0.2,1.0))); show($('#menu'),eOut(span(t,0.2,1.0)));
+    show($('#eb'),eOut(span(t,0.35,1.05)),10*(1-eOut(span(t,0.35,1.05))));
+    $$('h1 .ln>span').forEach((l)=>{ const i=[...l.parentNode.parentNode.children].indexOf(l.parentNode); const k=eExpo(span(t,0.5+i*0.16,1.6+i*0.16)); l.style.transform=`translateY(${((1-k)*112).toFixed(2)}%)`; });
+    [$('#sub'),$('#subm')].forEach((el)=>show(el,eOut(span(t,1.15,1.9)),16*(1-eOut(span(t,1.15,1.9)))));
+    show($('#ctas'),eOut(span(t,1.3,2.05)),16*(1-eOut(span(t,1.3,2.05))));
+    const sv=$('#svc'); sv.style.borderTopColor=`rgba(252,238,216,${(0.22*eOut(span(t,1.45,2.2))).toFixed(3)})`;
+    svcItems.forEach((it,i)=>show(it,eOut(span(t,1.55+i*0.12,2.3+i*0.12)),14*(1-eOut(span(t,1.55+i*0.12,2.3+i*0.12)))));
+    // 벽
+    let wallIn, blur=0, z=0, ry=0;
+    if(!intro2){ wallIn=io(span(t,0.1,2.5)); blur=(1-eOut(span(t,0.1,2.3)))*16; z=(1-wallIn)*-460; ry=(1-wallIn)*-7; }
+    else { wallIn=io(span(t,0.9,2.4)); z=(1-wallIn)*-120; }
+    plane.style.opacity=intro2?1:wallIn.toFixed(4);
+    plane.style.filter=blur>0.05?`blur(${blur.toFixed(2)}px)`:'none';
+    if(intro2) cards.forEach((c)=>{ c.style.opacity=(c===slot?span(t,2.2,2.5):wallIn).toFixed(4); });
+    const B=m?{ry:-16,rx:24,rz:-7,s:0.5}:{ry:-24,rx:9,rz:-3,s:1};
+    plane.style.transform=`rotateY(${(B.ry+ry+mx*6).toFixed(3)}deg) rotateX(${(B.rx-my*4).toFixed(3)}deg) rotateZ(${B.rz}deg) translateZ(${z.toFixed(1)}px) scale(${B.s})`;
+    rows.forEach((r,i)=>{ const f=ph/P*rowW; const x=i%2===0?-f:-rowW+f; r.style.transform=`translate3d(${x.toFixed(2)}px,0,0)`; });
+    imgs.forEach((im,i)=>{ const s=1.0+0.05*(0.5-0.5*Math.cos(2*Math.PI*(ph/P)+i)); im.style.transform=`scale(${s.toFixed(4)})`; });
+    if(intro2){
+      const k=io(span(t,0.85,2.35)), x0=slot.offsetLeft;
+      const tx=x0+(1-k)*(-x0+FX), ty=(1-k)*FY, tz=(1-k)*FZ;
+      fly.style.opacity=(t<0.05?0:eOut(span(t,0.05,0.5))*(1-span(t,2.25,2.6))).toFixed(4);
+      fly.style.transform=`translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,${tz.toFixed(1)}px) rotateZ(${(3*(1-k)).toFixed(3)}deg) rotateX(${(-9*(1-k)).toFixed(3)}deg) rotateY(${(24*(1-k)).toFixed(3)}deg) scale(${(1+(FS-1)*(1-k)).toFixed(4)})`;
+      veil.style.opacity=(0.25+0.75*eOut(span(t,0.9,2.2))).toFixed(4);
+    } else { fly.style.opacity=0; veil.style.opacity=1; }
+    return ph;
+  }
+  if(opts.mode==='render'){
+    return { INTRO, P, async renderAt(t, o){ const ph=frame(t); if(o&&o.noVideo) return ph; const vt=mod(t,VID);
+      await Promise.all(vids.map(v=>new Promise(res=>{ if(Math.abs(v.currentTime-vt)<1e-3&&v.readyState>=2) return res(); const on=()=>{v.removeEventListener('seeked',on);res();}; v.addEventListener('seeked',on); v.currentTime=vt+1e-4; setTimeout(res,2000);})));
+      return ph; } };
+  }
+  const start=performance.now()-(opts.skipIntro?INTRO*1000:0);
+  vids.forEach(v=>{v.play().catch(()=>{});});
+  (function loop(){ frame((performance.now()-start)/1000); requestAnimationFrame(loop); })();
+  return {INTRO,P};
+}
+</script>
+<script>const q=new URLSearchParams(location.search);const fit=document.getElementById('fit'),hero=document.getElementById('hero');
+function rs(){const m=innerWidth<768||q.get('m'); fit.classList.toggle('m',!!m); hero.classList.toggle('m',!!m);
+  const W=m?390:1920,H=m?844:1080; const s=m?innerWidth/W:Math.min(innerWidth/W,innerHeight/H); fit.style.transform=`translate(-50%,-50%) scale(${s})`;}
+rs();addEventListener('resize',rs);window.__hero=initHero(document,{mode:q.get('render')?'render':'live',intro:+(q.get('intro')||1),skipIntro:!!q.get('loop')});</script></body></html>

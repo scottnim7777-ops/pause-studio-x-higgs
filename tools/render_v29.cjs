@@ -2,15 +2,18 @@
 // 산돌 테스터는 한 번에 100자까지만 미리보기 서체를 만들고, 새로 입력하면 같은 이름의 서체가 바뀐다.
 // → 글자 묶음([data-g])을 100자 이하 패스로 나눠 각각 투명 배경으로 그리고, 배경 패스 위에 겹쳐 합성한다.
 //   (hero.html 은 묶음끼리 위치가 서로 영향을 주지 않도록 절대 위치·고정 폭으로 짜여 있음)
-// 실행: NODE_PATH=/opt/node22/lib/node_modules NODE_USE_ENV_PROXY=1 node tools/render_v29.cjs --v a --t 8 [--t2 0.6,1.2] [--intro 1] [--name still-a]
+// 실행: NODE_PATH=/opt/node22/lib/node_modules NODE_USE_ENV_PROXY=1 node tools/render_v29.cjs --v a --t 8 [--intro 1] [--name still-a]
+//   30차 이후: --dir drafts/v30/hero --out drafts/v30/out [--mobile]  (모바일: 390×844 캔버스를 3배로 렌더 → 1170×2532)
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path'), { execFileSync } = require('child_process');
-const ROOT = path.resolve(__dirname, '..'), H = path.join(ROOT, 'drafts/v29/hero'), OUT = path.join(ROOT, 'drafts/v29/out');
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 ? process.argv[i + 1] : d; };
+const ROOT = path.resolve(__dirname, '..'), H = path.join(ROOT, arg('dir', 'drafts/v29/hero')), OUT = path.join(ROOT, arg('out', 'drafts/v29/out'));
+const MOB = process.argv.includes('--mobile');
+const CW = MOB ? 390 : 1920, CH = MOB ? 844 : 1080, Z = MOB ? 3 : 1;  // 캔버스 크기 · 확대 배율
 const V = arg('v', 'a'), INTRO = +arg('intro', 1), NAME = arg('name', `still-${V}`);
 const FPS = +arg('fps', 0), DUR = +arg('dur', 0);
 const TS = FPS ? Array.from({ length: Math.round(FPS * DUR) }, (_, i) => +(i / FPS).toFixed(5)) : arg('t', '8').split(',').map(Number);
-const W = 1920, HH = 1080;
+const W = CW * Z, HH = CH * Z;
 const SRC = {
   greta: { url: 'https://www.sandollcloud.com/font/18013/SD-Greta-Sans', vars: { '--greta-th': '03 Th', '--greta-lt': '07 Lt', '--greta-rg': '09 Rg', '--greta-md': '11 Md' } },
   gd: { url: 'https://www.sandollcloud.com/font/15556.html', vars: { '--gd-ul': '02 Ul', '--gd-lt': '03 Lt', '--gd-rg': '04 Rg', '--gd-bd': '05 Bd' } },
@@ -24,7 +27,7 @@ const page0 = fs.readFileSync(path.join(H, 'hero.html'), 'utf8');
 const css = page0.match(/<style id="hero-css">([\s\S]*?)<\/style>/)[1];
 const js = page0.match(/<script id="hero-js">([\s\S]*?)<\/script>/)[1];
 let body = page0.match(/<!--HERO-->([\s\S]*?)<!--\/HERO-->/)[1]
-  .replace('data-v="a"', `data-v="${V}"`)
+  .replace('data-v="a"', `data-v="${V}"`).replace('class="hero" id="hero"', MOB ? 'class="hero m" id="hero"' : 'class="hero" id="hero"')
   .replace(/data-g="H:/g, `data-g="${ROLE.H}:`).replace(/data-g="N:/g, `data-g="${ROLE.N}:`);
 const cache = {};
 body = body.replace(/(src|poster)="([^"]+\.(jpg|svg|webm|png))"/g, (_, a, f, ext) => {
@@ -33,15 +36,15 @@ body = body.replace(/(src|poster)="([^"]+\.(jpg|svg|webm|png))"/g, (_, a, f, ext
 const LOCAL_FACES = `@font-face{font-family:'Grandiflora One';src:url(data:font/ttf;base64,${b64(path.join(ROOT, 'drafts/fonts/GrandifloraOne-Regular.ttf'))}) format('truetype')}`;
 
 async function inject(page) {
-  await page.evaluate(({ LOCAL_FACES, css, body }) => {
+  await page.evaluate(({ LOCAL_FACES, css, body, CW, CH, Z }) => {
     const st = document.createElement('style'); st.textContent = LOCAL_FACES; document.head.appendChild(st);
     const host = document.createElement('div'); host.id = '__h29';
-    host.style.cssText = `all:initial;position:fixed;left:0;top:0;width:1920px;height:1080px;z-index:2147483647;display:block;pointer-events:none;`;
+    host.style.cssText = `all:initial;position:fixed;left:0;top:0;width:${CW}px;height:${CH}px;zoom:${Z};z-index:2147483647;display:block;pointer-events:none;`;
     const sh = host.attachShadow({ mode: 'open' });
     sh.innerHTML = `<style>:host{all:initial} ${css}</style><style id="pass"></style>${body}`;
     document.documentElement.appendChild(host);
     window.scrollTo(0, 0);
-  }, { LOCAL_FACES, css, body });
+  }, { LOCAL_FACES, css, body, CW, CH, Z });
   await page.evaluate(js + `;window.__hero=initHero(document.getElementById('__h29').shadowRoot,{mode:'render',intro:${INTRO}});`);
   await page.evaluate(async () => {
     const sh = document.getElementById('__h29').shadowRoot;
@@ -86,7 +89,7 @@ async function typeBatch(page, src, text) {
   fs.mkdirSync(OUT, { recursive: true });
   const LAY = fs.mkdtempSync(path.join(require('os').tmpdir(), 'v29-'));
   const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
-  const ctx = await b.newContext({ viewport: { width: W, height: HH }, deviceScaleFactor: 1, bypassCSP: true, locale: 'ko-KR' });
+  const ctx = await b.newContext({ viewport: { width: Math.max(W, 1280), height: Math.max(HH, 1080) }, deviceScaleFactor: 1, bypassCSP: true, locale: 'ko-KR' });
   const page = await ctx.newPage();
   const srcs = [...new Set([ROLE.H, ROLE.N, 'greta'])].filter((s) => s !== 'local');
   // 묶음별 글자 모으기

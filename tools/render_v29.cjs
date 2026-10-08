@@ -9,7 +9,7 @@ const fs = require('fs'), path = require('path'), { execFileSync } = require('ch
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 ? process.argv[i + 1] : d; };
 const ROOT = path.resolve(__dirname, '..'), H = path.resolve(ROOT, arg('dir', 'drafts/v29/hero')), OUT = path.resolve(ROOT, arg('out', 'drafts/v29/out'));
 const MOB = process.argv.includes('--mobile');
-const CW = MOB ? 390 : 1920, CH = +arg('ch', MOB ? 844 : 1080), Z = MOB ? 3 : 1;  // 캔버스 크기 · 확대 배율
+const CW = MOB ? 390 : 1920, CH = +arg('ch', MOB ? 844 : 1080), Z = +arg('z', MOB ? 3 : 1);  // 캔버스 크기 · 확대 배율
 const V = arg('v', 'a'), INTRO = +arg('intro', 1), NAME = arg('name', `still-${V}`);
 const FPS = +arg('fps', 0), DUR = +arg('dur', 0);
 const TS = FPS ? Array.from({ length: Math.round(FPS * DUR) }, (_, i) => +(i / FPS).toFixed(5)) : arg('t', '8').split(',').map(Number);
@@ -96,7 +96,7 @@ async function typeBatch(page, src, text) {
   await page.goto('about:blank'); await inject(page);
   const groups = await page.evaluate(() => {
     const o = {};
-    for (const el of document.getElementById('__h29').shadowRoot.querySelectorAll('[data-g]')) { const g = el.dataset.g; o[g] = (o[g] || '') + el.textContent; }
+    for (const el of document.getElementById('__h29').shadowRoot.querySelectorAll('[data-g]')) { const g = el.dataset.g; o[g] = (o[g] || '') + el.textContent + (el.dataset.x || ''); }  // data-x: 타이핑 중간 글자 등
     return o;
   });
   const passes = {};

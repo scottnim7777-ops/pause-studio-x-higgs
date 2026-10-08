@@ -87,7 +87,7 @@ async function page(browser, vp, opts = {}) {
     const vis = await p.evaluate(() => Object.fromEntries([...document.querySelectorAll('[data-detail]')].map((d) => [d.dataset.detail, !d.hidden])));
     const okDetails = f.show.every((k) => vis[k]) && f.hide.every((k) => !vis[k]);
     if (vis.film) { await p.check('input[name="videoUse"][value="SNS 광고"]', { force: true }); await p.check('input[name="videoLength"][value="15초 이하"]', { force: true }); }
-    if (vis.web) await p.check('input[name="product"][value="ONLINE STORE · 주문과 결제"]', { force: true });
+    if (vis.web) await p.check('input[name="product"][value="BUSINESS · 비즈니스형"]', { force: true });
     if (vis.ax) await p.fill('textarea[name="automation"]', '견적서 자동화');
     await p.fill('textarea[name="message"]', '테스트 문의');
     await p.click('[data-cs-next]');
@@ -121,7 +121,7 @@ async function page(browser, vp, opts = {}) {
       product: document.querySelector('input[name="product"]:checked')?.value,
       step: [...document.querySelectorAll('[data-step]')].find((s) => !s.hidden)?.dataset.step,
     }));
-    check('요금(ONLINE STORE) 버튼 → 종류·상품 미리 선택, 2단계부터', st.type === '웹사이트 제작' && st.product === 'ONLINE STORE · 주문과 결제' && st.step === '1', JSON.stringify(st));
+    check('요금(BUSINESS) 버튼 → 종류·플랜 미리 선택, 2단계부터', st.type === '웹사이트 제작' && st.product === 'BUSINESS · 비즈니스형' && st.step === '1', JSON.stringify(st));
     await p.screenshot({ path: path.join(OUT, 'consult-mobile.png') });
     await p.keyboard.press('Escape');
     const closed = await p.evaluate(() => !document.querySelector('#consult').open);
@@ -130,6 +130,27 @@ async function page(browser, vp, opts = {}) {
     await p.click('.plan-film [data-consult]');
     const t2 = await p.evaluate(() => document.querySelector('input[name="consultType"]:checked')?.value);
     check('AI 영상광고 요금 버튼 → AI 영상광고 선택', t2 === 'AI 영상광고', t2);
+    await ctx.close();
+  }
+
+  // 3-1) 요금·서비스 = 견적서 플랜(2026.10.07), 무료 혜택, 예전 상품명·식당 문구 없음
+  {
+    const { ctx, p } = await page(browser, { width: 1440, height: 900 });
+    await p.goto(`${BASE}/#pricing`, { waitUntil: 'networkidle' });
+    const st = await p.evaluate(() => ({
+      plans: [...document.querySelectorAll('.plan')].map((el) => `${el.querySelector('.plan-name').textContent} ${el.querySelector('.price').textContent}`),
+      featured: document.querySelector('.plan.featured .plan-name')?.textContent,
+      adds: [...document.querySelectorAll('.plan.featured ul.adds li')].map((li) => li.textContent),
+      free: [...document.querySelectorAll('.free-band b')].map((b) => b.textContent),
+      svc: [...document.querySelectorAll('.svc-name')].map((h) => h.textContent),
+      restaurant: /식당|메뉴판|주방/.test(document.querySelector('#pricing').textContent + document.querySelector('#services').textContent + document.querySelector('#faq').textContent),
+      old: /ONLINE STORE|1,990|4,490/.test(document.body.textContent),
+    }));
+    check('요금: 견적서 플랜 STARTER NZD 1,490 · BUSINESS NZD 2,900 · ENTERPRISE NZD 5,500+', st.plans.join('|') === 'STARTER NZD 1,490|BUSINESS NZD 2,900|ENTERPRISE NZD 5,500+', st.plans.join(' | '));
+    check('요금: BUSINESS만의 기능을 위에 강조(4개)', st.featured === 'BUSINESS' && st.adds.length === 4 && st.adds[0] === '최대 10페이지 구성', st.adds.join(', '));
+    check('요금: 모든 플랜 무료 혜택 3가지', st.free.join('|') === '웹사이트 유지보수 무료|웹사이트 관리비 무료|웹 호스팅 무료', st.free.join(', '));
+    check('서비스: STARTER · BUSINESS · ENTERPRISE · AI 영상광고', st.svc.join('|') === 'STARTER|BUSINESS|ENTERPRISE|AI VIDEO AD', st.svc.join(', '));
+    check('요금·서비스·FAQ에 식당 위주 문구 없음, 예전 상품명·가격 없음', !st.restaurant && !st.old);
     await ctx.close();
   }
 
@@ -178,6 +199,8 @@ async function page(browser, vp, opts = {}) {
     const out = await p.textContent('[data-o="other"]');
     const setupVal = await p.inputValue('[data-c="setup"]');
     check('계산기: $3,000 + $150×12×5 = $12,000', out === '$12,000' && setupVal === '3,000', `${out}, ${setupVal}`);
+    const pauseOut = await p.textContent('[data-o="pause"]');
+    check('계산기: PAUSE 쪽 = STARTER 제작비 $1,490', pauseOut === '$1,490', pauseOut);
     await ctx.close();
   }
 
@@ -221,7 +244,7 @@ async function page(browser, vp, opts = {}) {
     const p = await ctx.newPage();
     await p.goto(BASE, { waitUntil: 'networkidle' });
     const st = await p.evaluate(() => ({ h1: document.querySelector('h1').textContent, op: getComputedStyle(document.querySelector('.hero-sub')).opacity, faq: document.querySelectorAll('.faq-list details').length }));
-    check('JS 없이도 제목·내용 표시', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 12, JSON.stringify(st));
+    check('JS 없이도 제목·내용 표시', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 14, JSON.stringify(st));
     await ctx.close();
   }
 

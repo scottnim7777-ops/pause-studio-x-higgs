@@ -17,7 +17,7 @@ npm run check        # 타입 검사 + 빌드
 ## 폴더
 | 위치 | 내용 |
 |---|---|
-| `src/content/ko.ts` | **모든 화면 문구**(가격·FAQ·상담 질문·연락처). 문구 수정은 여기서만 |
+| `src/content/ko.ts` | **모든 화면 문구**(가격·FAQ·상담 질문·연락처). 문구 수정은 여기서만. 플랜(이름·가격·기능)은 맨 위 `plans` 한 곳 = 견적서(`../docs/QUOTATION_2026-10-07.md`) |
 | `src/render/page.ts` | 문구 → 섹션 HTML(빌드 때 실행) |
 | `src/styles/main.css` | 디자인 토큰·전 섹션 스타일(규칙: `../docs/DESIGN_SYSTEM.md`) |
 | `src/ts/hero.ts` | 히어로 인트로(벽이 다가오며 선명해짐 + 한글 타이핑)·작업물 벽 |
@@ -27,7 +27,7 @@ npm run check        # 타입 검사 + 빌드
 | `server.ts` | 정적 파일 + `/api/contact` + `/api/health` |
 | `scripts/render.ts` | `index.template.html` → `index.html` |
 | `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4) + `src/content/media.json`(실제 크기) |
-| `tests/smoke.cjs` | 브라우저 점검 79개(화면 폭 7종, 상담 4종 흐름, 크게 보기, 메뉴, 계산기, 동작 줄이기, JS 없음) |
+| `tests/smoke.cjs` | 브라우저 점검 85개(화면 폭 7종, 상담 4종 흐름, 요금 = 견적서 플랜, 크게 보기, 메뉴, 계산기, 동작 줄이기, JS 없음) |
 | `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
 | `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2) + `src/styles/fonts.css` |
 | `Dockerfile` | 배포용(Cloud Run 등) — `node dist/server.cjs`, 포트는 `PORT`(기본 8080) |
@@ -63,7 +63,7 @@ NODE_PATH=/opt/node22/lib/node_modules node tests/smoke.cjs http://localhost:310
 ```
 NODE_PATH=/opt/node22/lib/node_modules node tests/a11y.cjs http://localhost:3100
 ```
-결과(2026-10-08): 79/79 통과, 접근성 위반 0 — — 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택, 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
+결과(2026-10-08): 85/85 통과, 접근성 위반 0 — 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금·서비스 = 견적서 플랜(STARTER · BUSINESS · ENTERPRISE)·무료 혜택·식당 문구 없음, 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
 
 ## 접근성·성능 메모
 - 키보드로 모든 기능 사용 가능, 창은 Esc로 닫고 원래 버튼으로 초점이 돌아갑니다. 타이핑 제목은 화면 읽기 프로그램에 전체 문장으로 읽힙니다.

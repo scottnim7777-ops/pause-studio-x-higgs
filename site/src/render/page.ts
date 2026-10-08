@@ -30,6 +30,17 @@ const img = (base: string, alt: string, sizes: string, cls = '', lazy = true) =>
 const dim = (base: string, tag: string): Dim => M[base]?.[tag] ?? [1600, 900];
 const base = (p: string) => p.replace(/\.jpg$/, '');
 
+/** 'NZD 1,490' → 통화 표기만 작게 */
+const priceHtml = (s: string) => {
+  const m = /^([A-Z]{3}) (.+)$/.exec(s);
+  return m ? `<span class="cur">${m[1]}</span> ${esc(m[2])}` : esc(s);
+};
+/** 서비스·요금 버튼 → 상담 창에서 종류·플랜 미리 선택(ko.ts consultPreset) */
+const preset = (key: string) => {
+  const p = C.consultPreset[key];
+  return p ? ` data-type="${esc(p.type)}"${p.product ? ` data-product="${esc(p.product)}"` : ''}` : '';
+};
+
 const consultBtn = (label: string, cls = 'btn btn-solid', type = '') =>
   `<a class="${cls}" href="#contact" data-consult${type ? ` data-type="${esc(type)}"` : ''}><span class="lb">${esc(label)}</span>${arrow()}</a>`;
 const kakaoBtn = (cls = 'btn btn-line') =>
@@ -151,23 +162,26 @@ function who() {
 
 function services() {
   const s = C.services;
-  const tabs = s.items.map((it) => `<a href="#svc-${it.key}"><span class="idx">${it.index}</span><span class="n">${esc(it.name)}</span><span class="p">${esc(it.ko)} · ${esc(it.price)}${esc(it.priceNote || '')}</span></a>`).join('');
-  const typeOf: Record<string, string> = { website: '웹사이트 제작', store: '웹사이트 제작', enterprise: 'AI 업무 자동화 · 맞춤 개발', film: 'AI 영상광고' };
+  const tabs = s.items.map((it) => `<a href="#svc-${it.key}"><span class="idx">${it.index}</span><span class="n">${esc(it.name)}</span><span class="p">${esc(it.ko)} · ${esc(it.price)}</span></a>`).join('');
   const blocks = s.items.map((it) => {
     const normal = it.groups.filter((g) => !g.tone).length;
     const many = normal === 3 || normal >= 5;
     const groups = it.groups.map((g) => {
       if (g.tone === 'base') return `<div class="grp base"><h4>${esc(g.title)}</h4><p>${g.items.map(esc).join(' · ')}</p></div>`;
       const key = g.tone === 'key';
-      const wide = key || (!many && g.items.length > 12);
+      const solo = !key && normal === 1; // 일반 묶음이 하나뿐이면 한 줄을 다 쓰고 2단으로
+      const wide = key || solo || (!many && g.items.length > 12);
       const off = /포함되지|별도/.test(g.title);
-      return `<div class="grp${key ? ' key' : ''}${wide ? ' wide' : ''}${off ? ' off' : ''}"><h4>${key ? '<span class="plus" aria-hidden="true">+</span>' : ''}${esc(g.title)}</h4><ul>${g.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+      return `<div class="grp${key ? ' key' : ''}${solo ? ' solo' : ''}${wide ? ' wide' : ''}${off ? ' off' : ''}"><h4>${key ? '<span class="plus" aria-hidden="true">+</span>' : ''}${esc(g.title)}</h4><ul>${g.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
     }).join('');
     const notes = it.footnotes?.length ? `<ul class="svc-notes">${it.footnotes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : '';
+    const about = it.target
+      ? `<p class="svc-target rv" style="--d:.08s"><span class="lab">${esc(C.pricing.targetLabel)}</span>${esc(it.target)}</p>`
+      : `<p class="svc-purpose rv" style="--d:.08s">${esc(it.purpose || '')}</p>`;
     return `<article class="svc" id="svc-${it.key}" aria-labelledby="svc-${it.key}-name">
-    <header class="svc-hd rv"><span class="idx">${it.index}</span><h3 class="svc-name" id="svc-${it.key}-name">${esc(it.name)}</h3><p class="svc-ko">${esc(it.ko)}</p><p class="svc-price">${esc(it.price)}${it.priceNote ? `<small>${esc(it.priceNote)}</small>` : ''}</p>
-      <a class="btn-text" href="#contact" data-consult data-type="${esc(typeOf[it.key])}"${it.key === 'store' ? ' data-product="ONLINE STORE · 주문과 결제"' : it.key === 'website' ? ' data-product="WEBSITE · 소개와 문의"' : ''}>이 서비스로 상담하기${arrow()}</a></header>
-    <div class="svc-body"><p class="svc-headline rv">${esc(it.headline)}</p><p class="svc-purpose rv" style="--d:.08s">${esc(it.purpose)}</p>
+    <header class="svc-hd rv"><span class="idx">${it.index}</span><h3 class="svc-name" id="svc-${it.key}-name">${esc(it.name)}</h3><p class="svc-ko">${esc(it.ko)}</p><p class="svc-price">${priceHtml(it.price)}${it.priceNote ? `<small>${esc(it.priceNote)}</small>` : ''}</p>
+      <a class="btn-text" href="#contact" data-consult${preset(it.key)}>이 서비스로 상담하기${arrow()}</a></header>
+    <div class="svc-body"><p class="svc-headline rv">${esc(it.headline)}</p>${about}
       <div class="svc-groups${many ? ' cols-3' : ''} rv" style="--d:.12s">${groups}</div>${notes}</div>
   </article>`;
   }).join('');
@@ -228,6 +242,7 @@ function compare() {
 function fee() {
   const f = C.fee;
   const c = f.calc;
+  const setup = `$${c.pauseSetup.toLocaleString('en-US')}`;
   return `<section class="sec sec-dark fee" id="fee" aria-labelledby="fee-title">
   <div class="wrap">
     <div class="fee-top">
@@ -244,7 +259,7 @@ function fee() {
       <div class="grp wide off rv" style="--d:.1s"><h4>${esc(f.extraTitle)}</h4><ul>${f.extra.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
     </div>
     <div class="fee-notes"><p>${esc(f.difference)}</p><p>${esc(f.scope)}</p></div>
-    <div class="calc rv" data-calc>
+    <div class="calc rv" data-calc data-pause-setup="${c.pauseSetup}">
       <div><h3 class="h3">${esc(c.title)}</h3><p class="calc-lead">${esc(c.lead)}</p></div>
       <div class="calc-form">
         <div class="calc-cols">
@@ -253,12 +268,12 @@ function fee() {
             <label>${esc(c.monthlyLabel)}<span class="money"><span>$</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-c="monthly" aria-label="비교할 견적 ${esc(c.monthlyLabel)}"></span></label>
           </fieldset>
           <div class="calc-pause"><p class="lbl">${esc(c.pauseLabel)}</p>
-            <label>${esc(c.setupLabel)}<span class="fixed">$1,990</span></label>
+            <label>${esc(c.setupLabel)}<span class="fixed">${setup}</span></label>
             <label>${esc(c.monthlyLabel)}<span class="fixed">$0</span></label>
           </div>
         </div>
         <label class="calc-years"><span>${esc(c.yearsLabel)}</span><input type="range" min="1" max="10" step="1" value="5" data-c="years"><output data-o="years">5${esc(c.unit)}</output></label>
-        <div class="calc-out" aria-live="polite"><p>${esc(c.otherLabel)} ${esc(c.totalLabel)}<strong data-o="other">—</strong></p><p>${esc(c.pauseLabel)} ${esc(c.totalLabel)}<strong data-o="pause">$1,990</strong></p></div>
+        <div class="calc-out" aria-live="polite"><p>${esc(c.otherLabel)} ${esc(c.totalLabel)}<strong data-o="other">—</strong></p><p>${esc(c.pauseLabel)} ${esc(c.totalLabel)}<strong data-o="pause">${setup}</strong></p></div>
         <p class="calc-note">${esc(c.product)} · ${esc(c.note)}</p>
       </div>
     </div>
@@ -281,28 +296,26 @@ function processSec() {
 
 function pricingSec() {
   const p = C.pricing;
-  const typeFor: Record<string, [string, string]> = { website: ['웹사이트 제작', 'WEBSITE · 소개와 문의'], store: ['웹사이트 제작', 'ONLINE STORE · 주문과 결제'], enterprise: ['AI 업무 자동화 · 맞춤 개발', ''] };
   const plans = p.plans.map((pl, i) => `<article class="plan${pl.featured ? ' featured' : ''} rv" style="--d:${i * 0.08}s" aria-labelledby="plan-${pl.key}">
       ${pl.featured ? `<span class="badge">${esc(p.featuredBadge)}</span>` : ''}<h3 class="plan-name" id="plan-${pl.key}">${esc(pl.name)}</h3><p class="type">${esc(pl.type)}</p>
-      <p class="price">${esc(pl.price)}${pl.priceNote ? `<small>${esc(pl.priceNote)}</small>` : ''}</p>
+      <p class="price">${priceHtml(pl.price)}</p>
+      <p class="pl-target"><span>${esc(p.targetLabel)}</span>${esc(pl.target)}</p>
       <div class="pl-body">
         <p class="pl-lab${pl.base ? ' add' : ''}">${esc(pl.addsTitle)}</p>
         <ul class="${pl.base ? 'adds' : 'std'}">${pl.adds.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-        ${pl.scope ? `<p class="pl-scope">${esc(pl.scope)}</p>` : ''}
         ${pl.base ? `<div class="pl-base"><p class="pl-lab">${esc(pl.baseTitle || '')}</p><p>${pl.base.map(esc).join(' · ')}</p></div>` : ''}
       </div>
-      <a class="btn btn-solid" href="#contact" data-consult data-type="${esc(typeFor[pl.key][0])}"${typeFor[pl.key][1] ? ` data-product="${esc(typeFor[pl.key][1])}"` : ''}><span class="lb">${esc(p.planCta)}</span>${arrow()}</a>
+      <a class="btn btn-solid" href="#contact" data-consult${preset(pl.key)}><span class="lb">${esc(p.planCta)}</span>${arrow()}</a>
     </article>`).join('');
-  const terms = p.terms.map((t) => `<li><h4>${esc(t.title)}</h4><p>${esc(t.desc)}</p></li>`).join('');
-  const rows = p.restaurant.rows.map((r) => `<tr><th scope="row">${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('');
+  const free = p.free.map((x, i) => `<li><span class="idx">${String(i + 1).padStart(2, '0')}</span><b>${esc(x)}</b></li>`).join('');
+  const notes = p.notes.map((n) => `<li>${esc(n)}</li>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
     <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)} · ${esc(p.title)}</p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner)}</h2><p class="lead rv" style="--d:.12s">${esc(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${esc(p.currency)}</p></header>
     <div class="plans">${plans}</div>
-    <div class="plan-film rv"><h3 class="plan-name">${esc(p.filmPlan.name)}</h3><p class="d">${esc(p.filmPlan.desc)}</p><div><p class="price">${esc(p.filmPlan.price)}</p><a class="btn-text" href="#contact" data-consult data-type="AI 영상광고">${esc(p.planCta)}${arrow()}</a></div></div>
-    <p class="currency-note">${esc(p.currencyNote)}</p>
-    <ul class="terms">${terms}</ul>
-    <div class="restaurant"><div><h3 class="h3">${esc(p.restaurant.title)}</h3><p class="d">${esc(p.restaurant.desc)}</p></div><table class="rtable"><caption class="sr">식당 웹사이트 기능별 상품</caption><tbody>${rows}</tbody></table></div>
+    <div class="free-band rv"><h3 class="fb-title">${esc(p.freeTitle[0])} <br>${esc(p.freeTitle[1])}</h3><ul>${free}</ul></div>
+    <div class="plan-film rv"><h3 class="plan-name">${esc(p.filmPlan.name)}</h3><p class="d">${esc(p.filmPlan.desc)}</p><div><p class="price">${esc(p.filmPlan.price)}</p><a class="btn-text" href="#contact" data-consult${preset('film')}>${esc(p.filmPlan.cta)}${arrow()}</a></div></div>
+    <div class="pnotes rv"><h3 class="pnotes-title">${esc(p.notesTitle)}</h3><ol>${notes}</ol></div>
   </div>
 </section>`;
 }
@@ -428,7 +441,7 @@ export function renderHead() {
     '@context': 'https://schema.org', '@type': 'ProfessionalService', name: 'PAUSE Studio', alternateName: '퍼즈 스튜디오',
     description: m.description, url: m.canonical, image: m.ogImage, email: C.contact.email, telephone: '+64-20-488-7198',
     address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
-    areaServed: ['NZ', 'US'], serviceType: ['웹사이트 제작', '온라인 스토어 제작', 'AI 업무 자동화', 'AI 영상광고'],
+    areaServed: ['NZ', 'US'], serviceType: ['웹사이트 제작', '비즈니스 웹사이트(예약·주문·결제) 제작', 'AI 업무 자동화', 'AI 영상광고'],
   };
   return `<title>${esc(m.title)}</title>
 <meta name="description" content="${esc(m.description)}">

@@ -204,7 +204,7 @@ export function initCalc() {
   const unit = (outYears.textContent || '').replace(/[\d\s]/g, '') || '년';
   const num = (s: string) => Number(s.replace(/[^\d]/g, '')) || 0;
   const money = (n: number) => `$${n.toLocaleString('en-US')}`;
-  const PAUSE_SETUP = 1990;
+  const PAUSE_SETUP = Number(root.dataset.pauseSetup) || 0; // 문구 파일(fee.calc.pauseSetup) 값
   const calc = () => {
     const y = Number(years.value);
     const a = num(setup.value), m = num(monthly.value);

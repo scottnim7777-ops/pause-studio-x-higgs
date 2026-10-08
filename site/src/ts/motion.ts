@@ -29,6 +29,11 @@ export const motion = {
 
 reduceMq.addEventListener('change', () => subs.forEach((f) => f(paused)));
 
+/** CSS용 표시: 자동 움직임을 멈춰야 하면 html.still (커서 깜빡임·큰 글자 흐름 등) */
+const syncStill = () => document.documentElement.classList.toggle('still', !motion.allowed);
+syncStill();
+motion.subscribe(syncStill);
+
 /** 데이터 절약 모드(모바일 등)에서는 영상을 미리 받지 않는다 */
 export const saveData = (): boolean => {
   const c = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;

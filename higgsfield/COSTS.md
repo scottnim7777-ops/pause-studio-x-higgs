@@ -66,3 +66,10 @@
 ## 28차 (2026-10-07) — 시네마틱 공간 정지 화면 (보류된 방향)
 - soul/cinema 1080p 12장 × $0.006 = **$0.072** (견적 API 기준). 공간 컷 4종 + 세로 1종(재촬영 1) + 섹션용 4종(재촬영 2).
 - 사용자가 다음 메시지에서 3차 방향(가로 작업물 벽)으로 돌아가기로 해서 보류. 결과물·합성 시안은 `drafts/v28/` 보관.
+
+## 30차 (2026-10-08) — AI 광고영상 샘플 3편 + BEFORE 화면 사진
+- 스틸 soul/cinema 1080p 10장 × 약 $0.006 = **약 $0.06**: 여행(BEFORE·호수·선착장), 꿀(BEFORE·BEFORE 재촬영·흘러내림·병·병 재촬영), BEFORE/AFTER 템플릿 사진 2장(여행·케이크). 재촬영 2건은 결과가 어색해서(BEFORE가 피클처럼 보임, 병 라벨) 새 이름으로 다시 만든 것(같은 이름 재제출 아님).
+- 영상 DoP standard(`higgsfield-ai/dop/standard`, 1280×720 · 5.37초) 6개 × $0.563 = **$3.378**: ONDO(김·라떼 붓기), SOUTHERN ROUTE(호수·선착장), DAON(꿀 흘러내림·병).
+- 이번 회차 합계 **약 $3.44**, REST 지갑 남은 금액 약 $0.7(사용자 충전 전까지 새 생성 없음). Seedance는 견적 API가 가격을 돌려주지 않아 DoP를 씀.
+- 작업 기록 `higgsfield/jobs/v30-*.json`, 입력 `higgsfield/inputs/v30/`, 결과 `higgsfield/raw/v30-*`. 편집은 `tools/ad_edit.py`(사이트 파일 `site/public/media/film/{ondo,route,daon}*`).
+

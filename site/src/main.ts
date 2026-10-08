@@ -1,5 +1,8 @@
 import { initHero } from './ts/hero';
-import { initAutoVideos, initCalc, initEmail, initHeader, initLightbox, initMenu, initReveal, initWorkHover } from './ts/ui';
+import {
+  initAccordions, initAutoVideos, initCalc, initCompare, initEmail, initFaqTabs, initFilmSamples, initHeader, initLightbox,
+  initMenu, initMotionToggles, initPhone, initReveal, initScrub, initWorkCursor, initWorkLoops,
+} from './ts/ui';
 import { initConsult } from './ts/consult';
 
 declare global { interface Window { __ps?: boolean } }
@@ -15,8 +18,16 @@ safe('consult', initConsult);
 safe('lightbox', initLightbox);
 safe('calc', initCalc);
 safe('email', initEmail);
-safe('work', initWorkHover);
+safe('phone', initPhone);
+safe('motion-toggle', initMotionToggles);
+safe('work', initWorkLoops);
+safe('work-cursor', initWorkCursor);
+safe('compare', initCompare);
+safe('film', initFilmSamples);
 safe('videos', initAutoVideos);
+safe('accordion', initAccordions);
+safe('faq', initFaqTabs);
+safe('scrub', initScrub);
 safe('reveal', initReveal);
 safe('hero', () => initHero(() => { /* 인트로가 끝나면 html.intro-done */ }));
 // 히어로에서 오류가 나도 내용이 가려진 채로 남지 않게

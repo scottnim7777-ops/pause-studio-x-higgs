@@ -21,11 +21,14 @@ LOGO = ROOT / 'content/assets/logo/new'
 MANIFEST = SITE / 'src/content/media.json'
 
 STILLS = {  # 사이트 이름: 원본 파일
-    'ref03': 'ref03_Cv2GPxw.png', 'ref05': 'ref05_4YPzZUq.png', 'ref06': 'ref06_861Pj3J.png', 'ref08': 'ref08_YUCUmWL.png',
+    'ref05': 'ref05_4YPzZUq.png', 'ref06': 'ref06_861Pj3J.png', 'ref08': 'ref08_YUCUmWL.png',
     'ref09': 'ref09_fzysfi8.png', 'ref10': 'ref10_D2c9apB.jpeg', 'ref11': 'ref11_Ezo1VXP.png', 'ref12': 'ref12_oFU3GVl.png',
     'ref13': 'ref13_wOWQVnI.png', 'ref14': 'ref14_4BR1I0w.png', 'ref15': 'ref15_EUz1qvV.png', 'chillenq': 'chillenq_desktop_hero.webp',
 }
 VIDEOS = {'ref01': 'ref01_KIKzZuF.mp4', 'ref02': 'ref02_PVuptes.mp4', 'ref04': 'ref04_MnSmLdO.gif', 'ref07': 'ref07_70IgQpR.mp4'}
+# 사용자가 2026-10-08에 준 화면 녹화(소리 제거·고화질 재인코딩 보관): 동대문(Ref.03 사진 대신), 컨템퍼러리 타투 스튜디오(새 레퍼런스)
+# 처음과 끝 장면이 달라 반복할 때 튀므로, 끝 1초를 처음 장면으로 겹쳐(크로스페이드) 이음새 없이 반복
+LOOPS = {'ref03': 'ref03_ddm_hero_2026-10-08.mp4', 'unframe': 'unframe_hero_2026-10-08.mp4'}
 
 manifest = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
 
@@ -78,6 +81,20 @@ def video_mp4(src: Path, dst: Path, width=1280, crf=27):
     print(f'  {dst.name}: {dst.stat().st_size / 1e6:.2f} MB')
 
 
+def video_loop(src: Path, dst: Path, width=1280, crf=26, fade=1.0):
+    """끝 fade초를 처음 장면으로 겹쳐 이음새 없는 반복 영상(길이 = 원본 - fade)"""
+    dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', str(src)],
+                               capture_output=True, text=True, check=True).stdout.strip())
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    sc = f"scale='min({width},iw)':-2:flags=lanczos,format=yuv420p"
+    fc = (f'[0:v]split[a][b];[a]trim=start={fade}:end={dur},setpts=PTS-STARTPTS[m];'
+          f'[b]trim=start=0:end={fade},setpts=PTS-STARTPTS[h];'
+          f'[m][h]xfade=transition=fade:duration={fade}:offset={dur - 2 * fade:.3f},{sc}[v]')
+    ffmpeg('-i', str(src), '-filter_complex', fc, '-map', '[v]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', str(crf),
+           '-profile:v', 'high', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', str(dst))
+    print(f'  {dst.name}: {dst.stat().st_size / 1e6:.2f} MB (반복 이음새 {fade}s)')
+
+
 def first_frame(src: Path, t=0.0) -> Image.Image:
     tmp = SITE / '.cache' / (src.stem + '.png')
     tmp.parent.mkdir(exist_ok=True)
@@ -94,6 +111,9 @@ def work():
     for name, f in VIDEOS.items():
         video_mp4(ORIG / f, out / f'{name}.mp4')
         sizes(name, first_frame(ORIG / f), out)
+    for name, f in LOOPS.items():
+        video_loop(ORIG / f, out / f'{name}.mp4')
+        sizes(name, first_frame(ORIG / f, t=1.0), out)  # 반복 영상의 첫 장면 = 원본 1초 지점(원본 해상도)
 
 
 def film():
@@ -122,6 +142,14 @@ def film():
         print('  soom.mp4 없음 — 사진만 사용')
 
 
+def compare():
+    """BEFORE/AFTER 비교의 '흔한 템플릿' 예시 화면에 쓰는 평범한 스톡 느낌 사진(생성, higgsfield/raw/v30-mock-*)"""
+    print('비교용 템플릿 사진')
+    out = PUB / 'media/compare'
+    for name, lbl in {'mock-travel': 'v30-mock-travel', 'mock-cake': 'v30-mock-cake'}.items():
+        sizes(name, rgb(Image.open(next((ROOT / 'higgsfield/raw' / lbl).glob('*.png')))), out)
+
+
 def brand():
     print('로고·파비콘·QR')
     (PUB / 'brand').mkdir(parents=True, exist_ok=True)
@@ -146,7 +174,13 @@ def og(src=ROOT / 'docs/preview/pc-1440-first-screen.jpg'):
 
 
 if __name__ == '__main__':
-    what = sys.argv[1:] or ['work', 'film', 'brand', 'og']
+    what = sys.argv[1:] or ['work', 'compare', 'film', 'brand', 'og']
+    if what == ['loops']:  # 새 반복 영상만
+        out = PUB / 'media/work'
+        for name, f in LOOPS.items():
+            video_loop(ORIG / f, out / f'{name}.mp4')
+            sizes(name, first_frame(ORIG / f, t=1.0), out)  # 반복 영상의 첫 장면 = 원본 1초 지점(원본 해상도)
+        what = []
     for w in what:
         if w.startswith('og='):  # og=<다른 히어로 화면 PNG>
             og(Path(w[3:]).resolve())

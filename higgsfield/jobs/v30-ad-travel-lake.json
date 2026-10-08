@@ -1,0 +1,47 @@
+{
+  "label": "v30-ad-travel-lake",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Cinematic aerial photograph from a drone at golden hour: the vivid turquoise glacial Lake Pukaki in New Zealand stretching toward the snow-capped Southern Alps, soft warm low sunlight, thin haze over the water, golden tussock grassland along the shoreline, calm water, natural colours, shot on a full-frame cinema camera with a 35mm lens, no people, no buildings, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "AI 광고영상 샘플(가상 브랜드) 스틸 — soul/cinema 1080p ≈ $0.006",
+  "submitted_at": "2026-10-08T13:20:56.259Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:20:56.927Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:23:47.413Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "99fd4ab8-8849-4e57-aaa5-bd6dbcf03762",
+  "status_url": "https://api.higgsfield.ai/requests/99fd4ab8-8849-4e57-aaa5-bd6dbcf03762/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/99fd4ab8-8849-4e57-aaa5-bd6dbcf03762/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "99fd4ab8-8849-4e57-aaa5-bd6dbcf03762",
+    "status_url": "https://api.higgsfield.ai/requests/99fd4ab8-8849-4e57-aaa5-bd6dbcf03762/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/99fd4ab8-8849-4e57-aaa5-bd6dbcf03762/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6e8848a5-fdf8-4191-9bc0-82d4dcf3f0c9.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:23:47.413Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-ad-travel-lake/v30-ad-travel-lake_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6e8848a5-fdf8-4191-9bc0-82d4dcf3f0c9.png",
+      "bytes": 2567846,
+      "sha256": "16f70d7cd1334e3671589dfb3ed1337ebab1e41afe409724ae634193e5d2c15e"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:23:49.429Z"
+}

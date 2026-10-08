@@ -1,0 +1,47 @@
+{
+  "label": "v30-vid-ondo-pour",
+  "endpoint": "higgsfield-ai/dop/standard",
+  "input": {
+    "prompt": "Static close-up with a very slight slow push-in. The barista's hand pours a steady thin stream of steamed milk from the steel pitcher into the latte cup; the white foam heart gently spreads and grows on the coffee surface. Realistic liquid motion, soft morning window light, calm premium cafe commercial footage.",
+    "image_url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/466a0c0c-6f76-4c75-bf77-b57039037bfc.png"
+  },
+  "note": "AI 광고영상 샘플 컷(가상 브랜드) — DoP standard ≈ $0.563",
+  "submitted_at": "2026-10-08T13:27:55.461Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:27:56.504Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:29:56.215Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-08T13:32:03.351Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "e3738279-4aa5-4766-aed4-3dc88c4dc202",
+  "status_url": "https://api.higgsfield.ai/requests/e3738279-4aa5-4766-aed4-3dc88c4dc202/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/e3738279-4aa5-4766-aed4-3dc88c4dc202/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "e3738279-4aa5-4766-aed4-3dc88c4dc202",
+    "status_url": "https://api.higgsfield.ai/requests/e3738279-4aa5-4766-aed4-3dc88c4dc202/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/e3738279-4aa5-4766-aed4-3dc88c4dc202/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2d111e61-bba1-4e5b-9f2a-edd637ac3266.mp4"
+    }
+  },
+  "checked_at": "2026-10-08T13:32:03.351Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-vid-ondo-pour/v30-vid-ondo-pour_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2d111e61-bba1-4e5b-9f2a-edd637ac3266.mp4",
+      "bytes": 7012217,
+      "sha256": "8eded6e9eaa3f0801233cb9cf98a5e75a3ee62d75943e76e1f08618fa240cab0"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:32:05.310Z"
+}

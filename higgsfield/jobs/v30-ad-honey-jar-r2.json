@@ -1,0 +1,47 @@
+{
+  "label": "v30-ad-honey-jar-r2",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Premium product photograph for a honey brand commercial: a round glass jar filled with clear glowing amber liquid honey, a plain matte gold metal screw lid, and a plain narrow cream paper band label around the middle with no writing, standing on a pale natural stone slab, small sprigs of white manuka flowers beside it, warm morning sunlight from the left shining through the honey so it glows, a long gentle shadow, two glossy drops of honey on the stone, soft warm beige background, shallow depth of field, 85mm lens, no people, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "꿀 샘플 다시(같은 병 모양으로 맞춤) ≈ $0.006",
+  "submitted_at": "2026-10-08T13:27:04.110Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:27:04.846Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:27:27.634Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "d4e4267b-0f04-4545-b071-436a95b7938a",
+  "status_url": "https://api.higgsfield.ai/requests/d4e4267b-0f04-4545-b071-436a95b7938a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/d4e4267b-0f04-4545-b071-436a95b7938a/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "d4e4267b-0f04-4545-b071-436a95b7938a",
+    "status_url": "https://api.higgsfield.ai/requests/d4e4267b-0f04-4545-b071-436a95b7938a/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/d4e4267b-0f04-4545-b071-436a95b7938a/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/f24aa44c-c98e-439e-a459-efca9cb80a1e.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:27:27.633Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-ad-honey-jar-r2/v30-ad-honey-jar-r2_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/f24aa44c-c98e-439e-a459-efca9cb80a1e.png",
+      "bytes": 2142003,
+      "sha256": "57c4fb99fef3be5f6c4104f215845002cb5cdbbb932cc72e5eb50e06992b16f3"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:27:29.429Z"
+}

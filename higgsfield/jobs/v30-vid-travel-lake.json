@@ -1,0 +1,47 @@
+{
+  "label": "v30-vid-travel-lake",
+  "endpoint": "higgsfield-ai/dop/standard",
+  "input": {
+    "prompt": "Slow, smooth aerial drone glide forward over the turquoise glacial lake toward the snow-capped mountain, steady altitude, gentle haze drifting over the water, subtle light shimmer on the lake surface. Realistic cinematic aerial footage, stable, natural colours.",
+    "image_url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/6e8848a5-fdf8-4191-9bc0-82d4dcf3f0c9.png"
+  },
+  "note": "AI 광고영상 샘플 컷(가상 브랜드) — DoP standard ≈ $0.563",
+  "submitted_at": "2026-10-08T13:27:56.742Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:27:57.733Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:32:53.508Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-08T13:37:42.719Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "5cfb638f-a8f1-46d7-a1b9-112e49e7d519",
+  "status_url": "https://api.higgsfield.ai/requests/5cfb638f-a8f1-46d7-a1b9-112e49e7d519/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/5cfb638f-a8f1-46d7-a1b9-112e49e7d519/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "5cfb638f-a8f1-46d7-a1b9-112e49e7d519",
+    "status_url": "https://api.higgsfield.ai/requests/5cfb638f-a8f1-46d7-a1b9-112e49e7d519/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/5cfb638f-a8f1-46d7-a1b9-112e49e7d519/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/a8c57255-35e0-4988-ad51-8c1e81afebf1.mp4"
+    }
+  },
+  "checked_at": "2026-10-08T13:37:42.719Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-vid-travel-lake/v30-vid-travel-lake_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/a8c57255-35e0-4988-ad51-8c1e81afebf1.mp4",
+      "bytes": 11511188,
+      "sha256": "4aea4ec83516c1157c5dfc22e322bcda41e938b904abc255a989a4ace56618c8"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:37:44.928Z"
+}

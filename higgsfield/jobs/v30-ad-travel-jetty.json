@@ -1,0 +1,47 @@
+{
+  "label": "v30-ad-travel-jetty",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Cinematic photograph at sunrise on Lake Wanaka, New Zealand: two travellers seen from behind sitting close together at the end of a weathered wooden jetty, wrapped in one soft cream wool blanket, looking at the misty lake and the mountains, calm mirror-like water, pale gold and blue sky, gentle mist on the water, shallow depth of field, 50mm lens, natural film colours, faces not visible, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "AI 광고영상 샘플(가상 브랜드) 스틸 — soul/cinema 1080p ≈ $0.006",
+  "submitted_at": "2026-10-08T13:20:57.107Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:20:57.837Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:24:57.501Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "0b06980b-e73a-4683-ac57-33c2fac07c2c",
+  "status_url": "https://api.higgsfield.ai/requests/0b06980b-e73a-4683-ac57-33c2fac07c2c/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/0b06980b-e73a-4683-ac57-33c2fac07c2c/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "0b06980b-e73a-4683-ac57-33c2fac07c2c",
+    "status_url": "https://api.higgsfield.ai/requests/0b06980b-e73a-4683-ac57-33c2fac07c2c/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/0b06980b-e73a-4683-ac57-33c2fac07c2c/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cc45ece9-0fab-4d18-ae9e-482fcc2f8e80.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:24:57.501Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-ad-travel-jetty/v30-ad-travel-jetty_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cc45ece9-0fab-4d18-ae9e-482fcc2f8e80.png",
+      "bytes": 2397014,
+      "sha256": "e5f7e6d0a55a70ea57121d1f9d00fa98f24b60463ff0ee6fd15150a67c26c7e0"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:24:59.155Z"
+}

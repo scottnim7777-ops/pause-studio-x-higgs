@@ -1,0 +1,43 @@
+{
+  "label": "v30-vid-honey-jar",
+  "endpoint": "higgsfield-ai/dop/standard",
+  "input": {
+    "prompt": "Slow, smooth camera arc to the right around the honey jar on the stone slab, keeping the jar centred. Warm morning sunlight glows through the amber honey, the light and shadow shift subtly, the honey drops on the stone glisten. The jar, gold lid and plain label stay perfectly stable and unchanged. Realistic premium product commercial footage.",
+    "image_url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/f24aa44c-c98e-439e-a459-efca9cb80a1e.png"
+  },
+  "note": "AI 광고영상 샘플 컷(가상 브랜드) — DoP standard ≈ $0.563",
+  "submitted_at": "2026-10-08T13:28:00.570Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:28:01.499Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:42:46.567Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "76f8fd97-953f-4add-8f68-748221967d9d",
+  "status_url": "https://api.higgsfield.ai/requests/76f8fd97-953f-4add-8f68-748221967d9d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/76f8fd97-953f-4add-8f68-748221967d9d/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "76f8fd97-953f-4add-8f68-748221967d9d",
+    "status_url": "https://api.higgsfield.ai/requests/76f8fd97-953f-4add-8f68-748221967d9d/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/76f8fd97-953f-4add-8f68-748221967d9d/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/66023acd-84d5-4479-a16c-95d8836c528a.mp4"
+    }
+  },
+  "checked_at": "2026-10-08T13:42:46.567Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-vid-honey-jar/v30-vid-honey-jar_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/66023acd-84d5-4479-a16c-95d8836c528a.mp4",
+      "bytes": 7493367,
+      "sha256": "31de97b71b96786fe40065b0af6e759df650c180811ce86388a4589759ec6658"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:42:48.695Z"
+}

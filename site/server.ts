@@ -50,7 +50,7 @@ const F = consult.fields as Record<string, string | string[]>;
 const ORDER: [string, string][] = [
   ['consultType', '상담 종류'],
   ...['company', 'name', 'email', 'phone', 'country', 'industry', 'currentSite', 'product', 'needs', 'itemCount', 'bookingPay', 'integrations',
-    'videoUse', 'videoLength', 'photos', 'mood', 'automation', 'systems', 'timeline', 'message']
+    'videoProduct', 'videoUse', 'photos', 'mood', 'automation', 'systems', 'timeline', 'message']
     .map((k): [string, string] => [k, String(F[k])]),
 ];
 const clean = (v: unknown, max = 5000) => String(v ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, max);

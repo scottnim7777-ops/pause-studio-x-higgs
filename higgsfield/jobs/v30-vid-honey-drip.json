@@ -1,0 +1,47 @@
+{
+  "label": "v30-vid-honey-drip",
+  "endpoint": "higgsfield-ai/dop/standard",
+  "input": {
+    "prompt": "Static macro shot. Thick glossy golden honey drips slowly from the wooden honey dipper in a continuous ribbon and folds softly into the honey in the glass jar, the dipper turns very slightly, warm backlight glows through the honey. Extremely slow, realistic viscous liquid motion, premium food commercial footage.",
+    "image_url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/a1815b77-d5af-4c06-b533-d571415053d7.png"
+  },
+  "note": "AI 광고영상 샘플 컷(가상 브랜드) — DoP standard ≈ $0.563",
+  "submitted_at": "2026-10-08T13:27:59.338Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:28:00.321Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:38:56.631Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-08T13:42:44.059Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "0fabfabd-0118-42f8-a2e6-c334d206de2f",
+  "status_url": "https://api.higgsfield.ai/requests/0fabfabd-0118-42f8-a2e6-c334d206de2f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/0fabfabd-0118-42f8-a2e6-c334d206de2f/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "0fabfabd-0118-42f8-a2e6-c334d206de2f",
+    "status_url": "https://api.higgsfield.ai/requests/0fabfabd-0118-42f8-a2e6-c334d206de2f/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/0fabfabd-0118-42f8-a2e6-c334d206de2f/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b9539126-b5ef-4c04-aae7-fa393617c216.mp4"
+    }
+  },
+  "checked_at": "2026-10-08T13:42:44.059Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-vid-honey-drip/v30-vid-honey-drip_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b9539126-b5ef-4c04-aae7-fa393617c216.mp4",
+      "bytes": 5894890,
+      "sha256": "8c15ae5d0f9f382e0b251d6c356844b7707a2e4c91166bc1fd20a0c3d71ffccc"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:42:45.815Z"
+}

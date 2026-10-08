@@ -1,11 +1,12 @@
 /**
  * 브랜딩 무료 상담 신청(모달)
- * - 상담 종류: 웹사이트 제작 · AI 영상광고 · 둘 다 함께 · AI 업무 자동화/맞춤 개발 → 종류에 맞는 질문만 보여줌
- * - 서비스·요금 버튼에서 열면 종류(와 상품)를 미리 골라 둠
+ * - 상담 종류: 웹사이트 제작 · AI 광고영상 · 둘 다 함께 · AI 업무 자동화/맞춤 개발 → 종류에 맞는 질문만 보여줌
+ * - 서비스·요금 버튼에서 열면 종류(와 상품)를 미리 골라 둠(data-type · data-field · data-value)
+ * - 열고 닫을 때와 단계를 넘길 때 짧은 움직임(앞으로/뒤로 방향)
  * - 서버(/api/contact)가 실제로 성공(2xx + ok)을 돌려줄 때만 '접수 완료'. 실패하면 메일 앱·복사·카카오톡으로 같은 내용을 보낼 수 있게
  */
 import { consult as C, contact } from '../content/ko';
-import { closeMenu } from './ui';
+import { animateCancel, closeDialog, closeMenu } from './ui';
 
 const MAX_BYTES = 25 * 1024 * 1024;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -120,6 +121,7 @@ export function initConsult() {
   }
 
   function goto(n: number | 'done' | 'fail') {
+    form!.dataset.dir = typeof n === 'number' && typeof step === 'number' && n < step ? 'b' : 'f';
     step = n;
     stepsEl.forEach((s) => { s.hidden = s.dataset.step !== String(n); });
     const num = typeof n === 'number' ? n : 4;
@@ -152,21 +154,22 @@ export function initConsult() {
     showDetails();
   }
 
-  function open(type?: string, product?: string) {
+  function open(type?: string, field?: string, value?: string) {
     closeMenu();
     if (step === 'done') reset();
     if (type) {
       const r = qa<HTMLInputElement>('input[name="consultType"]').find((x) => x.value === type);
       if (r) r.checked = true;
     }
-    if (product) {
-      const p = qa<HTMLInputElement>('input[name="product"]').find((x) => x.value === product);
+    if (field && value) {
+      const p = qa<HTMLInputElement>(`input[name="${CSS.escape(field)}"]`).find((x) => x.value === value);
       if (p) p.checked = true;
     }
     showDetails();
     dlg!.showModal();
     document.documentElement.classList.add('modal-open');
     goto(type && typeValue() ? 1 : 0);
+    form!.dataset.dir = 'f';
   }
 
   async function send() {
@@ -224,7 +227,7 @@ export function initConsult() {
     const a = (e.target as Element).closest<HTMLElement>('[data-consult]');
     if (!a) return;
     e.preventDefault();
-    open(a.dataset.type, a.dataset.product);
+    open(a.dataset.type, a.dataset.field, a.dataset.value);
   });
   btnNext.addEventListener('click', () => { if (typeof step === 'number' && validate(step)) goto(step + 1); });
   btnPrev.addEventListener('click', () => { if (typeof step === 'number' && step > 0) goto(step - 1); });
@@ -246,10 +249,11 @@ export function initConsult() {
   });
   dlg.addEventListener('click', (e) => {
     const t = e.target as Element;
-    if (t === dlg || t.closest('[data-cs-close]')) dlg.close();
+    if (t === dlg || t.closest('[data-cs-close]')) closeDialog(dlg);
     const cp = t.closest<HTMLButtonElement>('[data-cs-copy]');
     if (cp) copy(cp);
   });
+  animateCancel(dlg);
   dlg.addEventListener('close', () => {
     document.documentElement.classList.remove('modal-open');
     if (step === 'done') { reset(); goto(0); }

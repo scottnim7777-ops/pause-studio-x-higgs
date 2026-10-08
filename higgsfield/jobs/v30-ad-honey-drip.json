@@ -1,0 +1,51 @@
+{
+  "label": "v30-ad-honey-drip",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Macro product photograph for a premium food commercial: thick glossy golden honey slowly dripping in a thin ribbon from a wooden honey dipper into a round glass jar filled with honey, warm backlight making the honey glow amber, dark warm brown background with soft bokeh, shallow depth of field, 100mm macro lens, rich natural colours, no hands, no labels, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "AI 광고영상 샘플(가상 브랜드) 스틸 — soul/cinema 1080p ≈ $0.006",
+  "submitted_at": "2026-10-08T13:20:58.936Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:20:59.828Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:26:10.515Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-08T13:26:31.151Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "68719f09-0bdc-415c-963a-ef01f16ce78d",
+  "status_url": "https://api.higgsfield.ai/requests/68719f09-0bdc-415c-963a-ef01f16ce78d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/68719f09-0bdc-415c-963a-ef01f16ce78d/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "68719f09-0bdc-415c-963a-ef01f16ce78d",
+    "status_url": "https://api.higgsfield.ai/requests/68719f09-0bdc-415c-963a-ef01f16ce78d/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/68719f09-0bdc-415c-963a-ef01f16ce78d/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/a1815b77-d5af-4c06-b533-d571415053d7.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:26:31.151Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-ad-honey-drip/v30-ad-honey-drip_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/a1815b77-d5af-4c06-b533-d571415053d7.png",
+      "bytes": 1396498,
+      "sha256": "297f0bfa17f7e5681983de64b43c3bd1086ac76303504e3d858baf591a14a48c"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:26:32.786Z"
+}

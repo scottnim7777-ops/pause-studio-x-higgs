@@ -1,0 +1,47 @@
+{
+  "label": "v30-ad-travel-before",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "16:9. An ordinary casual smartphone photo taken by a tourist at a roadside lookout in New Zealand: a turquoise glacial lake with distant snowy mountains under a flat grey overcast sky, slightly tilted horizon, a metal railing and part of a parked white car at the bottom edge, auto exposure, slightly washed-out colours, mobile phone camera quality, not cinematic, no people, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "AI 광고영상 샘플(가상 브랜드) 스틸 — soul/cinema 1080p ≈ $0.006",
+  "submitted_at": "2026-10-08T13:20:55.306Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:20:56.012Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:23:44.970Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "8ba04837-7425-4dca-8686-807e259fd817",
+  "status_url": "https://api.higgsfield.ai/requests/8ba04837-7425-4dca-8686-807e259fd817/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/8ba04837-7425-4dca-8686-807e259fd817/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "8ba04837-7425-4dca-8686-807e259fd817",
+    "status_url": "https://api.higgsfield.ai/requests/8ba04837-7425-4dca-8686-807e259fd817/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/8ba04837-7425-4dca-8686-807e259fd817/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b19c1746-5270-4b0a-86b2-7a157dd6cbdf.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:23:44.969Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-ad-travel-before/v30-ad-travel-before_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b19c1746-5270-4b0a-86b2-7a157dd6cbdf.png",
+      "bytes": 1349913,
+      "sha256": "8c50421b30b23148af99956c819a38ad881ccf94a7c67bf91c042bb864e147d0"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:23:46.653Z"
+}

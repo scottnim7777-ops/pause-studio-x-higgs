@@ -1,19 +1,91 @@
 /**
- * 화면 동작: 머리줄·모바일 메뉴·등장 움직임·작업물 크게 보기·자동 재생 영상·관리비 계산기·이메일 보기·서명
+ * 화면 동작: 머리줄·모바일 메뉴·등장 움직임·포트폴리오 반복 재생·작업물 크게 보기·비교 손잡이·광고 샘플 탭
+ *           ·자동 재생 영상·열고 닫는 목록·질문 탭·관리비 계산기·전화 상담·이메일 보기·스크롤에 따른 큰 글자
+ * 움직임은 모두 motion(운영체제 '동작 줄이기' + 사이트의 '움직임 멈추기')을 따른다.
  */
 import { motion, saveData } from './motion';
 
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
 const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
 const pad = (n: number) => String(n).padStart(2, '0');
+const clamp01 = (x: number) => (x < 0 ? 0 : x > 1 ? 1 : x);
+const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
+const easeIo = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
 
-/* ── 머리줄: 내려가면 배경이 깔림 */
+/** 숫자를 부드럽게 바꿈(동작 줄이기면 바로). 멈추는 함수를 돌려줌 */
+function tween(from: number, to: number, ms: number, step: (v: number) => void): () => void {
+  if (motion.reduced || from === to) { step(to); return () => {}; }
+  const t0 = performance.now();
+  let raf = requestAnimationFrame(function f(now) {
+    const k = clamp01((now - t0) / ms);
+    step(from + (to - from) * easeOut(k));
+    if (k < 1) raf = requestAnimationFrame(f);
+  });
+  return () => cancelAnimationFrame(raf);
+}
+
+/** 창 닫기: 짧게 사라진 뒤 닫음(CSS .closing). Esc도 같은 움직임으로 */
+export function closeDialog(dlg: HTMLDialogElement) {
+  if (!dlg.open || dlg.classList.contains('closing')) return;
+  if (motion.reduced) { dlg.close(); return; }
+  dlg.classList.add('closing');
+  let done = false;
+  const fin = () => {
+    if (done) return;
+    done = true;
+    dlg.removeEventListener('animationend', onEnd);
+    dlg.classList.remove('closing');
+    dlg.close();
+  };
+  const onEnd = (e: AnimationEvent) => { if (e.target === dlg) fin(); };
+  dlg.addEventListener('animationend', onEnd);
+  setTimeout(fin, 450); // 움직임이 막혀도 반드시 닫힘
+}
+export function animateCancel(dlg: HTMLDialogElement) {
+  dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeDialog(dlg); });
+}
+
+/** 탭 목록의 방향키(←·→·Home·End) */
+function rovingKeys(tabs: HTMLElement[], go: (i: number) => void) {
+  tabs.forEach((t, i) => t.addEventListener('keydown', (e) => {
+    const n = tabs.length;
+    let j = i;
+    if (e.key === 'ArrowRight') j = (i + 1) % n;
+    else if (e.key === 'ArrowLeft') j = (i - 1 + n) % n;
+    else if (e.key === 'Home') j = 0;
+    else if (e.key === 'End') j = n - 1;
+    else return;
+    e.preventDefault();
+    go(j);
+  }));
+}
+
+/* ── 머리줄: 내려가면 배경이 깔리고, 더 내려가면 숨었다가 올리면 다시 나타남. 지금 보는 장을 메뉴에 표시 */
 export function initHeader() {
   const hd = $('[data-header]');
   if (!hd) return;
-  const on = () => hd.classList.toggle('scrolled', scrollY > 24);
-  addEventListener('scroll', on, { passive: true });
-  on();
+  const links = $$<HTMLAnchorElement>('.hd-nav a[href^="#"]:not(.hd-cta)');
+  const secs = [...links.map((a) => a.getAttribute('href') || ''), '#contact'].map((h) => (h.length > 1 ? $(h) : null));
+  let lastY = scrollY;
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const y = scrollY;
+    hd.classList.toggle('scrolled', y > 24);
+    const dy = y - lastY;
+    if (y <= 480) hd.classList.remove('hide');
+    else if (Math.abs(dy) > 6) {
+      hd.classList.toggle('hide', dy > 0 && !document.documentElement.classList.contains('menu-open'));
+      lastY = y;
+    }
+    if (y <= 480) lastY = y;
+    const line = innerHeight * 0.4;
+    let cur = -1;
+    secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= line) cur = i; });
+    links.forEach((a, i) => { if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
 }
 
 /* ── 모바일 메뉴 */
@@ -28,6 +100,7 @@ export function initMenu() {
     if (label) label.textContent = open ? '메뉴 닫기' : '메뉴';
     nav.hidden = !open;
     document.documentElement.classList.toggle('menu-open', open);
+    $('[data-header]')?.classList.remove('hide');
     outside.forEach((el) => { el.inert = open; });
     if (open) $('a', nav)?.focus();
     else if (focusBtn) btn.focus();
@@ -61,9 +134,24 @@ export function initReveal() {
   }
 }
 
-/* ── 자동 재생 영상(디자인 비교·영상광고 예시): 보이면 재생, 버튼으로 멈춤 */
+/* ── '움직임 멈추기' 버튼(포트폴리오 머리) — 히어로 버튼과 같은 상태 */
+export function initMotionToggles() {
+  const btns = $$<HTMLButtonElement>('[data-motion-toggle]');
+  if (!btns.length) return;
+  const sync = () => btns.forEach((b) => {
+    b.setAttribute('aria-pressed', String(motion.paused));
+    const s = $('span', b);
+    if (s) s.textContent = motion.paused ? '움직임 재생' : '움직임 멈추기';
+    b.hidden = motion.reduced; // 동작 줄이기면 원래 아무것도 움직이지 않음
+  });
+  btns.forEach((b) => b.addEventListener('click', () => motion.setPaused(!motion.paused)));
+  motion.subscribe(sync);
+  sync();
+}
+
+/* ── 자동 재생 영상(비교 화면의 AFTER): 보이면 재생, 버튼으로 멈춤 */
 export function initAutoVideos() {
-  const vids = $$<HTMLVideoElement>('video[data-auto]');
+  const vids = $$<HTMLVideoElement>('video[data-auto]:not([data-fs-video])');
   const state = new Map<HTMLVideoElement, { seen: boolean; userPaused: boolean; btn: HTMLButtonElement | null }>();
   const syncBtn = (v: HTMLVideoElement) => {
     const s = state.get(v)!;
@@ -81,7 +169,7 @@ export function initAutoVideos() {
     if (want(v)) play(v); else if (!v.paused) v.pause();
   }), { threshold: 0.35 });
   vids.forEach((v) => {
-    const btn = v.parentElement?.querySelector<HTMLButtonElement>('[data-vctrl]') ?? null;
+    const btn = v.closest('[data-cmp], .media')?.querySelector<HTMLButtonElement>('[data-vctrl]') ?? null;
     state.set(v, { seen: false, userPaused: false, btn });
     v.addEventListener('play', () => syncBtn(v));
     v.addEventListener('pause', () => syncBtn(v));
@@ -95,25 +183,55 @@ export function initAutoVideos() {
   motion.subscribe(() => vids.forEach((v) => { if (want(v)) play(v); else if (!v.paused) v.pause(); }));
 }
 
-/* ── 포트폴리오: PC에서 마우스를 올리면 영상 재생 */
-export function initWorkHover() {
-  const fine = matchMedia('(hover: hover) and (pointer: fine)');
-  $$<HTMLButtonElement>('.wk-btn').forEach((b) => {
-    const v = $<HTMLVideoElement>('video[data-src]', b);
-    if (!v) return;
-    const media = v.parentElement!;
-    v.addEventListener('playing', () => media.classList.add('playing'));
-    const start = () => {
-      if (!fine.matches || motion.reduced) return;
-      if (!v.src) v.src = v.dataset.src!;
-      v.play().catch(() => { /* 사진 그대로 */ });
-    };
-    const stop = () => { v.pause(); media.classList.remove('playing'); };
-    b.addEventListener('pointerenter', start);
-    b.addEventListener('pointerleave', stop);
-    b.addEventListener('focus', start);
-    b.addEventListener('blur', stop);
+/* ── 포트폴리오: 화면 녹화는 마우스를 올리지 않아도 보이는 동안 계속 반복 재생 */
+export function initWorkLoops() {
+  const vids = $$<HTMLVideoElement>('video[data-loop]');
+  if (!vids.length || !('IntersectionObserver' in window)) return;
+  const seen = new Map<HTMLVideoElement, boolean>();
+  const sync = (v: HTMLVideoElement) => {
+    if (seen.get(v) && motion.allowed && !saveData()) {
+      if (!v.src && v.dataset.src) v.src = v.dataset.src;
+      v.play().catch(() => { /* 자동 재생이 막히면 사진 그대로 */ });
+    } else if (!v.paused) v.pause();
+  };
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    const v = e.target as HTMLVideoElement;
+    seen.set(v, e.isIntersecting);
+    sync(v);
+  }), { rootMargin: '120px 0px' });
+  vids.forEach((v) => {
+    v.addEventListener('playing', () => v.classList.add('on'));
+    io.observe(v);
   });
+  motion.subscribe(() => vids.forEach(sync));
+}
+
+/* ── 포트폴리오: 마우스를 따라오는 '보기' 원(PC) */
+export function initWorkCursor() {
+  const cur = $('[data-wk-cursor]');
+  const grid = $('[data-work-grid]');
+  if (!cur || !grid) return;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  let x = 0, y = 0, tx = 0, ty = 0, raf = 0, on = false;
+  const frame = () => {
+    raf = 0;
+    const k = motion.reduced ? 1 : 0.2;
+    x += (tx - x) * k;
+    y += (ty - y) * k;
+    cur.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
+    if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) raf = requestAnimationFrame(frame);
+  };
+  const show = (v: boolean) => { if (v !== on) { on = v; cur.classList.toggle('on', v); } };
+  grid.addEventListener('pointermove', (e) => {
+    if (!fine.matches || e.pointerType !== 'mouse') return;
+    const over = !!(e.target as Element).closest('.wk-btn');
+    tx = e.clientX; ty = e.clientY;
+    if (over && !on) { x = tx; y = ty; } // 그 자리에서 커지기 시작
+    show(over);
+    if (!raf) raf = requestAnimationFrame(frame);
+  });
+  grid.addEventListener('pointerleave', () => show(false));
+  addEventListener('scroll', () => show(false), { passive: true });
 }
 
 /* ── 작업물 크게 보기 */
@@ -163,6 +281,7 @@ export function initLightbox() {
     dlg.showModal();
     document.documentElement.classList.add('modal-open');
   };
+  animateCancel(dlg);
   dlg.addEventListener('close', () => {
     fig.replaceChildren();
     document.documentElement.classList.remove('modal-open');
@@ -173,7 +292,7 @@ export function initLightbox() {
     const b = (e.target as Element).closest<HTMLElement>('[data-work]');
     if (b) open(Number(b.dataset.work), b);
   });
-  $('[data-lb-close]', dlg)?.addEventListener('click', () => dlg.close());
+  $('[data-lb-close]', dlg)?.addEventListener('click', () => closeDialog(dlg));
   $('[data-lb-prev]', dlg)?.addEventListener('click', () => go(-1));
   $('[data-lb-next]', dlg)?.addEventListener('click', () => go(1));
   dlg.addEventListener('keydown', (e) => {
@@ -188,29 +307,269 @@ export function initLightbox() {
     moved = Math.hypot(dx, dy) > 10;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5 && e.timeStamp - t0 < 600) go(dx < 0 ? 1 : -1);
   });
-  fig.addEventListener('click', (e) => { if (e.target === fig && !moved) dlg.close(); });
+  fig.addEventListener('click', (e) => { if (e.target === fig && !moved) closeDialog(dlg); });
 }
 
-/* ── 관리비 계산기: 입력한 견적만으로 계산(임의의 업계 평균 없음) */
+/* ── 비교: 손잡이를 끌거나(마우스·손가락) 방향키로 BEFORE ↔ AFTER. 처음 보일 때 한 번 살짝 움직여 보여 줌 */
+export function initCompare() {
+  $$('[data-cmp]').forEach((frame) => {
+    const range = $<HTMLInputElement>('.cmp-range', frame);
+    if (!range) return;
+    const set = (v: number) => {
+      const p = Math.max(0, Math.min(100, v));
+      frame.style.setProperty('--pos', `${p.toFixed(2)}%`);
+      frame.classList.toggle('at-start', p < 14);
+      frame.classList.toggle('at-end', p > 86);
+      const r = Math.round(p);
+      range.value = String(r);
+      range.setAttribute('aria-valuetext', `BEFORE ${r}%, AFTER ${100 - r}%`);
+    };
+    set(50);
+    let touched = false;
+    let stopHint = () => {};
+    const touch = () => { touched = true; stopHint(); };
+    range.addEventListener('input', () => { touch(); set(Number(range.value)); });
+    const fromX = (cx: number) => { const r = frame.getBoundingClientRect(); return ((cx - r.left) / r.width) * 100; };
+    let drag: { id: number; x0: number; moved: boolean } | null = null;
+    const stop = () => { drag = null; frame.classList.remove('dragging'); };
+    frame.addEventListener('pointerdown', (e) => {
+      if ((e.target as Element).closest('[data-vctrl]') || e.button > 0) return;
+      touch();
+      const mouse = e.pointerType === 'mouse';
+      drag = { id: e.pointerId, x0: e.clientX, moved: mouse };
+      if (mouse) {
+        e.preventDefault();
+        frame.setPointerCapture(e.pointerId);
+        frame.classList.add('dragging');
+        set(fromX(e.clientX));
+      }
+    });
+    frame.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (!drag.moved) { // 손가락: 옆으로 밀 때만(위아래 스크롤은 그대로)
+        if (Math.abs(e.clientX - drag.x0) < 6) return;
+        drag.moved = true;
+        frame.setPointerCapture(e.pointerId);
+        frame.classList.add('dragging');
+      }
+      set(fromX(e.clientX));
+    });
+    frame.addEventListener('pointerup', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (!drag.moved) set(fromX(e.clientX)); // 톡 누르면 그 위치로
+      stop();
+    });
+    frame.addEventListener('pointercancel', (e) => { if (drag && e.pointerId === drag.id) stop(); });
+
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      if (touched || !motion.allowed) return;
+      const K: [number, number][] = [[0, 50], [0.36, 30], [0.76, 66], [1, 50]];
+      const at = (k: number) => {
+        for (let i = 1; i < K.length; i++) {
+          if (k <= K[i][0]) {
+            const [ta, va] = K[i - 1], [tb, vb] = K[i];
+            return va + (vb - va) * easeIo((k - ta) / (tb - ta));
+          }
+        }
+        return 50;
+      };
+      const dur = 2000, delay = 500;
+      const t0 = performance.now() + delay;
+      let raf = requestAnimationFrame(function f(now) {
+        const k = clamp01((now - t0) / dur);
+        if (now >= t0) set(at(k));
+        if (k < 1) raf = requestAnimationFrame(f);
+      });
+      stopHint = () => cancelAnimationFrame(raf);
+    }, { threshold: 0.6 });
+    io.observe(frame);
+  });
+}
+
+/* ── AI 광고영상 샘플: 탭으로 넘김. 손대지 않으면 한 편이 끝날 때 다음 샘플로(보이는 동안만) */
+export function initFilmSamples() {
+  const root = $('[data-fs]');
+  if (!root) return;
+  const tabs = $$<HTMLButtonElement>('[data-fs-tab]', root);
+  const panels = $$<HTMLElement>('[data-fs-panel]', root);
+  if (!tabs.length || tabs.length !== panels.length) return;
+  const vids = panels.map((p) => $<HTMLVideoElement>('video', p)!);
+  const btns = panels.map((p) => $<HTMLButtonElement>('[data-vctrl]', p));
+  let cur = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+  if (cur < 0) cur = 0;
+  let inView = false, auto = true, userPaused = false, raf = 0;
+  // 선택된 탭의 선: 재생할 수 있으면 진행률, 아니면 꽉 찬 선
+  tabs[cur].style.setProperty('--prog', motion.allowed && !saveData() ? '0' : '1');
+  const can = () => inView && motion.allowed && !saveData() && !userPaused;
+  const syncBtn = (i: number) => {
+    const b = btns[i];
+    if (!b) return;
+    const playing = !vids[i].paused;
+    b.classList.toggle('paused', !playing);
+    b.setAttribute('aria-label', playing ? '영상 일시정지' : '영상 재생');
+  };
+  const progress = () => {
+    raf = 0;
+    const v = vids[cur];
+    if (v.duration) tabs[cur].style.setProperty('--prog', (v.currentTime / v.duration).toFixed(4));
+    if (!v.paused) raf = requestAnimationFrame(progress);
+  };
+  const play = () => {
+    const v = vids[cur];
+    v.loop = !auto;
+    if (can()) {
+      if (!v.src && v.dataset.src) v.src = v.dataset.src;
+      v.play().catch(() => syncBtn(cur));
+    } else if (!v.paused) v.pause();
+  };
+  const select = (i: number, fromUser: boolean, focus = false) => {
+    if (fromUser) auto = false;
+    if (i !== cur) {
+      vids[cur].pause();
+      tabs[cur].setAttribute('aria-selected', 'false');
+      tabs[cur].tabIndex = -1;
+      tabs[cur].style.removeProperty('--prog');
+      panels[cur].hidden = true;
+      panels[cur].classList.remove('enter');
+      cur = i;
+      tabs[cur].setAttribute('aria-selected', 'true');
+      tabs[cur].tabIndex = 0;
+      tabs[cur].style.setProperty('--prog', can() ? '0' : '1');
+      panels[cur].hidden = false;
+      void panels[cur].offsetWidth;
+      panels[cur].classList.add('enter');
+      if (vids[cur].readyState > 0) vids[cur].currentTime = 0;
+    }
+    if (focus) tabs[cur].focus();
+    play();
+  };
+  tabs.forEach((t, i) => t.addEventListener('click', () => select(i, true)));
+  rovingKeys(tabs, (i) => select(i, true, true));
+  vids.forEach((v, i) => {
+    v.addEventListener('play', () => { syncBtn(i); if (i === cur && !raf) raf = requestAnimationFrame(progress); });
+    v.addEventListener('pause', () => syncBtn(i));
+    v.addEventListener('ended', () => {
+      if (i !== cur) return;
+      if (auto && can()) select((cur + 1) % tabs.length, false);
+      else { v.currentTime = 0; play(); }
+    });
+    btns[i]?.addEventListener('click', () => {
+      if (v.paused) { userPaused = false; play(); } else { userPaused = true; v.pause(); }
+    });
+    syncBtn(i);
+  });
+  new IntersectionObserver(([e]) => { inView = e.isIntersecting; play(); }, { threshold: 0.35 }).observe(root);
+  motion.subscribe(play);
+}
+
+/* ── 열고 닫는 목록(details[data-acc]): 높이가 부드럽게. 동작 줄이기면 기본 동작 그대로 */
+export function initAccordions() {
+  const dur = (h: number) => Math.min(650, Math.max(320, h * 1.1));
+  $$<HTMLDetailsElement>('details[data-acc]').forEach((d) => {
+    const sum = $(':scope > summary', d);
+    const body = $(':scope > .acc-body', d);
+    if (!sum || !body || typeof body.animate !== 'function') return;
+    let anim: Animation | null = null;
+    sum.addEventListener('click', (e) => {
+      if (motion.reduced) return;
+      e.preventDefault();
+      const h = d.open ? body.getBoundingClientRect().height : 0;
+      anim?.cancel();
+      anim = null;
+      if (!d.open || d.classList.contains('closing')) {
+        d.classList.remove('closing');
+        d.open = true;
+        const to = body.scrollHeight;
+        anim = body.animate({ height: [`${h}px`, `${to}px`] }, { duration: dur(to - h), easing: 'cubic-bezier(.2,.7,.1,1)' });
+        anim.onfinish = () => { anim = null; };
+      } else {
+        d.classList.add('closing');
+        anim = body.animate({ height: [`${h}px`, '0px'] }, { duration: dur(h) * 0.8, easing: 'cubic-bezier(.65,0,.35,1)' });
+        anim.onfinish = () => { d.open = false; d.classList.remove('closing'); anim = null; };
+      }
+    });
+  });
+}
+
+/* ── 자주 묻는 질문: 웹사이트 / AI 광고영상 탭(선택 표시가 미끄러져 이동) */
+export function initFaqTabs() {
+  const list = $('.faq-tabs');
+  if (!list) return;
+  const tabs = $$<HTMLButtonElement>('[data-faq-tab]', list);
+  const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls') || ''));
+  if (panels.some((p) => !p)) return;
+  const place = () => {
+    const t = tabs.find((x) => x.getAttribute('aria-selected') === 'true') ?? tabs[0];
+    list.style.setProperty('--x', `${t.offsetLeft}px`);
+    list.style.setProperty('--w', `${t.offsetWidth}px`);
+  };
+  const select = (i: number, focus: boolean) => {
+    tabs.forEach((t, j) => {
+      const on = j === i;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      panels[j]!.hidden = !on;
+    });
+    place();
+    if (focus) tabs[i].focus();
+  };
+  tabs.forEach((t, i) => t.addEventListener('click', () => select(i, false)));
+  rovingKeys(tabs, (i) => select(i, true));
+  // 처음 위치는 움직임 없이
+  list.classList.add('ready', 'instant');
+  place();
+  requestAnimationFrame(() => requestAnimationFrame(() => list.classList.remove('instant')));
+  new ResizeObserver(place).observe(list);
+  document.fonts?.ready.then(place).catch(() => {});
+}
+
+/* ── 관리비 계산기: 입력한 견적만으로 계산(임의의 업계 평균 없음). 숫자는 세면서 바뀌고, 화면 읽기는 결과만 */
 export function initCalc() {
   const root = $('[data-calc]');
   if (!root) return;
   const setup = $<HTMLInputElement>('[data-c="setup"]', root)!;
   const monthly = $<HTMLInputElement>('[data-c="monthly"]', root)!;
   const years = $<HTMLInputElement>('[data-c="years"]', root)!;
-  const outOther = $('[data-o="other"]', root)!;
-  const outPause = $('[data-o="pause"]', root)!;
+  const out = { other: $('[data-o="other"]', root)!, pause: $('[data-o="pause"]', root)!, save: $('[data-o="save"]', root)! };
   const outYears = $('[data-o="years"]', root)!;
+  const bars = { other: $('[data-bar="other"]', root), pause: $('[data-bar="pause"]', root) };
+  const saveBox = $('[data-save]', root);
+  const live = $('[data-calc-live]', root);
+  const labels = $$('.calc-out p > span:first-child, .calc-save > span', root).map((s) => s.textContent || '');
   const unit = (outYears.textContent || '').replace(/[\d\s]/g, '') || '년';
   const num = (s: string) => Number(s.replace(/[^\d]/g, '')) || 0;
-  const money = (n: number) => `$${n.toLocaleString('en-US')}`;
+  const money = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
   const PAUSE_SETUP = Number(root.dataset.pauseSetup) || 0; // 문구 파일(fee.calc.pauseSetup) 값
+  const shown = { other: 0, pause: PAUSE_SETUP, save: 0 };
+  const stops: Partial<Record<keyof typeof shown, () => void>> = {};
+  const count = (k: keyof typeof shown, to: number) => {
+    stops[k]?.();
+    stops[k] = tween(shown[k], to, 700, (v) => { shown[k] = v; out[k].textContent = money(v); });
+  };
+  let liveTimer = 0;
   const calc = () => {
     const y = Number(years.value);
     const a = num(setup.value), m = num(monthly.value);
+    const other = a + m * 12 * y;
+    const pause = PAUSE_SETUP;
+    const save = Math.max(0, other - pause);
     outYears.textContent = `${y}${unit}`;
-    outOther.textContent = a || m ? money(a + m * 12 * y) : '—';
-    outPause.textContent = money(PAUSE_SETUP);
+    count('other', other);
+    count('pause', pause);
+    const max = Math.max(other, pause, 1);
+    bars.other?.style.setProperty('--w', other ? (other / max).toFixed(4) : '0');
+    bars.pause?.style.setProperty('--w', other ? (pause / max).toFixed(4) : '0');
+    if (saveBox) {
+      saveBox.hidden = save <= 0;
+      if (save > 0) count('save', save); else { stops.save?.(); shown.save = 0; }
+    }
+    clearTimeout(liveTimer);
+    liveTimer = window.setTimeout(() => {
+      if (!live || !(a || m)) return;
+      live.textContent = `${labels[0]} ${money(other)}, ${labels[1]} ${money(pause)}${save > 0 ? `, ${labels[2]} ${money(save)}` : ''}`;
+    }, 700);
   };
   [setup, monthly].forEach((el) => el.addEventListener('input', () => {
     const n = num(el.value);
@@ -219,6 +578,37 @@ export function initCalc() {
   }));
   years.addEventListener('input', calc);
   calc();
+}
+
+/* ── 전화 상담: 누르면 전화 걸기 · 문자 보내기 · 번호 복사 중에서 고름 */
+export function initPhone() {
+  const btn = $<HTMLButtonElement>('[data-phone]');
+  const menu = $('[data-phone-menu]');
+  if (!btn || !menu) return;
+  const card = btn.closest('.ct-card') ?? btn.parentElement!;
+  const set = (open: boolean) => { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); };
+  btn.addEventListener('click', () => set(menu.hidden));
+  document.addEventListener('click', (e) => { if (!menu.hidden && !card.contains(e.target as Node)) set(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus(); }
+  });
+  const copyBtn = $<HTMLButtonElement>('[data-phone-copy]', menu);
+  copyBtn?.addEventListener('click', async () => {
+    const text = (btn.textContent || '').trim();
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.append(ta); ta.select();
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      ta.remove();
+    }
+    if (!ok) return;
+    const before = copyBtn.textContent;
+    copyBtn.textContent = copyBtn.dataset.copied || before;
+    copyBtn.classList.add('done');
+    setTimeout(() => { copyBtn.textContent = before; copyBtn.classList.remove('done'); }, 2200);
+  });
 }
 
 /* ── 이메일 주소는 누르면 보여줌(수집 프로그램이 바로 읽지 못하게) */
@@ -234,4 +624,37 @@ export function initEmail() {
     b.replaceWith(a);
     a.focus();
   });
+}
+
+/* ── 스크롤에 따른 큰 글자: 장 제목은 옆으로 천천히(--p), 마무리 선언은 단어가 하나씩 밝아짐 */
+export function initScrub() {
+  const chapters = $$('[data-scrub]');
+  const mf = $('[data-manifesto]');
+  const big = mf ? $('.mf-big', mf) : null;
+  const words = mf ? $$('.w', mf) : [];
+  const active = new Set<Element>();
+  let raf = 0;
+  const frame = () => {
+    raf = 0;
+    const vh = innerHeight;
+    active.forEach((el) => {
+      if (el === mf && big) {
+        const top = big.getBoundingClientRect().top;
+        const q = clamp01((vh * 0.88 - top) / (vh * 0.5));
+        words.forEach((w, i) => w.classList.toggle('on', q * words.length > i + 0.15));
+        mf.style.setProperty('--glow', q.toFixed(3));
+      } else {
+        const r = el.getBoundingClientRect();
+        (el as HTMLElement).style.setProperty('--p', clamp01((vh - r.top) / (vh + r.height)).toFixed(4));
+      }
+    });
+  };
+  const req = () => { if (!raf) raf = requestAnimationFrame(frame); };
+  const io = new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) active.add(e.target); else active.delete(e.target); });
+    req();
+  });
+  [...chapters, ...(mf ? [mf] : [])].forEach((el) => io.observe(el));
+  addEventListener('scroll', req, { passive: true });
+  addEventListener('resize', req);
 }

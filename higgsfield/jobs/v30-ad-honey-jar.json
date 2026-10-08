@@ -1,0 +1,47 @@
+{
+  "label": "v30-ad-honey-jar",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Premium product photograph: a round glass jar of creamy golden honey with a plain matte gold metal lid and a plain cream paper label with no writing, standing on a pale natural stone slab, small sprigs of white manuka flowers beside it, soft morning sunlight from the left casting a long gentle shadow, a few glossy drops of honey on the stone, warm neutral background, shallow depth of field, 85mm lens, no people, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "AI 광고영상 샘플(가상 브랜드) 스틸 — soul/cinema 1080p ≈ $0.006",
+  "submitted_at": "2026-10-08T13:21:00.011Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:21:00.723Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:26:33.645Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "7461549c-2999-40bd-9af4-069d9c8fa9bc",
+  "status_url": "https://api.higgsfield.ai/requests/7461549c-2999-40bd-9af4-069d9c8fa9bc/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/7461549c-2999-40bd-9af4-069d9c8fa9bc/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "7461549c-2999-40bd-9af4-069d9c8fa9bc",
+    "status_url": "https://api.higgsfield.ai/requests/7461549c-2999-40bd-9af4-069d9c8fa9bc/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/7461549c-2999-40bd-9af4-069d9c8fa9bc/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/66b6157c-a144-42c1-adff-595bf5d9b0a7.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:26:33.645Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-ad-honey-jar/v30-ad-honey-jar_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/66b6157c-a144-42c1-adff-595bf5d9b0a7.png",
+      "bytes": 2421029,
+      "sha256": "344ca43eaddd1e2c385cc2416f20f52e4076e1798f2ed8624e559ed43f9225b5"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:26:35.403Z"
+}

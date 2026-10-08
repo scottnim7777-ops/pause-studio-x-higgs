@@ -1,0 +1,47 @@
+{
+  "label": "v30-mock-travel",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Generic bright stock photograph used on a ready-made travel agency website template: a backpacker in a red jacket seen from behind standing on a mountain lookout above a blue lake with green hills and distant mountains, clear blue sky with a few white clouds, saturated colours, evenly lit, typical generic stock photo look, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "BEFORE 템플릿 예시 화면용 흔한 스톡 느낌 사진 ≈ $0.006",
+  "submitted_at": "2026-10-08T13:32:21.199Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:32:21.896Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:40:37.204Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "088a9535-ca6e-484c-b41d-67ab66ac011d",
+  "status_url": "https://api.higgsfield.ai/requests/088a9535-ca6e-484c-b41d-67ab66ac011d/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/088a9535-ca6e-484c-b41d-67ab66ac011d/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "088a9535-ca6e-484c-b41d-67ab66ac011d",
+    "status_url": "https://api.higgsfield.ai/requests/088a9535-ca6e-484c-b41d-67ab66ac011d/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/088a9535-ca6e-484c-b41d-67ab66ac011d/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b9b58c17-6112-4d09-97fe-d0d117263cd7.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:40:37.204Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-mock-travel/v30-mock-travel_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b9b58c17-6112-4d09-97fe-d0d117263cd7.png",
+      "bytes": 2301986,
+      "sha256": "3a683dc5691d0b2c0e41aac4bec5bb59f17248d4bcb82edb162c9d3d9c81d0f6"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:40:39.224Z"
+}

@@ -1,0 +1,43 @@
+{
+  "label": "v30-vid-travel-jetty",
+  "endpoint": "higgsfield-ai/dop/standard",
+  "input": {
+    "prompt": "Very slow push-in from behind the two travellers sitting on the end of the wooden jetty. Thin morning mist drifts slowly across the calm mirror-like lake, the water ripples softly, light warms gradually. The two people stay calm and still. Realistic, quiet, cinematic travel commercial footage.",
+    "image_url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cc45ece9-0fab-4d18-ae9e-482fcc2f8e80.png"
+  },
+  "note": "AI 광고영상 샘플 컷(가상 브랜드) — DoP standard ≈ $0.563",
+  "submitted_at": "2026-10-08T13:27:57.999Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:27:59.125Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:37:45.692Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "761818a0-aae6-4e30-b6e7-fddb66992a24",
+  "status_url": "https://api.higgsfield.ai/requests/761818a0-aae6-4e30-b6e7-fddb66992a24/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/761818a0-aae6-4e30-b6e7-fddb66992a24/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "761818a0-aae6-4e30-b6e7-fddb66992a24",
+    "status_url": "https://api.higgsfield.ai/requests/761818a0-aae6-4e30-b6e7-fddb66992a24/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/761818a0-aae6-4e30-b6e7-fddb66992a24/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/dd68ec8a-80ed-4280-8fd5-249a1c2f90ac.mp4"
+    }
+  },
+  "checked_at": "2026-10-08T13:37:45.692Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-vid-travel-jetty/v30-vid-travel-jetty_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/dd68ec8a-80ed-4280-8fd5-249a1c2f90ac.mp4",
+      "bytes": 6784422,
+      "sha256": "2321bb0444fd99087f1b63394dd58ce2e3c7ef29839f4389da94a49c5cbefd97"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:37:47.796Z"
+}

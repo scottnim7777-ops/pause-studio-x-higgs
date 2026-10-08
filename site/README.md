@@ -22,14 +22,16 @@ npm run check        # 타입 검사 + 빌드
 | `src/styles/main.css` | 디자인 토큰·전 섹션 스타일(규칙: `../docs/DESIGN_SYSTEM.md`) |
 | `src/ts/hero.ts` | 히어로 인트로(벽이 다가오며 선명해짐 + 한글 타이핑)·작업물 벽 |
 | `src/ts/consult.ts` | 브랜딩 무료 상담 신청 창 |
-| `src/ts/ui.ts` | 머리줄·모바일 메뉴·등장 움직임·크게 보기·자동 재생 영상·계산기·이메일 보기 |
-| `src/ts/motion.ts` | 움직임 멈추기(기억됨)·운영체제 '동작 줄이기' |
+| `src/ts/ui.ts` | 머리줄(내려가면 숨김·지금 보는 장)·모바일 메뉴·등장 움직임·포트폴리오 반복 재생·'보기' 원 커서·크게 보기·BEFORE/AFTER 손잡이·광고 샘플 탭·열고 닫는 목록·질문 탭·계산기(숫자 세기)·전화 상담 메뉴·이메일 보기·스크롤에 따른 큰 글자 |
+| `src/ts/motion.ts` | 움직임 멈추기(기억됨)·운영체제 '동작 줄이기' → 멈춰야 하면 `html.still` |
 | `server.ts` | 정적 파일 + `/api/contact` + `/api/health` + 첫 화면 통화 표시(접속 위치) |
 | `src/geo/currency.ts` | 접속 IP → NZD(뉴질랜드) / USD(그 밖의 나라). 확인용 `?cur=usd` |
 | `scripts/nz-ip.py` | 뉴질랜드 IP 목록 `src/geo/nz-ip.json` 만들기(인터넷 등록기관 공개 자료) — 가끔 다시 실행 |
 | `scripts/render.ts` | `index.template.html` → `index.html` |
-| `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4) + `src/content/media.json`(실제 크기) |
-| `tests/smoke.cjs` | 브라우저 점검 92개(화면 폭 7종, 상담 4종 흐름, 요금 = 견적서 플랜, 통화 NZD/USD, 크게 보기, 메뉴, 계산기, 동작 줄이기, JS 없음) |
+| `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4, 받은 화면 녹화는 끊김 없이 반복되게 1초 겹침) + `src/content/media.json`(실제 크기) |
+| `../tools/ad_edit.py` | AI 광고영상 샘플 편집(ONDO · SOUTHERN ROUTE · DAON): Higgsfield 영상 두 컷 → 색보정·비네팅·그레인 + 움직이는 글씨(MaruBuri · Instrument Serif · Archivo) + 끝 화면 → `public/media/film/*.mp4`·포스터·BEFORE 사진 |
+| `tests/smoke.cjs` | 브라우저 점검 130개(화면 폭 7종·커서, 상담 4종 흐름·영상 상품, 요금 = 견적서 플랜·AI 광고영상 상품, 통화 NZD/USD·GST 15% 별도, 포트폴리오 반복 재생·잘림 없음, 비교 손잡이, 광고 샘플 탭·자동 넘김, 질문 탭·열고 닫기, 전화 상담·이메일, 줄표·별표 없음, 머리줄, 계산기, 동작 줄이기, JS 없음) |
+| `tests/fixtures/tiny.webm` | 점검용 6초 영상 — Playwright의 Chromium에는 H.264가 없어 재생 점검 때 .mp4 대신 보냄 |
 | `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
 | `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2) + `src/styles/fonts.css` |
 | `Dockerfile` | 배포용(Cloud Run 등) — `node dist/server.cjs`, 포트는 `PORT`(기본 8080) |
@@ -48,27 +50,30 @@ npm run check        # 타입 검사 + 빌드
 3. 기존 사이트를 바꾸는 순서·되돌리기: `../docs/DEPLOY.md` (도메인은 그대로, `Dockerfile`로 Cloud Run 등에 배포).
 
 ## 상담 신청(`/api/contact`)
-- 상담 종류: 웹사이트 제작 · AI 영상광고 · 웹사이트 + AI 영상광고 · AI 업무 자동화/맞춤 개발 → 종류에 맞는 질문만 보이고, 숨긴 질문은 보내지 않습니다.
-- 서비스·요금의 버튼에서 열면 종류(와 상품)가 미리 선택되어 '기본 정보'부터 시작합니다.
+- 상담 종류: 웹사이트 제작 · AI 광고영상 · 웹사이트 + AI 광고영상 · AI 업무 자동화/맞춤 개발 → 종류에 맞는 질문만 보이고, 숨긴 질문은 보내지 않습니다.
+- 요금 카드의 '무료 상담받기'에서 열면 종류와 상품(웹사이트 플랜 · 영상 상품)이 미리 선택되어 '기본 정보'부터 시작합니다(`ko.ts`의 `consultPreset`).
+- 화면에 보이는 이메일은 info@pause8studio.com, 상담 메일을 받는 주소는 서버의 `CONTACT_TO`(기본값은 `server.ts`).
 - 메일 제목: `[브랜딩 상담] {종류} · {성함}`, 답장 주소는 신청자 이메일. 첨부 최대 10개·합계 25MB.
 - **서버가 성공(2xx + `{ok:true}`)을 돌려줄 때만** '접수 완료'. 실패하면 메일 앱으로 보내기 · 내용 복사 · 카카오톡 문의를 보여 줍니다.
 - 보안: TLS 인증서 검증을 끄지 않음(기존 서버의 `rejectUnauthorized:false` 제거), 상담 내용·연락처를 로그나 파일에 남기지 않음, 같은 곳에서 10분에 8번 넘게 보내면 거절, 숨은 입력칸으로 자동 입력 프로그램 차단.
 
 ## 미디어
 - 포트폴리오: 실제 고객 사이트 화면(Ref.01~15, ChillenQ). Ref.16~39는 소유 확인 전이라 넣지 않았습니다.
-- AI 영상광고 예시: 가상 브랜드 SOOM(사진 → 광고 장면, Higgsfield Seedance 5초 반복 영상). 화면에 '예시 · 실제 고객 작업물 아님' 표시.
-- 다시 만들기: `python3 scripts/media.py` (전체) · `python3 scripts/media.py film` · `python3 scripts/media.py og=<PNG>`.
+- Ref.03 동대문 · Ref.09 컨템퍼러리 타투 스튜디오: 사용자가 보낸 화면 녹화(원본 `../content/assets/portfolio/originals/*_2026-10-08.mp4`) → 끊김 없이 반복되는 영상(`python3 scripts/media.py loops`).
+- AI 광고영상 샘플 4편(가상 브랜드, 소개 글에 PAUSE가 직접 기획하고 만든 광고라고 밝힘): SOOM(Seedance) · ONDO COFFEE · SOUTHERN ROUTE · DAON HONEY(Higgsfield soul/cinema 스틸 + DoP 영상 → `../tools/ad_edit.py`).
+- BEFORE/AFTER의 BEFORE 사진: Higgsfield 생성(`public/media/compare/mock-*`, `python3 scripts/media.py compare`).
+- 다시 만들기: `python3 scripts/media.py` (전체) · `… film` · `… loops` · `… compare` · `… og`(공유 이미지 = 미리보기 첫 화면).
 
 ## 점검
 ```bash
 npm run build && PORT=3100 NODE_ENV=production node dist/server.cjs &
 NODE_PATH=/opt/node22/lib/node_modules node tests/smoke.cjs http://localhost:3100 tests/out
-```
 NODE_PATH=/opt/node22/lib/node_modules node tests/a11y.cjs http://localhost:3100
 ```
-결과(2026-10-08): 92/92 통과, 접근성 위반 0 — 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금·서비스 = 견적서 플랜(STARTER · BUSINESS · ENTERPRISE)·무료 혜택·식당 문구 없음, 통화(로컬·뉴질랜드 IP → NZD, 미국 IPv4·IPv6·?cur=usd → USD, 첫 화면 private 캐시), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
+결과(2026-10-08 2차 개편): 130/130 통과, 접근성 위반 0. 그 전 회차에서 확인한 것(그대로 포함): 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금·서비스 = 견적서 플랜(STARTER · BUSINESS · ENTERPRISE)·무료 혜택·식당 문구 없음, 통화(로컬·뉴질랜드 IP → NZD, 미국 IPv4·IPv6·?cur=usd → USD, 첫 화면 private 캐시), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기, 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시.
 
 ## 접근성·성능 메모
 - 키보드로 모든 기능 사용 가능, 창은 Esc로 닫고 원래 버튼으로 초점이 돌아갑니다. 타이핑 제목은 화면 읽기 프로그램에 전체 문장으로 읽힙니다.
-- 5초 넘게 움직이는 것(작업물 벽·자동 재생 영상)은 멈출 수 있고, '움직임 멈추기'는 다음 방문에도 기억됩니다. 운영체제의 '동작 줄이기'를 켜면 인트로와 자동 재생이 없습니다.
+- 5초 넘게 움직이는 것(작업물 벽·포트폴리오 반복 재생·광고 샘플 자동 넘김·제목 끝 커서)은 멈출 수 있고(히어로와 포트폴리오의 '움직임 멈추기', 영상마다 재생·일시정지), 다음 방문에도 기억됩니다. 운영체제의 '동작 줄이기'를 켜면 인트로·자동 재생·깜빡임이 없습니다.
+- 계산기 숫자는 세면서 바뀌지만, 화면 읽기 프로그램에는 입력을 멈춘 뒤 최종 결과만 한 번 읽어 줍니다.
 - 첫 화면: HTML 28KB(gzip) · CSS 10KB · JS 8KB · 폰트 약 90KB. 사진은 WebP 우선·지연 로딩, 히어로 영상은 PC에서 화면에 보이는 카드만 재생(모바일은 사진).

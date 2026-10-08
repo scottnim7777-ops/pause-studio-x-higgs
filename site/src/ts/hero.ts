@@ -1,6 +1,7 @@
 /**
  * 히어로(32차 승인안)
  * - 인트로 3.4초: 어둠 속 흐릿한 작업물 벽이 다가오며 선명해짐 + 제목을 한글 자판으로 치듯 자모부터 조립(ㅅ → 서 → 선) + 깜빡이는 커서
+ * - 타이핑이 끝나도 커서는 문장 끝에서 계속 깜빡임(CSS .caret.end, 움직임을 멈추면 깜빡임도 멈춤)
  * - 이후: 세 줄의 작업물이 서로 반대로 천천히 흐름(24초 주기), 마우스에 따라 살짝 기울어짐, 화면 안의 영상만 재생
  * - '움직임 멈추기' 버튼·운영체제의 동작 줄이기를 따름. 인트로 타이밍은 drafts/v32/hero/hero.html 과 같다.
  */
@@ -70,7 +71,7 @@ export function initHero(onIntroDone: () => void) {
   const caret = () => { const c = document.createElement('i'); c.className = 'caret'; return c; };
   function typing(t: number) {
     const T0 = 0.5, T1 = 2.05;
-    const caretOn = t >= 0.2 && t < 2.9 && ((t >= T0 && t < T1) || Math.floor((t - (t < T0 ? 0.2 : T1)) * 2.6) % 2 === 0);
+    const caretOn = t >= 0.2 && ((t >= T0 && t < T1) || Math.floor((t - (t < T0 ? 0.2 : T1)) * 2.6) % 2 === 0);
     const k = t < T0 ? -1 : t >= T1 ? seq.length - 1 : Math.min(seq.length - 1, Math.floor(((t - T0) / (T1 - T0)) * seq.length));
     const key = `${k}|${caretOn}`;
     if (key === lastKey) return;
@@ -82,7 +83,13 @@ export function initHero(onIntroDone: () => void) {
       if (caretOn && i === cur) el.appendChild(caret());
     });
   }
-  const restoreTitle = () => { lines.forEach((el, i) => { el.textContent = texts[i]; }); title.style.minHeight = ''; };
+  const restoreTitle = () => {
+    lines.forEach((el, i) => { el.textContent = texts[i]; });
+    title.style.minHeight = '';
+    const end = caret();
+    end.classList.add('end');
+    lines[lines.length - 1].appendChild(end);
+  };
 
   /* ── 상태 */
   const reduced = motion.reduced;

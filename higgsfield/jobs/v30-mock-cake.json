@@ -1,0 +1,47 @@
+{
+  "label": "v30-mock-cake",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Generic bright stock photograph used on a ready-made bakery website template: a two-tier white celebration cake decorated with pink sugar roses on a white table, pastel balloons softly blurred in the background, bright even lighting, saturated colours, typical generic stock photo look, no people, no text.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "BEFORE 템플릿 예시 화면용 흔한 스톡 느낌 사진 ≈ $0.006",
+  "submitted_at": "2026-10-08T13:32:22.124Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-08T13:32:22.792Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-08T13:40:39.903Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "6341e289-4351-4026-8b92-5706703f4f9a",
+  "status_url": "https://api.higgsfield.ai/requests/6341e289-4351-4026-8b92-5706703f4f9a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/6341e289-4351-4026-8b92-5706703f4f9a/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "6341e289-4351-4026-8b92-5706703f4f9a",
+    "status_url": "https://api.higgsfield.ai/requests/6341e289-4351-4026-8b92-5706703f4f9a/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/6341e289-4351-4026-8b92-5706703f4f9a/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/976145e3-2aaf-4260-9d3e-d451e7925c71.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-08T13:40:39.903Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v30-mock-cake/v30-mock-cake_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/976145e3-2aaf-4260-9d3e-d451e7925c71.png",
+      "bytes": 1993238,
+      "sha256": "7a71c1393be9836318b947f1c21b400c037e33c93e5e8b384bccf7e8c03934af"
+    }
+  ],
+  "downloaded_at": "2026-10-08T13:40:41.885Z"
+}

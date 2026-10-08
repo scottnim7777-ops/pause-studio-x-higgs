@@ -9,3 +9,8 @@
 - 화면 구성·글씨 크기·카피는 31차와 같음(`drafts/v31/out/pc.png`, `mobile.png`).
 - 렌더: `node tools/render_v29.cjs --dir drafts/v32/hero --out drafts/v32/out --v b --fps 30 --dur 7 --name intro-pc` (모바일 `--mobile --ch 1120 --z 2`)
   - 타이핑 중간 글자(자모·받침 전 글자)는 제목의 `data-x`로 서체 묶음에 포함.
+
+## 결과 (`out/`)
+- `intro-pc.mp4` — PC 1920×1080, 7초
+- `intro-mobile.mp4` — 휴대폰 첫 화면(390×844를 2배, 780×1688), 7초
+- `intro-pc-filmstrip.png` — 시점별 장면

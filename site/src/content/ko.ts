@@ -64,6 +64,7 @@ export const hero = {
  * 포트폴리오: 실제 고객 작업물만. 번호는 보이는 순서대로(Ref. 01~). id = 미디어 파일 이름(바뀌지 않음)
  * 2026-10-08 사용자: 동대문(id ref03)은 사진 대신 받은 화면 녹화로, 컨템퍼러리 타투 스튜디오(unframe)를 중간 순서에 추가,
  * 영상은 마우스를 올리지 않아도 계속 반복 재생, 화면이 잘려 보이지 않게
+ * 2026-10-09 사용자: 레퍼런스 8번(미용실)과 9번(타투 스튜디오) 자리 바꿈 → 번호는 보이는 순서대로 다시 매김
  */
 export type WorkItem = { id: string; category: string; video?: boolean };
 export const work = {
@@ -79,8 +80,8 @@ export const work = {
     { id: 'ref05', category: '패스트푸드 프랜차이즈' },
     { id: 'ref06', category: '패스트푸드 프랜차이즈' },
     { id: 'ref07', category: '호스피스', video: true },
-    { id: 'ref08', category: '미용실 / 헤어 살롱' },
     { id: 'unframe', category: '컨템퍼러리 타투 스튜디오', video: true },
+    { id: 'ref08', category: '미용실 / 헤어 살롱' },
     { id: 'ref09', category: '건강식품' },
     { id: 'ref10', category: '택시 호출 및 배차 플랫폼 개발' },
     { id: 'ref11', category: '여행사' },
@@ -130,7 +131,7 @@ export const who = {
 
 /** 서비스 두 장의 첫 화면(큰 제목) */
 export const chapters = {
-  website: { index: 'CHAPTER 01', word: 'WEBSITE', ko: '웹사이트 제작', lead: '보여지는 첫 화면부터 문의로 이어지는 마지막 버튼까지,\n브랜드에 맞춰 처음부터 설계합니다.' },
+  website: { index: 'CHAPTER 01', word: 'WEBSITE', ko: '웹사이트 제작', lead: '어디서도 찾아 볼 수 없는 관리비/유지보수\u00A0비용 제로 솔루션.\n보여지는 첫 화면부터 문의로 이어지는 마지막 버튼까지,\n브랜드에 맞춰 처음부터 설계합니다.' },
   video: { index: 'CHAPTER 02', word: 'AI VIDEO AD', ko: 'AI 광고영상 제작', lead: '촬영 없이, 가지고 계신 사진만으로.\n기획부터 편집과 사운드까지 완성된 광고영상을 드립니다.' },
 };
 
@@ -268,6 +269,9 @@ export const fee = {
     title: '총비용 직접 계산해 보기',
     lead: '다른 업체에서 받은 견적을 넣어 보세요.\n기간을 늘릴수록 차이가 커집니다.',
     otherLabel: '타사 견적',
+    /** 입력칸임을 알 수 있게(2026-10-09 사용자: 직접 입력하는 칸인지 잘 모르겠음) */
+    inputHint: '직접 입력',
+    placeholder: '금액 입력',
     pauseLabel: 'PAUSE Studio',
     setupLabel: '초기 제작비',
     monthlyLabel: '월 관리비',
@@ -292,7 +296,7 @@ export const fee = {
     aria: 'PAUSE Studio 기본 월 관리비: 1월부터 12월까지 매달 $0, 1년 합계 $0',
     /** 큰 $0의 '허리띠' 움직임(사용자): 예시 월 관리비 $100에서 세어 내려가며 숫자가 홀쭉해지고 $0에서 멈춤(달마다 $0이 하나씩 채워짐). 예시임을 글로 밝힘 */
     from: 100,
-    capFrom: '예를 들어 월 관리비가',
+    capFrom: '타사 관리비',
     capTo: 'PAUSE Studio라면',
   },
 };

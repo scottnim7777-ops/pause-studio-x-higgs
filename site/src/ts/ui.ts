@@ -325,9 +325,8 @@ export function initCompare() {
       range.setAttribute('aria-valuetext', `BEFORE ${r}%, AFTER ${100 - r}%`);
     };
     set(50);
-    let touched = false;
     let stopHint = () => {};
-    const touch = () => { touched = true; stopHint(); };
+    const touch = () => stopHint();
     range.addEventListener('input', () => { touch(); set(Number(range.value)); });
     const fromX = (cx: number) => { const r = frame.getBoundingClientRect(); return ((cx - r.left) / r.width) * 100; };
     let drag: { id: number; x0: number; moved: boolean } | null = null;
@@ -361,11 +360,14 @@ export function initCompare() {
     });
     frame.addEventListener('pointercancel', (e) => { if (drag && e.pointerId === drag.id) stop(); });
 
-    const io = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return;
-      io.disconnect();
-      if (touched || !motion.allowed) return;
-      const K: [number, number][] = [[0, 50], [0.36, 30], [0.76, 66], [1, 50]];
+    // 손잡이 안내(2026-10-09 사용자): 화면에 들어오면 바로 한 번, 보이는 동안 7초마다 좌우로 살짝 움직여 끌 수 있음을 알림.
+    // 지금 자리에서 출발해 제자리로 돌아오므로 사용자가 맞춘 위치는 그대로. 손대면 10초 동안 쉬고, 움직임 멈추기·동작 줄이기면 하지 않음
+    let lastTouch = -Infinity, visible = false, raf = 0, timer = 0;
+    const hint = () => {
+      cancelAnimationFrame(raf);
+      if (!visible || drag || !motion.allowed || performance.now() - lastTouch < 10000) return;
+      const p0 = Number(range.value) || 50;
+      const K: [number, number][] = [[0, p0], [0.36, Math.max(6, p0 - 20)], [0.76, Math.min(94, p0 + 16)], [1, p0]];
       const at = (k: number) => {
         for (let i = 1; i < K.length; i++) {
           if (k <= K[i][0]) {
@@ -373,22 +375,31 @@ export function initCompare() {
             return va + (vb - va) * easeIo((k - ta) / (tb - ta));
           }
         }
-        return 50;
+        return p0;
       };
-      const dur = 2000, delay = 500;
-      const t0 = performance.now() + delay;
-      let raf = requestAnimationFrame(function f(now) {
+      const dur = 2200, t0 = performance.now();
+      frame.classList.add('hinting');
+      raf = requestAnimationFrame(function f(now) {
         const k = clamp01((now - t0) / dur);
-        if (now >= t0) set(at(k));
+        set(at(k));
         if (k < 1) raf = requestAnimationFrame(f);
+        else frame.classList.remove('hinting');
       });
-      stopHint = () => cancelAnimationFrame(raf);
-    }, { threshold: 0.6 });
+    };
+    stopHint = () => { cancelAnimationFrame(raf); frame.classList.remove('hinting'); lastTouch = performance.now(); };
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      clearInterval(timer);
+      if (!visible) { cancelAnimationFrame(raf); frame.classList.remove('hinting'); return; }
+      window.setTimeout(hint, 400);
+      timer = window.setInterval(hint, 7000);
+    }, { threshold: 0.5 });
     io.observe(frame);
   });
 }
 
-/* ── AI 광고영상 샘플: 탭으로 넘김. 손대지 않으면 한 편이 끝날 때 다음 샘플로(보이는 동안만) */
+/* ── AI 광고영상 샘플: 탭으로 넘김. 한 편이 끝나면 다음 샘플로(보이는 동안만). 탭을 눌러 고른 뒤에도 그 영상이 끝나면 다음으로(2026-10-09 사용자).
+ *    멈추려면 영상의 일시정지 단추 또는 '움직임 멈추기' */
 export function initFilmSamples() {
   const root = $('[data-fs]');
   if (!root) return;
@@ -399,7 +410,7 @@ export function initFilmSamples() {
   const btns = panels.map((p) => $<HTMLButtonElement>('[data-vctrl]', p));
   let cur = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
   if (cur < 0) cur = 0;
-  let inView = false, auto = true, userPaused = false, raf = 0;
+  let inView = false, userPaused = false, raf = 0;
   // 선택된 탭의 선: 재생할 수 있으면 진행률, 아니면 꽉 찬 선
   tabs[cur].style.setProperty('--prog', motion.allowed && !saveData() ? '0' : '1');
   const can = () => inView && motion.allowed && !saveData() && !userPaused;
@@ -418,14 +429,14 @@ export function initFilmSamples() {
   };
   const play = () => {
     const v = vids[cur];
-    v.loop = !auto;
+    v.loop = false;
     if (can()) {
       if (!v.src && v.dataset.src) v.src = v.dataset.src;
       v.play().catch(() => syncBtn(cur));
     } else if (!v.paused) v.pause();
   };
   const select = (i: number, fromUser: boolean, focus = false) => {
-    if (fromUser) auto = false;
+    if (fromUser) userPaused = false; // 고른 샘플은 처음부터 재생, 끝나면 다음으로
     if (i !== cur) {
       vids[cur].pause();
       tabs[cur].setAttribute('aria-selected', 'false');
@@ -452,7 +463,7 @@ export function initFilmSamples() {
     v.addEventListener('pause', () => syncBtn(i));
     v.addEventListener('ended', () => {
       if (i !== cur) return;
-      if (auto && can()) select((cur + 1) % tabs.length, false);
+      if (can()) select((cur + 1) % tabs.length, false);
       else { v.currentTime = 0; play(); }
     });
     btns[i]?.addEventListener('click', () => {
@@ -590,6 +601,17 @@ export function initCalc() {
   }));
   years.addEventListener('input', calc);
   plans.forEach((p) => p.addEventListener('change', calc));
+  // 처음 화면에 들어오면 비어 있는 타사 견적 칸이 두 번 빛나 '여기에 입력'임을 알림(2026-10-09 사용자)
+  const firstBox = setup.closest('.money');
+  if (firstBox && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      if (!motion.allowed || setup.value || monthly.value) return;
+      window.setTimeout(() => { firstBox.classList.add('nudge'); firstBox.addEventListener('animationend', () => firstBox.classList.remove('nudge'), { once: true }); }, 500);
+    }, { threshold: 0.6 });
+    io.observe(firstBox);
+  }
   // 통화 표시가 바뀌면(미리보기 전용 전환) 숫자도 같은 표시로
   new MutationObserver(calc).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
   calc();
@@ -696,27 +718,30 @@ export function initEmail() {
   });
 }
 
-/* ── 스크롤에 따른 큰 글자: 장 제목은 옆으로 천천히(--p), 마무리 선언은 단어가 하나씩 밝아짐 */
+/* ── 장 제목 큰 영문: 스크롤에 따라 오른쪽에서 들어와 제자리에(--p). 마무리 선언: 보이면 손글씨처럼 쓰고 서명 */
 export function initScrub() {
   const chapters = $$('[data-scrub]');
+  // 마무리 선언: 한 번 화면에 들어오면 손글씨처럼 쓰기 시작(.go) → 글자를 다 쓴 뒤 대표 서명을 그림. 동작 줄이기면 바로 완성
   const mf = $('[data-manifesto]');
-  const big = mf ? $('.mf-big', mf) : null;
-  const words = mf ? $$('.w', mf) : [];
+  if (mf) {
+    const sig = $('.sig', mf);
+    const n = Number(getComputedStyle(mf).getPropertyValue('--n')) || 15;
+    const start = () => { mf.classList.add('go'); if (sig) window.setTimeout(() => sig.classList.add('go'), motion.reduced ? 0 : n * 90 + 2300); };
+    if (motion.reduced || !('IntersectionObserver' in window)) start();
+    else {
+      const big = $('.mf-big', mf) ?? mf;
+      const mo = new IntersectionObserver(([e]) => { if (e.isIntersecting) { mo.disconnect(); start(); } }, { threshold: 0.45 });
+      mo.observe(big);
+    }
+  }
   const active = new Set<Element>();
   let raf = 0;
   const frame = () => {
     raf = 0;
     const vh = innerHeight;
     active.forEach((el) => {
-      if (el === mf && big) {
-        const top = big.getBoundingClientRect().top;
-        const q = clamp01((vh * 0.88 - top) / (vh * 0.5));
-        words.forEach((w, i) => w.classList.toggle('on', q * words.length > i + 0.15));
-        mf.style.setProperty('--glow', q.toFixed(3));
-      } else {
-        const r = el.getBoundingClientRect();
-        (el as HTMLElement).style.setProperty('--p', clamp01((vh - r.top) / (vh + r.height)).toFixed(4));
-      }
+      const r = el.getBoundingClientRect();
+      (el as HTMLElement).style.setProperty('--p', clamp01((vh - r.top) / (vh + r.height)).toFixed(4));
     });
   };
   const req = () => { if (!raf) raf = requestAnimationFrame(frame); };
@@ -724,7 +749,7 @@ export function initScrub() {
     es.forEach((e) => { if (e.isIntersecting) active.add(e.target); else active.delete(e.target); });
     req();
   });
-  [...chapters, ...(mf ? [mf] : [])].forEach((el) => io.observe(el));
+  chapters.forEach((el) => io.observe(el));
   addEventListener('scroll', req, { passive: true });
   addEventListener('resize', req);
 }

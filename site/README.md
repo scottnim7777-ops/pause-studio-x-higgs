@@ -30,7 +30,7 @@ npm run check        # 타입 검사 + 빌드
 | `scripts/render.ts` | `index.template.html` → `index.html` |
 | `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4, 받은 화면 녹화는 끊김 없이 반복되게 1초 겹침) + `src/content/media.json`(실제 크기) |
 | `../tools/ad_edit.py` | AI 광고영상 샘플 편집(ONDO · SOUTHERN ROUTE · DAON): Higgsfield 영상 두 컷 → 색보정·비네팅·그레인 + 움직이는 글씨(MaruBuri · Instrument Serif · Archivo) + 끝 화면 → `public/media/film/*.mp4`·포스터·BEFORE 사진 |
-| `tests/smoke.cjs` | 브라우저 점검 138개(화면 폭 7종·커서, 상담 4종 흐름·관심 플랜, 요금 = 견적서 플랜 + 최종 가격(STARTER · BUSINESS · ENTERPRISE · AI 광고영상)·결합 상품·예전 가격·GST 문구 없음, 통화(뉴질랜드 IP만 NZ$, 미국·한국·호주·IPv6·판별 실패는 US$, 꾸민 국가 헤더·?cur 무시), 포트폴리오 반복 재생·잘림 없음, 비교 손잡이, 광고 샘플 탭·자동 넘김, 질문 탭·열고 닫기, 전화 상담·이메일, 줄표·별표 없음, 머리줄, 계산기 플랜 선택, $0 다이어트, 가로·세로 틀 배치(긴 변·바닥선), 동작 줄이기, JS 없음) |
+| `tests/smoke.cjs` | 브라우저 점검 145개(화면 폭 7종·커서, 상담 4종 흐름·관심 플랜, 요금 = 견적서 플랜 + 최종 가격(STARTER · BUSINESS · ENTERPRISE · AI 광고영상)·결합 상품·예전 가격·GST 문구 없음, 통화(뉴질랜드 IP만 NZ$, 미국·한국·호주·IPv6·판별 실패는 US$, 꾸민 국가 헤더·?cur 무시), 포트폴리오 반복 재생·잘림 없음, 비교 손잡이, 광고 샘플 탭·자동 넘김, 질문 탭·열고 닫기, 전화 상담·이메일, 줄표·별표 없음, 머리줄, 계산기 플랜 선택, $0 다이어트, 가로·세로 그림(플레이어 16:9 + 휴대폰 9:16), 세로로 긴 창의 히어로 벽, 장 제목 잘림 없음, 비교 손잡이 주기 안내, 계산기 입력칸 표시, 샘플 탭 누른 뒤 자동 넘김, 포트폴리오 줄 맞춤(잘림·틀 없음), 마무리 선언 손글씨·서명, 동작 줄이기, JS 없음) |
 | `tests/fixtures/tiny.webm` | 점검용 6초 영상 — Playwright의 Chromium에는 H.264가 없어 재생 점검 때 .mp4 대신 보냄 |
 | `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
 | `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2, 관리비 숫자용 PS Ledger) + `src/styles/fonts.css` |
@@ -71,7 +71,7 @@ npm run build && PORT=3100 NODE_ENV=production node dist/server.cjs &
 NODE_PATH=/opt/node22/lib/node_modules node tests/smoke.cjs http://localhost:3100 tests/out
 NODE_PATH=/opt/node22/lib/node_modules node tests/a11y.cjs http://localhost:3100
 ```
-결과(2026-10-08 최종 가격 정책): 138/138 통과, 접근성 위반 0. 확인한 것: 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금 = 견적서 플랜 + 최종 가격(STARTER US$1,990 · BUSINESS US$4,490부터 · ENTERPRISE 맞춤 견적, 영상 US$490 · 890 · 1,490부터 · 2,490/월)·무료 혜택, 결합 상품·예전 가격(1,490 · 2,900 · 5,500)·WEBSITE · ONLINE STORE 이름·GST 문구 없음, 통화(로컬 → USD, 뉴질랜드 IP → NZD, 미국·한국·호주·미국 IPv6 → USD, 운영에서 ?cur=nzd·설정 안 된 cf-ipcountry 무시, 첫 화면 private 캐시, `/api/currency`), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기(STARTER 기본, BUSINESS로 바꾸면 US$4,490부터·절약액 다시 계산), $0 다이어트($100 → $0, 12달 채움, 동작 줄이기면 바로 $0), 가로·세로 틀(1440·390에서 긴 변 같음·바닥선 같음·설명 정렬), 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시(질문 27개·$0).
+결과(2026-10-09 피드백 반영): 145/145 통과, 접근성 위반 0. 확인한 것: 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금 = 견적서 플랜 + 최종 가격(STARTER US$1,990 · BUSINESS US$4,490부터 · ENTERPRISE 맞춤 견적, 영상 US$490 · 890 · 1,490부터 · 2,490/월)·무료 혜택, 결합 상품·예전 가격(1,490 · 2,900 · 5,500)·WEBSITE · ONLINE STORE 이름·GST 문구 없음, 통화(로컬 → USD, 뉴질랜드 IP → NZD, 미국·한국·호주·미국 IPv6 → USD, 운영에서 ?cur=nzd·설정 안 된 cf-ipcountry 무시, 첫 화면 private 캐시, `/api/currency`), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기(STARTER 기본, BUSINESS로 바꾸면 US$4,490부터·절약액 다시 계산), $0 다이어트($100 → $0, 12달 채움, 동작 줄이기면 바로 $0), 가로·세로 틀(1440·390에서 긴 변 같음·바닥선 같음·설명 정렬), 움직임 멈추기 기억, 동작 줄이기, JS 없이 내용 표시(질문 27개·$0).
 
 ## 접근성·성능 메모
 - 키보드로 모든 기능 사용 가능, 창은 Esc로 닫고 원래 버튼으로 초점이 돌아갑니다. 타이핑 제목은 화면 읽기 프로그램에 전체 문장으로 읽힙니다.

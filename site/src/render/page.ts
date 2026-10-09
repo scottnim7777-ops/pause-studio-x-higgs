@@ -15,7 +15,31 @@ const PUB = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..
 const exists = (p: string) => fs.existsSync(path.join(PUB, p));
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 /** 문구 안의 '\n' = 의도한 줄바꿈 */
-const nl = (s: string) => esc(s).replace(/\n/g, '<br>');
+/**
+ * 구절 단위 줄바꿈(2026-10-09 사용자: 모바일에서도 '웹사이트 제작부터 AI 영상 제작까지,' 뒤에서 줄이 바뀌는 게 보기 좋음):
+ * 쉼표·마침표 뒤에서 나눈 구절을 inline-block으로 묶어, 줄 끝에 다 안 들어가면 구절째 다음 줄로 넘어가게. 괄호 안 쉼표는 나누지 않음
+ */
+const phr = (line: string) => {
+  const len = (x: string) => x.replace(/\s/g, '').length;
+  const parts: string[] = [];
+  let depth = 0, cur = '';
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    cur += ch;
+    if (ch === '(') depth++;
+    else if (ch === ')') depth = Math.max(0, depth - 1);
+    else if ((ch === ',' || ch === '.') && depth === 0 && line[i + 1] === ' ') {
+      const rest = line.slice(i + 2);
+      const nextItem = rest.split(/[,.]/)[0];
+      // 쉼표는 구절이 충분히 길 때만(나열 '예약, 주문, 결제' · '디자인, 개발'은 나누지 않음). 마침표(문장 끝)는 언제나
+      const clause = ch === '.' ? len(cur) >= 4 && len(rest) >= 4 : len(cur) >= 9 && len(nextItem) >= 7 && len(rest) >= 7;
+      if (clause) { parts.push(cur); cur = ''; i++; }
+    }
+  }
+  if (cur) parts.push(cur);
+  return parts.length > 1 ? parts.map((x) => `<span class="cl">${esc(x)}</span>`).join(' ') : esc(line);
+};
+const nl = (s: string) => s.split('\n').map(phr).join('<br>');
 
 const arrow = (cls = 'ar') => `<svg class="${cls}" viewBox="0 0 30 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 6h28.5M23.5 1l5 5-5 5"/></svg>`;
 const smallArrow = `<svg viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg>`;
@@ -117,8 +141,11 @@ function work() {
     const [iw, ih] = big(b);
     const hasVid = it.video && exists(`${b}.mp4`);
     const vid = hasVid ? `<video class="wk-vid" muted playsinline loop preload="none" data-loop data-src="${b}.mp4" width="${iw}" height="${ih}" aria-hidden="true"></video>` : '';
-    return `<li class="wk rv" style="--d:${(i % 4) * 0.06}s"><button class="wk-btn" type="button" data-work="${i}" aria-label="${esc(`${refNo(i)} ${it.category} 크게 보기`)}">
-      <span class="wk-media"><img class="wk-bg" src="${b}-880.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><span class="wk-fit" style="--ar:${(iw / ih).toFixed(4)}">${img(b, `${refNo(i)} ${it.category} 웹사이트 화면`, '(max-width: 1279px) 46vw, 23vw', 'wk-img')}${vid}</span></span>
+    // 칸 = 화면 비율 그대로(--ar). 한 줄의 높이를 맞춰 폭을 꽉 채우고(자르지 않음), 모바일은 한 칸씩 크게(아주 긴 세로 화면만 --arm으로 높이 제한)
+    // 세로로 긴 화면(택시 앱 0.69)은 칸 폭이 너무 좁아지지 않게 칸 비율만 1.25까지(사진은 잘리지 않고 칸 안에 그대로)
+    const ar = iw / ih;
+    return `<li class="wk rv" style="--d:${(i % 4) * 0.06}s;--ar:${Math.max(ar, 1.25).toFixed(4)};--arm:${Math.max(ar, 1).toFixed(4)}"><button class="wk-btn" type="button" data-work="${i}" aria-label="${esc(`${refNo(i)} ${it.category} 크게 보기`)}">
+      <span class="wk-media">${img(b, `${refNo(i)} ${it.category} 웹사이트 화면`, '(max-width: 767px) 92vw, (max-width: 1279px) 48vw, 36vw', 'wk-img')}${vid}</span>
       <span class="wk-cap"><span class="wk-ref">${refNo(i)}</span><span class="wk-cat">${esc(it.category)}</span>${arrow()}</span>
     </button></li>`;
   }).join('');
@@ -130,7 +157,7 @@ function work() {
   }));
   return `<section class="sec sec-dark work" id="work" aria-labelledby="work-title">
   <div class="wrap">
-    <header class="sec-head work-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="work-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${esc(w.lead)}</p><button class="motion-toggle" type="button" aria-pressed="false" data-motion-toggle><span>움직임 멈추기</span></button></header>
+    <header class="sec-head work-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="work-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${nl(w.lead)}</p><button class="motion-toggle" type="button" aria-pressed="false" data-motion-toggle><span>움직임 멈추기</span></button></header>
     <ul class="work-grid" data-work-grid>${items}${next}</ul>
   </div>
   <span class="wk-cursor" aria-hidden="true" data-wk-cursor>${esc(w.view)}</span>
@@ -148,9 +175,10 @@ function lightbox() {
 </dialog>`;
 }
 
-function signature() {
+/** 대표 서명(획 순서대로 그려짐). id = 마스크 이름(한 페이지에 두 번 쓰므로 달라야 함), auto = 보이면 스스로 그리기 시작(아니면 다른 코드가 .go를 붙임) */
+function signature(id = 'sigm', auto = true) {
   const strokes = signatureStrokes.map((s) => `<path class="st" d="${s.d}" style="--l:${s.l}px;--dur:${s.dur}ms;--off:${s.off}ms;--e:${s.e}"/>`).join('');
-  return `<svg class="sig" viewBox="0 0 1363 432" role="img" aria-label="PAUSE STUDIO 대표 서명" data-sign><defs><mask id="sigm" maskUnits="userSpaceOnUse" x="0" y="0" width="1363" height="432">${strokes}</mask></defs><path d="${signatureOutline}" fill="currentColor" fill-rule="evenodd" mask="url(#sigm)"/></svg>`;
+  return `<svg class="sig" viewBox="0 0 1363 432" role="img" aria-label="PAUSE STUDIO 대표 서명"${auto ? ' data-sign' : ''}><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1363" height="432">${strokes}</mask></defs><path d="${signatureOutline}" fill="currentColor" fill-rule="evenodd" mask="url(#${id})"/></svg>`;
 }
 
 function why() {
@@ -172,7 +200,7 @@ function who() {
   const items = w.items.map((x, i) => `<li class="rv" style="--d:${(i % 3) * 0.06}s"><span class="idx">${String(i + 1).padStart(2, '0')}</span><p>${esc(x)}</p></li>`).join('');
   return `<section class="sec sec-paper who" id="who" aria-labelledby="who-title">
   <div class="wrap who-grid">
-    <header class="sec-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="who-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${esc(w.lead)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="who-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${nl(w.lead)}</p></header>
     <ol class="who-list">${items}</ol>
   </div>
 </section>`;
@@ -239,7 +267,7 @@ function planCard(pl: C.Plan, i: number) {
   return `<article class="plan${pl.featured ? ' featured' : ''} rv" style="--d:${i * 0.08}s" aria-labelledby="plan-${pl.key}">
       ${pl.featured ? `<span class="badge">${esc(p.featuredBadge)}</span>` : ''}<h3 class="plan-name" id="plan-${pl.key}">${esc(pl.name)}</h3><p class="type">${esc(pl.type)}</p>
       <p class="price">${priceHtml(pl.price, pl.suffix)}</p>
-      <p class="pl-target"><span>${esc(p.targetLabel)}</span>${esc(pl.target)}</p>
+      <p class="pl-target"><span>${esc(p.targetLabel)}</span>${nl(pl.target)}</p>
       <div class="pl-body">${adds}${base}</div>
       ${consultBtn(C.cta.free, 'btn btn-solid', pl.key)}
     </article>`;
@@ -270,6 +298,8 @@ function ledger() {
         <p class="ledger-total" aria-hidden="true"><span>${esc(l.totalLabel)}</span><b>$0</b></p>
       </figure>`;
 }
+/** 입력칸의 연필 표시 */
+const PEN = '<svg class="pen" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.1 2.4l2.5 2.5-7.9 7.9-3.3.8.8-3.3z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9.6 3.9l2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>';
 /** 계산기: 왼쪽(타사 견적, 직접 입력) VS 오른쪽(PAUSE Studio, 상품 선택) — 휴대폰에서도 두 칸이 분명히 구분되게 */
 function calc() {
   const c = C.fee.calc;
@@ -280,9 +310,9 @@ function calc() {
       <div class="calc-intro"><h3 class="h3">${esc(c.title)}</h3><p class="calc-lead">${nl(c.lead)}</p></div>
       <div class="calc-form">
         <div class="calc-vs">
-          <fieldset class="calc-side other"><legend><span class="side-tag">${esc(c.otherLabel)}</span></legend>
-            <label>${esc(c.setupLabel)}<span class="money"><span class="sym">${t(SYM)}</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-c="setup" aria-label="${esc(c.otherLabel)} ${esc(c.setupLabel)}"></span></label>
-            <label>${esc(c.monthlyLabel)}<span class="money"><span class="sym">${t(SYM)}</span><input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-c="monthly" aria-label="${esc(c.otherLabel)} ${esc(c.monthlyLabel)}"></span></label>
+          <fieldset class="calc-side other"><legend><span class="side-tag">${esc(c.otherLabel)}</span><span class="side-hint">${PEN}${esc(c.inputHint)}</span></legend>
+            <label>${esc(c.setupLabel)}<span class="money"><span class="sym">${t(SYM)}</span><i class="caret" aria-hidden="true"></i><input type="text" inputmode="numeric" autocomplete="off" placeholder="${esc(c.placeholder)}" data-c="setup" aria-label="${esc(c.otherLabel)} ${esc(c.setupLabel)}">${PEN}</span></label>
+            <label>${esc(c.monthlyLabel)}<span class="money"><span class="sym">${t(SYM)}</span><i class="caret" aria-hidden="true"></i><input type="text" inputmode="numeric" autocomplete="off" placeholder="${esc(c.placeholder)}" data-c="monthly" aria-label="${esc(c.otherLabel)} ${esc(c.monthlyLabel)}">${PEN}</span></label>
           </fieldset>
           <span class="vs" aria-hidden="true">${esc(c.vs)}</span>
           <fieldset class="calc-side pause"><legend><img src="/brand/logo-cream.svg" alt="${esc(c.pauseLabel)}" width="204" height="103"></legend>
@@ -326,7 +356,7 @@ function processSec() {
   const steps = p.steps.map((s, i) => `<li class="rv" style="--d:${i * 0.08}s"><span class="idx">${s.id}</span><h3 class="h3">${esc(s.title)}</h3><p class="hl">${esc(s.highlight)}</p><p class="d">${esc(s.desc)}</p></li>`).join('');
   return `<section class="sec sec-paper process" id="process" aria-labelledby="process-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)}</p><h2 class="h2 rv" id="process-title">${lines(p.title)}</h2><p class="lead rv" style="--d:.1s">${esc(p.subtitle)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)}</p><h2 class="h2 rv" id="process-title">${lines(p.title)}</h2><p class="lead rv" style="--d:.1s">${nl(p.subtitle)}</p></header>
     <ol class="steps">${steps}</ol>
   </div>
 </section>`;
@@ -358,18 +388,26 @@ function videoPlanCard(pl: C.VideoPlan, i: number) {
   const specs = pl.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
   return `<article class="vplan${pl.featured ? ' featured' : ''} rv" style="--d:${i * 0.08}s" aria-labelledby="vplan-${pl.key}">
       ${pl.badge ? `<span class="badge">${esc(pl.badge)}</span>` : ''}<h3 class="plan-name" id="vplan-${pl.key}">${esc(pl.name)}</h3>
-      <p class="tagline">${esc(pl.tagline)}</p>
+      <p class="tagline">${nl(pl.tagline)}</p>
       <p class="price">${priceHtml(pl.price, pl.suffix)}</p>
       <dl class="specs">${specs}</dl>
-      <p class="desc">${esc(pl.desc)}</p>
+      <p class="desc">${nl(pl.desc)}</p>
       ${consultBtn(C.cta.free, 'btn btn-solid', pl.key)}
     </article>`;
 }
 function videoPricing() {
   const v = C.videoPricing;
   const fm = v.formats;
-  // 두 틀은 긴 변이 같게(같은 영상을 돌려 세운 크기) 한 바닥선에 세우고, 틀 안에는 피사체(원)와 자막(두 줄)이 화면마다 다른 자리에
-  const frames = fm.items.map((x, i) => `<span class="frame fr-${i ? 'v' : 'h'}"><span class="fr-ratio">${esc(x.ratio)}</span><i class="fr-subj"></i><i class="fr-cap"></i></span>`).join('');
+  // 가로형 = 영상 플레이어, 세로형 = 그 앞에 겹쳐 선 휴대폰 숏폼 화면(같은 바닥선). 그림은 화면 읽기에서 숨기고 설명은 아래 목록으로
+  const [fh, fv] = fm.items;
+  const ico = (d: string) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
+  const side = [
+    'M12 20s-7-4.3-7-9.6A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.4C19 15.7 12 20 12 20z',
+    'M4.5 5.5h15v10h-9l-4.5 3.5v-3.5h-1.5z',
+    'M13.5 5l7 6.5-7 6.5v-3.8c-4.6 0-7.4 1.2-9.5 4.3.6-5.6 3.6-9 9.5-9.6z',
+  ].map(ico).join('');
+  const frames = `<span class="frame fr-h"><span class="fr-ratio">${esc(fh.ratio)}</span><i class="fr-play"></i><span class="fr-ctl"><span>0:12</span><span class="fr-bar"><i></i></span><span>0:30</span></span></span>`
+    + `<span class="frame fr-v"><i class="fr-island"></i><span class="fr-ratio">${esc(fv.ratio)}</span><span class="fr-side">${side}</span><span class="fr-meta"><span class="fr-who"><i class="fr-avatar"></i><i class="fr-line"></i></span><i class="fr-line"></i><i class="fr-line s"></i></span><span class="fr-bar"><i></i></span></span>`;
   const formats = fm.items.map((x) => `<li class="fmt"><b>${esc(x.name)}<span class="sr"> ${esc(x.ratio)}</span></b><span class="size">${esc(x.size)}</span><span class="use">${esc(x.use)}</span></li>`).join('');
   const mo = v.monthly;
   const rows = v.addons.rows.map(([k, price, unit]) => `<tr><th scope="row">${esc(k)}</th><td>${isNum(price) ? `${t(SYM)}${esc(price)}${unit ? ` <small>${esc(unit)}</small>` : ''}` : esc(price)}</td></tr>`).join('');
@@ -379,23 +417,23 @@ function videoPricing() {
   <div class="wrap">
     <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading)}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="formats rv">
-      <div class="fm-copy"><p class="kicker">${esc(fm.kicker)}</p><h3>${nl(fm.title)}</h3><p>${esc(fm.desc)}</p></div>
-      <div class="fm-art"><div class="fm-frames" aria-hidden="true">${frames}</div><ul class="fm-list">${formats}</ul></div>
+      <div class="fm-copy"><p class="kicker">${esc(fm.kicker)}</p><h3>${nl(fm.title)}</h3><p>${nl(fm.desc)}</p></div>
+      <div class="fm-art"><div class="fm-devices" aria-hidden="true">${frames}</div><ul class="fm-list">${formats}</ul></div>
     </div>
     <div class="vplans">${v.plans.map(videoPlanCard).join('')}</div>
     <div class="v-included rv"><h3>${esc(v.includedTitle)}</h3><ul class="chk">${v.included.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul></div>
     <article class="vmonthly rv" aria-labelledby="vplan-monthly">
-      <div class="vm-head"><span class="label">${esc(mo.label)}</span><h3 class="plan-name" id="vplan-monthly">${esc(mo.name)}</h3><p class="tagline">${esc(mo.tagline)}</p></div>
-      <div class="vm-body"><p class="price">${priceHtml(mo.price, mo.suffix)}</p><ul class="chk">${mo.specs.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul><p class="desc">${esc(mo.desc)}</p><p class="note">${esc(mo.note)}</p></div>
+      <div class="vm-head"><span class="label">${esc(mo.label)}</span><h3 class="plan-name" id="vplan-monthly">${esc(mo.name)}</h3><p class="tagline">${nl(mo.tagline)}</p></div>
+      <div class="vm-body"><p class="price">${priceHtml(mo.price, mo.suffix)}</p><ul class="chk">${mo.specs.map((x) => `<li>${check}${esc(x)}</li>`).join('')}</ul><p class="desc">${nl(mo.desc)}</p><p class="note">${nl(mo.note)}</p></div>
       <div class="vm-cta">${consultBtn(C.cta.free, 'btn btn-line', 'monthly')}</div>
     </article>
-    <p class="v-revisions rv">${esc(v.revisions)}</p>
+    <p class="v-revisions rv">${nl(v.revisions)}</p>
     <details class="addons rv" data-acc><summary><span>${esc(v.addons.toggle)}</span><span class="ic" aria-hidden="true"></span></summary><div class="acc-body"><div class="acc-in"><table class="addon-table"><caption class="sr">${esc(v.addons.title)}</caption><tbody>${rows}</tbody></table><p class="addon-note">${esc(v.addons.note)}</p></div></div></details>
     <div class="vflow">
       <div><h3 class="vflow-title rv">${esc(v.stepsTitle)}</h3><ol class="vsteps">${steps}</ol></div>
-      <div class="vsched rv"><h3 class="vflow-title">${esc(v.scheduleTitle)}</h3><dl>${sched}</dl><p>${esc(v.scheduleNote)}</p></div>
+      <div class="vsched rv"><h3 class="vflow-title">${esc(v.scheduleTitle)}</h3><dl>${sched}</dl><p>${nl(v.scheduleNote)}</p></div>
     </div>
-    <div class="vnotes rv"><h3 class="pnotes-title">${esc(v.notesTitle)}</h3><ul>${v.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></div>
+    <div class="vnotes rv"><h3 class="pnotes-title">${esc(v.notesTitle)}</h3><ul>${v.notes.map((n) => `<li>${nl(n)}</li>`).join('')}</ul></div>
   </div>
 </section>`;
 }
@@ -415,17 +453,21 @@ function faqSec() {
 </section>`;
 }
 
-/* ───────── 마무리 선언: 스크롤에 따라 단어가 하나씩 밝아짐 ───────── */
+/* ───────── 마무리 선언(2026-10-09 사용자: 진심이 느껴지게): 화면에 들어오면 따뜻한 빛이 번지고, 글자가 손으로 쓰듯 한 자씩 번져 나타난 뒤
+   둘째 줄 아래 손으로 그은 밑줄 → 다짐 문장 → 대표 서명이 차례로 그려짐(대표가 서명하는 약속) ───────── */
 function manifesto() {
   const m = C.manifesto;
   let n = 0;
-  const words = m.lines.map((ln) => `<span class="ln">${ln.split(' ').map((w, i, all) => `<span class="w" style="--i:${n++}">${esc(w)}</span>${i < all.length - 1 ? ([...w].length === 1 ? '&nbsp;' : ' ') : ''}`).join('')}</span>`).join('');
+  const jit = (k: number) => (k * 37) % 61; // 사람 손처럼 글자마다 조금씩 다른 간격(ms)
+  const word = (w: string) => `<span class="wd">${[...w].map((ch) => `<span class="ch" style="--i:${n};--j:${jit(n++)}ms">${esc(ch)}</span>`).join('')}</span>`;
+  const ink = '<svg class="mf-ink" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true"><path d="M10 40 C 150 26, 300 47, 470 35 S 790 22, 990 31" pathLength="1"/></svg>';
+  const lines = m.lines.map((ln, li) => `<span class="ln">${ln.split(' ').map(word).join(' ')}${li === m.lines.length - 1 ? ink : ''}</span>`).join('');
   return `<section class="manifesto" id="manifesto" aria-labelledby="mf-title" data-manifesto style="--n:${n}">
   <div class="wrap">
-    <p class="mf-kicker rv">${esc(m.kicker)}</p>
-    <h2 class="mf-big" id="mf-title"><span class="sr">${esc(m.lines.join(' '))}</span><span aria-hidden="true">${words}</span></h2>
-    <p class="mf-stmt rv">${esc(m.statement)}</p>
-    <p class="mf-sign rv">${esc(m.sign)}</p>
+    <p class="mf-kicker">${esc(m.kicker)}</p>
+    <h2 class="mf-big" id="mf-title"><span class="sr">${esc(m.lines.join(' '))}</span><span aria-hidden="true">${lines}</span></h2>
+    <p class="mf-stmt">${nl(m.statement)}</p>
+    <div class="mf-sign">${signature('sigm2', false)}<span>${esc(m.sign)}</span></div>
   </div>
 </section>`;
 }
@@ -536,7 +578,14 @@ const glue = (html: string) => html.replace(/(<script[\s\S]*?<\/script>)|(?<=>)(
     // 가운뎃점(·) 양옆에서 줄이 바뀌지 않게('갤러리 / ·포트폴리오' 방지): 보이지 않는 단어 이음표(U+2060)
     .replace(/(?<=\S)·(?=\S)/g, '\u2060·\u2060')
     // 띄어 쓴 가운뎃점('릴스 · 틱톡')은 앞말에 붙여 줄 첫머리가 '·'로 시작하지 않게
-    .replace(/ · /g, '\u00A0· '));
+    .replace(/ · /g, '\u00A0· ')
+    // 브랜드 이름(PAUSE / Studio)과 보조 용언(보여 / 주고, 찾고 / 계신, 제안해 / 드립니다)이 두 줄로 갈라지지 않게(2026-10-09)
+    .replace(/PAUSE (Studio|STUDIO)/g, 'PAUSE\u00A0$1')
+    .replace(/(?<=[가-힣](?:여|어|아|해|려|워|춰|와|내|줘)) (?=(?:주|드)[가-힣])/g, '\u00A0')
+    .replace(/(?<=[가-힣]고) (?=(?:계|있|싶)[가-힣])/g, '\u00A0')
+    // 꾸밈말은 뒷말과 함께('모든 / 순간' 방지)
+    .replace(/(?<=^|[\s\u00A0(])(모든|어떤|다른|여러) (?=[가-힣])/g, '$1\u00A0')
+    .replace(/(?<=\S)\/(?=\S)/g, '/\u2060'));
 
 export function renderBody() {
   return glue([

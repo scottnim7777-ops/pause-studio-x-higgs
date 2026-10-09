@@ -178,20 +178,30 @@ async function page(browser, vp, opts = {}) {
     check('AI 광고영상: SHORT 490 · BRAND 890 · HERO 1,490부터 · 월간 2,490/월', st.vplans.join('|') === 'AI SHORT AD US$490|AI BRAND AD US$890|AI HERO FILM US$1,490부터' && st.monthly === 'US$2,490/월', `${st.vplans.join(' | ')} · ${st.monthly}`);
     check('AI 광고영상: 가로 16:9 · 세로 9:16 기본 제공, 추가 작업 14가지', st.formats === '가로형 16:9 | 세로형 9:16' && st.addons === 14, `${st.formats} · ${st.addons}`);
     check('요금·FAQ에 식당 위주 문구 없음 · 폐지된 가격(1,490·2,900·5,500)·다른 상품 이름(WEBSITE·ONLINE STORE)·결합 상품(2,690·$190 할인) 없음 · GST 문구 없음', !st.restaurant && !st.old && !st.gst, `old: ${st.old || '-'} · GST ${st.gst}`);
-    // 가로·세로 틀(2026-10-08 사용자: 배치가 어색함): 긴 변이 같고(돌려 세운 같은 영상) 한 바닥선에, 설명은 틀 바로 아래 같은 왼쪽 선에
+    // 가로·세로 그림(2026-10-09 사용자: 원형이 뭔지 모르겠음 → 다시 그림): 가로형 = 플레이어(16:9), 세로형 = 앞에 겹쳐 선 휴대폰(9:16).
+    // 같은 바닥선, 휴대폰이 더 높고 플레이어 오른쪽을 덮음, 원형 없음, 설명은 그림 아래(PC는 각 기기의 왼쪽 선에서)
     const fmBox = () => p.evaluate(() => {
-      const [h, v] = [...document.querySelectorAll('.fm-frames .frame')].map((f) => f.getBoundingClientRect());
+      const [h, v] = ['.fr-h', '.fr-v'].map((s) => document.querySelector(`.fm-devices ${s}`).getBoundingClientRect());
       const caps = [...document.querySelectorAll('.fm-list .fmt')].map((c) => c.getBoundingClientRect());
       const box = document.querySelector('.formats').getBoundingClientRect();
-      const r = (n) => Math.round(n * 10) / 10;
-      return { long: [r(h.width), r(v.height)], bottom: r(Math.abs(h.bottom - v.bottom)), capLeft: r(Math.abs(caps[0].left - h.left) + Math.abs(caps[1].left - v.left)), capsBelow: caps.every((c) => c.top >= h.bottom), inside: h.left >= box.left && v.right <= box.right };
+      const r = (n) => Math.round(n * 1000) / 1000;
+      const front = Number(getComputedStyle(document.querySelector('.fr-v')).zIndex) > 0;
+      return { arH: r(h.width / h.height), arV: r(v.width / v.height), bottom: Math.round(Math.abs(h.bottom - v.bottom)), taller: v.height > h.height, overlap: v.left < h.right && front,
+        capL: [Math.round(caps[0].left - h.left), Math.round(caps[1].left - v.left)], capsBelow: caps.every((c) => c.top >= Math.max(h.bottom, v.bottom)), inside: h.left >= box.left && v.right <= box.right + 1,
+        circle: !!document.querySelector('.fr-subj, .fr-cap'), ui: !!document.querySelector('.fr-h .fr-play') && document.querySelectorAll('.fr-v .fr-side svg').length === 3 };
     });
+    await p.evaluate(() => document.querySelector('.formats').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await p.waitForFunction(() => document.querySelector('.formats').classList.contains('in'), null, { timeout: 3000 }).catch(() => {});
+    await p.waitForTimeout(1600);
     const fd = await fmBox();
-    check('AI 광고영상 화면비 틀(1440): 가로 틀 폭 = 세로 틀 높이, 바닥선 같음, 설명이 각 틀 아래 같은 선에서 시작', Math.abs(fd.long[0] - fd.long[1]) <= 2 && fd.bottom <= 1 && fd.capLeft <= 2 && fd.capsBelow && fd.inside, JSON.stringify(fd));
+    const shapeOk = (f) => Math.abs(f.arH - 16 / 9) < 0.02 && Math.abs(f.arV - 9 / 16) < 0.01 && f.bottom <= 1 && f.taller && f.overlap && f.capsBelow && f.inside && !f.circle && f.ui;
+    check('AI 광고영상 화면비(1440): 플레이어 16:9 + 앞에 선 휴대폰 9:16, 같은 바닥선, 원형 없음, 설명이 각 기기 아래 같은 선에서', shapeOk(fd) && Math.abs(fd.capL[0]) <= 2 && Math.abs(fd.capL[1]) <= 2, JSON.stringify(fd));
     await p.setViewportSize({ width: 390, height: 844 });
-    await p.waitForTimeout(150);
+    await p.evaluate(() => document.querySelector('.formats').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await p.waitForFunction(() => document.querySelector('.formats').classList.contains('in'), null, { timeout: 3000 }).catch(() => {});
+    await p.waitForTimeout(1600); // 들어오는 움직임이 끝난 뒤
     const fm = await fmBox();
-    check('AI 광고영상 화면비 틀(390): 두 틀이 나란히, 긴 변 같음, 바닥선 같음, 상자 안에 들어옴(설명은 아래 줄 목록)', Math.abs(fm.long[0] - fm.long[1]) <= 2 && fm.bottom <= 1 && fm.capsBelow && fm.inside, JSON.stringify(fm));
+    check('AI 광고영상 화면비(390): 같은 그림이 상자 안에, 설명은 아래 줄 목록', shapeOk(fm), JSON.stringify(fm));
     await ctx.close();
   }
 
@@ -286,7 +296,7 @@ async function page(browser, vp, opts = {}) {
     check('계산기: US$3,000 + US$150×12×5 = US$12,000(숫자가 세면서 바뀜)', out === 'US$12,000' && setupVal === '3,000' && mid !== 'US$12,000', `${mid} → ${out}, ${setupVal}`);
     const pauseOut = await p.textContent('[data-o="pause"]');
     check('계산기: PAUSE 쪽 기본 선택 = STARTER US$1,990', pauseOut === 'US$1,990' && await p.isChecked('input[name="calcPlan"][value="1990"]'), pauseOut);
-    const sv = await p.evaluate(() => ({ hidden: document.querySelector('[data-save]').hidden, save: document.querySelector('[data-o="save"]').textContent, w: document.querySelector('[data-bar="pause"]').style.getPropertyValue('--w'), live: document.querySelector('[data-calc-live]').textContent, logo: !!document.querySelector('.calc-side.pause legend img[alt="PAUSE Studio"]'), label: document.querySelector('.calc-side.other legend').textContent, vs: !!document.querySelector('.calc-vs .vs') }));
+    const sv = await p.evaluate(() => ({ hidden: document.querySelector('[data-save]').hidden, save: document.querySelector('[data-o="save"]').textContent, w: document.querySelector('[data-bar="pause"]').style.getPropertyValue('--w'), live: document.querySelector('[data-calc-live]').textContent, logo: !!document.querySelector('.calc-side.pause legend img[alt="PAUSE Studio"]'), label: document.querySelector('.calc-side.other .side-tag').textContent, vs: !!document.querySelector('.calc-vs .vs') }));
     check('계산기: 아끼는 금액 US$10,010 · 막대 비율 · 화면 읽기용 결과 · 로고 · 타사 견적 VS PAUSE Studio', !sv.hidden && sv.save === 'US$10,010' && Math.abs(Number(sv.w) - 1990 / 12000) < 0.001 && sv.live.includes('US$12,000') && sv.logo && sv.label === '타사 견적' && sv.vs, JSON.stringify(sv));
     await p.check('input[name="calcPlan"][value="4490"]', { force: true });
     await p.waitForTimeout(1200);
@@ -349,8 +359,9 @@ async function page(browser, vp, opts = {}) {
       faq: [...document.querySelectorAll('.faq-list details')].filter((d) => d.getClientRects().length).length,
       film: [...document.querySelectorAll('.fs-panel')].filter((d) => d.getClientRects().length).length,
       zero: document.querySelector('.ledger-zero .ld-fig').textContent,
+      mf: [...document.querySelectorAll('.mf-big .ch, .mf-stmt, .mf-sign')].every((e) => getComputedStyle(e).opacity === '1'),
     }));
-    check('JS 없이도 제목·내용 표시(질문 27개 · 광고 샘플 4개 모두 보임 · 관리비 $0)', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 27 && st.film === 4 && st.zero === '$0', JSON.stringify(st));
+    check('JS 없이도 제목·내용 표시(질문 27개 · 광고 샘플 4개 모두 보임 · 관리비 $0 · 마무리 선언)', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 27 && st.film === 4 && st.zero === '$0' && st.mf, JSON.stringify(st));
     await ctx.close();
   }
 
@@ -394,16 +405,22 @@ async function page(browser, vp, opts = {}) {
     const st = await p.evaluate(() => {
       const vids = [...document.querySelectorAll('video[data-loop]')];
       const inView = vids.filter((v) => { const r = v.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; });
-      const fits = [...document.querySelectorAll('.wk-fit')].map((f) => {
-        const img = f.querySelector('img');
-        const r = f.getBoundingClientRect(), m = f.parentElement.getBoundingClientRect();
-        const ar = img.naturalWidth / img.naturalHeight;
-        return { inside: r.left >= m.left - 1 && r.right <= m.right + 1 && r.top >= m.top - 1 && r.bottom <= m.bottom + 1, ratio: Math.abs(r.width / r.height - ar) / ar };
+      // 칸(.wk-media)이 화면 비율 그대로 = 여백 틀 없이 꽉 차고 잘리지도 않음. 한 줄의 칸 높이는 같음(줄 폭을 꽉 채움)
+      const cells = [...document.querySelectorAll('.wk-media')].map((m) => {
+        const img = m.querySelector('img');
+        const r = m.getBoundingClientRect();
+        const ar = Number(img.getAttribute('width')) / Number(img.getAttribute('height')); // 지연 로딩 전에도 원래 크기
+        const want = Math.max(ar, 1.25); // 아주 긴 세로 화면만 칸이 조금 넓고 사진은 칸 안에 그대로
+        return { top: Math.round(r.top), h: r.height, w: r.width, ratio: Math.abs(r.width / r.height - want) / want, fill: getComputedStyle(img).objectFit };
       });
-      return { total: vids.length, inView: inView.length, playing: inView.filter((v) => !v.paused && v.classList.contains('on')).length, loop: vids.every((v) => v.loop), fitsInside: fits.every((x) => x.inside), worstRatio: Math.max(...fits.map((x) => x.ratio)), n: fits.length };
+      const rows = {};
+      cells.forEach((c) => { (rows[c.top] = rows[c.top] || []).push(c.h); });
+      const rowSpread = Math.max(...Object.values(rows).map((hs) => Math.max(...hs) - Math.min(...hs)));
+      const minW = Math.min(...cells.map((c) => c.w));
+      return { total: vids.length, inView: inView.length, playing: inView.filter((v) => !v.paused && v.classList.contains('on')).length, loop: vids.every((v) => v.loop), worstRatio: Math.max(...cells.map((x) => x.ratio)), n: cells.length, rowSpread, minW: Math.round(minW), rows: Object.keys(rows).length, contain: cells.every((c) => c.fill === 'contain') };
     });
     check('포트폴리오: 보이는 영상이 마우스 없이 반복 재생', st.inView > 0 && st.playing === st.inView && st.loop && st.total === 6, JSON.stringify(st));
-    check('포트폴리오: 17개 화면이 칸 안에 원래 비율 그대로(잘림 없음)', st.n === 17 && st.fitsInside && st.worstRatio < 0.02, `칸 ${st.n} · 비율 오차 ${(st.worstRatio * 100).toFixed(2)}%`);
+    check('포트폴리오: 17개 화면이 여백 틀 없이 원래 비율 그대로(잘림 없음), 줄마다 높이가 같게 꽉 채움', st.n === 17 && st.worstRatio < 0.02 && st.rowSpread <= 1.5 && st.contain, `칸 ${st.n} · 비율 오차 ${(st.worstRatio * 100).toFixed(2)}% · 줄 ${st.rows} · 줄 안 높이 차 ${st.rowSpread.toFixed(1)}px · 가장 좁은 칸 ${st.minW}px`);
     check('포트폴리오 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }
@@ -452,9 +469,14 @@ async function page(browser, vp, opts = {}) {
     const b = await p.evaluate(() => ({ sel: [...document.querySelectorAll('.fs-tab')].findIndex((t) => t.getAttribute('aria-selected') === 'true'), vis: [...document.querySelectorAll('.fs-panel')].map((x) => !x.hidden), playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused) }));
     await p.keyboard.press('ArrowRight');
     const c = await p.evaluate(() => ({ sel: [...document.querySelectorAll('.fs-tab')].findIndex((t) => t.getAttribute('aria-selected') === 'true'), focus: document.activeElement?.id }));
+    // 탭을 눌러 고른 뒤에도 그 영상이 끝나면 다음 샘플로(2026-10-09 사용자: 누르면 그 영상만 무한 반복되던 것)
+    await p.click('.fs-tab >> nth=1');
+    const afterClick = await p.waitForFunction(() => document.querySelectorAll('.fs-tab')[2].getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
+    const loopOff = await p.evaluate(() => [...document.querySelectorAll('[data-fs-video]')].every((v) => !v.loop));
     check('광고 샘플: 4개 · 보이면 첫 샘플 재생(진행 선)', a.n === 4 && a.playing[0] && !a.playing.slice(1).some(Boolean) && Number(a.prog) > 0, JSON.stringify(a));
     check('광고 샘플: 탭 누르면 그 샘플만 보이고 재생', b.sel === 2 && b.vis.join() === 'false,false,true,false' && b.playing[2] && !b.playing[0], JSON.stringify(b));
     check('광고 샘플: 방향키로 다음 탭(초점 이동)', c.sel === 3 && c.focus === 'fs-tab-daon', JSON.stringify(c));
+    check('광고 샘플: 탭을 누른 뒤에도 영상이 끝나면 다음 샘플로(한 편만 반복하지 않음)', afterClick && loopOff, `다음으로 ${afterClick} · 반복 꺼짐 ${loopOff}`);
     check('광고 샘플 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }
@@ -492,10 +514,12 @@ async function page(browser, vp, opts = {}) {
     const before = await p.evaluate(() => ({ armed: document.querySelector('[data-ledger]').classList.contains('armed'), num: document.querySelector('[data-ledger-num]').textContent, wd: document.querySelector('.ledger-zero').style.getPropertyValue('--wd') }));
     await p.evaluate(() => document.querySelector('[data-ledger]').scrollIntoView({ block: 'center', behavior: 'instant' }));
     await p.waitForTimeout(2300);
-    const mid = await p.evaluate(() => ({ num: Number(document.querySelector('[data-ledger-num]').textContent), on: document.querySelectorAll('.ledger-months li.on').length, wd: Number(document.querySelector('.ledger-zero').style.getPropertyValue('--wd')) }));
+    const mid = await p.evaluate(() => ({ num: Number(document.querySelector('[data-ledger-num]').textContent), on: document.querySelectorAll('.ledger-months li.on').length, wd: Number(document.querySelector('.ledger-zero').style.getPropertyValue('--wd')), from: document.querySelector('.ledger-cap .from').textContent, fromOp: getComputedStyle(document.querySelector('.ledger-cap .from')).opacity }));
     await p.waitForTimeout(2600);
-    const end = await p.evaluate(() => ({ num: document.querySelector('[data-ledger-num]').textContent, done: document.querySelector('[data-ledger]').classList.contains('done'), on: document.querySelectorAll('.ledger-months li.on').length, wd: document.querySelector('.ledger-zero').style.getPropertyValue('--wd'), cap: getComputedStyle(document.querySelector('.ledger-cap .to')).opacity }));
-    check('관리비 $0: $100에서 시작(두꺼움) → 세어 내려가며 홀쭉해짐 → $0(12달 모두 $0)', before.armed && before.num === '100' && Number(before.wd) > 100 && mid.num > 0 && mid.num < 100 && mid.wd < Number(before.wd) && end.num === '0' && end.done && end.on === 12 && Number(end.wd) === 70 && end.cap === '1', JSON.stringify({ before, mid, end }));
+    // 0에 닿으면 '타사 관리비'에 줄이 그어지고 사라진 뒤 'PAUSE Studio라면'이 올라옴
+    await p.waitForFunction(() => getComputedStyle(document.querySelector('.ledger-cap .to')).opacity === '1' && getComputedStyle(document.querySelector('.ledger-cap .from')).opacity === '0', null, { timeout: 4000 }).catch(() => {});
+    const end = await p.evaluate(() => ({ num: document.querySelector('[data-ledger-num]').textContent, done: document.querySelector('[data-ledger]').classList.contains('done'), on: document.querySelectorAll('.ledger-months li.on').length, wd: document.querySelector('.ledger-zero').style.getPropertyValue('--wd'), cap: getComputedStyle(document.querySelector('.ledger-cap .to')).opacity, capFrom: getComputedStyle(document.querySelector('.ledger-cap .from')).opacity }));
+    check('관리비 $0: "타사 관리비" $100에서 시작(두꺼움) → 세어 내려가며 홀쭉해짐 → $0(12달 모두 $0), 글이 "PAUSE Studio라면"으로 바뀜', before.armed && before.num === '100' && Number(before.wd) > 100 && mid.num > 0 && mid.num < 100 && mid.wd < Number(before.wd) && mid.from === '타사 관리비' && mid.fromOp === '1' && end.num === '0' && end.done && end.on === 12 && Number(end.wd) === 70 && end.cap === '1' && end.capFrom === '0', JSON.stringify({ before, mid, end }));
     check('관리비 $0 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
     const r = await page(browser, { width: 1440, height: 900 }, { reduced: true });
@@ -517,6 +541,60 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(300);
     const up = await p.evaluate(() => document.querySelector('[data-header]').classList.contains('hide'));
     check('머리줄: 내려가면 숨고 올리면 나타남 · 지금 보는 장(웹사이트 제작) 표시', down.hide && !up && down.cur === '#website', JSON.stringify({ ...down, up }));
+    await ctx.close();
+  }
+
+  // 17) 2026-10-09 사용자 피드백: 세로로 긴 창의 히어로 벽, 장 제목이 잘리지 않음, 비교 손잡이 안내, 계산기 입력칸, 마무리 선언
+  {
+    // 세로로 긴 PC 창(미리보기 창 1157×1717): 작업물 벽이 화면 안에 보이고 히어로는 폭의 3/4 높이까지
+    const t1 = await page(browser, { width: 1157, height: 1717 });
+    await t1.p.goto(BASE, { waitUntil: 'networkidle' });
+    await t1.p.waitForTimeout(3800);
+    const hw = await t1.p.evaluate(() => {
+      const hero = document.querySelector('.hero').getBoundingClientRect();
+      const vis = [...document.querySelectorAll('.hero .card .scr')].filter((c) => { const r = c.getBoundingClientRect(); return r.right > innerWidth * 0.5 && r.left < innerWidth - 40 && r.bottom > 0 && r.top < hero.bottom; }).length;
+      return { h: Math.round(hero.height), cap: Math.round(innerWidth * 0.75), vis };
+    });
+    check('히어로(세로로 긴 창 1157×1717): 작업물 벽이 화면 안에 보임, 높이는 폭의 3/4까지', hw.h <= hw.cap + 1 && hw.vis >= 4, JSON.stringify(hw));
+    await t1.ctx.close();
+
+    const { ctx, p, errors } = await page(browser, { width: 1440, height: 900 });
+    await fakeVideos(p);
+    await p.goto(BASE, { waitUntil: 'networkidle' });
+    await p.waitForTimeout(3600);
+    // 장 제목 큰 영문: 스크롤 내내 왼쪽 끝이 잘리지 않음
+    const cut = [];
+    for (const sel of ['#website', '#video']) {
+      for (const k of [-0.6, 0, 0.5, 1]) {
+        await p.evaluate(([s, kk]) => { const el = document.querySelector(s); scrollTo({ top: el.getBoundingClientRect().top + scrollY + kk * innerHeight, behavior: 'instant' }); }, [sel, k]);
+        await p.waitForTimeout(120);
+        cut.push(await p.evaluate((s) => { const w = document.querySelector(`${s} .ch-word`), m = w.querySelector('.ch-move'); return Math.round(m.getBoundingClientRect().left - w.getBoundingClientRect().left); }, sel));
+      }
+    }
+    check('장 제목(WEBSITE · AI VIDEO AD): 스크롤해도 왼쪽으로 밀려 잘리지 않음', cut.every((d) => d >= -2), cut.join(','));
+    // 비교 손잡이: 화면에 들어오면 스스로 좌우로 움직이고, 보이는 동안 주기적으로 다시
+    await p.evaluate(() => document.querySelector('[data-cmp]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    const watch = (ms) => p.evaluate((dur) => new Promise((res) => { const r = document.querySelector('[data-cmp] .cmp-range'); const vals = []; const t0 = performance.now(); (function f() { vals.push(Number(r.value)); if (performance.now() - t0 < dur) requestAnimationFrame(f); else res({ min: Math.min(...vals), max: Math.max(...vals), last: vals[vals.length - 1] }); })(); }), ms);
+    const h1 = await watch(3000);
+    const h2 = await watch(7600);
+    check('비교 손잡이: 화면에 들어오면 좌우로 움직여 끌 수 있음을 알리고, 7초마다 다시(제자리로 돌아옴)', h1.min < 40 && h1.max > 58 && h2.min < 40 && h2.max > 58 && Math.abs(h2.last - 50) <= 1, JSON.stringify({ h1, h2 }));
+    // 계산기 입력칸: 상자·연필·'금액 입력' 안내·깜빡이는 입력 표시, 처음 보이면 빛남
+    await p.evaluate(() => document.querySelector('[data-calc]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await p.waitForTimeout(900);
+    const ci = await p.evaluate(() => {
+      const box = document.querySelector('[data-c="setup"]').closest('.money');
+      const cs = getComputedStyle(box);
+      return { ph: document.querySelector('[data-c="setup"]').placeholder, border: cs.borderTopStyle !== 'none' && parseFloat(cs.borderTopWidth) >= 1, pen: !!box.querySelector('.pen'), caret: getComputedStyle(box.querySelector('.caret')).display, nudge: box.classList.contains('nudge'), hint: document.querySelector('.side-hint')?.textContent };
+    });
+    check('계산기: 타사 견적 칸이 입력칸으로 보임(테두리 상자·연필·"금액 입력"·깜빡이는 입력 표시·처음 보이면 빛남)', ci.ph === '금액 입력' && ci.border && ci.pen && ci.caret === 'block' && ci.nudge && ci.hint === '직접 입력', JSON.stringify(ci));
+    // 마무리 선언: 손글씨처럼 한 자씩 → 밑줄 → 다짐 → 대표 서명
+    await p.evaluate(() => document.querySelector('.mf-big').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await p.waitForTimeout(400);
+    const m0 = await p.evaluate(() => { const ch = [...document.querySelectorAll('.mf-big .ch')]; return { go: document.querySelector('.manifesto').classList.contains('go'), n: ch.length, lastOp: Number(getComputedStyle(ch[ch.length - 1]).opacity) }; });
+    await p.waitForTimeout(4800);
+    const m1 = await p.evaluate(() => { const ch = [...document.querySelectorAll('.mf-big .ch')]; return { all: ch.every((c) => getComputedStyle(c).opacity === '1'), ink: getComputedStyle(document.querySelector('.mf-ink path')).strokeDashoffset, stmt: getComputedStyle(document.querySelector('.mf-stmt')).opacity, sig: document.querySelector('.mf-sign .sig').classList.contains('go') }; });
+    check('마무리 선언: 보이면 글자가 손으로 쓰듯 차례로 나타나고 밑줄·다짐 문장·대표 서명이 이어서 그려짐', m0.go && m0.n === 15 && m0.lastOp < 0.5 && m1.all && parseFloat(m1.ink) === 0 && m1.stmt === '1' && m1.sig, JSON.stringify({ m0, m1 }));
+    check('피드백 반영 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }
 

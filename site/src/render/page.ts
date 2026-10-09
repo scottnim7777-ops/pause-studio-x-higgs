@@ -302,12 +302,25 @@ function pricingSec() {
 }
 
 /* ───────── 관리비 $0 + 총비용 계산기 ───────── */
+/** 머리줄과 같은 회사 로고를 글 속에 그대로(그려지는 움직임을 위해 인라인) — 링·작은 원·글자에 이름을 붙임 */
+function inlineLogo(cls: string) {
+  const src = fs.readFileSync(path.join(PUB, 'brand/logo-cream.svg'), 'utf8');
+  return src
+    .replace(/<svg [^>]*?viewBox="([^"]+)"[^>]*>/, (_m, vb) => `<svg class="${cls}" viewBox="${vb}" aria-hidden="true" focusable="false">`)
+    .replace(/<title>.*?<\/title>/, '')
+    .replace(/ps-ring-cut/g, `${cls}-cut`)
+    .replace(/<ellipse /g, '<ellipse pathLength="100" ')
+    .replace(/<circle /, '<circle class="lg-dot" ')
+    .replace(/<path /, '<path class="lg-word" ');
+}
+
+
 /** 큰 $0: 빌드 결과는 마지막 모습($0, 홀쭉). JS가 예시 금액에서 세어 내려가는 움직임을 붙인다(ui.ts initLedger) */
 function ledger() {
   const l = C.fee.ledger;
   return `<figure class="ledger rv" style="--d:.15s" role="img" aria-label="${esc(l.aria)}" data-ledger data-from="${l.from}">
         <div class="ledger-head" aria-hidden="true"><span>${esc(l.head[0])}</span><span>${esc(l.head[1])}</span></div>
-        <p class="ledger-cap" aria-hidden="true"><span class="from"><b class="cf-a">${esc(l.capFrom)}</b><b class="cf-b">${esc(l.capFrom)}</b></span><span class="to"><svg class="cap-logo" viewBox="0 0 200 100" aria-hidden="true"><circle cx="76" cy="50" r="44"/><circle cx="124" cy="50" r="44"/></svg><b>${esc(l.capTo)}</b></span></p>
+        <p class="ledger-cap" aria-hidden="true"><span class="from"><b class="cf-a">${esc(l.capFrom)}</b><b class="cf-b">${esc(l.capFrom)}</b></span><span class="to">${inlineLogo('cap-logo')}<b>${esc(l.capTo.replace(/^PAUSE Studio\s*/, ''))}</b></span></p>
         <p class="ledger-zero" aria-hidden="true"><span class="ld-fig"><span class="cur">$</span><b data-ledger-num>0</b></span><i class="ld-belt"></i></p>
         <ol class="ledger-months" aria-hidden="true">${l.months.map((m, i) => `<li style="--i:${i}"><span>${m}</span><b>$0</b></li>`).join('')}</ol>
         <p class="ledger-total" aria-hidden="true"><span>${esc(l.totalLabel)}</span><b>$0</b></p>

@@ -200,3 +200,4 @@
   - 비교 제목 두 겹을 같은 바닥선으로, BEFORE 카드마다 다른 사진(`site/scripts/media.py` compare → `public/media/compare/mock-*-c1~c3.jpg`), BEFORE/AFTER 꼬리표, 요금 제목 $0 1.42배, '보기' 커서 없앰, 법적 고지 늘 펼침.
 
   - 점검 159/159, 접근성 위반 0, 미리보기 14번째 버전.
+- 2026-10-09 사용자: 'PAUSE Studio라면'의 PAUSE Studio를 머리줄의 실제 회사 로고로 → 로고 SVG를 그대로 글 속에 넣어 두 링이 그려지고 글자가 드러난 뒤 '라면'. 점검 159/159, 접근성 위반 0, 미리보기 15번째 버전.

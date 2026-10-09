@@ -663,6 +663,16 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(1800);
     const vs = await p.evaluate(() => ({ on: [...document.querySelectorAll('.vsteps li')].map((li) => li.classList.contains('on') ? 1 : 0).join(''), lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent, filmInk: Number(document.querySelector('#film-title .ink').style.getPropertyValue('--ink')), before: getComputedStyle(document.querySelector('#film-title .ol')).webkitTextFillColor }));
     check('AI 광고영상: \'평범한 사진 한 장이,\' 외곽선 · \'광고가 됩니다.\' 채워짐 · 제작 과정 단계가 줄마다 켜짐(밝은 선)', vs.on === '111111' && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.' && vs.filmInk === 1 && vs.before === 'rgba(0, 0, 0, 0)', JSON.stringify(vs));
+    // WHY PAUSE?: 들어올 땐 글자가 오른쪽으로 끌려 흐리다가 가운데쯤에서 제자리에 멈춤 · 여섯 가지 이유 줄 선·번호 · 추천 대상 체크
+    await at('#why-title', 0.92);
+    const w0 = await p.evaluate(() => { const q = document.querySelector('.why-title .q'); return { w: Number(document.querySelector('[data-why]').style.getPropertyValue('--w')), x: new DOMMatrix(getComputedStyle(q).transform).e }; });
+    await at('#why-title', 0.4);
+    const w1 = await p.evaluate(() => { const q = document.querySelector('.why-title .q'); return { w: Number(document.querySelector('[data-why]').style.getPropertyValue('--w')), x: new DOMMatrix(getComputedStyle(q).transform).e, sr: document.querySelector('#why-title .sr').textContent }; });
+    await at('.pillars', 0.4);
+    await at('.who-list', 0.2);
+    await p.waitForTimeout(1600);
+    const wl = await p.evaluate(() => ({ pillars: [...document.querySelectorAll('.pillars li')].every((li) => li.classList.contains('on')), num: new DOMMatrix(getComputedStyle(document.querySelector('.pillars li:last-child .idx b')).transform).f, ticks: [...document.querySelectorAll('.who-list li')].map((li) => parseFloat(getComputedStyle(li.querySelector('.tick path')).strokeDashoffset)) }));
+    check('WHY PAUSE?: 글자가 끌려오다 제자리에 멈춤(물음표가 마지막에 섬) · 여섯 가지 이유 선·번호 · 추천 대상 줄마다 ✓', w0.w < 0.2 && w0.x > 20 && w1.w === 1 && Math.abs(w1.x) < 0.5 && w1.sr === 'WHY PAUSE?' && wl.pillars && wl.num === 0 && wl.ticks.length === 6 && wl.ticks.every((x) => x === 0), JSON.stringify({ w0, w1, wl }));
     // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
     const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);
     check('아끼는 금액: 글과 숫자 사이 간격(PC 30px)', gap === '30px', gap);

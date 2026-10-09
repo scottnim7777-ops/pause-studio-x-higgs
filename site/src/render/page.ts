@@ -181,27 +181,31 @@ function signature(id = 'sigm', auto = true) {
   return `<svg class="sig" viewBox="0 0 1363 432" role="img" aria-label="PAUSE STUDIO 대표 서명"${auto ? ' data-sign' : ''}><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1363" height="432">${strokes}</mask></defs><path d="${signatureOutline}" fill="currentColor" fill-rule="evenodd" mask="url(#${id})"/></svg>`;
 }
 
+/** 'WHY PAUSE?' 글자마다 순서(--k): 뒤 글자일수록 오른쪽으로 길게 끌리며 달려오다 제자리에 '멈춤'. 물음표는 따로(.q) */
+const whyLetters = (t: string) => [...t].map((ch, k) => ch === ' ' ? '<i class="sp"></i>' : `<i${ch === '?' ? ' class="q"' : ''} style="--k:${k}">${esc(ch)}</i>`).join('');
+const TICK = '<svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5l5.5 5.5L20.5 6"/></svg>';
+
 function why() {
   const w = C.why;
-  const pillars = w.pillars.map((p, i) => `<li class="rv" style="--d:${(i % 3) * 0.1}s"><span class="idx">0${i + 1}</span><h3 class="h3">${esc(p.title)}</h3><p>${esc(p.desc)}</p></li>`).join('');
+  const pillars = w.pillars.map((p, i) => `<li class="rv" style="--d:${(i % 3) * 0.1}s;--i:${i % 3}"><span class="idx"><b>0${i + 1}</b></span><h3 class="h3">${esc(p.title)}</h3><p>${esc(p.desc)}</p></li>`).join('');
   return `<section class="sec sec-paper why" id="why" aria-labelledby="why-title">
   <div class="wrap why-grid">
-    <header><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="why-title rv" id="why-title">${esc(w.title)}</h2></header>
+    <header><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="why-title rv" id="why-title"><span class="sr">${esc(w.title)}</span><span class="wy" aria-hidden="true" data-why>${whyLetters(w.title)}</span></h2></header>
     <div class="letter">${w.letter.map((p, i) => `<p class="rv" style="--d:${i * 0.08}s">${esc(p)}</p>`).join('')}
       <div class="sign rv">${signature()}<span>${esc(w.signatureLabel)}</span></div>
     </div>
   </div>
-  <div class="wrap"><ul class="pillars">${pillars}</ul></div>
+  <div class="wrap"><ul class="pillars" data-steps>${pillars}</ul></div>
 </section>`;
 }
 
 function who() {
   const w = C.who;
-  const items = w.items.map((x, i) => `<li class="rv" style="--d:${(i % 3) * 0.06}s"><span class="idx">${String(i + 1).padStart(2, '0')}</span><p>${esc(x)}</p></li>`).join('');
+  const items = w.items.map((x, i) => `<li class="rv" style="--d:${(i % 3) * 0.06}s"><span class="idx">${String(i + 1).padStart(2, '0')}</span><p>${esc(x)}</p>${TICK}</li>`).join('');
   return `<section class="sec sec-paper who" id="who" aria-labelledby="who-title">
   <div class="wrap who-grid">
     <header class="sec-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="who-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${nl(w.lead)}</p></header>
-    <ol class="who-list">${items}</ol>
+    <ol class="who-list" data-steps="0.7">${items}</ol>
   </div>
 </section>`;
 }

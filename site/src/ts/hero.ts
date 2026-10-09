@@ -1,6 +1,6 @@
 /**
  * 히어로(32차 승인안)
- * - 인트로 3.4초: 어둠 속 흐릿한 작업물 벽이 다가오며 선명해짐 + 제목을 한글 자판으로 치듯 자모부터 조립(ㅅ → 서 → 선) + 깜빡이는 커서
+ * - 인트로 약 3.9초(2026-10-09 타이핑을 사람 손처럼·30% 느리게): 어둠 속 흐릿한 작업물 벽이 다가오며 선명해짐 + 제목을 한글 자판으로 치듯 자모부터 조립(ㅅ → 서 → 선) + 깜빡이는 커서
  * - 타이핑이 끝나도 커서는 문장 끝에서 계속 깜빡임(CSS .caret.end, 움직임을 멈추면 깜빡임도 멈춤)
  * - 이후: 세 줄의 작업물이 서로 반대로 천천히 흐름(24초 주기), 마우스에 따라 살짝 기울어짐, 화면 안의 영상만 재생
  * - 운영체제의 동작 줄이기를 따름(2026-10-09 사용자: '움직임 멈추기' 버튼은 없앰). 인트로 타이밍은 drafts/v32/hero/hero.html 과 같다.
@@ -8,7 +8,10 @@
 import { motion, saveData } from './motion';
 import { steps } from './hangul';
 
-const INTRO_END = 3.4;
+/** 타이핑 시간(2026-10-09 사용자: 실제 사람이 쓰듯 자연스럽게, 30% 느리게 — 1.55초 → 2.02초). 뒤 장면은 늘어난 만큼(LAG) 늦춘다 */
+const TYPE = 2.02;
+const LAG = TYPE - 1.55;
+const INTRO_END = 3.4 + LAG;
 const P = 24; // 줄이 한 바퀴 흐르는 시간(초)
 const ROW_W = 5 * (440 + 28); // 한 줄 5장의 폭(카드 440 + 간격 28)
 
@@ -56,12 +59,32 @@ export function initHero(onIntroDone: () => void) {
   const texts = lines.map((l) => l.textContent ?? '');
   const seq: { li: number; text: string }[] = [];
   texts.forEach((ln, li) => { let done = ''; for (const ch of ln) { for (const st of steps(ch)) seq.push({ li, text: done + st }); done += ch; } });
+  /* 타건 시각표: 사람 손처럼 타건마다 간격이 조금씩 다르고(고정된 의사난수 — 매번 같은 리듬), 띄어쓰기 뒤엔 잠깐 멈칫,
+     둘째 줄로 넘어가기 전엔 생각하듯 길게 쉰다. 전체 길이는 TYPE에 맞춘다 */
+  const T0 = 0.5, T1 = T0 + TYPE;
+  const at: number[] = [];
+  {
+    let c = 0;
+    seq.forEach((q, i) => {
+      if (i) {
+        const prev = seq[i - 1];
+        let g = 0.78 + (((i * 37) % 23) / 23) * 0.55;
+        if (q.li !== prev.li && q.li === 1) g += 3.2; // 첫 줄을 다 쓰고 다음 줄로: 길게
+        else if (q.li !== prev.li) g += 1.7; // '방식이 | 다릅니다.'(PC는 한 줄): 마지막 말 앞에서 조금 더
+        else if (prev.text.endsWith(' ')) g += 1.3;
+        c += g;
+      }
+      at.push(c);
+    });
+    const k = TYPE / c;
+    for (let i = 0; i < at.length; i++) at[i] = T0 + at[i] * k;
+  }
   let lastKey = '';
   const caret = () => { const c = document.createElement('i'); c.className = 'caret'; return c; };
   function typing(t: number) {
-    const T0 = 0.5, T1 = 2.05;
     const caretOn = t >= 0.2 && ((t >= T0 && t < T1) || Math.floor((t - (t < T0 ? 0.2 : T1)) * 2.6) % 2 === 0);
-    const k = t < T0 ? -1 : t >= T1 ? seq.length - 1 : Math.min(seq.length - 1, Math.floor(((t - T0) / (T1 - T0)) * seq.length));
+    let k = -1;
+    if (t >= T0) { k = 0; while (k < at.length - 1 && at[k + 1] <= t) k++; }
     const key = `${k}|${caretOn}`;
     if (key === lastKey) return;
     lastKey = key;
@@ -101,11 +124,12 @@ export function initHero(onIntroDone: () => void) {
     show(fade.eb, eOut(span(t, 0.25, 0.95)), 10 * (1 - eOut(span(t, 0.25, 0.95))));
     title.style.opacity = '1';
     typing(t);
-    show(fade.sub, eOut(span(t, 1.95, 2.7)), 16 * (1 - eOut(span(t, 1.95, 2.7))));
-    show(fade.ctas, eOut(span(t, 2.1, 2.85)), 16 * (1 - eOut(span(t, 2.1, 2.85))));
-    fade.svc?.style.setProperty('--rl', io(span(t, 2.2, 3.1)).toFixed(4));
-    svcItems.forEach((it, i) => show(it, eOut(span(t, 2.35 + i * 0.14, 3.1 + i * 0.14)), 14 * (1 - eOut(span(t, 2.35 + i * 0.14, 3.1 + i * 0.14)))));
-    show(fade.note, eOut(span(t, 2.75, 3.4)));
+    const u = t - LAG; // 타이핑 뒤 장면은 늘어난 타이핑 시간만큼 늦게
+    show(fade.sub, eOut(span(u, 1.95, 2.7)), 16 * (1 - eOut(span(u, 1.95, 2.7))));
+    show(fade.ctas, eOut(span(u, 2.1, 2.85)), 16 * (1 - eOut(span(u, 2.1, 2.85))));
+    fade.svc?.style.setProperty('--rl', io(span(u, 2.2, 3.1)).toFixed(4));
+    svcItems.forEach((it, i) => show(it, eOut(span(u, 2.35 + i * 0.14, 3.1 + i * 0.14)), 14 * (1 - eOut(span(u, 2.35 + i * 0.14, 3.1 + i * 0.14)))));
+    show(fade.note, eOut(span(u, 2.75, 3.4)));
   }
 
   function endIntro() {

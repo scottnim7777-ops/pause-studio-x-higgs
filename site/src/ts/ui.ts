@@ -806,7 +806,8 @@ export function initAccents() {
   const lines = $$('[data-timeline]');
   const grids = $$('[data-steps]');
   const marks = $$('[data-mark]');
-  if (!inks.length && !lines.length && !grids.length && !marks.length) return;
+  const whys = $$('[data-why]');
+  if (!inks.length && !lines.length && !grids.length && !marks.length && !whys.length) return;
   const root = document.documentElement;
   const mobile = matchMedia('(max-width: 767px)');
   const wide = matchMedia('(min-width: 1280px)');
@@ -816,6 +817,7 @@ export function initAccents() {
     lines.forEach((ol) => { ol.style.setProperty('--p', '1'); ol.classList.add('arrived'); ol.querySelectorAll('li').forEach((li) => li.classList.add('on')); });
     grids.forEach((ol) => ol.querySelectorAll('li').forEach((li) => li.classList.add('on')));
     marks.forEach((m) => m.classList.add('on'));
+    whys.forEach((el) => el.style.setProperty('--w', '1'));
   };
 
   const update = () => {
@@ -844,10 +846,13 @@ export function initAccents() {
       });
       ol.classList.toggle('arrived', p >= 0.995);
     });
-    // 영상 제작 과정: 단계 윗변이 화면 80% 높이를 지나면 켜짐(한 번)
-    grids.forEach((ol) => ol.querySelectorAll<HTMLElement>(':scope > li').forEach((li) => {
-      if (li.getBoundingClientRect().top < vh * 0.8) li.classList.add('on');
-    }));
+    // 단계·칸 목록(영상 제작 과정 · WHY 여섯 가지 · 추천 대상 체크): 윗변이 화면의 data-steps 높이(기본 80%)를 지나면 켜짐(한 번)
+    grids.forEach((ol) => {
+      const line = Number(ol.dataset.steps) || 0.8;
+      ol.querySelectorAll<HTMLElement>(':scope > li').forEach((li) => { if (li.getBoundingClientRect().top < vh * line) li.classList.add('on'); });
+    });
+    // WHY PAUSE?: 제목이 화면 95% → 45% 높이로 올라오는 동안 흩어진 글자가 모여 제자리에 멈춤
+    whys.forEach((el) => el.style.setProperty('--w', clamp01((vh * 0.95 - el.getBoundingClientRect().top) / (vh * 0.5)).toFixed(3)));
     // 형광펜: 화면 72% 높이를 지나면 한 번
     marks.forEach((m) => { if (m.getBoundingClientRect().top < vh * 0.72) m.classList.add('on'); });
   };

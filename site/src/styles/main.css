@@ -1055,6 +1055,32 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .fx .vsteps li:not(.on) > * { opacity: .3; }
 @media (max-width: 767px) { .vsteps li { --sd: 0s; } }
 
+/* WHY PAUSE?(2026-10-09 사용자: 어울리는 창의적인 효과): 이름 그대로 '멈춤'. 제목이 들어올 땐 글자들이 흐리게 흩어져 있다가,
+   뒤 글자일수록 오른쪽으로 길게 끌리며 달려오다 화면 가운데쯤에서 제자리에 딱 멈춘다(--w 0→1, 브레이크를 밟듯 끝에서 느려짐). 물음표는 기울어진 채 위에서 떨어져 마지막에 선다 */
+.why { overflow-x: clip; }
+.why-title .wy { display: inline-block; white-space: nowrap; --wr: calc((1 - var(--w, 0)) * (1 - var(--w, 0))); } /* 남은 거리는 제곱: 끝에서 부드럽게 멈춤 */
+.why-title .wy i { display: inline-block; font-style: normal; }
+.why-title .wy .sp { width: .24em; }
+.fx .why-title .wy i { transform: translateX(calc(var(--k) * var(--wr, 0) * .16em)); opacity: calc(.18 + .82 * var(--w, 0)); }
+.fx .why-title .wy .q { transform-origin: 50% 90%; transform: translate(calc(var(--k) * var(--wr, 0) * .16em), calc((1 - var(--w, 0)) * -.55em)) rotate(calc((1 - var(--w, 0)) * -38deg)); }
+
+/* WHY 여섯 가지 이유: 칸이 화면 80% 높이를 지나면 줄마다 윗변에 잉크 선이 그어지고 번호가 아래에서 굴러 올라옴(한 번) */
+.pillars li { --sd: calc(var(--i, 0) * .14s); }
+.pillars .idx b { font-weight: inherit; }
+.fx .pillars li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--on-paper); transform: scaleX(0); transform-origin: 0 50%; transition: transform .9s cubic-bezier(.65, 0, .25, 1) var(--sd); }
+.fx .pillars li.on::before { transform: scaleX(1); }
+.fx .pillars .idx { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.fx .pillars .idx b { display: inline-block; transform: translateY(110%); transition: transform .7s var(--ease) calc(var(--sd) + .25s); }
+.fx .pillars li.on .idx b { transform: none; }
+
+/* 추천 대상: 체크리스트처럼 — 줄이 화면 70% 높이에 오면 오른쪽에 ✓가 그어지고 글이 또렷해짐('내 얘기네') */
+.who-list li { grid-template-columns: clamp(48px, 4vw, 76px) 1fr auto; }
+.who-list .tick { width: clamp(20px, 1.5vw, 26px); height: auto; margin-left: 16px; align-self: center; color: var(--on-paper); }
+.fx .who-list .tick path { stroke-dasharray: 26; stroke-dashoffset: 26; transition: stroke-dashoffset .6s cubic-bezier(.65, 0, .25, 1) .15s; }
+.fx .who-list li.on .tick path { stroke-dashoffset: 0; }
+.fx .who-list li p { transition: opacity .5s var(--ease); }
+.fx .who-list li:not(.on) p { opacity: .4; }
+
 /* 비교 제목: 'Ordinary'는 아래 BEFORE와 같은 흔한 템플릿 글꼴, 'Artisanal'은 PAUSE 제목 글꼴 — 제목 자체가 비교가 됨 */
 .cmp-title .ord { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400; letter-spacing: -.03em; color: var(--on-paper-3); }
 .cmp-title .cmp-vs { font-size: .44em; letter-spacing: .02em; color: var(--on-paper-3); margin: 0 .06em; }
@@ -1074,6 +1100,11 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .fx :is(.steps, .vsteps) li > * { opacity: 1 !important; }
   .fx .vsteps li::before { transform: none !important; }
   .fx .mark { background-size: 100% 100% !important; color: var(--ink) !important; }
+  .fx .why-title .wy i { transform: none !important; opacity: 1 !important; }
+  .fx .pillars li::before { transform: none !important; }
+  .fx .pillars .idx b { transform: none !important; }
+  .fx .who-list .tick path { stroke-dashoffset: 0 !important; }
+  .fx .who-list li p { opacity: 1 !important; }
 }
 .still .hero-title .caret.end { animation: none; }
 .still .ch-move { transform: none; }

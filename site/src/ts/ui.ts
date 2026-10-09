@@ -794,3 +794,69 @@ export function initScrub() {
   addEventListener('scroll', req, { passive: true });
   addEventListener('resize', req);
 }
+
+/* ── 포인트(2026-10-09 사용자: '심심한 곳에 센스 있게' → '티도 안 난다'): 스크롤에 맞춰 보는 자리에서 진행된다.
+ *    - 전/후 제목: 앞줄('비전에서')은 외곽선, 뒷줄('현실로')은 외곽선에서 시작해 스크롤에 따라 왼쪽부터 잉크로 채워짐(--ink)
+ *    - 제작 과정: 진행 선과 점이 01 → 05로 나아가고(--p, 되감기 가능) 선이 닿은 단계가 켜지며, 끝에 도착하면 '기본 월 관리비 $0'이 채워짐
+ *      PC(한 줄)는 가로 선, 휴대폰(한 칸씩)은 왼쪽 세로 선, 그 사이(3칸)는 선 없이 차례로 켜짐
+ *    - 영상 제작 과정: 단계가 읽는 높이에 오면 줄마다 왼쪽부터 켜짐 · 장 소개 약속: 크림색 형광펜(한 번)
+ *    html.fx가 붙어야 CSS가 움직임 전 모습을 쓰므로, 여기서 오류가 나면 완성된 모습 그대로 보인다. 동작 줄이기면 처음부터 끝난 모습. */
+export function initAccents() {
+  const inks = $$('[data-ink]');
+  const lines = $$('[data-timeline]');
+  const grids = $$('[data-steps]');
+  const marks = $$('[data-mark]');
+  if (!inks.length && !lines.length && !grids.length && !marks.length) return;
+  const root = document.documentElement;
+  const mobile = matchMedia('(max-width: 767px)');
+  const wide = matchMedia('(min-width: 1280px)');
+
+  const finish = () => {
+    inks.forEach((el) => el.style.setProperty('--ink', '1'));
+    lines.forEach((ol) => { ol.style.setProperty('--p', '1'); ol.classList.add('arrived'); ol.querySelectorAll('li').forEach((li) => li.classList.add('on')); });
+    grids.forEach((ol) => ol.querySelectorAll('li').forEach((li) => li.classList.add('on')));
+    marks.forEach((m) => m.classList.add('on'));
+  };
+
+  const update = () => {
+    raf = 0;
+    if (!motion.allowed) { finish(); return; }
+    const vh = innerHeight;
+    // 제목: 줄이 화면 아래 88%에 들어오면 채우기 시작, 48%에 오면 다 채움
+    inks.forEach((el) => {
+      const t = el.getBoundingClientRect().top;
+      el.style.setProperty('--ink', clamp01((vh * 0.88 - t) / (vh * 0.4)).toFixed(3));
+    });
+    // 제작 과정 진행 선
+    lines.forEach((ol) => {
+      const r = ol.getBoundingClientRect();
+      const items = [...ol.querySelectorAll<HTMLElement>(':scope > li')];
+      let p: number;
+      if (mobile.matches) p = clamp01((vh * 0.7 - r.top) / r.height); // 점이 화면 70% 높이에 머물며 따라 내려감
+      else p = clamp01((vh * 0.84 - r.top) / (vh * (wide.matches ? 0.42 : 0.5)));
+      ol.style.setProperty('--p', p.toFixed(4));
+      items.forEach((li, i) => {
+        let on: boolean;
+        if (mobile.matches) on = p * r.height >= li.offsetTop + 14;
+        else if (wide.matches) on = p * r.width >= li.offsetLeft + 12;
+        else on = p >= (i + 0.2) / items.length;
+        li.classList.toggle('on', on);
+      });
+      ol.classList.toggle('arrived', p >= 0.995);
+    });
+    // 영상 제작 과정: 단계 윗변이 화면 80% 높이를 지나면 켜짐(한 번)
+    grids.forEach((ol) => ol.querySelectorAll<HTMLElement>(':scope > li').forEach((li) => {
+      if (li.getBoundingClientRect().top < vh * 0.8) li.classList.add('on');
+    }));
+    // 형광펜: 화면 72% 높이를 지나면 한 번
+    marks.forEach((m) => { if (m.getBoundingClientRect().top < vh * 0.72) m.classList.add('on'); });
+  };
+
+  let raf = 0;
+  const req = () => { if (!raf) raf = requestAnimationFrame(update); };
+  root.classList.add('fx');
+  update();
+  addEventListener('scroll', req, { passive: true });
+  addEventListener('resize', req);
+  motion.subscribe(req);
+}

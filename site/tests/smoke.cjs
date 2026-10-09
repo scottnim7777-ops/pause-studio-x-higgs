@@ -607,6 +607,9 @@ async function page(browser, vp, opts = {}) {
     const { ctx, p, errors } = await page(browser, { width: 1440, height: 900 });
     await fakeVideos(p);
     await p.goto(BASE, { waitUntil: 'networkidle' });
+    // 형광펜은 화면 가운데쯤 와야 그어짐: 처음 열었을 때(맨 위)는 아직
+    const mk0 = await p.evaluate(() => document.querySelector('#website .mark').classList.contains('on'));
+    const fx = await p.evaluate(() => document.documentElement.classList.contains('fx'));
     const r2 = await p.evaluate(() => {
       const card = document.querySelector('[data-work="1"]');
       const im = card.querySelector('img');
@@ -625,29 +628,44 @@ async function page(browser, vp, opts = {}) {
       return { tot: Math.round(span(tot) - mid(tot)), save: Math.round(span(sv) - mid(sv)), jc: getComputedStyle(tot).justifyContent + '|' + getComputedStyle(sv).justifyContent };
     });
     check('합계 가운데 정렬: \'1년 합계 $0\' · \'PAUSE Studio로 아끼는 금액\'(글과 숫자 묶음이 칸 가운데)', Math.abs(al.tot) <= 2 && Math.abs(al.save) <= 2 && al.jc === 'center|center', JSON.stringify(al));
-    // 장 소개의 핵심 약속: 굵게 + 보이면 밝아짐
-    await p.evaluate(() => document.querySelector('#website .ch-lead').scrollIntoView({ block: 'center', behavior: 'instant' }));
-    await p.waitForTimeout(2800);
-    const em = await p.evaluate(() => [...document.querySelectorAll('.ch-lead .ink')].map((e) => ({ t: e.textContent.replace(/ /g, ' '), fw: getComputedStyle(e).fontFamily, pos: getComputedStyle(e).backgroundPositionX, clip: getComputedStyle(e).webkitBackgroundClip || getComputedStyle(e).backgroundClip })));
-    check('장 소개 강조: \'관리비/유지보수 비용 제로\'(웹사이트) · \'가지고 계신 사진만으로\'(영상) 굵게, 보이면 왼쪽부터 밝아짐', em.length === 2 && em[0].t === '관리비/⁠유지보수 비용 제로' && em[1].t === '가지고 계신 사진만으로' && em[0].fw.includes('PS Text') && parseFloat(em[0].pos) === 0 && em[0].clip === 'text', JSON.stringify(em));
-    // 제작 과정(비전에서 현실로): '현실로'에 잉크, 다섯 단계를 잇는 선, 끝에 '기본 월 관리비 $0'이 채워짐
-    await p.evaluate(() => document.querySelector('#process').scrollIntoView({ behavior: 'instant' }));
-    await p.waitForTimeout(400);
-    const pr = () => p.evaluate(() => ({
-      ink: getComputedStyle(document.querySelector('#process-title .ink')).backgroundPositionX,
-      inkText: document.querySelector('#process-title .ink').textContent,
-      lines: [...document.querySelectorAll('.steps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)),
-      chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor,
-    }));
+    // 포인트(2026-10-09 사용자: '티도 안 난다' → 스크롤에 맞춰 또렷하게). 대상의 윗변을 화면 높이의 f 지점에 두는 도우미
+    const at = async (sel, f) => { await p.evaluate(([q, k]) => { const e = document.querySelector(q); scrollTo({ top: e.getBoundingClientRect().top + scrollY - innerHeight * k, behavior: 'instant' }); }, [sel, f]); await p.waitForTimeout(250); };
+    // 장 소개의 약속: 굵게 + 크림색 형광펜(글자는 검게)
+    await at('#website .ch-lead', 0.5);
+    await p.waitForTimeout(1700);
+    const em = await p.evaluate(() => [...document.querySelectorAll('.ch-lead .mark')].map((e) => ({ t: e.textContent.replace(/ /g, ' '), ff: getComputedStyle(e).fontFamily, on: e.classList.contains('on'), bg: getComputedStyle(e).backgroundSize, color: getComputedStyle(e).color })));
+    check('장 소개 약속: \'관리비/유지보수 비용 제로\'(웹사이트) · \'가지고 계신 사진만으로\'(영상) 굵게, 화면 가운데쯤 오면 크림색 형광펜이 그어지고 글자가 검게', fx && !mk0 && em.length === 2 && em[0].t === '관리비/⁠유지보수 비용 제로' && em[1].t === '가지고 계신 사진만으로' && em[0].ff.includes('PS Text') && em[0].on && em[0].bg === '100% 100%' && em[0].color === 'rgb(12, 12, 11)', JSON.stringify({ fx, mk0, em }));
+    // 제작 과정(비전에서 현실로): '비전에서'는 외곽선, '현실로'는 스크롤에 따라 채워짐, 진행 선·점이 01 → 05로 나아가며 단계가 켜지고, 도착하면 '기본 월 관리비 $0'이 채워짐(되감기 가능)
+    const pr = () => p.evaluate(() => {
+      const ol = document.querySelector('.steps'), ink = document.querySelector('#process-title .ink'), out = document.querySelector('#process-title .ol');
+      return {
+        ink: Number(ink.style.getPropertyValue('--ink') || 0), inkText: ink.textContent, outline: getComputedStyle(out).webkitTextFillColor + '|' + parseFloat(getComputedStyle(out).webkitTextStrokeWidth),
+        p: Number(ol.style.getPropertyValue('--p') || 0), on: [...ol.children].map((li) => li.classList.contains('on') ? 1 : 0).join(''), arrived: ol.classList.contains('arrived'),
+        rail: new DOMMatrix(getComputedStyle(ol, '::before').transform).a.toFixed(2), dim: getComputedStyle(ol.children[4].querySelector('h3')).opacity,
+        chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor,
+      };
+    });
+    await at('.steps', 0.97);
     const pa = await pr();
-    await p.waitForTimeout(3600);
+    await at('.steps', 0.62);
+    const pm = await pr();
+    await at('.steps', 0.3);
+    await p.waitForTimeout(800);
     const pb = await pr();
-    check('제작 과정: \'현실로\'에 잉크가 차오르고, 단계를 잇는 선이 01→05 차례로 그어진 뒤 \'기본 월 관리비 $0\'이 채워짐', pa.lines[4] === '0.00' && pa.chip !== pb.chip && pb.inkText === '현실로' && parseFloat(pb.ink) === 0 && pb.lines.every((x) => x === '1.00') && pb.chip === 'rgb(20, 19, 17)', JSON.stringify({ pa, pb }));
-    // AI 광고영상 제작 과정: 단계 위 선이 그어짐, 샘플 제목 '광고가 됩니다.'에 잉크
-    await p.evaluate(() => document.querySelector('.vsteps').scrollIntoView({ block: 'center', behavior: 'instant' }));
-    await p.waitForTimeout(2600);
-    const vs = await p.evaluate(() => ({ lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent }));
-    check('AI 광고영상: 제작 과정 단계 위 선이 그어짐 · 샘플 제목 \'광고가 됩니다.\'에 잉크', vs.lines.length === 6 && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.', JSON.stringify(vs));
+    await at('.steps', 0.97);
+    const pc = await pr();
+    check('제작 과정: \'비전에서\' 외곽선 · \'현실로\'는 스크롤에 따라 채워짐 · 진행 선이 01 → 05로 나아가며 단계가 켜지고(되감기 가능) 도착하면 \'기본 월 관리비 $0\'이 채워짐',
+      pa.p === 0 && pa.on === '00000' && pa.dim === '0.3' && pm.p > 0.2 && pm.p < 0.9 && pm.on.startsWith('1') && pm.on.endsWith('0') && pb.p === 1 && pb.on === '11111' && pb.arrived && pb.rail === '1.00' && pb.chip === 'rgb(20, 19, 17)' && pb.ink === 1 && pb.inkText === '현실로' && pb.outline.startsWith('rgba(0, 0, 0, 0)|') && parseFloat(pb.outline.split('|')[1]) >= 1 && pc.p === 0 && !pc.arrived,
+      JSON.stringify({ pa, pm, pb, pc }));
+    // AI 광고영상: 샘플 제목 '광고가 됩니다.'가 채워짐, 제작 과정 단계가 줄마다 켜짐
+    await at('#film-title', 0.35);
+    await at('.vsteps', 0.5);
+    await p.waitForTimeout(1800);
+    const vs = await p.evaluate(() => ({ on: [...document.querySelectorAll('.vsteps li')].map((li) => li.classList.contains('on') ? 1 : 0).join(''), lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent, filmInk: Number(document.querySelector('#film-title .ink').style.getPropertyValue('--ink')), before: getComputedStyle(document.querySelector('#film-title .ol')).webkitTextFillColor }));
+    check('AI 광고영상: \'평범한 사진 한 장이,\' 외곽선 · \'광고가 됩니다.\' 채워짐 · 제작 과정 단계가 줄마다 켜짐(밝은 선)', vs.on === '111111' && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.' && vs.filmInk === 1 && vs.before === 'rgba(0, 0, 0, 0)', JSON.stringify(vs));
+    // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
+    const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);
+    check('아끼는 금액: 글과 숫자 사이 간격(PC 30px)', gap === '30px', gap);
     // 비교 제목: Ordinary는 흔한 템플릿 글꼴, Artisanal은 PAUSE 제목 글꼴
     const ord = await p.evaluate(() => ({ ord: getComputedStyle(document.querySelector('.cmp-title .ord')).fontFamily, title: getComputedStyle(document.querySelector('.cmp-title')).fontFamily, text: document.querySelector('.cmp-title').textContent, vsBox: getComputedStyle(document.querySelector('.cmp-title .cmp-vs')).borderRadius }));
     check('비교 제목: \'Ordinary\'는 흔한 템플릿 글꼴(Helvetica·Arial), \'Artisanal\'은 PAUSE 제목 글꼴', /Helvetica|Arial/.test(ord.ord) && ord.title.includes('PS Display') && ord.text === 'Ordinary vs. Artisanal' && ord.vsBox === '0px', JSON.stringify(ord));
@@ -658,8 +676,8 @@ async function page(browser, vp, opts = {}) {
   {
     const { ctx, p } = await page(browser, { width: 1440, height: 900 }, { reduced: true });
     await p.goto(BASE, { waitUntil: 'networkidle' });
-    const st = await p.evaluate(() => ({ ink: [...document.querySelectorAll('.ink')].map((e) => getComputedStyle(e).backgroundPositionX), line: new DOMMatrix(getComputedStyle(document.querySelector('.steps li:last-child'), '::before').transform).a, chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor }));
-    check('동작 줄이기: 잉크·선·마지막 단계 채움이 처음부터 끝난 모습', st.ink.length === 4 && st.ink.every((x) => parseFloat(x) === 0) && st.line === 1 && st.chip === 'rgb(20, 19, 17)', JSON.stringify(st));
+    const st = await p.evaluate(() => ({ ink: [...document.querySelectorAll('.ink')].map((e) => parseFloat(getComputedStyle(e).backgroundPositionX)), marks: [...document.querySelectorAll('.mark')].map((m) => m.classList.contains('on')), on: [...document.querySelectorAll('.steps li, .vsteps li')].every((li) => li.classList.contains('on')), arrived: document.querySelector('.steps').classList.contains('arrived'), chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor, dim: getComputedStyle(document.querySelector('.steps li:last-child h3')).opacity }));
+    check('동작 줄이기: 포인트 효과가 처음부터 끝난 모습(채워진 제목·형광펜·켜진 단계·채워진 $0)', st.ink.length === 2 && st.ink.every((x) => x === 0) && st.marks.length === 2 && st.marks.every(Boolean) && st.on && st.arrived && st.chip === 'rgb(20, 19, 17)' && st.dim === '1', JSON.stringify(st));
     await ctx.close();
   }
 

@@ -45,8 +45,8 @@ const arrow = (cls = 'ar') => `<svg class="${cls}" viewBox="0 0 30 12" fill="non
 const smallArrow = `<svg viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg>`;
 const bubble = `<svg class="kk" viewBox="0 0 20 19" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M10 1.5c4.97 0 9 3.13 9 7s-4.03 7-9 7c-.86 0-1.69-.09-2.47-.27L3.5 17.5l1.06-3.37C2.39 12.86 1 10.83 1 8.5c0-3.87 4.03-7 9-7z"/></svg>`;
 const check = `<svg class="ck" viewBox="0 0 14 11" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 5.6 5 9.4 13 1.4"/></svg>`;
-/** 제목 줄 나눔. ink = 결과를 말하는 줄(보이면 왼쪽부터 잉크가 차오름: '현실로' · '광고가 됩니다.') */
-const lines = (arr: string[], ink = -1) => arr.map((l, i) => `<span class="ln" style="--li:${i}"><span>${i === ink ? `<span class="ink">${esc(l)}</span>` : esc(l)}</span></span>`).join('');
+/** 제목 줄 나눔. ink = '후'를 말하는 줄(스크롤에 따라 외곽선에서 잉크로 채워짐: '현실로' · '광고가 됩니다.'), 그 앞 줄('전')은 외곽선으로 남음 */
+const lines = (arr: string[], ink = -1) => arr.map((l, i) => `<span class="ln" style="--li:${i}"><span>${i === ink ? `<span class="ink" data-ink>${esc(l)}</span>` : ink > i ? `<span class="ol">${esc(l)}</span>` : esc(l)}</span></span>`).join('');
 type Dim = [number, number];
 const M = media as unknown as Record<string, Record<string, Dim>>;
 /** 크기별 사진(media.json의 실제 픽셀 크기) → <picture> WebP + JPEG */
@@ -206,12 +206,12 @@ function who() {
 </section>`;
 }
 
-/** 문단 안의 한 구절을 굵게 + 보이면 밝아지게(2026-10-09 사용자: '관리비/유지보수 비용 제로' 강조). 구절이 없으면 빌드를 멈춤 */
+/** 문단 안의 한 구절을 굵게 + 보이면 크림색 형광펜(2026-10-09 사용자: '관리비/유지보수 비용 제로' 강조). 구절이 없으면 빌드를 멈춤 */
 const inkPhrase = (html: string, em?: string) => {
   if (!em) return html;
   const k = esc(em);
   if (!html.includes(k)) throw new Error(`강조할 구절을 찾지 못함: ${em}`);
-  return html.replace(k, `<strong class="ink">${k}</strong>`);
+  return html.replace(k, `<strong class="mark" data-mark>${k}</strong>`);
 };
 
 /* ───────── 장 첫 화면: 아주 큰 영문 단어가 스크롤에 따라 옆으로 천천히 흐름 ───────── */
@@ -369,7 +369,7 @@ function processSec() {
   return `<section class="sec sec-paper process" id="process" aria-labelledby="process-title">
   <div class="wrap">
     <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)}</p><h2 class="h2 rv" id="process-title">${lines(p.title, 1)}</h2><p class="lead rv" style="--d:.1s">${nl(p.subtitle)}</p></header>
-    <ol class="steps">${steps}</ol>
+    <ol class="steps" data-timeline>${steps}</ol>
   </div>
 </section>`;
 }
@@ -442,7 +442,7 @@ function videoPricing() {
     <p class="v-revisions rv">${nl(v.revisions)}</p>
     <details class="addons rv" data-acc><summary><span>${esc(v.addons.toggle)}</span><span class="ic" aria-hidden="true"></span></summary><div class="acc-body"><div class="acc-in"><table class="addon-table"><caption class="sr">${esc(v.addons.title)}</caption><tbody>${rows}</tbody></table><p class="addon-note">${esc(v.addons.note)}</p></div></div></details>
     <div class="vflow">
-      <div><h3 class="vflow-title rv">${esc(v.stepsTitle)}</h3><ol class="vsteps">${steps}</ol></div>
+      <div><h3 class="vflow-title rv">${esc(v.stepsTitle)}</h3><ol class="vsteps" data-steps>${steps}</ol></div>
       <div class="vsched rv"><h3 class="vflow-title">${esc(v.scheduleTitle)}</h3><dl>${sched}</dl><p>${nl(v.scheduleNote)}</p></div>
     </div>
     <div class="vnotes rv"><h3 class="pnotes-title">${esc(v.notesTitle)}</h3><ul>${v.notes.map((n) => `<li>${nl(n)}</li>`).join('')}</ul></div>

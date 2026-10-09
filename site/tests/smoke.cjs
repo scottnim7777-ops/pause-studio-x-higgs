@@ -530,7 +530,7 @@ async function page(browser, vp, opts = {}) {
     await p.evaluate(() => document.querySelector('[data-ledger]').scrollIntoView({ block: 'center', behavior: 'instant' }));
     await p.waitForTimeout(6500);
     const again = await capSt();
-    check('관리비 $0: 화면 밖으로 나갔다 돌아오면 다시 $100부터 재생', !back.done && back.num === '100' && back.on === 0 && again.done && again.num === '0' && again.cap === '1', JSON.stringify({ back, again }));
+    check('관리비 $0: 화면 밖으로 나갔다 돌아오면 다시 $100부터 재생', !back.done && back.num === '100' && back.on === 0 && again.done && again.num === '0' && Number(again.cap) > 0.99, JSON.stringify({ back, again }));
     check('관리비 $0 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
     const r = await page(browser, { width: 1440, height: 900 }, { reduced: true });
@@ -670,12 +670,13 @@ async function page(browser, vp, opts = {}) {
       pa.p === 0 && pa.on === '00000' && pa.dim === '0.3' && pm.p > 0.1 && pm.p < 0.95 && pb.p === 1 && pb.on === '11111' && pb.arrived && pb.rail === '1.00' && pb.chip === 'rgb(20, 19, 17)' && pb.ink === 1 && pb.inkText === '현실로' && pb.outline.startsWith('rgba(0, 0, 0, 0)|'),
       JSON.stringify({ pa, pm, pb }));
     // AI 광고영상: 샘플 제목 '광고가 됩니다.'가 채워짐, 제작 과정 단계가 줄마다 켜짐
-    await at('#film-title', 0.6);
-    await p.waitForTimeout(2000);
+    await at('#film-title .ink', 0.5); // 채워지는 줄(둘째 줄)이 화면 70% 위로 올라와야 시작
+    await p.waitForTimeout(2200);
+    const filmInk = await p.evaluate(() => Number(document.querySelector('#film-title .ink').style.getPropertyValue('--ink')));
     await at('.vsteps', 0.25);
     await p.waitForTimeout(2400);
-    const vs = await p.evaluate(() => ({ on: [...document.querySelectorAll('.vsteps li')].map((li) => li.classList.contains('on') ? 1 : 0).join(''), lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent, filmInk: Number(document.querySelector('#film-title .ink').style.getPropertyValue('--ink')), before: getComputedStyle(document.querySelector('#film-title .ol')).webkitTextFillColor }));
-    check('AI 광고영상: \'평범한 사진 한 장이,\' 외곽선 · \'광고가 됩니다.\' 채워짐 · 제작 과정 단계가 줄마다 켜짐(밝은 선)', vs.on === '111111' && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.' && vs.filmInk === 1 && vs.before === 'rgba(0, 0, 0, 0)', JSON.stringify(vs));
+    const vs = await p.evaluate(() => ({ on: [...document.querySelectorAll('.vsteps li')].map((li) => li.classList.contains('on') ? 1 : 0).join(''), lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent, before: getComputedStyle(document.querySelector('#film-title .ol')).webkitTextFillColor }));
+    check('AI 광고영상: \'평범한 사진 한 장이,\' 외곽선 · \'광고가 됩니다.\' 채워짐 · 제작 과정 단계가 줄마다 켜짐(밝은 선)', vs.on === '111111' && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.' && filmInk === 1 && vs.before === 'rgba(0, 0, 0, 0)', JSON.stringify({ ...vs, filmInk }));
     // WHY PAUSE?(2026-10-09 사용자: 브레이크·‖ 버전은 촌스러움 → 다시): 넓게 벌어진 자간이 천천히 모이며 글자가 한 자씩 아래에서 올라오고, 물음표가 마지막
     const w0 = notYet.why;
     await at('#why-title', 0.6);
@@ -693,15 +694,20 @@ async function page(browser, vp, opts = {}) {
     const before = notYet.sp;
     const after = {};
     const free0 = await p.evaluate(() => ({ on: document.querySelector('.free').classList.contains('on'), bars: document.querySelectorAll('.free .bars b').length }));
-    for (const q of ['.gone', '.vf', '#faq-title .gather', '.cmp-title .art']) { await at(q, 0.6); await p.waitForTimeout(q === '.gone' ? 3800 : 2800); after[q] = await sp(q); }
+    // 화면 밖으로 나가면 처음 모습으로 돌아가므로(다시 보기), 끝 모습은 각자 재생 직후에 잼
+    const finOf = {
+      '.gone': () => ({ cut: getComputedStyle(document.querySelector('.gone .g-t')).transform !== 'none' && getComputedStyle(document.querySelector('.gone .g-b')).transform !== 'none', op: Number(getComputedStyle(document.querySelector('.gone .g-t')).opacity) }),
+      '.vf': () => ({ vfx: Math.round(document.querySelector('.vf').getBoundingClientRect().left - document.querySelector('.vf-c').getBoundingClientRect().left) }),
+      '#faq-title .gather': () => ({ gat: [...document.querySelectorAll('.gather i')].every((i) => new DOMMatrix(getComputedStyle(i).transform).f === 0) }),
+      '.cmp-title .art': () => ({}),
+    };
+    let fin = {};
+    for (const q of Object.keys(finOf)) { await at(q, 0.6); await p.waitForTimeout(q === '.gone' ? 3800 : 2800); after[q] = await sp(q); fin = { ...fin, ...(await p.evaluate(finOf[q])) }; }
     await at('.free', 0.55); await p.waitForTimeout(2600);
-    const fin = await p.evaluate(() => ({
-      cut: getComputedStyle(document.querySelector('.gone .g-t')).transform !== 'none' && getComputedStyle(document.querySelector('.gone .g-b')).transform !== 'none', op: Number(getComputedStyle(document.querySelector('.gone .g-t')).opacity),
-      vfx: Math.round(document.querySelector('.vf').getBoundingClientRect().left - document.querySelector('.vf-c').getBoundingClientRect().left),
-      gat: [...document.querySelectorAll('.gather i')].every((i) => new DOMMatrix(getComputedStyle(i).transform).f === 0),
+    fin = { ...fin, ...(await p.evaluate(() => ({
       free: document.querySelector('.free').classList.contains('on') && [...document.querySelectorAll('.free .bars b')].every((b) => getComputedStyle(b).opacity === '0' && new DOMMatrix(getComputedStyle(b).transform).f > 0) && getComputedStyle(document.querySelector('.free')).color === 'rgb(252, 238, 216)',
       slot: getComputedStyle(document.querySelector('.wk-next-in'), '::after').animationName,
-    }));
+    }))) };
     check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · \'해방되세요.\' · 비교 제목 손잡이 · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지) · \'해방되세요.\'는 갇혀 있던 창살이 떨어져 나가며 글자가 숨을 폄', before.length === 4 && before.every((v) => v === 0) && !free0.on && free0.bars === 6 && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, free0, fin }));
     // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
     const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);

@@ -1080,7 +1080,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .why-title .wy { display: inline-block; white-space: nowrap; overflow: hidden; padding: .06em 0 .1em; margin: -.06em 0 -.1em; vertical-align: bottom; }
 .why-title .wy i { display: inline-block; font-style: normal; }
 .why-title .wy .sp { width: .24em; }
-.fx .why-title .wy { letter-spacing: .24em; transition: letter-spacing 1.9s cubic-bezier(.2, .7, .1, 1); }
+.fx .why-title .wy { letter-spacing: .24em; transition: letter-spacing 2.2s cubic-bezier(.45, 0, .15, 1); } /* 앞쪽에 몰리지 않게: 처음 반 초에 다 모여 버리면 눈치 못 챔 */
 .fx .why-title .wy.go { letter-spacing: -.04em; }
 .fx .why-title .wy i:not(.sp) { transform: translateY(108%); transition: transform 1.15s cubic-bezier(.2, .7, .1, 1) calc(var(--k) * 75ms); }
 .fx .why-title .wy.go i:not(.sp) { transform: none; }

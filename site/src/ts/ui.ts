@@ -807,7 +807,8 @@ export function initAccents() {
   const grids = $$('[data-steps]');
   const marks = $$('[data-mark]');
   const whys = $$('[data-why]');
-  if (!inks.length && !lines.length && !grids.length && !marks.length && !whys.length) return;
+  const sps = $$('[data-sp]'); // 일반 스크롤 진행(--sp): data-sp="시작,끝"(윗변의 화면 높이 비율)
+  if (!inks.length && !lines.length && !grids.length && !marks.length && !whys.length && !sps.length) return;
   const root = document.documentElement;
   const mobile = matchMedia('(max-width: 767px)');
   const wide = matchMedia('(min-width: 1280px)');
@@ -818,24 +819,25 @@ export function initAccents() {
     grids.forEach((ol) => ol.querySelectorAll('li').forEach((li) => li.classList.add('on')));
     marks.forEach((m) => m.classList.add('on'));
     whys.forEach((el) => el.style.setProperty('--w', '1'));
+    sps.forEach((el) => el.style.setProperty('--sp', '1'));
   };
 
   const update = () => {
     raf = 0;
     if (!motion.allowed) { finish(); return; }
     const vh = innerHeight;
-    // 제목: 줄이 화면 아래 88%에 들어오면 채우기 시작, 48%에 오면 다 채움
+    // 제목: 줄이 화면 82% 높이에서 채우기 시작해 30%에 와야 다 채움(2026-10-09 사용자: 너무 빨리 끝남 → 더 늦게·길게)
     inks.forEach((el) => {
       const t = el.getBoundingClientRect().top;
-      el.style.setProperty('--ink', clamp01((vh * 0.88 - t) / (vh * 0.4)).toFixed(3));
+      el.style.setProperty('--ink', clamp01((vh * 0.82 - t) / (vh * 0.52)).toFixed(3));
     });
     // 제작 과정 진행 선
     lines.forEach((ol) => {
       const r = ol.getBoundingClientRect();
       const items = [...ol.querySelectorAll<HTMLElement>(':scope > li')];
       let p: number;
-      if (mobile.matches) p = clamp01((vh * 0.7 - r.top) / r.height); // 점이 화면 70% 높이에 머물며 따라 내려감
-      else p = clamp01((vh * 0.84 - r.top) / (vh * (wide.matches ? 0.42 : 0.5)));
+      if (mobile.matches) p = clamp01((vh * 0.62 - r.top) / r.height); // 점이 화면 62% 높이에 머물며 따라 내려감
+      else p = clamp01((vh * 0.78 - r.top) / (vh * 0.56)); // 단계 윗변이 78% → 22% 높이로 올라오는 동안
       ol.style.setProperty('--p', p.toFixed(4));
       items.forEach((li, i) => {
         let on: boolean;
@@ -848,13 +850,17 @@ export function initAccents() {
     });
     // 단계·칸 목록(영상 제작 과정 · WHY 여섯 가지 · 추천 대상 체크): 윗변이 화면의 data-steps 높이(기본 80%)를 지나면 켜짐(한 번)
     grids.forEach((ol) => {
-      const line = Number(ol.dataset.steps) || 0.8;
+      const line = Number(ol.dataset.steps) || 0.66;
       ol.querySelectorAll<HTMLElement>(':scope > li').forEach((li) => { if (li.getBoundingClientRect().top < vh * line) li.classList.add('on'); });
     });
     // WHY PAUSE?: 제목이 화면 95% → 45% 높이로 올라오는 동안 흩어진 글자가 모여 제자리에 멈춤
-    whys.forEach((el) => el.style.setProperty('--w', clamp01((vh * 0.95 - el.getBoundingClientRect().top) / (vh * 0.5)).toFixed(3)));
+    whys.forEach((el) => el.style.setProperty('--w', clamp01((vh * 0.85 - el.getBoundingClientRect().top) / (vh * 0.57)).toFixed(3)));
     // 형광펜: 화면 72% 높이를 지나면 한 번
-    marks.forEach((m) => { if (m.getBoundingClientRect().top < vh * 0.72) m.classList.add('on'); });
+    marks.forEach((m) => { if (m.getBoundingClientRect().top < vh * 0.6) m.classList.add('on'); });
+    sps.forEach((el) => {
+      const [a, b] = (el.dataset.sp || '0.8,0.3').split(',').map(Number);
+      el.style.setProperty('--sp', clamp01((vh * a - el.getBoundingClientRect().top) / (vh * (a - b))).toFixed(3));
+    });
   };
 
   let raf = 0;

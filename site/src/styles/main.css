@@ -1024,7 +1024,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 
 /* 장 소개의 약속('관리비/유지보수 비용 제로' · '가지고 계신 사진만으로'): 굵게, 화면 72% 높이를 지나면 크림색 형광펜이 왼쪽부터 그어지며 글자가 검게 */
 .mark { font-family: var(--f-text-md); font-weight: var(--w-text-md); color: var(--cream); }
-.fx .mark { padding: .04em .2em .06em; margin: 0 -.12em; background: linear-gradient(var(--cream), var(--cream)) no-repeat 0 0 / 0% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size 1s cubic-bezier(.65, 0, .25, 1) .1s, color .35s ease .5s; }
+.fx .mark { padding: .04em .2em .06em; margin: 0 -.12em; background: linear-gradient(var(--cream), var(--cream)) no-repeat 0 0 / 0% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size 1.5s cubic-bezier(.65, 0, .25, 1) .15s, color .4s ease .8s; }
 .fx .mark.on { background-size: 100% 100%; color: var(--ink); }
 
 /* 제작 과정(비전에서 현실로): 스크롤을 따라 진행 선과 점이 01 → 05로 나아가고(되감기 가능), 선이 닿은 단계가 켜지며(번호·글·표),
@@ -1048,8 +1048,8 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 }
 
 /* AI 광고영상 제작 과정: 단계 윗변이 화면 80% 높이를 지나면 줄마다 왼쪽부터 밝은 선이 그어지며 단계가 켜짐(한 번) */
-.vsteps li { position: relative; --sd: calc(var(--i, 0) * .16s); }
-.fx .vsteps li::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 2px; background: var(--cream); transform: scaleX(0); transform-origin: 0 50%; transition: transform .9s cubic-bezier(.65, 0, .25, 1) var(--sd); }
+.vsteps li { position: relative; --sd: calc(var(--i, 0) * .22s); }
+.fx .vsteps li::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 2px; background: var(--cream); transform: scaleX(0); transform-origin: 0 50%; transition: transform 1.3s cubic-bezier(.65, 0, .25, 1) var(--sd); }
 .fx .vsteps li.on::before { transform: scaleX(1); }
 .fx .vsteps li > * { transition: opacity .7s var(--ease) calc(var(--sd) + .15s); }
 .fx .vsteps li:not(.on) > * { opacity: .3; }
@@ -1065,21 +1065,61 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .fx .why-title .wy .q { transform-origin: 50% 90%; transform: translate(calc(var(--k) * var(--wr, 0) * .16em), calc((1 - var(--w, 0)) * -.55em)) rotate(calc((1 - var(--w, 0)) * -38deg)); }
 
 /* WHY 여섯 가지 이유: 칸이 화면 80% 높이를 지나면 줄마다 윗변에 잉크 선이 그어지고 번호가 아래에서 굴러 올라옴(한 번) */
-.pillars li { --sd: calc(var(--i, 0) * .14s); }
+.pillars li { --sd: calc(var(--i, 0) * .22s); }
 .pillars .idx b { font-weight: inherit; }
-.fx .pillars li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--on-paper); transform: scaleX(0); transform-origin: 0 50%; transition: transform .9s cubic-bezier(.65, 0, .25, 1) var(--sd); }
+.fx .pillars li::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--on-paper); transform: scaleX(0); transform-origin: 0 50%; transition: transform 1.3s cubic-bezier(.65, 0, .25, 1) var(--sd); }
 .fx .pillars li.on::before { transform: scaleX(1); }
 .fx .pillars .idx { display: inline-block; overflow: hidden; vertical-align: bottom; }
-.fx .pillars .idx b { display: inline-block; transform: translateY(110%); transition: transform .7s var(--ease) calc(var(--sd) + .25s); }
+.fx .pillars .idx b { display: inline-block; transform: translateY(110%); transition: transform 1s var(--ease) calc(var(--sd) + .35s); }
 .fx .pillars li.on .idx b { transform: none; }
 
 /* 추천 대상: 체크리스트처럼 — 줄이 화면 70% 높이에 오면 오른쪽에 ✓가 그어지고 글이 또렷해짐('내 얘기네') */
 .who-list li { grid-template-columns: clamp(48px, 4vw, 76px) 1fr auto; }
 .who-list .tick { width: clamp(20px, 1.5vw, 26px); height: auto; margin-left: 16px; align-self: center; color: var(--on-paper); }
-.fx .who-list .tick path { stroke-dasharray: 26; stroke-dashoffset: 26; transition: stroke-dashoffset .6s cubic-bezier(.65, 0, .25, 1) .15s; }
+.fx .who-list .tick path { stroke-dasharray: 26; stroke-dashoffset: 26; transition: stroke-dashoffset .9s cubic-bezier(.65, 0, .25, 1) .2s; }
 .fx .who-list li.on .tick path { stroke-dashoffset: 0; }
 .fx .who-list li p { transition: opacity .5s var(--ease); }
 .fx .who-list li:not(.on) p { opacity: .4; }
+
+/* ── 섹션마다 하나씩(2026-10-09 사용자: 다른 곳도 찾아서, 창의적으로). 모두 스크롤 진행(--sp, data-sp="시작,끝")을 따라감 ── */
+/* 요금 '매달 관리비는 없게.': 스크롤하면 '관리비'에 줄이 그어지고, 이어서 흐려져 사라짐 — 말 그대로 '없게' */
+.nobr { white-space: nowrap; } /* 효과 구절과 뒤 조사('을'·'는')가 줄에서 떨어지지 않게 */
+.gone { position: relative; display: inline-block; }
+.fx .gone { opacity: calc(1 - .55 * max(0, (var(--sp, 0) - .5) * 2)); } /* 끝까지 45%: 흐려져도 큰 글씨 명도 대비 3:1 이상 */
+.fx .gone::after { content: ""; position: absolute; left: -.05em; right: -.05em; top: 55%; height: .075em; background: currentColor; transform: scaleX(min(1, calc(var(--sp, 0) * 2))); transform-origin: 0 50%; }
+
+/* AI 광고영상 요금 '완성된 광고영상을 드립니다.': 카메라 뷰파인더의 네 모서리가 넓게 벌어져 있다가 스크롤하면 '완성된 광고영상'에 맞게 조여짐(초점을 맞추듯) */
+.vf { position: relative; display: inline-block; }
+.vf-c { display: none; }
+.fx .vf-c { display: block; position: absolute; pointer-events: none; top: 0; bottom: 0; left: calc(-.14em - var(--vr, 1) * 1.6em); right: calc(-.07em - var(--vr, 1) * 1.6em); opacity: calc(.15 + .85 * var(--sp, 0)); --vr: calc((1 - var(--sp, 0)) * (1 - var(--sp, 0))); --c: var(--cream); --l: .3em; --t: max(2px, .05em);
+  background: linear-gradient(var(--c), var(--c)) 0 0 / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 0 0 / var(--t) var(--l),
+    linear-gradient(var(--c), var(--c)) 100% 0 / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 100% 0 / var(--t) var(--l),
+    linear-gradient(var(--c), var(--c)) 0 100% / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 0 100% / var(--t) var(--l),
+    linear-gradient(var(--c), var(--c)) 100% 100% / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 100% 100% / var(--t) var(--l);
+  background-repeat: no-repeat; }
+.sec-paper .vf-c { --c: var(--on-paper); }
+/* 제목 줄은 올라오는 효과 때문에 넘친 부분을 자르므로, 이 줄만 모서리가 보일 만큼(0.7em) 여유를 둠 */
+.js .h2.rv .ln:has(.vf) { overflow: clip; overflow-clip-margin: .7em; }
+
+/* 자주 묻는 질문 '모았습니다.': 글자가 위에서 한 자씩 떨어져 들어와 모임(줄 안에서 잘려 슬롯처럼 보임) */
+.gather i { display: inline-block; font-style: normal; }
+.fx .gather i { transform: translateY(calc(var(--gr, 1) * -1 * (var(--k) + 1.2) * .55em)); }
+.fx .gather { --gr: calc((1 - var(--sp, 0)) * (1 - var(--sp, 0)) * 1.3); }
+
+/* 문의 '스트레스에서 해방되세요.': '해방되세요.'가 짓눌리고 기울어 움츠러져 있다가, 스크롤하면 한 글자씩 펴지며 풀려남 */
+.free { display: inline-block; white-space: nowrap; }
+.free i { display: inline-block; font-style: normal; }
+.fx .free i { --ki: clamp(0, calc(var(--sp, 0) * 1.7 - var(--k) * .12), 1); --kr: calc(1 - var(--ki)); margin-right: calc(var(--kr) * -.16em); transform: translateY(calc(var(--kr) * .12em)) rotate(calc(var(--kr) * (var(--k) - 2.5) * 5deg)) scale(calc(1 - var(--kr) * .14)); opacity: calc(.45 + .55 * var(--ki)); transform-origin: 50% 100%; }
+
+/* 포트폴리오 끝 '다음 레퍼런스는 대표님의 브랜드입니다.': 아직 비어 있는 자리 — 점선 테두리가 천천히 돌며 자리를 비워 둔 것처럼 */
+.fx .wk-next-in { position: relative; border-color: transparent; }
+.fx .wk-next-in::after { content: ""; position: absolute; inset: 0; pointer-events: none; --d: rgba(252, 238, 216, .55);
+  background: linear-gradient(90deg, var(--d) 50%, transparent 0) 0 0 / 14px 1px repeat-x, linear-gradient(90deg, var(--d) 50%, transparent 0) 0 100% / 14px 1px repeat-x,
+    linear-gradient(0deg, var(--d) 50%, transparent 0) 0 0 / 1px 14px repeat-y, linear-gradient(0deg, var(--d) 50%, transparent 0) 100% 0 / 1px 14px repeat-y;
+  animation: slotDash 1.6s linear infinite; }
+.fx .wk-next-in:hover::after { --d: rgba(12, 12, 11, .6); } /* 마우스를 올리면 크림색으로 채워지므로 점선은 검게 */
+@keyframes slotDash { to { background-position: 14px 0, -14px 100%, 0 -14px, 100% 14px; } }
+.still .wk-next-in::after { animation: none; }
 
 /* 비교 제목: 'Ordinary'는 아래 BEFORE와 같은 흔한 템플릿 글꼴, 'Artisanal'은 PAUSE 제목 글꼴 — 제목 자체가 비교가 됨 */
 .cmp-title .ord { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400; letter-spacing: -.03em; color: var(--on-paper-3); }

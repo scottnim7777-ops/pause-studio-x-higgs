@@ -205,7 +205,7 @@ function who() {
   return `<section class="sec sec-paper who" id="who" aria-labelledby="who-title">
   <div class="wrap who-grid">
     <header class="sec-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="who-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${nl(w.lead)}</p></header>
-    <ol class="who-list" data-steps="0.7">${items}</ol>
+    <ol class="who-list" data-steps="0.58">${items}</ol>
   </div>
 </section>`;
 }
@@ -290,7 +290,7 @@ function pricingSec() {
   const notes = p.notes.map((n) => `<li>${t(n)}</li>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner)}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner).replace('관리비는', '<span class="nobr"><span class="gone" data-sp="0.8,0.3">관리비</span>는</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="plans">${p.plans.map(planCard).join('')}</div>
     <div class="free-band rv"><h3 class="fb-title">${esc(p.freeTitle[0])} <br>${esc(p.freeTitle[1])}</h3><ul>${free}</ul></div>
     <div class="pnotes rv"><h3 class="pnotes-title">${esc(p.notesTitle)}</h3><ol>${notes}</ol></div>
@@ -431,7 +431,7 @@ function videoPricing() {
   const sched = v.schedule.map(([k, d]) => `<div><dt>${esc(k)}</dt><dd>${esc(d)}</dd></div>`).join('');
   return `<section class="sec sec-dark vpricing" id="video-pricing" aria-labelledby="vpricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading)}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading).replace('완성된 광고영상을', '<span class="nobr"><span class="vf" data-sp="0.8,0.3"><i class="vf-c" aria-hidden="true"></i>완성된 광고영상</span>을</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="formats rv">
       <div class="fm-copy"><p class="kicker">${esc(fm.kicker)}</p><h3>${nl(fm.title)}</h3><p>${nl(fm.desc)}</p></div>
       <div class="fm-art"><div class="fm-devices" aria-hidden="true">${frames}</div><ul class="fm-list">${formats}</ul></div>
@@ -462,7 +462,7 @@ function faqSec() {
   const all = f.tabs.flatMap((tb) => tb.items);
   return `<section class="sec sec-paper faq" id="faq" aria-labelledby="faq-title">
   <div class="wrap faq-grid">
-    <header class="sec-head"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="faq-title">${lines(f.title)}</h2><div class="faq-tabs rv" role="tablist" aria-label="질문 분류">${tabs}</div></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="faq-title">${lines(f.title).replace('모았습니다.', /* 질문 제목은 PC에서 화면 위에 붙어 따라오므로(sticky) 끝을 38% 높이로 */ `<span class="sr">모았습니다.</span><span class="gather" aria-hidden="true" data-sp="0.8,0.38">${[...'모았습니다.'].map((ch, k) => `<i style="--k:${k}">${ch}</i>`).join('')}</span>`)}</h2><div class="faq-tabs rv" role="tablist" aria-label="질문 분류">${tabs}</div></header>
     <div class="faq-panels rv">${panels}</div>
   </div>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: all.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } })) }).replace(/</g, '\\u003c')}</script>
@@ -485,6 +485,10 @@ function manifesto() {
 </section>`;
 }
 
+/** '스트레스에서 해방되세요.'의 '해방되세요.'(2026-10-09 사용자: 해방에 효과): 스트레스로 움츠러든 듯 글자들이 서로 짓눌리고 기울어 있다가,
+ *  스크롤하면 한 글자씩 어깨를 펴듯 풀려나 제자리에 바로 선다. 화면 읽기용 글은 그대로 */
+const freeWord = (h: string) => h.replace(/(해방\s*되세요\.?)/, (m) => `<span class="sr">${m}</span><span class="free" aria-hidden="true" data-sp="0.8,0.3">${[...m].map((ch, k) => `<i style="--k:${k}">${ch}</i>`).join('')}</span>`);
+
 function contactSec() {
   const c = C.contactSection;
   const [u, d] = C.contact.email.split('@');
@@ -493,7 +497,7 @@ function contactSec() {
   <div class="wrap contact-grid">
     <div class="ct-main">
       <p class="ct-window rv"><span class="dot" aria-hidden="true"></span>${esc(c.windowLabel)} · ${esc(c.status)}</p>
-      <h2 class="ct-title rv" id="contact-title"><span class="ln"><span>${esc(c.title[0].trim())}<br class="m-br"> <em>${esc(c.title[1])}</em></span></span><span class="ln" style="--li:1"><span>${esc(c.title[2])}${esc(c.title[3])}</span></span></h2>
+      <h2 class="ct-title rv" id="contact-title"><span class="ln"><span>${esc(c.title[0].trim())}<br class="m-br"> <em>${esc(c.title[1])}</em></span></span><span class="ln" style="--li:1"><span>${freeWord(esc(c.title[2]) + esc(c.title[3]))}</span></span></h2>
       <p class="ct-desc rv" style="--d:.1s">${esc(c.desc[0])}${esc(c.desc[1])}<em>${esc(c.desc[2])}</em>${esc(c.desc[3])}</p>
       <div class="ctas rv" style="--d:.15s">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
       <p class="ct-note">${esc(c.channelsNote[0])}<em>${esc(c.channelsNote[1])}</em>${esc(c.channelsNote[2])}</p>

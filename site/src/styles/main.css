@@ -337,7 +337,7 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .cmp-frame.hinting .cmp-handle i { scale: 1.08; box-shadow: 0 12px 30px -10px rgba(0, 0, 0, .5), 0 0 0 9px rgba(255, 255, 255, .22); }
 .cmp-frame:has(.cmp-range:focus-visible) .cmp-handle i { box-shadow: 0 0 0 3px var(--on-paper), 0 0 0 6px #fff; }
 .cmp-range { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; opacity: 0; }
-.cmp-tag { position: absolute; bottom: clamp(12px, 1.8cqw, 24px); z-index: 2; padding: clamp(6px, .7cqw, 9px) clamp(10px, 1.1cqw, 15px); border-radius: 999px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(11px, 1.05cqw, 15px); line-height: 1; letter-spacing: .18em; pointer-events: none; transition: opacity .35s var(--ease); }
+.cmp-tag { position: absolute; bottom: clamp(12px, 1.8cqw, 24px); z-index: 2; padding: clamp(6px, .7cqw, 9px) clamp(10px, 1.1cqw, 15px); border-radius: 2px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(11px, 1.05cqw, 15px); line-height: 1; letter-spacing: .18em; pointer-events: none; transition: opacity .35s var(--ease); }
 .cmp-tag.b { left: clamp(12px, 1.8cqw, 24px); background: rgba(255, 255, 255, .94); color: #2b2a27; box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .35); }
 .cmp-tag.a { right: clamp(12px, 1.8cqw, 24px); background: rgba(12, 12, 11, .82); color: var(--cream); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .cmp-frame.at-start .cmp-tag.b, .cmp-frame.at-end .cmp-tag.a { opacity: 0; }
@@ -512,8 +512,10 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .money input::placeholder { color: rgba(252, 238, 216, .46); font-size: .8em; }
 .money .pen { width: 17px; height: 17px; flex: none; margin-left: 8px; color: var(--cream-3); transition: color .3s; }
 .money:hover .pen, .money:focus-within .pen { color: var(--cream); }
-.money .caret { display: none; width: 2px; height: 1.05em; margin-right: 6px; background: var(--cream); animation: caretBlink 1.1s steps(1, end) infinite; }
-.money:has(input:placeholder-shown):not(:focus-within) .caret { display: block; }
+/* 깜빡이는 입력 표시: 값이 있으면 숫자 바로 뒤, 비어 있으면 '금액 입력' 앞(--cx는 JS가 글자 폭을 재서 넣음). 칸을 누르면 진짜 커서로 */
+.money .caret { position: absolute; left: var(--cx, 64px); top: 50%; width: 2px; height: 1.05em; translate: 0 -50%; background: var(--cream); pointer-events: none; animation: caretBlink 1.1s steps(1, end) infinite; }
+.money:focus-within .caret { display: none; }
+.money .mirror { position: absolute; left: 0; top: 0; visibility: hidden; white-space: pre; pointer-events: none; font-variant-numeric: tabular-nums; }
 .still .money .caret { animation: none; }
 .money.nudge { animation: moneyNudge 1.1s var(--ease) 2; }
 @keyframes moneyNudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(252, 238, 216, 0); } 40% { box-shadow: 0 0 0 4px rgba(252, 238, 216, .28); border-color: var(--cream); } }
@@ -531,7 +533,8 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .calc-side .fixed small { margin-left: 3px; font-size: .66em; color: var(--cream-2); }
 .calc-years { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; font-size: var(--fs-small); color: var(--cream-2); }
 .calc-years input { accent-color: var(--cream); width: 100%; cursor: pointer; }
-.calc-years output { min-width: 3.5em; text-align: right; color: var(--cream); font-variant-numeric: tabular-nums; }
+/* 기간 'N년'은 크게(2026-10-09 사용자) */
+.calc-years output { min-width: 2.6em; text-align: right; font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(26px, 2vw, 36px); line-height: 1; letter-spacing: -.02em; color: var(--cream); font-variant-numeric: tabular-nums; }
 .calc-out { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .calc-out p { display: grid; gap: 4px; align-content: start; padding: 16px 18px 18px; border: 1px solid var(--cream-line); font-size: var(--fs-small); color: var(--cream-2); }
 .calc-out p.pause { background: rgba(252, 238, 216, .07); border-color: rgba(252, 238, 216, .55); color: var(--cream); }
@@ -701,10 +704,10 @@ details[data-acc][open]:not(.closing) > summary .ic::after { transform: rotate(0
 /* ───────── 자주 묻는 질문: 탭 + 부드럽게 열리는 답 ───────── */
 .faq-grid { display: grid; grid-template-columns: 4fr 8fr; gap: clamp(40px, 5vw, 100px); align-items: start; }
 .faq-grid .sec-head { position: sticky; top: calc(var(--header-h) + 40px); }
-.faq-tabs { position: relative; justify-self: start; display: inline-grid; grid-auto-flow: column; gap: 4px; margin-top: 8px; padding: 5px; border: 1px solid var(--paper-line); border-radius: 999px; }
-.faq-tabs::before { content: ""; position: absolute; top: 5px; bottom: 5px; left: 0; width: var(--w, 0); transform: translateX(var(--x, 0)); border-radius: 999px; background: var(--on-paper); transition: transform .55s var(--ease), width .55s var(--ease); }
+.faq-tabs { position: relative; justify-self: start; display: inline-grid; grid-auto-flow: column; gap: 4px; margin-top: 8px; padding: 5px; border: 1px solid var(--paper-line); border-radius: 2px; } /* 2026-10-09: 둥근 알약 모양은 쓰지 않는다(디자인 규칙) → 네모 */
+.faq-tabs::before { content: ""; position: absolute; top: 5px; bottom: 5px; left: 0; width: var(--w, 0); transform: translateX(var(--x, 0)); border-radius: 1px; background: var(--on-paper); transition: transform .55s var(--ease), width .55s var(--ease); }
 .faq-tabs.instant::before { transition: none; }
-.faq-tab { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-small); color: var(--on-paper-2); transition: color .4s var(--ease); }
+.faq-tab { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 1px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-small); color: var(--on-paper-2); transition: color .4s var(--ease); }
 .faq-tab small { font-family: var(--f-text); font-weight: var(--w-text); font-size: 12.5px; opacity: .7; font-variant-numeric: tabular-nums; }
 .faq-tab:hover { color: var(--on-paper); }
 .faq-tab[aria-selected="true"] { color: var(--paper); }
@@ -723,35 +726,30 @@ html:not(.js) .faq-tabs { display: none; }
 
 /* ───────── 마무리 선언: 스크롤에 따라 단어가 하나씩 밝아짐(JS가 .on) ───────── */
 .manifesto { position: relative; overflow: hidden; background: var(--black); color: var(--cream); padding-block: clamp(140px, 13vw, 260px); }
-/* 따뜻한 빛: 들어오면 천천히 번지고, 그 뒤 숨 쉬듯 아주 느리게(움직임 멈추기·동작 줄이기면 멈춤) */
-.manifesto::before { content: ""; position: absolute; left: 62%; top: 58%; width: 90vmax; height: 90vmax; translate: -50% -50%; background: radial-gradient(closest-side, rgba(255, 220, 170, .16), rgba(252, 238, 216, .045) 45%, rgba(252, 238, 216, 0)); opacity: 0; pointer-events: none; transition: opacity 2.6s var(--ease); }
-.manifesto.go::before, html:not(.js) .manifesto::before { opacity: 1; }
-.manifesto.go::before { animation: mfBreath 8s ease-in-out 2.6s infinite alternate; }
-@keyframes mfBreath { to { scale: 1.07; opacity: .7; } }
-.still .manifesto::before { animation: none; }
 .manifesto .wrap { position: relative; }
 .mf-kicker { display: flex; align-items: center; gap: 14px; font-size: var(--fs-lead); line-height: 1.5; color: var(--cream-2); }
 .mf-kicker::before { content: ""; width: 26px; height: 1.5px; background: currentColor; flex: none; }
-.mf-big { margin-top: clamp(24px, 2.6vw, 48px); font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(46px, 8.4vw, 172px); line-height: 1.08; letter-spacing: -.05em; margin-left: -.04em; }
-.mf-big .ln { position: relative; display: block; width: fit-content; }
-.mf-big .wd { display: inline-block; white-space: nowrap; }
-.mf-big .ch { display: inline-block; }
-/* 손으로 쓰듯: 글자마다 번진 잉크가 또렷해지며 자리 잡음(약 90ms 간격, 조금씩 다른 박자) */
-.js .mf-big .ch { opacity: 0; filter: blur(12px); translate: 0 .08em; transition: opacity 1s var(--ease), filter 1.4s var(--ease), translate 1.4s var(--ease); transition-delay: calc(var(--i) * 90ms + var(--j, 0ms)); }
-.js .manifesto.go .mf-big .ch { opacity: 1; filter: blur(0); translate: 0 0; }
-/* 손으로 그은 밑줄 */
-.mf-ink { position: absolute; left: -1%; bottom: -.16em; width: 102%; height: .3em; overflow: visible; pointer-events: none; }
-.mf-ink path { fill: none; stroke: var(--cream); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: .9; }
-.js .manifesto.go .mf-ink path { stroke-dashoffset: 0; transition: stroke-dashoffset 1.3s var(--ease-io) calc(var(--n) * 90ms + .45s); }
-html:not(.js) .mf-ink path { stroke-dashoffset: 0; }
-.js :is(.mf-kicker, .mf-stmt, .mf-sign) { opacity: 0; translate: 0 14px; transition: opacity 1.1s var(--ease), translate 1.1s var(--ease); }
+/* 마무리 선언(2026-10-09): 편지체 마루 부리(PS Letter)로 대표가 직접 치듯. 빛 번짐·굵은 밑줄·글자 흐림 없음 */
+.mf-big { position: relative; margin-top: clamp(24px, 2.6vw, 48px); font-family: 'PS Letter', var(--f-display); font-weight: 400; font-size: clamp(40px, 7.4vw, 148px); line-height: 1.2; letter-spacing: -.025em; margin-left: -.03em; }
+.mf-big .ln { display: block; }
+.mf-type { position: absolute; inset: 0; }
+.js .mf-ghost { visibility: hidden; } /* 자리만 차지 — 글자가 써지는 동안 아래 글이 밀리지 않게 */
+html:not(.js) .mf-type, .manifesto.static .mf-type { display: none; }
+.manifesto.static .mf-ghost { visibility: visible; }
+.mf-type .caret { display: inline-block; width: .045em; height: .8em; margin-left: .07em; background: var(--cream); vertical-align: -.05em; transition: opacity .8s var(--ease); }
+.mf-type .caret.blink { animation: caretBlink 1.1s steps(1, end) infinite; }
+.mf-type .caret.gone { opacity: 0; animation: none; }
+.still .mf-type .caret.blink { animation: none; }
+.manifesto .sr { user-select: none; } /* 글을 복사하면 한 번만(화면 읽기용 글은 빼고) */
+.js :is(.mf-kicker, .mf-stmt, .mf-sign) { opacity: 0; translate: 0 12px; transition: opacity 1.1s var(--ease), translate 1.1s var(--ease); }
 .js .manifesto.go .mf-kicker { opacity: 1; translate: 0 0; }
-.js .manifesto.go .mf-stmt { opacity: 1; translate: 0 0; transition-delay: calc(var(--n) * 90ms + 1.5s); }
-.js .manifesto.go .mf-sign { opacity: 1; translate: 0 0; transition-delay: calc(var(--n) * 90ms + 2.1s); }
+.js .manifesto.typed .mf-stmt { opacity: 1; translate: 0 0; }
+.js .manifesto.typed .mf-sign { opacity: 1; translate: 0 0; transition-delay: .6s; }
 .mf-stmt { margin-top: clamp(28px, 3vw, 56px); font-size: clamp(20px, 1.6vw, 30px); line-height: 1.6; letter-spacing: -.015em; color: var(--cream-2); max-width: 30em; }
-.mf-sign { margin-top: clamp(36px, 3.6vw, 72px); display: grid; justify-items: start; gap: 10px; }
-.mf-sign .sig { display: block; width: clamp(150px, 13vw, 230px); height: auto; color: var(--cream); }
-.mf-sign span { font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-label); letter-spacing: .32em; color: var(--cream-3); }
+/* 대표 서명 + 이름표: 대표 서신(WHY)의 서명과 같은 크기·배치 */
+.mf-sign { margin-top: clamp(40px, 4vw, 80px); display: flex; align-items: flex-end; gap: 22px; }
+.mf-sign .sig { display: block; width: clamp(180px, 15vw, 280px); height: auto; overflow: visible; color: var(--cream); }
+.mf-sign span { padding-bottom: 8px; font-size: var(--fs-small); letter-spacing: .02em; color: var(--cream-3); white-space: nowrap; }
 
 /* ───────── 문의 ───────── */
 .contact-grid { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(48px, 6vw, 120px); align-items: start; }
@@ -1015,7 +1013,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .addon-table th { padding-right: 12px; }
   .addon-table td { white-space: normal; min-width: 6.5em; }
   .faq-tab { padding: 0 16px; }
-  .mf-big { font-size: clamp(40px, 12.4vw, 64px); }
+  .mf-big { font-size: clamp(28px, 9.3vw, 44px); } /* 편지체 두 줄('사장님보다 더 / 사장님 같은 마음으로')이 휴대폰에서도 그대로 */
   .cs { width: 100vw; height: 100dvh; max-height: 100dvh; }
   .cs form { height: 100%; }
   .cs-types, .grid2 { grid-template-columns: 1fr; }
@@ -1031,8 +1029,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .js .formats.rv .frame { opacity: 1 !important; translate: none !important; }
   .ch-move { transform: none !important; }
   .sig .st { stroke-dashoffset: 0 !important; }
-  .js .mf-big .ch, .js :is(.mf-kicker, .mf-stmt, .mf-sign) { opacity: 1 !important; filter: none !important; translate: none !important; }
-  .mf-ink path { stroke-dashoffset: 0 !important; }
+  .js :is(.mf-kicker, .mf-stmt, .mf-sign) { opacity: 1 !important; translate: none !important; }
 }
 .still .hero-title .caret.end { animation: none; }
 .still .ch-move { transform: none; }

@@ -6,6 +6,7 @@
  * - '움직임 멈추기' 버튼·운영체제의 동작 줄이기를 따름. 인트로 타이밍은 drafts/v32/hero/hero.html 과 같다.
  */
 import { motion, saveData } from './motion';
+import { steps } from './hangul';
 
 const INTRO_END = 3.4;
 const P = 24; // 줄이 한 바퀴 흐르는 시간(초)
@@ -16,17 +17,6 @@ const span = (t: number, a: number, b: number) => clamp((t - a) / (b - a));
 const eOut = (x: number) => 1 - Math.pow(1 - clamp(x), 3);
 const io = (x: number) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
 const mod = (a: number, n: number) => ((a % n) + n) % n;
-
-/* 한글 한 글자의 입력 단계: 초성 → 받침 없는 글자 → 완성(받침이 있으면) */
-const CHO = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
-function steps(ch: string): string[] {
-  const c = ch.charCodeAt(0) - 0xac00;
-  if (c < 0 || c > 11171) return [ch];
-  const cho = Math.floor(c / 588), jung = Math.floor((c % 588) / 28), jong = c % 28;
-  const s = [CHO[cho], String.fromCharCode(0xac00 + cho * 588 + jung * 28)];
-  if (jong) s.push(ch);
-  return s;
-}
 
 type Base = { ry: number; rx: number; rz: number; s: number };
 const DESKTOP: Base = { ry: -24, rx: 9, rz: -3, s: 1 };

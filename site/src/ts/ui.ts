@@ -4,6 +4,7 @@
  * 움직임은 모두 motion(운영체제 '동작 줄이기' + 사이트의 '움직임 멈추기')을 따른다.
  */
 import { motion, saveData } from './motion';
+import { steps } from './hangul';
 
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
 const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
@@ -560,7 +561,10 @@ export function initCalc() {
   const money = (n: number) => `${sym()}${Math.round(n).toLocaleString('en-US')}`;
   const plan = () => plans.find((p) => p.checked) ?? plans[0];
   const pauseSetup = () => Number(plan()?.value) || 0;
-  const shown = { other: 0, pause: pauseSetup(), save: 0 };
+  // 처음 숫자는 빌드 때 기본값(500 · 150 · 5년)으로 계산해 둔 그대로 → 불러올 때 세지 않음
+  const other0 = num(setup.value) + num(monthly.value) * 12 * Number(years.value);
+  const shown = { other: other0, pause: pauseSetup(), save: Math.max(0, other0 - pauseSetup()) };
+  let touched = false; // 화면 읽기 결과 알림은 사용자가 바꾼 뒤에만
   const stops: Partial<Record<keyof typeof shown, () => void>> = {};
   const count = (k: keyof typeof shown, to: number) => {
     stops[k]?.();
@@ -590,24 +594,41 @@ export function initCalc() {
     }
     clearTimeout(liveTimer);
     liveTimer = window.setTimeout(() => {
-      if (!live || !(a || m)) return;
+      if (!live || !touched || !(a || m)) return;
       live.textContent = `${labels[0]} ${money(other)}, ${labels[1]} ${money(pause)}${save > 0 ? `, ${labels[2]} ${money(save)}` : ''}`;
     }, 700);
   };
+  // 깜빡이는 입력 표시를 숫자 바로 뒤에(값이 없으면 '금액 입력' 앞): 입력칸과 같은 글꼴의 보이지 않는 글자로 폭을 잼
+  const placeCaret = (el: HTMLInputElement) => {
+    const box = el.closest<HTMLElement>('.money');
+    if (!box) return;
+    let mirror = box.querySelector<HTMLElement>('.mirror');
+    if (!mirror) { mirror = document.createElement('span'); mirror.className = 'mirror'; mirror.setAttribute('aria-hidden', 'true'); box.append(mirror); }
+    mirror.textContent = el.value;
+    const w = el.value ? mirror.getBoundingClientRect().width : 0;
+    box.style.setProperty('--cx', `${(el.offsetLeft + w + (el.value ? 3 : 0)).toFixed(1)}px`);
+  };
+  const placeAll = () => [setup, monthly].forEach(placeCaret);
+  let edited = false;
   [setup, monthly].forEach((el) => el.addEventListener('input', () => {
+    edited = touched = true;
     const n = num(el.value);
     el.value = n ? n.toLocaleString('en-US') : '';
+    placeCaret(el);
     calc();
   }));
-  years.addEventListener('input', calc);
-  plans.forEach((p) => p.addEventListener('change', calc));
-  // 처음 화면에 들어오면 비어 있는 타사 견적 칸이 두 번 빛나 '여기에 입력'임을 알림(2026-10-09 사용자)
+  placeAll();
+  document.fonts?.ready.then(placeAll).catch(() => {});
+  addEventListener('resize', placeAll);
+  years.addEventListener('input', () => { touched = true; calc(); });
+  plans.forEach((p) => p.addEventListener('change', () => { touched = true; calc(); }));
+  // 처음 화면에 들어오면 타사 견적 첫 칸 테두리가 두 번 빛나 '고쳐 넣을 수 있는 칸'임을 알림(2026-10-09 사용자)
   const firstBox = setup.closest('.money');
   if (firstBox && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       io.disconnect();
-      if (!motion.allowed || setup.value || monthly.value) return;
+      if (!motion.allowed || edited) return;
       window.setTimeout(() => { firstBox.classList.add('nudge'); firstBox.addEventListener('animationend', () => firstBox.classList.remove('nudge'), { once: true }); }, 500);
     }, { threshold: 0.6 });
     io.observe(firstBox);
@@ -721,16 +742,51 @@ export function initEmail() {
 /* ── 장 제목 큰 영문: 스크롤에 따라 오른쪽에서 들어와 제자리에(--p). 마무리 선언: 보이면 손글씨처럼 쓰고 서명 */
 export function initScrub() {
   const chapters = $$('[data-scrub]');
-  // 마무리 선언: 한 번 화면에 들어오면 손글씨처럼 쓰기 시작(.go) → 글자를 다 쓴 뒤 대표 서명을 그림. 동작 줄이기면 바로 완성
+  // 마무리 선언: 화면에 들어오면 대표가 그 자리에서 치듯 한글 자판 타이핑(생각하며 쓰는 박자, 줄 사이 쉼, 커서) → 다짐 문장 → 서명.
+  // 동작 줄이기면 완성된 글을 바로(.static)
   const mf = $('[data-manifesto]');
   if (mf) {
+    const type = $('[data-mf-type]', mf);
+    const ghost = $('.mf-ghost', mf);
     const sig = $('.sig', mf);
-    const n = Number(getComputedStyle(mf).getPropertyValue('--n')) || 15;
-    const start = () => { mf.classList.add('go'); if (sig) window.setTimeout(() => sig.classList.add('go'), motion.reduced ? 0 : n * 90 + 2300); };
-    if (motion.reduced || !('IntersectionObserver' in window)) start();
+    const lines: string[] = ghost?.dataset.mfLines ? JSON.parse(ghost.dataset.mfLines) : [];
+    const finish = () => { mf.classList.add('static', 'go', 'typed'); sig?.classList.add('go'); };
+    if (motion.reduced || !type || !lines.length || !('IntersectionObserver' in window)) finish();
     else {
+      const wait = (ms: number) => new Promise<void>((r) => window.setTimeout(r, ms));
+      let k = 0;
+      const beat = () => 62 + ((k++ * 37) % 41); // 사람 손처럼 타건마다 조금씩 다른 간격(62~102ms)
+      const run = async () => {
+        mf.classList.add('go');
+        await wait(650);
+        const caret = document.createElement('i');
+        caret.className = 'caret blink';
+        for (let li = 0; li < lines.length; li++) {
+          const el = document.createElement('span');
+          el.className = 'ln';
+          const txt = document.createTextNode('');
+          el.append(txt, caret);
+          type.append(el);
+          if (li === 0) await wait(420); // 첫 글자 전에 커서가 한 번 깜빡이고
+          caret.classList.remove('blink');
+          let done = '';
+          for (const ch of lines[li]) {
+            for (const st of steps(ch)) { txt.data = done + st; await wait(beat()); }
+            done += ch;
+            if (ch === ' ') await wait(120);
+          }
+          if (li < lines.length - 1) { caret.classList.add('blink'); await wait(560); } // 줄을 바꾸기 전 잠깐 생각
+        }
+        caret.classList.add('blink');
+        await wait(700);
+        mf.classList.add('typed');
+        await wait(1200);
+        sig?.classList.add('go');
+        await wait(2600);
+        caret.classList.add('gone');
+      };
       const big = $('.mf-big', mf) ?? mf;
-      const mo = new IntersectionObserver(([e]) => { if (e.isIntersecting) { mo.disconnect(); start(); } }, { threshold: 0.45 });
+      const mo = new IntersectionObserver(([e]) => { if (e.isIntersecting) { mo.disconnect(); void run(); } }, { threshold: 0.5 });
       mo.observe(big);
     }
   }

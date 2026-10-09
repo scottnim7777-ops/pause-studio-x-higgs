@@ -306,13 +306,17 @@ function calc() {
   const money = (n: number) => `${t(SYM)}${n.toLocaleString('en-US')}`;
   const def = c.plans[0];
   const plans = c.plans.map((pl, i) => `<label class="cp"><input type="radio" name="calcPlan" value="${pl.price}" data-suffix="${esc(pl.suffix || '')}"${i === 0 ? ' checked' : ''}><span>${esc(pl.label)}</span></label>`).join('');
+  // 기본값으로 미리 계산해 둠(JS가 없어도 같은 결과): 타사 = 초기 제작비 + 월 관리비 × 12 × 기간
+  const d = c.defaults;
+  const other0 = d.setup + d.monthly * 12 * d.years, pause0 = def.price, max0 = Math.max(other0, pause0, 1);
+  const save0 = Math.max(0, other0 - pause0);
   return `<div class="calc rv" data-calc>
       <div class="calc-intro"><h3 class="h3">${esc(c.title)}</h3><p class="calc-lead">${nl(c.lead)}</p></div>
       <div class="calc-form">
         <div class="calc-vs">
           <fieldset class="calc-side other"><legend><span class="side-tag">${esc(c.otherLabel)}</span><span class="side-hint">${PEN}${esc(c.inputHint)}</span></legend>
-            <label>${esc(c.setupLabel)}<span class="money"><span class="sym">${t(SYM)}</span><i class="caret" aria-hidden="true"></i><input type="text" inputmode="numeric" autocomplete="off" placeholder="${esc(c.placeholder)}" data-c="setup" aria-label="${esc(c.otherLabel)} ${esc(c.setupLabel)}">${PEN}</span></label>
-            <label>${esc(c.monthlyLabel)}<span class="money"><span class="sym">${t(SYM)}</span><i class="caret" aria-hidden="true"></i><input type="text" inputmode="numeric" autocomplete="off" placeholder="${esc(c.placeholder)}" data-c="monthly" aria-label="${esc(c.otherLabel)} ${esc(c.monthlyLabel)}">${PEN}</span></label>
+            <label>${esc(c.setupLabel)}<span class="money"><span class="sym">${t(SYM)}</span><i class="caret" aria-hidden="true"></i><input type="text" inputmode="numeric" autocomplete="off" placeholder="${esc(c.placeholder)}" value="${d.setup.toLocaleString('en-US')}" data-c="setup" aria-label="${esc(c.otherLabel)} ${esc(c.setupLabel)}">${PEN}</span></label>
+            <label>${esc(c.monthlyLabel)}<span class="money"><span class="sym">${t(SYM)}</span><i class="caret" aria-hidden="true"></i><input type="text" inputmode="numeric" autocomplete="off" placeholder="${esc(c.placeholder)}" value="${d.monthly.toLocaleString('en-US')}" data-c="monthly" aria-label="${esc(c.otherLabel)} ${esc(c.monthlyLabel)}">${PEN}</span></label>
           </fieldset>
           <span class="vs" aria-hidden="true">${esc(c.vs)}</span>
           <fieldset class="calc-side pause"><legend><img src="/brand/logo-cream.svg" alt="${esc(c.pauseLabel)}" width="204" height="103"></legend>
@@ -321,12 +325,12 @@ function calc() {
             <p class="calc-row"><span>${esc(c.monthlyLabel)}</span><b class="fixed">${money(0)}</b></p>
           </fieldset>
         </div>
-        <label class="calc-years"><span>${esc(c.yearsLabel)}</span><input type="range" min="1" max="10" step="1" value="5" data-c="years"><output data-o="years">5${esc(c.unit)}</output></label>
+        <label class="calc-years"><span>${esc(c.yearsLabel)}</span><input type="range" min="1" max="10" step="1" value="${d.years}" data-c="years"><output data-o="years">${d.years}${esc(c.unit)}</output></label>
         <div class="calc-out">
-          <p class="other"><span>${esc(c.otherLabel)} ${esc(c.totalLabel)}</span><strong data-o="other">${money(0)}</strong><i class="bar" data-bar="other"></i></p>
-          <p class="pause"><span>${esc(c.pauseLabel)} ${esc(c.totalLabel)}</span><strong data-o="pause">${money(def.price)}</strong><i class="bar" data-bar="pause"></i></p>
+          <p class="other"><span>${esc(c.otherLabel)} ${esc(c.totalLabel)}</span><strong data-o="other">${money(other0)}</strong><i class="bar" data-bar="other" style="--w:${(other0 / max0).toFixed(4)}"></i></p>
+          <p class="pause"><span>${esc(c.pauseLabel)} ${esc(c.totalLabel)}</span><strong data-o="pause">${money(pause0)}</strong><i class="bar" data-bar="pause" style="--w:${(pause0 / max0).toFixed(4)}"></i></p>
         </div>
-        <p class="calc-save" data-save hidden><span>${esc(c.saveLabel)}</span><strong data-o="save">${money(0)}</strong></p>
+        <p class="calc-save" data-save${save0 > 0 ? '' : ' hidden'}><span>${esc(c.saveLabel)}</span><strong data-o="save">${money(save0)}</strong></p>
         <p class="sr" aria-live="polite" data-calc-live></p>
         <p class="calc-note">${esc(c.note)}</p>
       </div>
@@ -453,19 +457,16 @@ function faqSec() {
 </section>`;
 }
 
-/* ───────── 마무리 선언(2026-10-09 사용자: 진심이 느껴지게): 화면에 들어오면 따뜻한 빛이 번지고, 글자가 손으로 쓰듯 한 자씩 번져 나타난 뒤
-   둘째 줄 아래 손으로 그은 밑줄 → 다짐 문장 → 대표 서명이 차례로 그려짐(대표가 서명하는 약속) ───────── */
+/* ───────── 마무리 선언(2026-10-09 사용자: 진심이 느껴지게, 빛 번짐·굵은 밑줄은 AI 티가 남 → 다시):
+   편지체(마루 부리)로, 대표가 그 자리에서 직접 치듯 한글 자판 타이핑 → 다짐 문장 → 대표 서명.
+   ghost = 완성된 글(자리만 차지해 아래가 밀리지 않게, JS가 없으면 이것이 보임) · type = 타이핑되는 글 ───────── */
 function manifesto() {
   const m = C.manifesto;
-  let n = 0;
-  const jit = (k: number) => (k * 37) % 61; // 사람 손처럼 글자마다 조금씩 다른 간격(ms)
-  const word = (w: string) => `<span class="wd">${[...w].map((ch) => `<span class="ch" style="--i:${n};--j:${jit(n++)}ms">${esc(ch)}</span>`).join('')}</span>`;
-  const ink = '<svg class="mf-ink" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true"><path d="M10 40 C 150 26, 300 47, 470 35 S 790 22, 990 31" pathLength="1"/></svg>';
-  const lines = m.lines.map((ln, li) => `<span class="ln">${ln.split(' ').map(word).join(' ')}${li === m.lines.length - 1 ? ink : ''}</span>`).join('');
-  return `<section class="manifesto" id="manifesto" aria-labelledby="mf-title" data-manifesto style="--n:${n}">
+  const ghost = m.lines.map((l) => `<span class="ln">${esc(l)}</span>`).join('');
+  return `<section class="manifesto" id="manifesto" aria-labelledby="mf-title" data-manifesto>
   <div class="wrap">
     <p class="mf-kicker">${esc(m.kicker)}</p>
-    <h2 class="mf-big" id="mf-title"><span class="sr">${esc(m.lines.join(' '))}</span><span aria-hidden="true">${lines}</span></h2>
+    <h2 class="mf-big" id="mf-title"><span class="sr">${esc(m.lines.join(' '))}</span><span class="mf-ghost" aria-hidden="true" data-mf-lines="${esc(JSON.stringify(m.lines))}">${ghost}</span><span class="mf-type" aria-hidden="true" data-mf-type></span></h2>
     <p class="mf-stmt">${nl(m.statement)}</p>
     <div class="mf-sign">${signature('sigm2', false)}<span>${esc(m.sign)}</span></div>
   </div>

@@ -25,7 +25,22 @@ OUT = ROOT / 'public/fonts'
 CSS = ROOT / 'src/styles/fonts.css'
 NAVER = 'https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-{}.ttf'
 ARCHIVO = 'https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/Archivo%5Bwdth,wght%5D.ttf'
-SOURCES = {'nsn-r': NAVER.format('bRg'), 'nsn-b': NAVER.format('cBd'), 'archivo': ARCHIVO}
+# 마무리 선언(편지처럼 직접 쓰는 한 줄) = 마루 부리 Regular(네이버, OFL). 네이버 배포본을 그대로 옮겨 둔 fonts-archive 사본
+MARUBURI = 'https://cdn.jsdelivr.net/gh/fonts-archive/MaruBuri/MaruBuri-Regular.ttf'
+SOURCES = {'nsn-r': NAVER.format('bRg'), 'nsn-b': NAVER.format('cBd'), 'archivo': ARCHIVO, 'maruburi': MARUBURI}
+CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'
+
+
+def typing_steps(text):
+    """한글 자판으로 칠 때 화면에 지나가는 글자(초성 → 초성+중성 → 완성) — src/ts/hangul.ts의 steps와 같은 규칙"""
+    out = set()
+    for ch in text:
+        c = ord(ch) - 0xAC00
+        out.add(ord(ch))
+        if 0 <= c <= 11171:
+            out.add(ord(CHO[c // 588]))
+            out.add(0xAC00 + (c // 588) * 588 + ((c % 588) // 28) * 28)
+    return out
 
 LATIN = set(range(0x20, 0x7F)) | set(range(0xA0, 0x100)) | set(range(0x2010, 0x2028)) | set(range(0x2030, 0x205F)) | {0x20AC, 0x2122, 0x2190, 0x2192, 0x2212}
 
@@ -156,6 +171,16 @@ def main():
         face(family, weight, f'ps-{key}-site.woff2', a)
         face(family, weight, f'ps-{key}-ext.woff2', b)
 
+    # 마무리 선언 두 줄(타이핑으로 지나가는 자모·글자까지) → PS Letter
+    page = (ROOT / 'index.html').read_text()
+    m = re.search(r'data-mf-lines="([^"]*)"', page)
+    if m:
+        import json
+        text = ''.join(json.loads(html.unescape(m.group(1))))
+        print('마무리 선언: 마루 부리 Regular → PS Letter', len(text), '글자')
+        cps = typing_steps(text) | {0x20}
+        build(str(fetch('maruburi')), cps, 'PS Letter', 'Regular', 'ps-letter.woff2')
+        css.append("@font-face{font-family:'PS Letter';src:url('/fonts/ps-letter.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}")
     CSS.write_text('\n'.join(css) + '\n')
     (OUT / 'LICENSE.txt').write_text(LICENSE)
     print('완료:', CSS.relative_to(ROOT))
@@ -176,6 +201,11 @@ LICENSE = """PAUSE STUDIO 웹사이트에 쓰인 폰트
 3) PS Ledger(관리비 숫자)
    원본: Archivo(위와 같음) — SIL Open Font License 1.1
    숫자·$·쉼표만 남기고 폭 62~125 · 굵기 400~800 축을 남긴 가변 글꼴 수정본입니다.
+
+4) PS Letter(마무리 선언)
+   원본: 마루 부리(MaruBuri) Regular — © NAVER Corp. © NAVER Cultural Foundation
+   라이선스: SIL Open Font License 1.1 (네이버 한글 글꼴 라이선스)
+   마무리 선언 두 줄과 타이핑 중에 지나가는 자모·글자만 남기고 이름을 바꾼 수정본입니다.
 
 SIL Open Font License 1.1 전문: https://openfontlicense.org/open-font-license-official-text/
 """

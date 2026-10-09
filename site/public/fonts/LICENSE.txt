@@ -14,4 +14,9 @@ PAUSE STUDIO 웹사이트에 쓰인 폰트
    원본: Archivo(위와 같음) — SIL Open Font License 1.1
    숫자·$·쉼표만 남기고 폭 62~125 · 굵기 400~800 축을 남긴 가변 글꼴 수정본입니다.
 
+4) PS Letter(마무리 선언)
+   원본: 마루 부리(MaruBuri) Regular — © NAVER Corp. © NAVER Cultural Foundation
+   라이선스: SIL Open Font License 1.1 (네이버 한글 글꼴 라이선스)
+   마무리 선언 두 줄과 타이핑 중에 지나가는 자모·글자만 남기고 이름을 바꾼 수정본입니다.
+
 SIL Open Font License 1.1 전문: https://openfontlicense.org/open-font-license-official-text/

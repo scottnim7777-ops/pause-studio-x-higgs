@@ -274,7 +274,9 @@ export const fee = {
     placeholder: '금액 입력',
     pauseLabel: 'PAUSE Studio',
     setupLabel: '초기 제작비',
-    monthlyLabel: '월 관리비',
+    /** 2026-10-09 사용자: '월 관리비(유지보수 포함)'으로, 타사 칸 기본값 초기 제작비 500 · 월 관리비 150(바로 고쳐 넣을 수 있음) */
+    monthlyLabel: '월 관리비(유지보수 포함)',
+    defaults: { setup: 500, monthly: 150, years: 5 },
     yearsLabel: '기간',
     totalLabel: '총비용',
     saveLabel: 'PAUSE Studio로 아끼는 금액',
@@ -479,7 +481,7 @@ export const manifesto = {
   kicker: '단순히 시키는 대로만 만들지 않습니다',
   lines: ['사장님보다 더', '사장님 같은 마음으로'],
   statement: '무엇이 진짜 필요한지 먼저 고민하고, 먼저 제안합니다.',
-  sign: 'PAUSE STUDIO',
+  sign: 'PAUSE STUDIO 대표',
 };
 
 export const contactSection = {

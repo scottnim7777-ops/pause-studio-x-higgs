@@ -284,6 +284,9 @@ async function page(browser, vp, opts = {}) {
   {
     const { ctx, p } = await page(browser, { width: 1440, height: 900 });
     await p.goto(`${BASE}/#fee`, { waitUntil: 'networkidle' });
+    // 기본값(2026-10-09 사용자): 타사 초기 제작비 500 · 월 관리비(유지보수 포함) 150 · 5년 → 타사 US$9,500 · PAUSE US$1,990 · 아끼는 금액 US$7,510
+    const d0 = await p.evaluate(() => ({ setup: document.querySelector('[data-c="setup"]').value, monthly: document.querySelector('[data-c="monthly"]').value, other: document.querySelector('[data-o="other"]').textContent, save: document.querySelector('[data-o="save"]').textContent, saveHidden: document.querySelector('[data-save]').hidden, label: [...document.querySelectorAll('.calc-side.other label')][1].childNodes[0].textContent.replace(/\u00a0/g, ' ').trim(), years: getComputedStyle(document.querySelector('[data-o="years"]')).fontSize }));
+    check('계산기: 기본값 타사 500 · 월 관리비(유지보수 포함) 150 · 5년 → US$9,500 vs US$1,990, 아끼는 금액 US$7,510 · 기간 글씨 큼', d0.setup === '500' && d0.monthly === '150' && d0.other === 'US$9,500' && d0.save === 'US$7,510' && !d0.saveHidden && d0.label === '월 관리비(유지보수 포함)' && parseFloat(d0.years) >= 24, JSON.stringify(d0));
     await p.fill('[data-c="setup"]', '3000');
     await p.fill('[data-c="monthly"]', '150');
     await p.fill('[data-c="years"]', '5');
@@ -359,7 +362,7 @@ async function page(browser, vp, opts = {}) {
       faq: [...document.querySelectorAll('.faq-list details')].filter((d) => d.getClientRects().length).length,
       film: [...document.querySelectorAll('.fs-panel')].filter((d) => d.getClientRects().length).length,
       zero: document.querySelector('.ledger-zero .ld-fig').textContent,
-      mf: [...document.querySelectorAll('.mf-big .ch, .mf-stmt, .mf-sign')].every((e) => getComputedStyle(e).opacity === '1'),
+      mf: getComputedStyle(document.querySelector('.mf-ghost')).visibility === 'visible' && document.querySelector('.mf-ghost').textContent === '사장님보다 더사장님 같은 마음으로' && [...document.querySelectorAll('.mf-stmt, .mf-sign')].every((e) => getComputedStyle(e).opacity === '1'),
     }));
     check('JS 없이도 제목·내용 표시(질문 27개 · 광고 샘플 4개 모두 보임 · 관리비 $0 · 마무리 선언)', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 27 && st.film === 4 && st.zero === '$0' && st.mf, JSON.stringify(st));
     await ctx.close();
@@ -584,16 +587,21 @@ async function page(browser, vp, opts = {}) {
     const ci = await p.evaluate(() => {
       const box = document.querySelector('[data-c="setup"]').closest('.money');
       const cs = getComputedStyle(box);
-      return { ph: document.querySelector('[data-c="setup"]').placeholder, border: cs.borderTopStyle !== 'none' && parseFloat(cs.borderTopWidth) >= 1, pen: !!box.querySelector('.pen'), caret: getComputedStyle(box.querySelector('.caret')).display, nudge: box.classList.contains('nudge'), hint: document.querySelector('.side-hint')?.textContent };
+      const input = box.querySelector('input'), caret = box.querySelector('.caret');
+      // 입력 표시가 숫자(500) 바로 뒤에 있는지: 글자 끝 위치 ≈ 표시 위치
+      const probe = document.createElement('span'); probe.textContent = input.value; probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-variant-numeric:tabular-nums'; box.append(probe);
+      const textEnd = input.getBoundingClientRect().left + probe.getBoundingClientRect().width; probe.remove();
+      return { val: input.value, ph: input.placeholder, border: cs.borderTopStyle !== 'none' && parseFloat(cs.borderTopWidth) >= 1, pen: !!box.querySelector('.pen'), caret: getComputedStyle(caret).display, anim: getComputedStyle(caret).animationName, gap: Math.round(caret.getBoundingClientRect().left - textEnd), nudge: box.classList.contains('nudge'), hint: document.querySelector('.side-hint')?.textContent };
     });
-    check('계산기: 타사 견적 칸이 입력칸으로 보임(테두리 상자·연필·"금액 입력"·깜빡이는 입력 표시·처음 보이면 빛남)', ci.ph === '금액 입력' && ci.border && ci.pen && ci.caret === 'block' && ci.nudge && ci.hint === '직접 입력', JSON.stringify(ci));
-    // 마무리 선언: 손글씨처럼 한 자씩 → 밑줄 → 다짐 → 대표 서명
+    check('계산기: 타사 견적 칸이 입력칸으로 보임(테두리 상자·연필·기본값 500 뒤에서 깜빡이는 입력 표시·처음 보이면 빛남)', ci.val === '500' && ci.ph === '금액 입력' && ci.border && ci.pen && ci.caret === 'block' && ci.anim === 'caretBlink' && ci.gap >= 0 && ci.gap <= 8 && ci.nudge && ci.hint === '직접 입력', JSON.stringify(ci));
+    // 마무리 선언(2026-10-09 다시): 편지체(PS Letter)로 대표가 직접 치듯 타이핑 → 다짐 문장 → 대표 서명. 빛 번짐·밑줄 없음, 써지는 동안 아래가 밀리지 않음
     await p.evaluate(() => document.querySelector('.mf-big').scrollIntoView({ block: 'center', behavior: 'instant' }));
-    await p.waitForTimeout(400);
-    const m0 = await p.evaluate(() => { const ch = [...document.querySelectorAll('.mf-big .ch')]; return { go: document.querySelector('.manifesto').classList.contains('go'), n: ch.length, lastOp: Number(getComputedStyle(ch[ch.length - 1]).opacity) }; });
-    await p.waitForTimeout(4800);
-    const m1 = await p.evaluate(() => { const ch = [...document.querySelectorAll('.mf-big .ch')]; return { all: ch.every((c) => getComputedStyle(c).opacity === '1'), ink: getComputedStyle(document.querySelector('.mf-ink path')).strokeDashoffset, stmt: getComputedStyle(document.querySelector('.mf-stmt')).opacity, sig: document.querySelector('.mf-sign .sig').classList.contains('go') }; });
-    check('마무리 선언: 보이면 글자가 손으로 쓰듯 차례로 나타나고 밑줄·다짐 문장·대표 서명이 이어서 그려짐', m0.go && m0.n === 15 && m0.lastOp < 0.5 && m1.all && parseFloat(m1.ink) === 0 && m1.stmt === '1' && m1.sig, JSON.stringify({ m0, m1 }));
+    await p.waitForTimeout(1500);
+    const mfState = () => p.evaluate(() => ({ go: document.querySelector('.manifesto').classList.contains('go'), typed: document.querySelector('.manifesto').classList.contains('typed'), text: [...document.querySelectorAll('.mf-type .ln')].map((l) => l.textContent).join('|'), h: Math.round(document.querySelector('.mf-big').getBoundingClientRect().height), stmt: getComputedStyle(document.querySelector('.mf-stmt')).opacity, sig: document.querySelector('.mf-sign .sig').classList.contains('go'), font: getComputedStyle(document.querySelector('.mf-big')).fontFamily, loaded: document.fonts.check("40px 'PS Letter'", '사장님'), extras: !!document.querySelector('.mf-ink, .mf-big .ch') }));
+    const m0 = await mfState();
+    await p.waitForTimeout(6800);
+    const m1 = await mfState();
+    check('마무리 선언: 편지체로 한글 자판처럼 직접 치고(중간엔 일부만), 다 쓰면 다짐 문장·대표 서명. 밑줄·빛 번짐 없음, 아래가 밀리지 않음', m0.go && !m0.typed && m0.text.length > 0 && m0.text.length < 20 && m1.typed && m1.text === '사장님보다 더|사장님 같은 마음으로' && m1.stmt === '1' && m1.sig && m0.h === m1.h && m1.font.includes('PS Letter') && m1.loaded && !m1.extras, JSON.stringify({ m0, m1 }));
     check('피드백 반영 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }

@@ -169,13 +169,13 @@ async function page(browser, vp, opts = {}) {
       old: (document.body.textContent.match(/WEBSITE ·|ONLINE STORE|STARTER\s*(?:US\$|NZ\$|NZD|USD)?\s*1,490|2,900|5,500|2,690|\$190|결합\s?상품|패키지 할인|번들/g) || []).join(','),
       gst: /GST/.test(document.body.textContent),
     }));
-    check('요금: 견적서 플랜 이름 + 최종 가격 STARTER US$1,990 · BUSINESS US$4,490부터 · ENTERPRISE 맞춤 견적(판별 실패 = USD)', st.plans.join('|') === 'STARTER US$1,990|BUSINESS US$4,490부터|ENTERPRISE 맞춤 견적', st.plans.join(' | '));
+    check('요금: 견적서 플랜 이름 + 최종 가격 STARTER USD\u00A0$1,990 · BUSINESS USD\u00A0$4,490부터 · ENTERPRISE 맞춤 견적(판별 실패 = USD)', st.plans.join('|') === 'STARTER USD\u00A0$1,990|BUSINESS USD\u00A0$4,490부터|ENTERPRISE 맞춤 견적', st.plans.join(' | '));
     check('요금: BUSINESS만의 기능 4가지를 위에 강조(견적서 그대로)', st.featured === 'BUSINESS' && st.adds.length === 4 && st.adds[0] === '최대 10페이지 구성', st.adds.join(', '));
     check('요금: 모든 플랜 무료 혜택 3가지', st.free.join('|') === '유지보수 무료|관리비 무료|웹 호스팅 무료', st.free.join(', '));
     check('요금: 기본 포함은 체크 표시와 또렷한 글자(BUSINESS 5개)', st.base.length === 1 && st.base[0].label === '기본 포함' && st.base[0].n === 5, JSON.stringify(st.base));
     check('요금: 플랜 버튼은 모두 무료 상담받기', st.ctas.length === 7 && st.ctas.every((t) => t === '무료 상담받기'), st.ctas.join(', '));
     check('요금: 같은 플랜이 두 번 나오지 않음(서비스 칸 없음)', !st.services);
-    check('AI 광고영상: SHORT 490 · BRAND 890 · HERO 1,490부터 · 월간 2,490/월', st.vplans.join('|') === 'AI SHORT AD US$490|AI BRAND AD US$890|AI HERO FILM US$1,490부터' && st.monthly === 'US$2,490/월', `${st.vplans.join(' | ')} · ${st.monthly}`);
+    check('AI 광고영상: SHORT 490 · BRAND 890 · HERO 1,490부터 · 월간 2,490/월', st.vplans.join('|') === 'AI SHORT AD USD\u00A0$490|AI BRAND AD USD\u00A0$890|AI HERO FILM USD\u00A0$1,490부터' && st.monthly === 'USD\u00A0$2,490/월', `${st.vplans.join(' | ')} · ${st.monthly}`);
     check('AI 광고영상: 가로 16:9 · 세로 9:16 기본 제공, 추가 작업 14가지', st.formats === '가로형 16:9 | 세로형 9:16' && st.addons === 14, `${st.formats} · ${st.addons}`);
     check('요금·FAQ에 식당 위주 문구 없음 · 폐지된 가격(1,490·2,900·5,500)·다른 상품 이름(WEBSITE·ONLINE STORE)·결합 상품(2,690·$190 할인) 없음 · GST 문구 없음', !st.restaurant && !st.old && !st.gst, `old: ${st.old || '-'} · GST ${st.gst}`);
     // 가로·세로 그림(2026-10-09 사용자: 원형이 뭔지 모르겠음 → 다시 그림): 가로형 = 플레이어(16:9), 세로형 = 앞에 겹쳐 선 휴대폰(9:16).
@@ -234,7 +234,7 @@ async function page(browser, vp, opts = {}) {
         gst: /GST/.test(document.body.innerText),
       }));
       const api = await (await ctx.request.get(`${BASE}/api/currency`, { headers: c.headers })).json();
-      const C = c.cur, S = C === 'NZD' ? 'NZ$' : 'US$', O = C === 'NZD' ? ['US$', 'USD'] : ['NZ$', 'NZD'];
+      const C = c.cur, S = C === 'NZD' ? 'NZD\u00A0$' : 'USD\u00A0$', O = C === 'NZD' ? ['USD\u00A0$', 'USD'] : ['NZD\u00A0$', 'NZD'];
       const ok = st.nzd === (C === 'NZD') && st.prices === `${S}1,990 | ${S}4,490부터 | 맞춤 견적`
         && st.video === `${S}490 | ${S}890 | ${S}1,490부터 | ${S}2,490/월` && st.addon === S && st.chip === `${C} 기준`
         && st.note1.includes(`(${C})`) && st.note1.includes('사업장 소재 국가') && st.calcSetup === `${S}1,990`
@@ -284,9 +284,9 @@ async function page(browser, vp, opts = {}) {
   {
     const { ctx, p } = await page(browser, { width: 1440, height: 900 });
     await p.goto(`${BASE}/#fee`, { waitUntil: 'networkidle' });
-    // 기본값(2026-10-09 사용자): 타사 초기 제작비 500 · 월 관리비(유지보수 포함) 150 · 5년 → 타사 US$9,500 · PAUSE US$1,990 · 아끼는 금액 US$7,510
+    // 기본값(2026-10-09 사용자): 타사 초기 제작비 500 · 월 관리비(유지보수 포함) 150 · 5년 → 타사 USD\u00A0$9,500 · PAUSE USD\u00A0$1,990 · 아끼는 금액 USD\u00A0$7,510
     const d0 = await p.evaluate(() => ({ setup: document.querySelector('[data-c="setup"]').value, monthly: document.querySelector('[data-c="monthly"]').value, other: document.querySelector('[data-o="other"]').textContent, save: document.querySelector('[data-o="save"]').textContent, saveHidden: document.querySelector('[data-save]').hidden, label: [...document.querySelectorAll('.calc-side.other label')][1].childNodes[0].textContent.replace(/\u00a0/g, ' ').trim(), years: getComputedStyle(document.querySelector('[data-o="years"]')).fontSize }));
-    check('계산기: 기본값 타사 500 · 월 관리비(유지보수 포함) 150 · 5년 → US$9,500 vs US$1,990, 아끼는 금액 US$7,510 · 기간 글씨 큼', d0.setup === '500' && d0.monthly === '150' && d0.other === 'US$9,500' && d0.save === 'US$7,510' && !d0.saveHidden && d0.label === '월 관리비(유지보수 포함)' && parseFloat(d0.years) >= 24, JSON.stringify(d0));
+    check('계산기: 기본값 타사 500 · 월 관리비(유지보수 포함) 150 · 5년 → USD\u00A0$9,500 vs USD\u00A0$1,990, 아끼는 금액 USD\u00A0$7,510 · 기간 글씨 큼', d0.setup === '500' && d0.monthly === '150' && d0.other === 'USD\u00A0$9,500' && d0.save === 'USD\u00A0$7,510' && !d0.saveHidden && d0.label === '월 관리비(유지보수 포함)' && parseFloat(d0.years) >= 24, JSON.stringify(d0));
     await p.fill('[data-c="setup"]', '3000');
     await p.fill('[data-c="monthly"]', '150');
     await p.fill('[data-c="years"]', '5');
@@ -296,26 +296,26 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(1200);
     const out = await p.textContent('[data-o="other"]');
     const setupVal = await p.inputValue('[data-c="setup"]');
-    check('계산기: US$3,000 + US$150×12×5 = US$12,000(숫자가 세면서 바뀜)', out === 'US$12,000' && setupVal === '3,000' && mid !== 'US$12,000', `${mid} → ${out}, ${setupVal}`);
+    check('계산기: USD\u00A0$3,000 + USD\u00A0$150×12×5 = USD\u00A0$12,000(숫자가 세면서 바뀜)', out === 'USD\u00A0$12,000' && setupVal === '3,000' && mid !== 'USD\u00A0$12,000', `${mid} → ${out}, ${setupVal}`);
     const pauseOut = await p.textContent('[data-o="pause"]');
-    check('계산기: PAUSE 쪽 기본 선택 = STARTER US$1,990', pauseOut === 'US$1,990' && await p.isChecked('input[name="calcPlan"][value="1990"]'), pauseOut);
+    check('계산기: PAUSE 쪽 기본 선택 = STARTER USD\u00A0$1,990', pauseOut === 'USD\u00A0$1,990' && await p.isChecked('input[name="calcPlan"][value="1990"]'), pauseOut);
     const sv = await p.evaluate(() => ({ hidden: document.querySelector('[data-save]').hidden, save: document.querySelector('[data-o="save"]').textContent, w: document.querySelector('[data-bar="pause"]').style.getPropertyValue('--w'), live: document.querySelector('[data-calc-live]').textContent, logo: !!document.querySelector('.calc-side.pause legend img[alt="PAUSE Studio"]'), label: document.querySelector('.calc-side.other .side-tag').textContent, vs: !!document.querySelector('.calc-vs .vs') }));
-    check('계산기: 아끼는 금액 US$10,010 · 막대 비율 · 화면 읽기용 결과 · 로고 · 타사 견적 VS PAUSE Studio', !sv.hidden && sv.save === 'US$10,010' && Math.abs(Number(sv.w) - 1990 / 12000) < 0.001 && sv.live.includes('US$12,000') && sv.logo && sv.label === '타사 견적' && sv.vs, JSON.stringify(sv));
+    check('계산기: 아끼는 금액 USD\u00A0$10,010 · 막대 비율 · 화면 읽기용 결과 · 로고 · 타사 견적 VS PAUSE Studio', !sv.hidden && sv.save === 'USD\u00A0$10,010' && Math.abs(Number(sv.w) - 1990 / 12000) < 0.001 && sv.live.includes('USD\u00A0$12,000') && sv.logo && sv.label === '타사 견적' && sv.vs, JSON.stringify(sv));
     await p.check('input[name="calcPlan"][value="4490"]', { force: true });
     await p.waitForTimeout(1200);
     const st2 = await p.evaluate(() => ({ setup: document.querySelector('[data-o="setup"]').textContent, pause: document.querySelector('[data-o="pause"]').textContent, save: document.querySelector('[data-o="save"]').textContent }));
-    check('계산기: 플랜을 BUSINESS로 고르면 US$4,490부터 · 총비용 US$4,490 · 아끼는 금액 US$7,510', st2.setup === 'US$4,490부터' && st2.pause === 'US$4,490' && st2.save === 'US$7,510', JSON.stringify(st2));
+    check('계산기: 플랜을 BUSINESS로 고르면 USD\u00A0$4,490부터 · 총비용 USD\u00A0$4,490 · 아끼는 금액 USD\u00A0$7,510', st2.setup === 'USD\u00A0$4,490부터' && st2.pause === 'USD\u00A0$4,490' && st2.save === 'USD\u00A0$7,510', JSON.stringify(st2));
     await ctx.close();
   }
 
-  // 7) 동작 줄이기: 인트로 없이 바로, 벽 멈춤 버튼 숨김, 자동 재생 없음
+  // 7) 동작 줄이기: 인트로 없이 바로, 자동 재생 없음(멈춤 버튼은 2026-10-09부터 없음)
   {
     const { ctx, p, errors } = await page(browser, { width: 1440, height: 900 }, { reduced: true });
     await p.goto(BASE, { waitUntil: 'networkidle' });
     await p.waitForTimeout(300);
     const st = await p.evaluate(() => ({
       done: document.documentElement.classList.contains('intro-done'),
-      toggle: document.querySelector('[data-wall-toggle]').hidden,
+      toggle: !document.querySelector('[data-wall-toggle], [data-motion-toggle]'),
       op: getComputedStyle(document.querySelector('.hero-sub')).opacity,
       playing: [...document.querySelectorAll('video')].filter((v) => !v.paused).length,
       still: document.documentElement.classList.contains('still'),
@@ -329,26 +329,22 @@ async function page(browser, vp, opts = {}) {
     await ctx.close();
   }
 
-  // 8) 움직임 멈추기 버튼
+  // 8) 움직임 멈추기 버튼 없음(2026-10-09 사용자) — 예전에 멈춤을 눌러 기억된 브라우저에서도 벽은 흐른다
   {
     const { ctx, p } = await page(browser, { width: 1440, height: 900 });
     await fakeVideos(p);
+    await p.addInitScript(() => { try { localStorage.setItem('ps-motion', 'paused'); } catch { /* 저장 불가 */ } });
     await p.goto(BASE, { waitUntil: 'networkidle' });
     await p.waitForTimeout(3800);
-    await p.click('[data-wall-toggle]');
     const a = await p.evaluate(() => document.querySelector('.track').style.transform);
     await p.waitForTimeout(700);
     const b = await p.evaluate(() => document.querySelector('.track').style.transform);
-    const pressed = await p.getAttribute('[data-wall-toggle]', 'aria-pressed');
-    check('움직임 멈추기 → 벽 정지', a === b && pressed === 'true', `${a} / ${b}`);
-    await p.evaluate(() => document.querySelector('#work').scrollIntoView({ behavior: 'instant' }));
-    await p.waitForTimeout(1500);
-    const w = await p.evaluate(() => ({ still: document.documentElement.classList.contains('still'), toggle: document.querySelector('[data-motion-toggle]').getAttribute('aria-pressed'), playing: [...document.querySelectorAll('video[data-loop]')].filter((v) => !v.paused).length }));
-    check('움직임 멈추기 → 포트폴리오 반복 재생도 멈춤 · 포트폴리오 버튼도 같은 상태', w.still && w.toggle === 'true' && w.playing === 0, JSON.stringify(w));
-    await p.reload({ waitUntil: 'networkidle' });
-    await p.waitForTimeout(3800);
-    const kept = await p.getAttribute('[data-wall-toggle]', 'aria-pressed');
-    check('멈춤 설정 기억(새로고침 후)', kept === 'true');
+    const st = await p.evaluate(() => ({
+      buttons: document.querySelectorAll('[data-wall-toggle], [data-motion-toggle], .wall-toggle, .motion-toggle').length,
+      text: /움직임 멈추기|움직임 재생/.test(document.body.innerText),
+      still: document.documentElement.classList.contains('still'),
+    }));
+    check('움직임 멈추기 버튼 없음 · 예전에 멈춤을 기억해 둔 브라우저에서도 작업물 벽이 흐름', st.buttons === 0 && !st.text && !st.still && a !== b, JSON.stringify({ ...st, a, b }));
     await ctx.close();
   }
 
@@ -603,6 +599,67 @@ async function page(browser, vp, opts = {}) {
     const m1 = await mfState();
     check('마무리 선언: 편지체로 한글 자판처럼 직접 치고(중간엔 일부만), 다 쓰면 다짐 문장·대표 서명. 밑줄·빛 번짐 없음, 아래가 밀리지 않음', m0.go && !m0.typed && m0.text.length > 0 && m0.text.length < 20 && m1.typed && m1.text === '사장님보다 더|사장님 같은 마음으로' && m1.stmt === '1' && m1.sig && m0.h === m1.h && m1.font.includes('PS Letter') && m1.loaded && !m1.extras, JSON.stringify({ m0, m1 }));
     check('피드백 반영 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
+    await ctx.close();
+  }
+
+  // 18) 2026-10-09 사용자(세 번째): 커스텀 케이크(Ref.02) 화면 녹화 반복 영상, 합계 가운데, 포인트 효과(선·잉크), 'Ordinary' 글꼴
+  {
+    const { ctx, p, errors } = await page(browser, { width: 1440, height: 900 });
+    await fakeVideos(p);
+    await p.goto(BASE, { waitUntil: 'networkidle' });
+    const r2 = await p.evaluate(() => {
+      const card = document.querySelector('[data-work="1"]');
+      const im = card.querySelector('img');
+      return { w: Number(im.getAttribute('width')), h: Number(im.getAttribute('height')), vid: card.querySelector('video')?.dataset.src || '', wall: !!document.querySelector('[data-wall-video][data-src="/media/work/ref02.mp4"]'), cmp: !!document.querySelector('.cmp-after video[data-src="/media/work/ref02.mp4"]') };
+    });
+    const v2 = await ctx.request.head(`${BASE}/media/work/ref02.mp4`);
+    check('Ref.02 커스텀 케이크: 새 화면 녹화의 반복 영상 · 포트폴리오·히어로 벽·비교 AFTER가 같은 영상 · 녹화 비율(1596×810) 그대로', r2.w === 1596 && r2.h === 810 && r2.vid === '/media/work/ref02.mp4' && r2.wall && r2.cmp && v2.ok() && Number(v2.headers()['content-length']) > 500000, JSON.stringify(r2));
+    // 합계는 가운데(1년 합계 $0 · 아끼는 금액)
+    await p.evaluate(() => document.querySelector('#fee').scrollIntoView({ behavior: 'instant' }));
+    await p.waitForTimeout(400);
+    const al = await p.evaluate(() => {
+      const mid = (el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
+      const tot = document.querySelector('.ledger-total'), sv = document.querySelector('.calc-save');
+      const kids = (el) => [...el.children].filter((c) => getComputedStyle(c).display !== 'none');
+      const span = (el) => { const k = kids(el).map((c) => c.getBoundingClientRect()); return (Math.min(...k.map((r) => r.left)) + Math.max(...k.map((r) => r.right))) / 2; };
+      return { tot: Math.round(span(tot) - mid(tot)), save: Math.round(span(sv) - mid(sv)), jc: getComputedStyle(tot).justifyContent + '|' + getComputedStyle(sv).justifyContent };
+    });
+    check('합계 가운데 정렬: \'1년 합계 $0\' · \'PAUSE Studio로 아끼는 금액\'(글과 숫자 묶음이 칸 가운데)', Math.abs(al.tot) <= 2 && Math.abs(al.save) <= 2 && al.jc === 'center|center', JSON.stringify(al));
+    // 장 소개의 핵심 약속: 굵게 + 보이면 밝아짐
+    await p.evaluate(() => document.querySelector('#website .ch-lead').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await p.waitForTimeout(2800);
+    const em = await p.evaluate(() => [...document.querySelectorAll('.ch-lead .ink')].map((e) => ({ t: e.textContent.replace(/ /g, ' '), fw: getComputedStyle(e).fontFamily, pos: getComputedStyle(e).backgroundPositionX, clip: getComputedStyle(e).webkitBackgroundClip || getComputedStyle(e).backgroundClip })));
+    check('장 소개 강조: \'관리비/유지보수 비용 제로\'(웹사이트) · \'가지고 계신 사진만으로\'(영상) 굵게, 보이면 왼쪽부터 밝아짐', em.length === 2 && em[0].t === '관리비/⁠유지보수 비용 제로' && em[1].t === '가지고 계신 사진만으로' && em[0].fw.includes('PS Text') && parseFloat(em[0].pos) === 0 && em[0].clip === 'text', JSON.stringify(em));
+    // 제작 과정(비전에서 현실로): '현실로'에 잉크, 다섯 단계를 잇는 선, 끝에 '기본 월 관리비 $0'이 채워짐
+    await p.evaluate(() => document.querySelector('#process').scrollIntoView({ behavior: 'instant' }));
+    await p.waitForTimeout(400);
+    const pr = () => p.evaluate(() => ({
+      ink: getComputedStyle(document.querySelector('#process-title .ink')).backgroundPositionX,
+      inkText: document.querySelector('#process-title .ink').textContent,
+      lines: [...document.querySelectorAll('.steps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)),
+      chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor,
+    }));
+    const pa = await pr();
+    await p.waitForTimeout(3600);
+    const pb = await pr();
+    check('제작 과정: \'현실로\'에 잉크가 차오르고, 단계를 잇는 선이 01→05 차례로 그어진 뒤 \'기본 월 관리비 $0\'이 채워짐', pa.lines[4] === '0.00' && pa.chip !== pb.chip && pb.inkText === '현실로' && parseFloat(pb.ink) === 0 && pb.lines.every((x) => x === '1.00') && pb.chip === 'rgb(20, 19, 17)', JSON.stringify({ pa, pb }));
+    // AI 광고영상 제작 과정: 단계 위 선이 그어짐, 샘플 제목 '광고가 됩니다.'에 잉크
+    await p.evaluate(() => document.querySelector('.vsteps').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await p.waitForTimeout(2600);
+    const vs = await p.evaluate(() => ({ lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent }));
+    check('AI 광고영상: 제작 과정 단계 위 선이 그어짐 · 샘플 제목 \'광고가 됩니다.\'에 잉크', vs.lines.length === 6 && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.', JSON.stringify(vs));
+    // 비교 제목: Ordinary는 흔한 템플릿 글꼴, Artisanal은 PAUSE 제목 글꼴
+    const ord = await p.evaluate(() => ({ ord: getComputedStyle(document.querySelector('.cmp-title .ord')).fontFamily, title: getComputedStyle(document.querySelector('.cmp-title')).fontFamily, text: document.querySelector('.cmp-title').textContent, vsBox: getComputedStyle(document.querySelector('.cmp-title .cmp-vs')).borderRadius }));
+    check('비교 제목: \'Ordinary\'는 흔한 템플릿 글꼴(Helvetica·Arial), \'Artisanal\'은 PAUSE 제목 글꼴', /Helvetica|Arial/.test(ord.ord) && ord.title.includes('PS Display') && ord.text === 'Ordinary vs. Artisanal' && ord.vsBox === '0px', JSON.stringify(ord));
+    check('세 번째 피드백 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
+    await ctx.close();
+  }
+  // 18-2) 동작 줄이기: 포인트 효과는 처음부터 끝난 모습
+  {
+    const { ctx, p } = await page(browser, { width: 1440, height: 900 }, { reduced: true });
+    await p.goto(BASE, { waitUntil: 'networkidle' });
+    const st = await p.evaluate(() => ({ ink: [...document.querySelectorAll('.ink')].map((e) => getComputedStyle(e).backgroundPositionX), line: new DOMMatrix(getComputedStyle(document.querySelector('.steps li:last-child'), '::before').transform).a, chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor }));
+    check('동작 줄이기: 잉크·선·마지막 단계 채움이 처음부터 끝난 모습', st.ink.length === 4 && st.ink.every((x) => parseFloat(x) === 0) && st.line === 1 && st.chip === 'rgb(20, 19, 17)', JSON.stringify(st));
     await ctx.close();
   }
 

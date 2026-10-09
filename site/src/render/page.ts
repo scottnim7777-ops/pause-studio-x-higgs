@@ -45,7 +45,8 @@ const arrow = (cls = 'ar') => `<svg class="${cls}" viewBox="0 0 30 12" fill="non
 const smallArrow = `<svg viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg>`;
 const bubble = `<svg class="kk" viewBox="0 0 20 19" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M10 1.5c4.97 0 9 3.13 9 7s-4.03 7-9 7c-.86 0-1.69-.09-2.47-.27L3.5 17.5l1.06-3.37C2.39 12.86 1 10.83 1 8.5c0-3.87 4.03-7 9-7z"/></svg>`;
 const check = `<svg class="ck" viewBox="0 0 14 11" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 5.6 5 9.4 13 1.4"/></svg>`;
-const lines = (arr: string[]) => arr.map((l, i) => `<span class="ln" style="--li:${i}"><span>${esc(l)}</span></span>`).join('');
+/** 제목 줄 나눔. ink = 결과를 말하는 줄(보이면 왼쪽부터 잉크가 차오름: '현실로' · '광고가 됩니다.') */
+const lines = (arr: string[], ink = -1) => arr.map((l, i) => `<span class="ln" style="--li:${i}"><span>${i === ink ? `<span class="ink">${esc(l)}</span>` : esc(l)}</span></span>`).join('');
 type Dim = [number, number];
 const M = media as unknown as Record<string, Record<string, Dim>>;
 /** 크기별 사진(media.json의 실제 픽셀 크기) → <picture> WebP + JPEG */
@@ -63,7 +64,7 @@ const big = (base: string): Dim => { const m = M[base]; if (!m) return [1600, 90
 /** 통화별 글(ko.ts Txt): 문자열은 그대로, { NZD, USD }는 두 표기를 모두 넣고 CSS가 방문자 통화 하나만 보여 준다(빈 글은 넣지 않음) */
 const t = (x: C.Txt) => typeof x === 'string' ? nl(x)
   : (['NZD', 'USD'] as const).filter((c) => x[c]).map((c) => `<span data-c="${c}">${nl(x[c])}</span>`).join('');
-/** 가격 앞 통화 표시: 뉴질랜드 NZ$ · 그 외 US$(사용자 예시 NZ$1,990 · US$1,990) */
+/** 가격 앞 통화 표시: 뉴질랜드 NZD $ · 그 외 USD $(2026-10-09 사용자 예시 NZD $1,990 · USD $1,990) */
 const SYM: C.Txt = C.currencySymbol;
 const isNum = (s: string) => /^\d/.test(s);
 /** '1,990' → 통화 표시(작게) + 숫자 + 꼬리(부터, /월). 숫자가 아니면('맞춤 견적') 그대로 */
@@ -129,7 +130,6 @@ function hero() {
     <div class="ctas">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
     <ul class="hero-svc" aria-label="서비스">${svc}</ul>
   </div>
-  <button class="wall-toggle" type="button" aria-pressed="false" data-wall-toggle><span>움직임 멈추기</span></button>
 </section>`;
 }
 
@@ -157,7 +157,7 @@ function work() {
   }));
   return `<section class="sec sec-dark work" id="work" aria-labelledby="work-title">
   <div class="wrap">
-    <header class="sec-head work-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="work-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${nl(w.lead)}</p><button class="motion-toggle" type="button" aria-pressed="false" data-motion-toggle><span>움직임 멈추기</span></button></header>
+    <header class="sec-head work-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="work-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${nl(w.lead)}</p></header>
     <ul class="work-grid" data-work-grid>${items}${next}</ul>
   </div>
   <span class="wk-cursor" aria-hidden="true" data-wk-cursor>${esc(w.view)}</span>
@@ -206,6 +206,14 @@ function who() {
 </section>`;
 }
 
+/** 문단 안의 한 구절을 굵게 + 보이면 밝아지게(2026-10-09 사용자: '관리비/유지보수 비용 제로' 강조). 구절이 없으면 빌드를 멈춤 */
+const inkPhrase = (html: string, em?: string) => {
+  if (!em) return html;
+  const k = esc(em);
+  if (!html.includes(k)) throw new Error(`강조할 구절을 찾지 못함: ${em}`);
+  return html.replace(k, `<strong class="ink">${k}</strong>`);
+};
+
 /* ───────── 장 첫 화면: 아주 큰 영문 단어가 스크롤에 따라 옆으로 천천히 흐름 ───────── */
 function chapter(key: 'website' | 'video') {
   const c = C.chapters[key];
@@ -213,7 +221,7 @@ function chapter(key: 'website' | 'video') {
   <div class="wrap">
     <p class="ch-index rv">${esc(c.index)}</p>
     <h2 class="ch-word rv" id="ch-${key}"><span class="sr">${esc(c.ko)}</span><span class="ch-move" aria-hidden="true">${esc(c.word)}</span></h2>
-    <div class="ch-foot"><p class="ch-ko rv" aria-hidden="true">${esc(c.ko)}</p><p class="ch-lead rv" style="--d:.1s">${nl(c.lead)}</p></div>
+    <div class="ch-foot"><p class="ch-ko rv" aria-hidden="true">${esc(c.ko)}</p><p class="ch-lead rv" style="--d:.1s">${inkPhrase(nl(c.lead), c.em)}</p></div>
   </div>
 </section>`;
 }
@@ -251,7 +259,7 @@ function compare() {
   }).join('');
   return `<section class="sec sec-paper compare" id="compare" aria-labelledby="compare-title">
   <div class="wrap">
-    <div class="cmp-head"><header><p class="eyebrow rv">${esc(c.eyebrow)}</p><h2 class="cmp-title rv" id="compare-title">${esc(c.title)}</h2></header><p class="lead rv">${nl(c.lead)}</p></div>
+    <div class="cmp-head"><header><p class="eyebrow rv">${esc(c.eyebrow)}</p><h2 class="cmp-title rv" id="compare-title">${esc(c.title).replace(/^(\S+) vs\. (\S+)$/, '<span class="ord">$1</span> <span class="cmp-vs">vs.</span> $2')}</h2></header><p class="lead rv">${nl(c.lead)}</p></div>
     ${cases}
   </div>
 </section>`;
@@ -357,10 +365,10 @@ function fee() {
 
 function processSec() {
   const p = C.process;
-  const steps = p.steps.map((s, i) => `<li class="rv" style="--d:${i * 0.08}s"><span class="idx">${s.id}</span><h3 class="h3">${esc(s.title)}</h3><p class="hl">${esc(s.highlight)}</p><p class="d">${esc(s.desc)}</p></li>`).join('');
+  const steps = p.steps.map((s, i) => `<li class="rv" style="--d:${i * 0.08}s;--i:${i}"><span class="idx">${s.id}</span><h3 class="h3">${esc(s.title)}</h3><p class="hl">${esc(s.highlight)}</p><p class="d">${esc(s.desc)}</p></li>`).join('');
   return `<section class="sec sec-paper process" id="process" aria-labelledby="process-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)}</p><h2 class="h2 rv" id="process-title">${lines(p.title)}</h2><p class="lead rv" style="--d:.1s">${nl(p.subtitle)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(p.eyebrow)}</p><h2 class="h2 rv" id="process-title">${lines(p.title, 1)}</h2><p class="lead rv" style="--d:.1s">${nl(p.subtitle)}</p></header>
     <ol class="steps">${steps}</ol>
   </div>
 </section>`;
@@ -378,7 +386,7 @@ function film() {
   const tabs = ready.map((s, i) => `<button class="fs-tab" type="button" role="tab" id="fs-tab-${s.key}" aria-controls="fs-${s.key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-fs-tab="${i}"><span class="idx">${String(i + 1).padStart(2, '0')}</span><b>${esc(s.brand)}</b><span class="d">${esc(s.industry)} · ${esc(s.type)}</span><i class="bar" aria-hidden="true"></i></button>`).join('');
   return `<section class="sec sec-black film" id="film" aria-labelledby="film-title">
   <div class="wrap">
-    <div class="film-grid"><header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="film-title">${lines(f.title)}</h2></header><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></div>
+    <div class="film-grid"><header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="film-title">${lines(f.title, 1)}</h2></header><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></div>
     <div class="fs rv" data-fs>
       <div class="fs-stage">${panels}</div>
       <div class="fs-tabs" role="tablist" aria-label="샘플 광고">${tabs}</div>
@@ -415,7 +423,7 @@ function videoPricing() {
   const formats = fm.items.map((x) => `<li class="fmt"><b>${esc(x.name)}<span class="sr"> ${esc(x.ratio)}</span></b><span class="size">${esc(x.size)}</span><span class="use">${esc(x.use)}</span></li>`).join('');
   const mo = v.monthly;
   const rows = v.addons.rows.map(([k, price, unit]) => `<tr><th scope="row">${esc(k)}</th><td>${isNum(price) ? `${t(SYM)}${esc(price)}${unit ? ` <small>${esc(unit)}</small>` : ''}` : esc(price)}</td></tr>`).join('');
-  const steps = v.steps.map((s, i) => `<li class="rv" style="--d:${i * 0.06}s"><span class="idx">${s.id}</span><h4>${esc(s.title)}</h4><p>${esc(s.desc)}</p></li>`).join('');
+  const steps = v.steps.map((s, i) => `<li class="rv" style="--d:${i * 0.06}s;--i:${i % 3}"><span class="idx">${s.id}</span><h4>${esc(s.title)}</h4><p>${esc(s.desc)}</p></li>`).join('');
   const sched = v.schedule.map(([k, d]) => `<div><dt>${esc(k)}</dt><dd>${esc(d)}</dd></div>`).join('');
   return `<section class="sec sec-dark vpricing" id="video-pricing" aria-labelledby="vpricing-title">
   <div class="wrap">

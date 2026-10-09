@@ -1,7 +1,7 @@
 /* PAUSE STUDIO — 디자인 규칙은 docs/DESIGN_SYSTEM.md
    서체(무료·직접 호스팅): 제목 PS Display = 나눔스퀘어 네오 Bold + Archivo 좁은 폭(영문·숫자), 본문 PS Text = 나눔스퀘어 네오
    폰트 파일·@font-face는 scripts/fonts.py 가 만든다(fonts.css)
-   움직임: 절제된 한 가지씩(등장·호버·열고 닫기). 운영체제 '동작 줄이기'와 사이트의 '움직임 멈추기'(html.still)를 따른다 */
+   움직임: 절제된 한 가지씩(등장·호버·열고 닫기). 운영체제 '동작 줄이기'(html.still)를 따른다. 2026-10-09 사용자: '움직임 멈추기' 버튼은 두지 않음 */
 @import './fonts.css';
 
 /* ───────── 토큰 ───────── */
@@ -121,13 +121,6 @@ ul.chk .ck { width: 14px; height: 11px; margin-top: calc(.8em - 5px); flex: none
 .btn-text:hover .ar, a:hover > .btn-text .ar { transform: translateX(5px); }
 .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
 
-/* 움직임 멈추기(히어로 벽 · 포트폴리오 반복 재생 · 자동 넘김을 한 번에) */
-.wall-toggle, .motion-toggle { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 14px; font-size: 13px; letter-spacing: .06em; color: var(--cream-2); background: rgba(12, 12, 11, .62); border: 1px solid rgba(252, 238, 216, .14); transition: color .3s, border-color .3s; }
-.wall-toggle::before, .motion-toggle::before { content: ""; width: 10px; height: 12px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; }
-.wall-toggle[aria-pressed="true"]::before, .motion-toggle[aria-pressed="true"]::before { width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
-.wall-toggle:hover, .motion-toggle:hover { color: var(--cream); border-color: rgba(252, 238, 216, .4); }
-html:not(.js) .motion-toggle { display: none; }
-
 /* ───────── 머리줄: 내려가면 숨고, 올리면 다시 나타남 ───────── */
 .hd { position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--header-h); transition: background .45s var(--ease), border-color .45s var(--ease), height .45s var(--ease), transform .6s var(--ease); border-bottom: 1px solid transparent; }
 .hd.hide:not(:focus-within) { transform: translateY(-101%); }
@@ -210,12 +203,8 @@ html:not(.js) .motion-toggle { display: none; }
 .svc-link:hover .ix { color: var(--cream); }
 .hero-svc .d1 { display: block; margin-top: clamp(8px, .7vw, 14px); font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(15.5px, 1.04vw, 20px); line-height: 1.5; }
 .hero-svc .d2 { display: block; margin-top: 2px; font-size: clamp(15px, .99vw, 19px); line-height: 1.5; color: var(--cream-2); }
-.wall-toggle { position: absolute; right: var(--gutter); bottom: clamp(20px, 3vh, 40px); z-index: 3; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 
 /* ───────── 포트폴리오: 같은 크기 칸 + 화면은 자르지 않음(같은 화면을 흐리게 깐 위에 원래 비율 그대로) ───────── */
-.work-head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 32px; }
-.work-head > :not(.motion-toggle) { grid-column: 1; }
-.work-head .motion-toggle { grid-column: 2; grid-row: 3; justify-self: end; background: transparent; }
 /* 포트폴리오(2026-10-09 사용자: 틀 때문에 화면이 작아 보임) → 여백 틀 없이 칸 = 화면 비율 그대로.
    한 줄에 놓인 칸들의 높이를 같게 맞춰 줄 폭을 꽉 채움(flex-grow ∝ 비율): 자르지 않으면서 가장 크게 */
 .work-grid { --rh: clamp(200px, 15vw, 300px); display: flex; flex-wrap: wrap; align-items: flex-start; gap: clamp(36px, 3vw, 56px) clamp(16px, 1.4vw, 28px); }
@@ -470,7 +459,8 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .ledger-months li:nth-child(n+7) { border-bottom: 0; }
 .ledger-months span { font-size: 12.5px; letter-spacing: .14em; color: var(--cream-3); }
 .ledger-months b { font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(17px, 1.2vw, 23px); color: var(--cream); }
-.ledger-total { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: clamp(4px, .6vw, 10px); padding-top: clamp(14px, 1.2vw, 22px); border-top: 1px solid rgba(252, 238, 216, .5); font-size: var(--fs-small); color: var(--cream-2); }
+.ledger-total { display: flex; justify-content: center; align-items: baseline; gap: 14px; margin-top: clamp(4px, .6vw, 10px); padding-top: clamp(14px, 1.2vw, 22px); border-top: 1px solid rgba(252, 238, 216, .5); font-size: var(--fs-small); color: var(--cream-2); }
+/* 2026-10-09 사용자: '1년 합계 $0', '아끼는 금액'은 가운데 정렬(합계는 가운데, 달별·항목 줄은 양끝) */
 .ledger-total b { font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(26px, 2vw, 38px); line-height: 1; color: var(--cream); letter-spacing: -.02em; }
 /* 화면에 들어오면 큰 $0이 올라오고, 1월부터 12월까지 한 칸씩 채워짐 */
 .js .ledger.rv { opacity: 1; transform: none; }
@@ -498,6 +488,11 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .calc-vs { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 0; }
 .calc-side { min-width: 0; border: 1px solid var(--cream-line); display: grid; align-content: start; gap: 14px; padding: 20px clamp(16px, 1.6vw, 26px) 22px; }
 .calc-side.pause { background: rgba(252, 238, 216, .07); border-color: rgba(252, 238, 216, .55); }
+/* 두 칸이 나란할 때: VS 원(지름 44, 양쪽 칸에 22씩 걸침)이 'PAUSE 쪽 초기 제작비' 글자·입력칸에 붙지 않게 마주 보는 쪽 여백을 더 */
+@media (min-width: 768px) {
+  .calc-side:not(.pause) { padding-right: calc(clamp(16px, 1.6vw, 26px) + 14px); }
+  .calc-side.pause { padding-left: calc(clamp(16px, 1.6vw, 26px) + 14px); }
+}
 .calc-side legend { float: left; width: 100%; min-height: 44px; display: flex; align-items: center; }
 .side-tag { display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border: 1px solid var(--cream-line); font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-small); color: var(--cream-2); }
 .calc-side.pause legend img { height: clamp(40px, 3vw, 52px); width: auto; margin: -4px 0 -4px -6px; }
@@ -542,7 +537,7 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .calc-out .other strong { color: var(--cream-2); }
 .calc-out .bar { display: block; height: 4px; margin-top: 10px; background: var(--cream-3); transform-origin: 0 50%; transform: scaleX(var(--w, 0)); transition: transform .9s var(--ease); }
 .calc-out .pause .bar { background: var(--cream); }
-.calc-save { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; padding: 16px 22px; background: var(--cream); color: var(--ink); font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-small); animation: riseIn .6s var(--ease); }
+.calc-save { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; text-align: center; gap: 4px 16px; padding: 16px 22px; background: var(--cream); color: var(--ink); font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-small); animation: riseIn .6s var(--ease); }
 .calc-save strong { font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(28px, 2.2vw, 42px); line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .calc-note { font-size: 13.5px; line-height: 1.6; color: var(--cream-3); }
 
@@ -892,7 +887,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 /* 히어로 인트로(JS): 시작 상태. 인트로가 끝나거나 건너뛰면 html.intro-done */
 @media (prefers-reduced-motion: no-preference) {
   .js:not(.intro-done) .hd,
-  .js:not(.intro-done) .hero :is(.hero-eb, .hero-title .tt, .hero-sub, .ctas, .hero-svc > li, .wall-toggle, .plane) { opacity: 0; }
+  .js:not(.intro-done) .hero :is(.hero-eb, .hero-title .tt, .hero-sub, .ctas, .hero-svc > li, .plane) { opacity: 0; }
   .js:not(.intro-done) .hero-svc { --rl: 0; }
 }
 
@@ -915,7 +910,6 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .card figcaption { margin-top: 16px; height: 30px; font-size: 22px; line-height: 30px; }
   .veil { background: linear-gradient(180deg, var(--ink) 0%, rgba(12, 12, 11, .92) 7%, rgba(12, 12, 11, .35) 10.7%, rgba(12, 12, 11, 0) 14.5%, rgba(12, 12, 11, 0) 23%, rgba(12, 12, 11, .9) 29.5%, var(--ink) 32.2%); }
   .hero-in { padding-top: 8px; max-width: none; justify-content: flex-start; }
-  .wall-toggle { top: calc(42.5vw - 52px); bottom: auto; }
   .why-grid, .who-grid, .film-grid, .faq-grid, .contact-grid, .ft-top, .free-band, .pnotes, .vnotes, .calc, .fee-top, .cmp-head, .fee-lists, .formats, .v-included, .ch-foot { grid-template-columns: 1fr; }
   .faq-grid .sec-head { position: static; }
   .pillars { grid-template-columns: 1fr; }
@@ -930,13 +924,10 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .cmp-cap { grid-template-columns: 1fr 1fr; }
   .cmp-cap .cat { grid-column: 1 / -1; grid-row: 1; text-align: left; }
   .vsteps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .work-head { grid-template-columns: 1fr; }
-  .work-head .motion-toggle { grid-column: 1; grid-row: auto; justify-self: start; }
 }
 @media (max-width: 767px) {
   .hero-wall { height: 84.6vw; }
   .stage { top: 0; }
-  .wall-toggle { top: calc(84.6vw - 52px); }
   .hero-sub { margin-top: 18px; }
   .hero-title { font-size: clamp(30px, 9.2vw, 40px); line-height: 1.22; white-space: normal; text-wrap: wrap; }
   .hero-title .l3 { display: block; }
@@ -1021,7 +1012,44 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .lb-in { padding-inline: 12px; }
 }
 
-/* ───────── 동작 줄이기 · 움직임 멈추기 ───────── */
+/* ───────── 포인트(2026-10-09 사용자: 심심한 곳에 센스 있게 · 지금까지의 효과는 그대로 두고 더하기만) ─────────
+   한 가지 말투로만: 설계도처럼 가는 선이 그어지고, 결과를 말하는 글자에 잉크가 차오른다(비전 → 현실). 처음 보일 때 한 번만 */
+
+/* 잉크: 처음엔 흐린 글씨 → 보이면 왼쪽부터 진해짐('현실로' · '광고가 됩니다.' · 장 소개의 핵심 약속) */
+.ink { --ink-c: var(--on-paper); --ink-m: rgba(20, 19, 17, .2); }
+:is(.sec-dark, .sec-black, .chapter) .ink { --ink-c: var(--cream); --ink-m: rgba(252, 238, 216, .34); }
+.js .ink { color: transparent; -webkit-text-fill-color: transparent; background-image: linear-gradient(90deg, var(--ink-c) 44%, var(--ink-m) 56%); background-size: 230% 100%; background-position: 100% 0; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; transition: background-position 1.5s cubic-bezier(.45, 0, .2, 1) var(--ink-d, .85s); }
+.js .in .ink { background-position: 0 0; }
+.ch-lead .ink { --ink-d: .75s; font-family: var(--f-text-md); font-weight: var(--w-text-md); }
+@media (forced-colors: active) { .js .ink { -webkit-text-fill-color: currentColor; background: none; } }
+
+/* 제작 과정(비전에서 현실로): 다섯 단계를 잇는 선이 왼쪽부터 차례로 그어지고, 선이 닿은 단계 번호가 진해지며,
+   마지막에 '기본 월 관리비 $0'이 채워진다(도착). 휴대폰은 단계가 보일 때마다 하나씩 */
+.steps li { position: relative; --seg: .42s; --t0: .5s; }
+.js .steps li::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--on-paper); transform: scaleX(0); transform-origin: 0 50%; transition: transform var(--seg) linear calc(var(--t0) + var(--i, 0) * var(--seg)); }
+.js .steps li + li::before { left: -1px; }
+.js .steps li.in::before { transform: scaleX(1); }
+.js .steps li .idx { transition: opacity .45s var(--ease) calc(var(--t0) + var(--i, 0) * var(--seg)); }
+.js .steps li:not(.in) .idx { opacity: .22; }
+.js .steps li:last-child .hl { transition: background-color .7s var(--ease), color .7s var(--ease), border-color .7s var(--ease); transition-delay: calc(var(--t0) + 5 * var(--seg)); }
+.js .steps li:last-child.in .hl { background: var(--on-paper); border-color: var(--on-paper); color: var(--paper); }
+
+/* AI 광고영상 제작 과정: 줄마다 단계 위의 선이 왼쪽부터 차례로 밝게 그어지고 번호가 밝아짐 */
+.vsteps li { position: relative; --seg: .3s; --t0: .45s; }
+.js .vsteps li::before { content: ""; position: absolute; top: -1px; left: 0; right: 0; height: 1px; background: var(--cream-3); transform: scaleX(0); transform-origin: 0 50%; transition: transform .7s var(--ease) calc(var(--t0) + var(--i, 0) * var(--seg)); }
+.js .vsteps li.in::before { transform: scaleX(1); }
+.js .vsteps li .idx { transition: opacity .45s var(--ease) calc(var(--t0) + var(--i, 0) * var(--seg)); }
+.js .vsteps li:not(.in) .idx { opacity: .22; }
+@media (max-width: 767px) {
+  .steps li, .vsteps li { --i: 0 !important; --t0: .35s; }
+  .js .steps li:last-child .hl { transition-delay: .9s; }
+}
+
+/* 비교 제목: 'Ordinary'는 아래 BEFORE와 같은 흔한 템플릿 글꼴, 'Artisanal'은 PAUSE 제목 글꼴 — 제목 자체가 비교가 됨 */
+.cmp-title .ord { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400; letter-spacing: -.03em; color: var(--on-paper-3); }
+.cmp-title .cmp-vs { font-size: .44em; letter-spacing: .02em; color: var(--on-paper-3); margin: 0 .06em; }
+
+/* ───────── 동작 줄이기 ───────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
   .js .rv, .js .rv .ln > span, .js .ledger :is(.ld-fig, .ld-belt, .ledger-months b, .ledger-total b) { opacity: 1 !important; transform: none !important; translate: none !important; }
@@ -1030,6 +1058,10 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .ch-move { transform: none !important; }
   .sig .st { stroke-dashoffset: 0 !important; }
   .js :is(.mf-kicker, .mf-stmt, .mf-sign) { opacity: 1 !important; translate: none !important; }
+  .js .ink { background-position: 0 0 !important; }
+  .js :is(.steps, .vsteps) li::before { transform: none !important; }
+  .js :is(.steps, .vsteps) li .idx { opacity: .7 !important; }
+  .js .steps li:last-child .hl { background: var(--on-paper); border-color: var(--on-paper); color: var(--paper); }
 }
 .still .hero-title .caret.end { animation: none; }
 .still .ch-move { transform: none; }

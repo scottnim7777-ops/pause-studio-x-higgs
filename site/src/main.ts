@@ -1,7 +1,7 @@
 import { initHero } from './ts/hero';
 import {
   initAccordions, initAutoVideos, initCalc, initCompare, initEmail, initFaqTabs, initFilmSamples, initHeader, initLedger, initLightbox,
-  initMenu, initMotionToggles, initPhone, initReveal, initScrub, initWorkCursor, initWorkLoops,
+  initMenu, initPhone, initReveal, initScrub, initWorkCursor, initWorkLoops,
 } from './ts/ui';
 import { initConsult } from './ts/consult';
 
@@ -20,7 +20,6 @@ safe('calc', initCalc);
 safe('ledger', initLedger);
 safe('email', initEmail);
 safe('phone', initPhone);
-safe('motion-toggle', initMotionToggles);
 safe('work', initWorkLoops);
 safe('work-cursor', initWorkCursor);
 safe('compare', initCompare);

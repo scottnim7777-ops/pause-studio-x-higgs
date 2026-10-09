@@ -3,7 +3,7 @@
  * - 인트로 3.4초: 어둠 속 흐릿한 작업물 벽이 다가오며 선명해짐 + 제목을 한글 자판으로 치듯 자모부터 조립(ㅅ → 서 → 선) + 깜빡이는 커서
  * - 타이핑이 끝나도 커서는 문장 끝에서 계속 깜빡임(CSS .caret.end, 움직임을 멈추면 깜빡임도 멈춤)
  * - 이후: 세 줄의 작업물이 서로 반대로 천천히 흐름(24초 주기), 마우스에 따라 살짝 기울어짐, 화면 안의 영상만 재생
- * - '움직임 멈추기' 버튼·운영체제의 동작 줄이기를 따름. 인트로 타이밍은 drafts/v32/hero/hero.html 과 같다.
+ * - 운영체제의 동작 줄이기를 따름(2026-10-09 사용자: '움직임 멈추기' 버튼은 없앰). 인트로 타이밍은 drafts/v32/hero/hero.html 과 같다.
  */
 import { motion, saveData } from './motion';
 import { steps } from './hangul';
@@ -33,7 +33,6 @@ export function initHero(onIntroDone: () => void) {
   const tracks = [...hero.querySelectorAll<HTMLElement>('.track')];
   const imgs = [...hero.querySelectorAll<HTMLImageElement>('.card img')];
   const vids = [...hero.querySelectorAll<HTMLVideoElement>('[data-wall-video]')];
-  const toggle = $<HTMLButtonElement>('[data-wall-toggle]')!;
   const header = document.querySelector<HTMLElement>('[data-header]');
   const title = $('[data-type-title]')!;
   const fade = { eb: $('.hero-eb'), sub: $('.hero-sub'), ctas: $('.ctas'), note: $('.hero-note'), svc: $('.hero-svc') };
@@ -107,13 +106,12 @@ export function initHero(onIntroDone: () => void) {
     fade.svc?.style.setProperty('--rl', io(span(t, 2.2, 3.1)).toFixed(4));
     svcItems.forEach((it, i) => show(it, eOut(span(t, 2.35 + i * 0.14, 3.1 + i * 0.14)), 14 * (1 - eOut(span(t, 2.35 + i * 0.14, 3.1 + i * 0.14)))));
     show(fade.note, eOut(span(t, 2.75, 3.4)));
-    show(toggle, eOut(span(t, 2.9, 3.4)));
   }
 
   function endIntro() {
     introStart = -1;
     restoreTitle();
-    [header, fade.eb, fade.sub, fade.ctas, fade.note, toggle, title, ...svcItems].forEach((el) => { if (el) { el.style.opacity = ''; el.style.transform = ''; } });
+    [header, fade.eb, fade.sub, fade.ctas, fade.note, title, ...svcItems].forEach((el) => { if (el) { el.style.opacity = ''; el.style.transform = ''; } });
     fade.svc?.style.removeProperty('--rl');
     plane.style.opacity = '';
     plane.style.filter = '';
@@ -188,16 +186,8 @@ export function initHero(onIntroDone: () => void) {
     my = e.clientY / innerHeight - 0.5;
   }, { passive: true });
 
-  /* ── 움직임 멈추기 버튼 */
-  const label = toggle.querySelector('span')!;
-  const syncToggle = () => {
-    toggle.setAttribute('aria-pressed', String(motion.paused));
-    label.textContent = motion.paused ? '움직임 재생' : '움직임 멈추기';
-  };
-  if (reduced) toggle.hidden = true;
-  syncToggle();
-  toggle.addEventListener('click', () => motion.setPaused(!motion.paused));
-  motion.subscribe(() => { syncToggle(); syncVideos(); kick(); });
+  /* ── 운영체제의 동작 줄이기가 바뀌면 영상·흐름을 다시 맞춤 */
+  motion.subscribe(() => { syncVideos(); kick(); });
 
   /* ── 시작 */
   if (skipIntro) {

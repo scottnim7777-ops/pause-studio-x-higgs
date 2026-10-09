@@ -1,7 +1,7 @@
 /**
  * 화면 동작: 머리줄·모바일 메뉴·등장 움직임·포트폴리오 반복 재생·작업물 크게 보기·비교 손잡이·광고 샘플 탭
  *           ·자동 재생 영상·열고 닫는 목록·질문 탭·관리비 계산기·전화 상담·이메일 보기·스크롤에 따른 큰 글자
- * 움직임은 모두 motion(운영체제 '동작 줄이기' + 사이트의 '움직임 멈추기')을 따른다.
+ * 움직임은 모두 motion(운영체제 '동작 줄이기')을 따른다.
  */
 import { motion, saveData } from './motion';
 import { steps } from './hangul';
@@ -133,21 +133,6 @@ export function initReveal() {
     const so = new IntersectionObserver(([e]) => { if (e.isIntersecting) { sig.classList.add('go'); so.disconnect(); } }, { threshold: 0.3 });
     so.observe(sig);
   }
-}
-
-/* ── '움직임 멈추기' 버튼(포트폴리오 머리) — 히어로 버튼과 같은 상태 */
-export function initMotionToggles() {
-  const btns = $$<HTMLButtonElement>('[data-motion-toggle]');
-  if (!btns.length) return;
-  const sync = () => btns.forEach((b) => {
-    b.setAttribute('aria-pressed', String(motion.paused));
-    const s = $('span', b);
-    if (s) s.textContent = motion.paused ? '움직임 재생' : '움직임 멈추기';
-    b.hidden = motion.reduced; // 동작 줄이기면 원래 아무것도 움직이지 않음
-  });
-  btns.forEach((b) => b.addEventListener('click', () => motion.setPaused(!motion.paused)));
-  motion.subscribe(sync);
-  sync();
 }
 
 /* ── 자동 재생 영상(비교 화면의 AFTER): 보이면 재생, 버튼으로 멈춤 */
@@ -362,7 +347,7 @@ export function initCompare() {
     frame.addEventListener('pointercancel', (e) => { if (drag && e.pointerId === drag.id) stop(); });
 
     // 손잡이 안내(2026-10-09 사용자): 화면에 들어오면 바로 한 번, 보이는 동안 7초마다 좌우로 살짝 움직여 끌 수 있음을 알림.
-    // 지금 자리에서 출발해 제자리로 돌아오므로 사용자가 맞춘 위치는 그대로. 손대면 10초 동안 쉬고, 움직임 멈추기·동작 줄이기면 하지 않음
+    // 지금 자리에서 출발해 제자리로 돌아오므로 사용자가 맞춘 위치는 그대로. 손대면 10초 동안 쉬고, 동작 줄이기면 하지 않음
     let lastTouch = -Infinity, visible = false, raf = 0, timer = 0;
     const hint = () => {
       cancelAnimationFrame(raf);
@@ -400,7 +385,7 @@ export function initCompare() {
 }
 
 /* ── AI 광고영상 샘플: 탭으로 넘김. 한 편이 끝나면 다음 샘플로(보이는 동안만). 탭을 눌러 고른 뒤에도 그 영상이 끝나면 다음으로(2026-10-09 사용자).
- *    멈추려면 영상의 일시정지 단추 또는 '움직임 멈추기' */
+ *    멈추려면 영상의 일시정지 단추 */
 export function initFilmSamples() {
   const root = $('[data-fs]');
   if (!root) return;
@@ -537,8 +522,8 @@ export function initFaqTabs() {
   document.fonts?.ready.then(place).catch(() => {});
 }
 
-/** 가격 앞 통화 표시: 서버가 뉴질랜드 방문자에게만 html.nzd → NZ$, 그 밖은 US$(같은 숫자, 환율 변환 없음) */
-const sym = () => (document.documentElement.classList.contains('nzd') ? 'NZ$' : 'US$');
+/** 가격 앞 통화 표시: 서버가 뉴질랜드 방문자에게만 html.nzd → NZD $, 그 밖은 USD $(같은 숫자, 환율 변환 없음) — ko.ts currencySymbol과 같게 */
+const sym = () => (document.documentElement.classList.contains('nzd') ? 'NZD\u00A0$' : 'USD\u00A0$');
 
 /* ── 관리비 계산기: 입력한 견적만으로 계산(임의의 업계 평균 없음). PAUSE 쪽은 고른 상품 가격.
       숫자는 세면서 바뀌고, 화면 읽기는 입력을 멈춘 뒤 결과만 */

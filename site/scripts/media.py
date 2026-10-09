@@ -26,11 +26,16 @@ STILLS = {  # 사이트 이름: 원본 파일
     'ref13': 'ref13_wOWQVnI.png', 'ref14': 'ref14_4BR1I0w.png', 'ref15': 'ref15_EUz1qvV.png',
     # chillenq: 2026-10-09부터 받은 화면 녹화(LOOPS). 예전 정지 화면 chillenq_desktop_hero.webp는 originals에 기록으로만 둠
 }
-VIDEOS = {'ref01': 'ref01_KIKzZuF.mp4', 'ref02': 'ref02_PVuptes.mp4', 'ref04': 'ref04_MnSmLdO.gif', 'ref07': 'ref07_70IgQpR.mp4'}
+VIDEOS = {'ref01': 'ref01_KIKzZuF.mp4', 'ref04': 'ref04_MnSmLdO.gif', 'ref07': 'ref07_70IgQpR.mp4'}
+# ref02(커스텀 케이크 BLOOMING): 2026-10-09부터 받은 화면 녹화(LOOPS). 예전 800×448 영상 ref02_PVuptes.mp4는 originals에 기록으로만 둠
 # 사용자가 2026-10-08에 준 화면 녹화(소리 제거·고화질 재인코딩 보관): 동대문(Ref.03 사진 대신), 컨템퍼러리 타투 스튜디오(새 레퍼런스)
 # 처음과 끝 장면이 달라 반복할 때 튀므로, 끝 1초를 처음 장면으로 겹쳐(크로스페이드) 이음새 없이 반복
 # 2026-10-09: 냉장·냉동 설비(ChillenQ, Ref.17) 화면 녹화 추가(원본 2384×1200·소리 있음 → 소리 빼고 1920 폭으로 보관)
-LOOPS = {'ref03': 'ref03_ddm_hero_2026-10-08.mp4', 'unframe': 'unframe_hero_2026-10-08.mp4', 'chillenq': 'chillenq_hero_2026-10-09.mp4'}
+# 2026-10-09: 커스텀 케이크(BLOOMING, Ref.02) 화면 녹화(원본 1596×810·16초·소리 있음 → 소리 빼고 그대로 크기로 보관)
+LOOPS = {'ref03': 'ref03_ddm_hero_2026-10-08.mp4', 'unframe': 'unframe_hero_2026-10-08.mp4', 'chillenq': 'chillenq_hero_2026-10-09.mp4',
+         'ref02': 'ref02_blooming_hero_2026-10-09.mp4'}
+# 겹치는 길이(초). BLOOMING은 첫 장면과 끝 장면이 같은 케이크라, 사이트 자체의 장면 전환(0.43초)이 시작되기 전 0.4초만 겹친다
+FADE = {'ref02': 0.4}
 
 manifest = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
 
@@ -114,8 +119,13 @@ def work():
         video_mp4(ORIG / f, out / f'{name}.mp4')
         sizes(name, first_frame(ORIG / f), out)
     for name, f in LOOPS.items():
-        video_loop(ORIG / f, out / f'{name}.mp4')
-        sizes(name, first_frame(ORIG / f, t=1.0), out)  # 반복 영상의 첫 장면 = 원본 1초 지점(원본 해상도)
+        loop(name, f, out)
+
+
+def loop(name: str, f: str, out: Path):
+    fade = FADE.get(name, 1.0)
+    video_loop(ORIG / f, out / f'{name}.mp4', fade=fade)
+    sizes(name, first_frame(ORIG / f, t=fade), out)  # 반복 영상의 첫 장면 = 원본의 겹침 길이 지점(원본 해상도)
 
 
 def film():
@@ -182,8 +192,7 @@ if __name__ == '__main__':
         for name, f in LOOPS.items():
             if what[1:] and name not in what[1:]:
                 continue
-            video_loop(ORIG / f, out / f'{name}.mp4')
-            sizes(name, first_frame(ORIG / f, t=1.0), out)  # 반복 영상의 첫 장면 = 원본 1초 지점(원본 해상도)
+            loop(name, f, out)
         what = []
     for w in what:
         if w.startswith('og='):  # og=<다른 히어로 화면 PNG>

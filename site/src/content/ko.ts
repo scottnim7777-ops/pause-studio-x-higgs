@@ -3,7 +3,7 @@
  * 기준: 기존 사이트 원문(content/site-content.ko.json) + 사업 정책(docs/BUSINESS_POLICY_2026-10.md)
  *       + 웹사이트 플랜(이름·기능·설명) = 사용자 견적서(docs/QUOTATION_2026-10-07.md) STARTER · BUSINESS · ENTERPRISE 그대로
  *       + 가격·통화·GST = 사용자 최종 정책(docs/PRICING_CURRENCY_POLICY_2026-10-08.md): STARTER 1,990 · BUSINESS 4,490부터 · ENTERPRISE 맞춤 견적,
- *         뉴질랜드 IP만 NZ$ · 그 외 US$(같은 숫자), GST 미등록(별도 청구·포함 표시 없음), 결합 상품 없음
+ *         뉴질랜드 IP만 NZD $ · 그 외 USD $(같은 숫자), GST 미등록(별도 청구·포함 표시 없음), 결합 상품 없음
  *       + AI 광고영상 상품·포함 조건·운영 = 사용자 정책(docs/AI_VIDEO_POLICY_2026-10.md)
  * 표기 규칙(2026-10-08 사용자): 화면 글에 줄표·하이픈·별표·참고표(※)를 쓰지 않는다. 문장 안의 '\n'은 의도한 줄바꿈(page.ts가 <br>로).
  * 원문과 달라진 곳은 docs/CONTENT_MAP.md 에 이유와 함께 기록한다.
@@ -131,12 +131,13 @@ export const who = {
 
 /** 서비스 두 장의 첫 화면(큰 제목) */
 export const chapters = {
-  website: { index: 'CHAPTER 01', word: 'WEBSITE', ko: '웹사이트 제작', lead: '어디서도 찾아 볼 수 없는 관리비/유지보수\u00A0비용 제로 솔루션.\n보여지는 첫 화면부터 문의로 이어지는 마지막 버튼까지,\n브랜드에 맞춰 처음부터 설계합니다.' },
-  video: { index: 'CHAPTER 02', word: 'AI VIDEO AD', ko: 'AI 광고영상 제작', lead: '촬영 없이, 가지고 계신 사진만으로.\n기획부터 편집과 사운드까지 완성된 광고영상을 드립니다.' },
+  // em = 소개 안에서 굵게 + 보이면 밝아지는 핵심 약속(2026-10-09 사용자: '관리비/유지보수 비용 제로' 강조, 영상 장도 같은 방식으로 한 구절)
+  website: { index: 'CHAPTER 01', word: 'WEBSITE', ko: '웹사이트 제작', lead: '어디서도 찾아 볼 수 없는 관리비/유지보수\u00A0비용 제로 솔루션.\n보여지는 첫 화면부터 문의로 이어지는 마지막 버튼까지,\n브랜드에 맞춰 처음부터 설계합니다.', em: '관리비/유지보수\u00A0비용 제로' },
+  video: { index: 'CHAPTER 02', word: 'AI VIDEO AD', ko: 'AI 광고영상 제작', lead: '촬영 없이, 가지고 계신 사진만으로.\n기획부터 편집과 사운드까지 완성된 광고영상을 드립니다.', em: '가지고 계신 사진만으로' },
 };
 
 /**
- * 통화(2026-10-08 사용자 최종): 숫자는 같고 접속 위치(공인 IP)로 표기만 — 뉴질랜드로 판별될 때만 NZ$, 그 밖의 모든 나라와 판별 실패는 US$.
+ * 통화(2026-10-08 사용자 최종): 숫자는 같고 접속 위치(공인 IP)로 표기만 — 뉴질랜드로 판별될 때만 NZD $, 그 밖의 모든 나라와 판별 실패는 USD $.
  * 환율로 바꾸지 않는다. 실제 계약 통화는 사업장 소재 국가 기준(견적서에서 확정).
  * GST: PAUSE Studio는 GST 미등록 사업자 → GST를 더하거나 포함했다고 쓰지 않는다(화면에 GST 문구 없음).
  * Txt = 통화와 관계없는 글 또는 { NZD, USD } 두 가지 글(빈 글이면 그 통화에서는 보이지 않음)
@@ -145,8 +146,8 @@ export type Cur = 'NZD' | 'USD';
 export type Txt = string | Record<Cur, string>;
 export const byCur = (f: (c: Cur) => string): Record<Cur, string> => ({ NZD: f('NZD'), USD: f('USD') });
 export const currencyChip: Txt = { NZD: 'NZD 기준', USD: 'USD 기준' };
-/** 가격 앞 통화 표시(사용자 예시: NZ$1,990 · US$1,990) */
-export const currencySymbol: Record<Cur, string> = { NZD: 'NZ$', USD: 'US$' };
+/** 가격 앞 통화 표시(2026-10-09 사용자: 'US$1,990 말고 USD $1,990 · NZD $1,990'). 코드와 $ 사이는 줄이 바뀌지 않는 공백 */
+export const currencySymbol: Record<Cur, string> = { NZD: 'NZD\u00A0$', USD: 'USD\u00A0$' };
 
 /** 비교(BEFORE / AFTER): 같은 내용을 흔한 템플릿으로 만들었다면 vs. PAUSE가 만든 실제 사이트 */
 export type CompareCase = {
@@ -340,7 +341,7 @@ export const film = {
 
 /**
  * AI 광고영상 상품·가격(사용자 정책 2026-10-08, docs/AI_VIDEO_POLICY_2026-10.md · 최종 가격 정책 docs/PRICING_CURRENCY_POLICY_2026-10-08.md)
- * 가격 숫자는 웹사이트와 같은 통화 규칙(뉴질랜드 NZ$ · 그 외 US$, GST 없음). 결합 상품 없음: 함께 의뢰하면 각 정상 가격을 더해 견적
+ * 가격 숫자는 웹사이트와 같은 통화 규칙(뉴질랜드 NZD $ · 그 외 USD $, GST 없음). 결합 상품 없음: 함께 의뢰하면 각 정상 가격을 더해 견적
  */
 export type VideoPlan = { key: string; name: string; tagline: string; desc: string; price: string; suffix?: string; featured?: boolean; badge?: string; specs: [string, string][] };
 export const videoPricing = {

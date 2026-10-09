@@ -4,7 +4,9 @@
   → 웹사이트 플랜의 이름·기능·추천 대상·추가 안내는 견적서(docs/QUOTATION_2026-10-07.md) 그대로. 이 문서에서는 가격 숫자만 단계별로 가져온다:
      STARTER = 1,990 · BUSINESS = 4,490부터 · ENTERPRISE = 맞춤 견적 (본문의 WEBSITE · ONLINE STORE 이름은 화면에 쓰지 않는다)
 사이트에 옮긴 곳: site/src/content/ko.ts(plans · pricing · fee.calc · videoPricing · faq · consult), site/src/geo/currency.ts·server.ts(IP 판별), main.css(html.nzd)
-같은 날 이어진 사용자 요청: 계산기에서 PAUSE 쪽 플랜을 고를 수 있게(기본 선택 = STARTER), 큰 $0 숫자 '허리띠' 움직임, 계산기 VS 구분, 요금 카드 들러리 개선. -->
+같은 날 이어진 사용자 요청: 계산기에서 PAUSE 쪽 플랜을 고를 수 있게(기본 선택 = STARTER), 큰 $0 숫자 '허리띠' 움직임, 계산기 VS 구분, 요금 카드 들러리 개선.
+★ 2026-10-09 사용자 표기 결정: "US$1990 이런식말고, USD $1990, NZD $1990 이런식으로해." → 화면 표기는 'USD $1,990' · 'NZD $1,990'(통화 코드 + 띄어 쓴 $ + 숫자).
+  아래 본문의 'NZ$1,990' · 'US$1,990'은 원문 그대로 두고, 판별 규칙(뉴질랜드만 NZD, 그 외·판별 실패 USD)은 바뀌지 않음. -->
 
 # PAUSE Studio의 최종 가격 정책 및 국가별 통화 표시 방식에 대한 변경사항을 전달합니다.
 

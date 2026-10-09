@@ -610,6 +610,8 @@ async function page(browser, vp, opts = {}) {
     // 형광펜은 화면 가운데쯤 와야 그어짐: 처음 열었을 때(맨 위)는 아직
     const mk0 = await p.evaluate(() => document.querySelector('#website .mark').classList.contains('on'));
     const fx = await p.evaluate(() => document.documentElement.classList.contains('fx'));
+    // 처음 열었을 때(맨 위): 아래쪽 효과는 아직 재생 전(화면에 들어와야 시작)
+    const notYet = await p.evaluate(() => ({ why: document.querySelector('[data-why]').classList.contains('go'), sp: [...document.querySelectorAll('[data-sp]')].filter((e) => e.getBoundingClientRect().top > innerHeight).map((e) => Number(e.style.getPropertyValue('--sp') || 0)) }));
     const r2 = await p.evaluate(() => {
       const card = document.querySelector('[data-work="1"]');
       const im = card.querySelector('img');
@@ -635,7 +637,7 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(1700);
     const em = await p.evaluate(() => [...document.querySelectorAll('.ch-lead .mark')].map((e) => ({ t: e.textContent.replace(/ /g, ' '), ff: getComputedStyle(e).fontFamily, on: e.classList.contains('on'), bg: getComputedStyle(e).backgroundSize, color: getComputedStyle(e).color })));
     check('장 소개 약속: \'관리비/유지보수 비용 제로\'(웹사이트) · \'가지고 계신 사진만으로\'(영상) 굵게, 화면 가운데쯤 오면 크림색 형광펜이 그어지고 글자가 검게', fx && !mk0 && em.length === 2 && em[0].t === '관리비/⁠유지보수 비용 제로' && em[1].t === '가지고 계신 사진만으로' && em[0].ff.includes('PS Text') && em[0].on && em[0].bg === '100% 100%' && em[0].color === 'rgb(12, 12, 11)', JSON.stringify({ fx, mk0, em }));
-    // 제작 과정(비전에서 현실로): '비전에서'는 외곽선, '현실로'는 스크롤에 따라 채워짐, 진행 선·점이 01 → 05로 나아가며 단계가 켜지고, 도착하면 '기본 월 관리비 $0'이 채워짐(되감기 가능)
+    // 제작 과정(비전에서 현실로): '비전에서' 외곽선 · 화면에 들어오면 정해진 시간 동안 끝까지(2026-10-09 사용자: 빨리 내리면 못 봄 → 스크롤에 묶지 않음)
     const pr = () => p.evaluate(() => {
       const ol = document.querySelector('.steps'), ink = document.querySelector('#process-title .ink'), out = document.querySelector('#process-title .ol');
       return {
@@ -645,54 +647,54 @@ async function page(browser, vp, opts = {}) {
         chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor,
       };
     });
-    await at('.steps', 0.97);
+    await at('.steps', 1.05);
     const pa = await pr();
-    await at('.steps', 0.62);
+    await at('.steps', 0.6);
+    await p.waitForTimeout(1500);
     const pm = await pr();
-    await at('.steps', 0.12);
-    await p.waitForTimeout(800);
+    await p.waitForTimeout(2600);
     const pb = await pr();
-    await at('.steps', 0.97);
-    const pc = await pr();
-    check('제작 과정: \'비전에서\' 외곽선 · \'현실로\'는 스크롤에 따라 채워짐 · 진행 선이 01 → 05로 나아가며 단계가 켜지고(되감기 가능) 도착하면 \'기본 월 관리비 $0\'이 채워짐',
-      pa.p === 0 && pa.on === '00000' && pa.dim === '0.3' && pm.p > 0.2 && pm.p < 0.9 && pm.on.startsWith('1') && pm.on.endsWith('0') && pb.p === 1 && pb.on === '11111' && pb.arrived && pb.rail === '1.00' && pb.chip === 'rgb(20, 19, 17)' && pb.ink === 1 && pb.inkText === '현실로' && pb.outline.startsWith('rgba(0, 0, 0, 0)|') && parseFloat(pb.outline.split('|')[1]) >= 1 && pc.p === 0 && !pc.arrived,
-      JSON.stringify({ pa, pm, pb, pc }));
+    check('제작 과정: \'비전에서\' 외곽선 · \'현실로\' 채워짐 · 화면에 들어오면 진행 선이 01 → 05로 나아가며 단계가 켜지고 도착하면 \'기본 월 관리비 $0\' 채워짐(빨리 내려도 끝까지)',
+      pa.p === 0 && pa.on === '00000' && pa.dim === '0.3' && pm.p > 0.1 && pm.p < 0.95 && pb.p === 1 && pb.on === '11111' && pb.arrived && pb.rail === '1.00' && pb.chip === 'rgb(20, 19, 17)' && pb.ink === 1 && pb.inkText === '현실로' && pb.outline.startsWith('rgba(0, 0, 0, 0)|'),
+      JSON.stringify({ pa, pm, pb }));
     // AI 광고영상: 샘플 제목 '광고가 됩니다.'가 채워짐, 제작 과정 단계가 줄마다 켜짐
-    await at('#film-title', 0.2);
+    await at('#film-title', 0.6);
+    await p.waitForTimeout(2000);
     await at('.vsteps', 0.25);
     await p.waitForTimeout(2400);
     const vs = await p.evaluate(() => ({ on: [...document.querySelectorAll('.vsteps li')].map((li) => li.classList.contains('on') ? 1 : 0).join(''), lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent, filmInk: Number(document.querySelector('#film-title .ink').style.getPropertyValue('--ink')), before: getComputedStyle(document.querySelector('#film-title .ol')).webkitTextFillColor }));
     check('AI 광고영상: \'평범한 사진 한 장이,\' 외곽선 · \'광고가 됩니다.\' 채워짐 · 제작 과정 단계가 줄마다 켜짐(밝은 선)', vs.on === '111111' && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.' && vs.filmInk === 1 && vs.before === 'rgba(0, 0, 0, 0)', JSON.stringify(vs));
-    // WHY PAUSE?: 들어올 땐 글자가 오른쪽으로 끌려 흐리다가 가운데쯤에서 제자리에 멈춤 · 여섯 가지 이유 줄 선·번호 · 추천 대상 체크
-    await at('#why-title', 0.92);
-    const w0 = await p.evaluate(() => { const q = document.querySelector('.why-title .q'); return { w: Number(document.querySelector('[data-why]').style.getPropertyValue('--w')), x: new DOMMatrix(getComputedStyle(q).transform).e }; });
-    await at('#why-title', 0.2);
-    const w1 = await p.evaluate(() => { const q = document.querySelector('.why-title .q'); return { w: Number(document.querySelector('[data-why]').style.getPropertyValue('--w')), x: new DOMMatrix(getComputedStyle(q).transform).e, sr: document.querySelector('#why-title .sr').textContent }; });
-    await at('.pillars', 0.4);
-    await at('.who-list', 0.2);
-    await p.waitForTimeout(1600);
-    const wl = await p.evaluate(() => ({ pillars: [...document.querySelectorAll('.pillars li')].every((li) => li.classList.contains('on')), num: new DOMMatrix(getComputedStyle(document.querySelector('.pillars li:last-child .idx b')).transform).f, ticks: [...document.querySelectorAll('.who-list li')].map((li) => parseFloat(getComputedStyle(li.querySelector('.tick path')).strokeDashoffset)) }));
-    check('WHY PAUSE?: 글자가 끌려오다 제자리에 멈춤(물음표가 마지막에 섬) · 여섯 가지 이유 선·번호 · 추천 대상 줄마다 ✓', w0.w < 0.2 && w0.x > 20 && w1.w === 1 && Math.abs(w1.x) < 0.5 && w1.sr === 'WHY PAUSE?' && wl.pillars && wl.num === 0 && wl.ticks.length === 6 && wl.ticks.every((x) => x === 0), JSON.stringify({ w0, w1, wl }));
-    // 섹션마다 하나씩(2026-10-09 사용자): 요금 '관리비' 줄 긋고 사라짐 · 영상 요금 뷰파인더 · 질문 '모았습니다.' 글자 모임 · 문의 '해방되세요.' 풀려남 · 다음 레퍼런스 빈자리 점선
-    const sp = async (sel, f) => { await at(sel, f); return p.evaluate((q) => Number(document.querySelector(q).style.getPropertyValue('--sp') || 0), sel); };
-    const g0 = await sp('.gone', 0.9), g1 = await sp('.gone', 0.2);
-    const gone = await p.evaluate(() => ({ op: Number(getComputedStyle(document.querySelector('.gone')).opacity), strike: new DOMMatrix(getComputedStyle(document.querySelector('.gone'), '::after').transform).a }));
-    const v1 = await sp('.vf', 0.2);
-    const vfx = await p.evaluate(() => { const c = document.querySelector('.vf-c').getBoundingClientRect(), t = document.querySelector('.vf').getBoundingClientRect(); return Math.round(t.left - c.left); });
-    const q1 = await sp('#faq-title .gather', 0.2);
-    const gat = await p.evaluate(() => [...document.querySelectorAll('.gather i')].every((i) => new DOMMatrix(getComputedStyle(i).transform).f === 0));
-    const f0 = await sp('.free', 0.9);
-    const fr0 = await p.evaluate(() => getComputedStyle(document.querySelector('.free i:last-child')).transform);
-    const f1 = await sp('.free', 0.2);
-    const fr1 = await p.evaluate(() => [...document.querySelectorAll('.free i')].every((i) => { const m = new DOMMatrix(getComputedStyle(i).transform); return Math.abs(m.b) < 1e-3 && Math.abs(m.f) < 0.01; }));
-    const slot = await p.evaluate(() => getComputedStyle(document.querySelector('.wk-next-in'), '::after').animationName);
-    check('섹션마다 효과: 요금 \'관리비\' 줄 긋고 흐려짐 · 영상 요금 뷰파인더 조여짐 · \'모았습니다.\' 글자 모임 · \'해방되세요.\' 풀려남 · 다음 레퍼런스 점선', g0 === 0 && g1 === 1 && gone.op < 0.5 && gone.strike === 1 && v1 === 1 && vfx > 0 && vfx < 12 && q1 === 1 && gat && f0 === 0 && fr0 !== 'none' && f1 === 1 && fr1 && slot === 'slotDash', JSON.stringify({ g0, g1, gone, v1, vfx, q1, gat, f0, fr0, f1, fr1, slot }));
+    // WHY PAUSE?: 화면에 들어오면 한 번 끝까지 — 글자가 달려와 급정거 → 일시정지 표시(‖) → 물음표 · 여섯 가지 이유 선·번호 · 추천 대상 ✓(줄이 화면에 들어오자마자)
+    const w0 = notYet.why;
+    await at('#why-title', 0.6);
+    await p.waitForTimeout(1700);
+    const wMid = await p.evaluate(() => ({ pz: getComputedStyle(document.querySelector('.why-title .pz')).display, q: getComputedStyle(document.querySelector('.why-title .q')).color }));
+    await p.waitForTimeout(1800);
+    const w1 = await p.evaluate(() => ({ go: document.querySelector('[data-why]').classList.contains('go'), letters: [...document.querySelectorAll('.why-title .wy i:not(.sp)')].every((i) => getComputedStyle(i).transform === 'none' || new DOMMatrix(getComputedStyle(i).transform).isIdentity), q: getComputedStyle(document.querySelector('.why-title .q')).color, pz: getComputedStyle(document.querySelector('.why-title .pz')).opacity, sr: document.querySelector('#why-title .sr').textContent }));
+    await at('.pillars', 0.75);
+    await at('.who-list', 0.85);
+    await p.waitForTimeout(2000);
+    const wl = await p.evaluate(() => ({ pillars: [...document.querySelectorAll('.pillars li')].every((li) => li.classList.contains('on')), num: new DOMMatrix(getComputedStyle(document.querySelector('.pillars li:last-child .idx b')).transform).f, firstTick: parseFloat(getComputedStyle(document.querySelector('.who-list li .tick path')).strokeDashoffset) }));
+    check('WHY PAUSE?: 화면에 들어오면 글자가 달려와 멈추고 ‖ 다음 물음표가 섬 · 여섯 가지 이유 선·번호 · 추천 대상 첫 줄이 화면 아래쪽에서 바로 ✓', !w0 && wMid.pz === 'block' && w1.go && w1.letters && w1.q === 'rgb(20, 19, 17)' && w1.pz === '0' && w1.sr === 'WHY PAUSE?' && wl.pillars && wl.num === 0 && wl.firstTick === 0, JSON.stringify({ w0, wMid, w1, wl }));
+    // 섹션마다 하나씩(2026-10-09 사용자): 화면에 들어오기 전엔 그대로, 들어오면 끝까지 — 요금 '관리비' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · '모았습니다.' · '해방되세요.' · 다음 레퍼런스 점선
+    const sp = (q) => p.evaluate((sel) => Number(document.querySelector(sel).style.getPropertyValue('--sp') || 0), q);
+    const before = notYet.sp;
+    const after = {};
+    for (const q of ['.gone', '.vf', '#faq-title .gather', '.free', '.cmp-title .art']) { await at(q, 0.6); await p.waitForTimeout(2800); after[q] = await sp(q); }
+    const fin = await p.evaluate(() => ({
+      cut: getComputedStyle(document.querySelector('.gone .g-t')).transform !== 'none' && getComputedStyle(document.querySelector('.gone .g-b')).transform !== 'none', op: Number(getComputedStyle(document.querySelector('.gone .g-t')).opacity),
+      vfx: Math.round(document.querySelector('.vf').getBoundingClientRect().left - document.querySelector('.vf-c').getBoundingClientRect().left),
+      gat: [...document.querySelectorAll('.gather i')].every((i) => new DOMMatrix(getComputedStyle(i).transform).f === 0),
+      free: [...document.querySelectorAll('.free i')].every((i) => { const m = new DOMMatrix(getComputedStyle(i).transform); return Math.abs(m.b) < 1e-3 && Math.abs(m.f) < 0.01; }),
+      slot: getComputedStyle(document.querySelector('.wk-next-in'), '::after').animationName,
+    }));
+    check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · \'해방되세요.\' · 비교 제목 손잡이 · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지)', before.length === 5 && before.every((v) => v === 0) && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, fin }));
     // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
     const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);
     check('아끼는 금액: 글과 숫자 사이 간격(PC 30px)', gap === '30px', gap);
-    // 비교 제목: Ordinary는 흔한 템플릿 글꼴, Artisanal은 PAUSE 제목 글꼴
-    const ord = await p.evaluate(() => ({ ord: getComputedStyle(document.querySelector('.cmp-title .ord')).fontFamily, title: getComputedStyle(document.querySelector('.cmp-title')).fontFamily, text: document.querySelector('.cmp-title').textContent, vsBox: getComputedStyle(document.querySelector('.cmp-title .cmp-vs')).borderRadius }));
-    check('비교 제목: \'Ordinary\'는 흔한 템플릿 글꼴(Helvetica·Arial), \'Artisanal\'은 PAUSE 제목 글꼴', /Helvetica|Arial/.test(ord.ord) && ord.title.includes('PS Display') && ord.text === 'Ordinary vs. Artisanal' && ord.vsBox === '0px', JSON.stringify(ord));
+    // 비교 제목(2026-10-09 사용자: 쉬운 말, VS 점 없이): '흔한 템플릿'은 평범한 글꼴, 끝난 뒤 '맞춤 디자인'은 PAUSE 제목 글꼴
+    const ord = await p.evaluate(() => ({ ord: getComputedStyle(document.querySelector('.cmp-title .ord')).fontFamily, b: getComputedStyle(document.querySelector('.cmp-title .art .b')).fontFamily, text: [document.querySelector('.cmp-title .ord').textContent, document.querySelector('.cmp-title .cmp-vs').textContent, document.querySelector('.cmp-title .art .b').textContent].join(' '), aHidden: document.querySelector('.cmp-title .art .a').getAttribute('aria-hidden') }));
+    check('비교 제목: \'흔한 템플릿 VS 맞춤 디자인\'(VS 점 없음) · 왼쪽은 평범한 글꼴, \'맞춤 디자인\'은 PAUSE 제목 글꼴(평범한 글꼴 겹은 화면 읽기에서 숨김)', /Helvetica|Arial/.test(ord.ord) && ord.b.includes('PS Display') && ord.text === '흔한 템플릿 VS 맞춤 디자인' && ord.aHidden === 'true', JSON.stringify(ord));
     check('세 번째 피드백 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }

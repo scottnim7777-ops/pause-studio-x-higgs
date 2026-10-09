@@ -73,7 +73,7 @@ npm run build && PORT=3100 NODE_ENV=production node dist/server.cjs &
 NODE_PATH=/opt/node22/lib/node_modules node tests/smoke.cjs http://localhost:3100 tests/out
 NODE_PATH=/opt/node22/lib/node_modules node tests/a11y.cjs http://localhost:3100
 ```
-결과(2026-10-09 여섯 번째 피드백 반영): 155/155 통과, 접근성 위반 0. 확인한 것: 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금 = 견적서 플랜 + 최종 가격(STARTER USD $1,990 · BUSINESS USD $4,490부터 · ENTERPRISE 맞춤 견적, 영상 USD $490 · 890 · 1,490부터 · 2,490/월)·무료 혜택, 결합 상품·예전 가격(1,490 · 2,900 · 5,500)·WEBSITE · ONLINE STORE 이름·GST 문구 없음, 통화(로컬 → USD, 뉴질랜드 IP → NZD, 미국·한국·호주·미국 IPv6 → USD, 운영에서 ?cur=nzd·설정 안 된 cf-ipcountry 무시, 첫 화면 private 캐시, `/api/currency`), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기(STARTER 기본, BUSINESS로 바꾸면 USD $4,490부터·절약액 다시 계산), $0 다이어트($100 → $0, 12달 채움, 동작 줄이기면 바로 $0), 가로·세로 틀(1440·390에서 긴 변 같음·바닥선 같음·설명 정렬), 움직임 멈추기 버튼 없음, 동작 줄이기, JS 없이 내용 표시(질문 27개·$0).
+결과(2026-10-09 일곱 번째 피드백 반영): 155/155 통과, 접근성 위반 0. 확인한 것: 1920·1440·1280·1024·834·390·360 폭에서 가로 넘침 없음, 콘솔 오류 없음, 상담 4종 흐름·성공/실패 화면, 요금 버튼 미리 선택(BUSINESS), 요금 = 견적서 플랜 + 최종 가격(STARTER USD $1,990 · BUSINESS USD $4,490부터 · ENTERPRISE 맞춤 견적, 영상 USD $490 · 890 · 1,490부터 · 2,490/월)·무료 혜택, 결합 상품·예전 가격(1,490 · 2,900 · 5,500)·WEBSITE · ONLINE STORE 이름·GST 문구 없음, 통화(로컬 → USD, 뉴질랜드 IP → NZD, 미국·한국·호주·미국 IPv6 → USD, 운영에서 ?cur=nzd·설정 안 된 cf-ipcountry 무시, 첫 화면 private 캐시, `/api/currency`), 크게 보기 키보드·초점 복귀, 모바일 메뉴, 계산기(STARTER 기본, BUSINESS로 바꾸면 USD $4,490부터·절약액 다시 계산), $0 다이어트($100 → $0, 12달 채움, 동작 줄이기면 바로 $0), 가로·세로 틀(1440·390에서 긴 변 같음·바닥선 같음·설명 정렬), 움직임 멈추기 버튼 없음, 동작 줄이기, JS 없이 내용 표시(질문 27개·$0).
 
 ## 접근성·성능 메모
 - 키보드로 모든 기능 사용 가능, 창은 Esc로 닫고 원래 버튼으로 초점이 돌아갑니다. 타이핑 제목은 화면 읽기 프로그램에 전체 문장으로 읽힙니다.

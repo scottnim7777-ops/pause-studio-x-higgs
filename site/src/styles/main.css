@@ -1055,14 +1055,24 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .fx .vsteps li:not(.on) > * { opacity: .3; }
 @media (max-width: 767px) { .vsteps li { --sd: 0s; } }
 
-/* WHY PAUSE?(2026-10-09 사용자: 어울리는 창의적인 효과): 이름 그대로 '멈춤'. 제목이 들어올 땐 글자들이 흐리게 흩어져 있다가,
-   뒤 글자일수록 오른쪽으로 길게 끌리며 달려오다 화면 가운데쯤에서 제자리에 딱 멈춘다(--w 0→1, 브레이크를 밟듯 끝에서 느려짐). 물음표는 기울어진 채 위에서 떨어져 마지막에 선다 */
+/* WHY PAUSE?(2026-10-09 사용자: 어울리는 창의적인 효과 → '약하다, 빨리 내리면 못 본다'): 이름 그대로 '일시정지'.
+   제목이 화면 78% 높이에 오면 한 번 끝까지 재생(스크롤 속도와 상관없이): 글자들이 앞으로 쏠린 채 오른쪽에서 달려와 급정거하며
+   살짝 뒤로 흔들리고 → 물음표 자리에 일시정지 표시(‖)가 두 번 깜빡이고 → 물음표가 위에서 떨어져 자리를 잡음. PC는 제목이 편지를 읽는 동안 따라옴 */
 .why { overflow-x: clip; }
-.why-title .wy { display: inline-block; white-space: nowrap; --wr: calc((1 - var(--w, 0)) * (1 - var(--w, 0))); } /* 남은 거리는 제곱: 끝에서 부드럽게 멈춤 */
+.why-title .wy { display: inline-block; white-space: nowrap; }
 .why-title .wy i { display: inline-block; font-style: normal; }
 .why-title .wy .sp { width: .24em; }
-.fx .why-title .wy i { transform: translateX(calc(var(--k) * var(--wr, 0) * .16em)); opacity: calc(.18 + .82 * var(--w, 0)); }
-.fx .why-title .wy .q { transform-origin: 50% 90%; transform: translate(calc(var(--k) * var(--wr, 0) * .16em), calc((1 - var(--w, 0)) * -.55em)) rotate(calc((1 - var(--w, 0)) * -38deg)); }
+.why-title .wy .q { position: relative; }
+.why-title .pz { display: none; }
+.fx .why-title .wy i:not(.sp):not(.q) { transform: translateX(calc(2.4em + var(--k) * .3em)) skewX(-22deg); opacity: 0; }
+.fx .why-title .wy.go i:not(.sp):not(.q) { transform: none; opacity: 1; transition: transform 1.05s cubic-bezier(.17, 1.32, .32, 1) calc(var(--k) * 60ms), opacity .35s linear calc(var(--k) * 60ms); }
+.fx .why-title .wy .q { color: transparent; }
+.fx .why-title .wy.go .q { animation: whyQ .7s cubic-bezier(.3, 1.55, .5, 1) 2.2s forwards; } /* 시작 전에는 투명·똑바로(안의 ‖가 기울지 않게) */
+.fx .why-title .pz { display: block; position: absolute; left: .02em; bottom: .14em; width: .36em; height: .62em; opacity: 0; background: linear-gradient(90deg, var(--on-paper) 0 32%, transparent 32% 68%, var(--on-paper) 68% 100%); }
+.fx .why-title .wy.go .pz { animation: whyPz .92s steps(1, end) 1.25s both; } /* 글자가 다 멈춘 뒤 제자리에서 깜빡 */
+@keyframes whyPz { 0% { opacity: 1; } 25% { opacity: 0; } 45% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes whyQ { 0% { color: var(--on-paper); transform: translateY(-.9em) rotate(-45deg); } 100% { color: var(--on-paper); transform: none; } }
+@media (min-width: 1024px) { .why-grid > header { position: sticky; top: calc(var(--header-h) + 48px); } }
 
 /* WHY 여섯 가지 이유: 칸이 화면 80% 높이를 지나면 줄마다 윗변에 잉크 선이 그어지고 번호가 아래에서 굴러 올라옴(한 번) */
 .pillars li { --sd: calc(var(--i, 0) * .22s); }
@@ -1076,17 +1086,21 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 /* 추천 대상: 체크리스트처럼 — 줄이 화면 70% 높이에 오면 오른쪽에 ✓가 그어지고 글이 또렷해짐('내 얘기네') */
 .who-list li { grid-template-columns: clamp(48px, 4vw, 76px) 1fr auto; }
 .who-list .tick { width: clamp(20px, 1.5vw, 26px); height: auto; margin-left: 16px; align-self: center; color: var(--on-paper); }
-.fx .who-list .tick path { stroke-dasharray: 26; stroke-dashoffset: 26; transition: stroke-dashoffset .9s cubic-bezier(.65, 0, .25, 1) .2s; }
+.fx .who-list .tick path { stroke-dasharray: 26; stroke-dashoffset: 26; transition: stroke-dashoffset .9s cubic-bezier(.65, 0, .25, 1) var(--td, .2s); }
 .fx .who-list li.on .tick path { stroke-dashoffset: 0; }
 .fx .who-list li p { transition: opacity .5s var(--ease); }
 .fx .who-list li:not(.on) p { opacity: .4; }
 
 /* ── 섹션마다 하나씩(2026-10-09 사용자: 다른 곳도 찾아서, 창의적으로). 모두 스크롤 진행(--sp, data-sp="시작,끝")을 따라감 ── */
-/* 요금 '매달 관리비는 없게.': 스크롤하면 '관리비'에 줄이 그어지고, 이어서 흐려져 사라짐 — 말 그대로 '없게' */
-.nobr { white-space: nowrap; } /* 효과 구절과 뒤 조사('을'·'는')가 줄에서 떨어지지 않게 */
+/* 요금 '매달 관리비는 없게.'(2026-10-09 사용자: 칼로 베이듯 사선으로 썰려 나가게): 화면에 들어오면 칼날 같은 빛줄기가 사선으로 '관리비'를
+   그어 지나가고(0~15%), 잠깐 멈췄다가 사선을 따라 위·아래 조각이 어긋나며 밀려나고 흐려짐. 흐려져도 50%(큰 글씨 명도 대비 유지) */
 .gone { position: relative; display: inline-block; }
-.fx .gone { opacity: calc(1 - .55 * max(0, (var(--sp, 0) - .5) * 2)); } /* 끝까지 45%: 흐려져도 큰 글씨 명도 대비 3:1 이상 */
-.fx .gone::after { content: ""; position: absolute; left: -.05em; right: -.05em; top: 55%; height: .075em; background: currentColor; transform: scaleX(min(1, calc(var(--sp, 0) * 2))); transform-origin: 0 50%; }
+.gone .g-b { display: none; }
+.fx .gone { --cut: clamp(0, calc(var(--sp, 0) / .15), 1); --sep: clamp(0, calc((var(--sp, 0) - .28) / .5), 1); }
+.fx .gone .g-t, .fx .gone .g-b { display: inline-block; opacity: calc(1 - var(--sep) * .5); }
+.fx .gone .g-t { clip-path: polygon(-5% -10%, 105% -10%, 105% 38%, -5% 74%); transform: translate(calc(var(--sep) * .1em), calc(var(--sep) * -.17em)) rotate(calc(var(--sep) * -4deg)); }
+.fx .gone .g-b { position: absolute; left: 0; top: 0; white-space: nowrap; clip-path: polygon(-5% 74%, 105% 38%, 105% 110%, -5% 110%); transform: translate(calc(var(--sep) * -.07em), calc(var(--sep) * .12em)) rotate(calc(var(--sep) * 2.5deg)); }
+.fx .gone::after { content: ""; position: absolute; left: -.2em; width: calc(100% + .4em); top: 74%; height: max(2px, .045em); background: linear-gradient(90deg, transparent, var(--cream) 25%, #fff 70%, transparent); transform-origin: 0 50%; transform: rotate(-9deg) scaleX(var(--cut)); opacity: calc(1 - clamp(0, calc((var(--sp, 0) - .2) / .2), 1)); pointer-events: none; }
 
 /* AI 광고영상 요금 '완성된 광고영상을 드립니다.': 카메라 뷰파인더의 네 모서리가 넓게 벌어져 있다가 스크롤하면 '완성된 광고영상'에 맞게 조여짐(초점을 맞추듯) */
 .vf { position: relative; display: inline-block; }
@@ -1121,9 +1135,19 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 @keyframes slotDash { to { background-position: 14px 0, -14px 100%, 0 -14px, 100% 14px; } }
 .still .wk-next-in::after { animation: none; }
 
-/* 비교 제목: 'Ordinary'는 아래 BEFORE와 같은 흔한 템플릿 글꼴, 'Artisanal'은 PAUSE 제목 글꼴 — 제목 자체가 비교가 됨 */
-.cmp-title .ord { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400; letter-spacing: -.03em; color: var(--on-paper-3); }
-.cmp-title .cmp-vs { font-size: .44em; letter-spacing: .02em; color: var(--on-paper-3); margin: 0 .06em; }
+/* 비교 제목 '흔한 템플릿 VS 맞춤 디자인'(2026-10-09 사용자: 쉬운 말로, VS는 점 없이, 어울리는 효과):
+   '흔한 템플릿'은 아래 BEFORE와 같은 평범한 글꼴. '맞춤 디자인'은 처음엔 같은 평범한 글꼴이다가, 아래 비교 화면 손잡이처럼
+   세로 선과 원이 왼쪽에서 오른쪽으로 지나가며 선이 지난 자리부터 PAUSE 제목 글꼴로 바뀜(화면에 들어오면 한 번) */
+.cmp-title .ord, .cmp-title .art .a { font-family: 'Helvetica Neue', Helvetica, Arial, var(--fallback-sans); font-weight: 400; letter-spacing: -.03em; }
+.cmp-title .ord { color: var(--on-paper-3); }
+.cmp-title .cmp-vs { font-size: .44em; letter-spacing: .04em; color: var(--on-paper-3); margin: 0 .1em; vertical-align: .3em; }
+.cmp-title .art { position: relative; display: inline-block; }
+.cmp-title .art .a, .cmp-title .art .h { display: none; }
+.fx .cmp-title .art { --x: calc(var(--sp, 0) * 100%); }
+.fx .cmp-title .art .b { clip-path: inset(-20% calc(100% - var(--x)) -20% -5%); }
+.fx .cmp-title .art .a { display: block; position: absolute; left: 0; top: 0; white-space: nowrap; color: var(--on-paper-3); clip-path: inset(-20% -50% -20% var(--x)); }
+.fx .cmp-title .art .h { display: block; position: absolute; top: -.06em; bottom: -.06em; left: var(--x); width: 2px; margin-left: -1px; background: var(--on-paper); opacity: calc(min(1, var(--sp, 0) * 12) * (1 - clamp(0, calc((var(--sp, 0) - .92) / .08), 1))); }
+.fx .cmp-title .art .h::after { content: ""; position: absolute; left: 50%; top: 50%; width: .42em; height: .42em; transform: translate(-50%, -50%); border-radius: 50%; background: var(--on-paper); box-shadow: 0 0 0 .06em var(--paper); }
 
 /* ───────── 동작 줄이기 ───────── */
 @media (prefers-reduced-motion: reduce) {
@@ -1140,7 +1164,11 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .fx :is(.steps, .vsteps) li > * { opacity: 1 !important; }
   .fx .vsteps li::before { transform: none !important; }
   .fx .mark { background-size: 100% 100% !important; color: var(--ink) !important; }
-  .fx .why-title .wy i { transform: none !important; opacity: 1 !important; }
+  .fx .why-title .wy i { transform: none !important; opacity: 1 !important; animation: none !important; }
+  .fx .why-title .wy .q { color: var(--on-paper) !important; }
+  .fx .why-title .pz { display: none !important; }
+  .fx .cmp-title .art .a, .fx .cmp-title .art .h { display: none !important; }
+  .fx .cmp-title .art .b { clip-path: none !important; }
   .fx .pillars li::before { transform: none !important; }
   .fx .pillars .idx b { transform: none !important; }
   .fx .who-list .tick path { stroke-dashoffset: 0 !important; }

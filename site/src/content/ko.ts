@@ -156,7 +156,8 @@ export type CompareCase = {
 };
 export const compare = {
   eyebrow: 'BEFORE / AFTER',
-  title: 'Ordinary vs. Artisanal',
+  // 2026-10-09 사용자: 'Ordinary vs. Artisanal'을 더 이해하기 쉬운 말로, 'VS'는 점 없이
+  title: ['흔한 템플릿', '맞춤 디자인'],
   lead: '같은 내용도 어떻게 보여 주느냐에 따라 브랜드의 가치가 달라집니다.\n가운데 손잡이를 좌우로 밀어 비교해 보세요.',
   before: 'BEFORE',
   beforeSub: '흔한 템플릿으로 만들었다면',

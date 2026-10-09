@@ -89,7 +89,7 @@ export const work = {
     { id: 'ref13', category: '토스 핀테크 파트너 앱 개발' },
     { id: 'ref14', category: '토스 핀테크 파트너 앱 개발' },
     { id: 'ref15', category: '토스 핀테크 파트너 앱 개발' },
-    { id: 'chillenq', category: '냉장·냉동 설비' },
+    { id: 'chillenq', category: '냉장·냉동 설비', video: true }, // 2026-10-09 사용자가 보낸 화면 녹화(끊김 없이 반복)
   ] as WorkItem[],
   /** 마지막 줄을 채우는 상담 칸 */
   next: { kicker: 'NEXT REFERENCE', title: '다음 레퍼런스는\n대표님의 브랜드입니다.' },

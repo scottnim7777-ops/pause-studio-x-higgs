@@ -419,7 +419,7 @@ async function page(browser, vp, opts = {}) {
       const minW = Math.min(...cells.map((c) => c.w));
       return { total: vids.length, inView: inView.length, playing: inView.filter((v) => !v.paused && v.classList.contains('on')).length, loop: vids.every((v) => v.loop), worstRatio: Math.max(...cells.map((x) => x.ratio)), n: cells.length, rowSpread, minW: Math.round(minW), rows: Object.keys(rows).length, contain: cells.every((c) => c.fill === 'contain') };
     });
-    check('포트폴리오: 보이는 영상이 마우스 없이 반복 재생', st.inView > 0 && st.playing === st.inView && st.loop && st.total === 6, JSON.stringify(st));
+    check('포트폴리오: 보이는 영상이 마우스 없이 반복 재생', st.inView > 0 && st.playing === st.inView && st.loop && st.total === 7, JSON.stringify(st));
     check('포트폴리오: 17개 화면이 여백 틀 없이 원래 비율 그대로(잘림 없음), 줄마다 높이가 같게 꽉 채움', st.n === 17 && st.worstRatio < 0.02 && st.rowSpread <= 1.5 && st.contain, `칸 ${st.n} · 비율 오차 ${(st.worstRatio * 100).toFixed(2)}% · 줄 ${st.rows} · 줄 안 높이 차 ${st.rowSpread.toFixed(1)}px · 가장 좁은 칸 ${st.minW}px`);
     check('포트폴리오 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();

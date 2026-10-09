@@ -60,7 +60,7 @@ npm run check        # 타입 검사 + 빌드
 
 ## 미디어
 - 포트폴리오: 실제 고객 사이트 화면(Ref.01~15, ChillenQ). Ref.16~39는 소유 확인 전이라 넣지 않았습니다.
-- Ref.03 동대문 · Ref.09 컨템퍼러리 타투 스튜디오: 사용자가 보낸 화면 녹화(원본 `../content/assets/portfolio/originals/*_2026-10-08.mp4`) → 끊김 없이 반복되는 영상(`python3 scripts/media.py loops`).
+- Ref.03 동대문 · Ref.08 컨템퍼러리 타투 스튜디오 · Ref.17 냉장·냉동 설비(ChillenQ, 2026-10-09): 사용자가 보낸 화면 녹화(원본 `../content/assets/portfolio/originals/*_hero_2026-10-0*.mp4`, 소리 빼고 보관) → 끊김 없이 반복되는 영상(`python3 scripts/media.py loops` 전체, `loops chillenq`처럼 하나만).
 - AI 광고영상 샘플 4편(가상 브랜드, 소개 글에 PAUSE가 직접 기획하고 만든 광고라고 밝힘): SOOM(Seedance) · ONDO COFFEE · SOUTHERN ROUTE · DAON HONEY(Higgsfield soul/cinema 스틸 + DoP 영상 → `../tools/ad_edit.py`).
 - BEFORE/AFTER의 BEFORE 사진: Higgsfield 생성(`public/media/compare/mock-*`, `python3 scripts/media.py compare`).
 - 다시 만들기: `python3 scripts/media.py` (전체) · `… film` · `… loops` · `… compare` · `… og`(공유 이미지 = 미리보기 첫 화면).

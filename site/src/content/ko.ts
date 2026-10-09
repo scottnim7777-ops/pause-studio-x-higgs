@@ -152,7 +152,7 @@ export const currencySymbol: Record<Cur, string> = { NZD: 'NZD\u00A0$', USD: 'US
 /** 비교(BEFORE / AFTER): 같은 내용을 흔한 템플릿으로 만들었다면 vs. PAUSE가 만든 실제 사이트 */
 export type CompareCase = {
   label: string; media: string;
-  mock: { brand: string; nav: string[]; title: string; sub: string; btn: string; image: string; accent: string; cards: [string, string][] };
+  mock: { brand: string; nav: string[]; title: string; sub: string; btn: string; image: string; accent: string; cards: [string, string, string][] };
 };
 export const compare = {
   eyebrow: 'BEFORE / AFTER',
@@ -167,11 +167,11 @@ export const compare = {
   cases: [
     {
       label: '여행 / 유학원', media: '/media/work/ref01',
-      mock: { brand: 'Kiwi Journeys', nav: ['Home', 'Tours', 'Study', 'About', 'Contact'], title: 'Discover New Zealand', sub: 'Tours and study programs for every traveler', btn: 'Book a Tour', image: '/media/compare/mock-travel', accent: '#1f7a8c', cards: [['Popular Tours', 'Our most loved day trips'], ['Study Abroad', 'Programs for every age'], ['Travel Tips', 'Plan your next adventure']] },
+      mock: { brand: 'Kiwi Journeys', nav: ['Home', 'Tours', 'Study', 'About', 'Contact'], title: 'Discover New Zealand', sub: 'Tours and study programs for every traveler', btn: 'Book a Tour', image: '/media/compare/mock-travel', accent: '#1f7a8c', cards: [['Popular Tours', 'Our most loved day trips', '/media/compare/mock-travel-c1'], ['Study Abroad', 'Programs for every age', '/media/compare/mock-travel-c2'], ['Travel Tips', 'Plan your next adventure', '/media/compare/mock-travel-c3']] },
     },
     {
       label: '홈메이드 케이크', media: '/media/work/ref02',
-      mock: { brand: 'Sweet Moments Cakes', nav: ['Home', 'Menu', 'Gallery', 'Order', 'Contact'], title: 'Handmade Cakes for Every Occasion', sub: 'Freshly baked with love, made to order', btn: 'Order Now', image: '/media/compare/mock-cake', accent: '#a8506f', cards: [['Birthday Cakes', 'Custom cakes for any party'], ['Wedding Cakes', 'Elegant tiers for your day'], ['Cupcakes', 'Sweet treats by the dozen']] },
+      mock: { brand: 'Sweet Moments Cakes', nav: ['Home', 'Menu', 'Gallery', 'Order', 'Contact'], title: 'Handmade Cakes for Every Occasion', sub: 'Freshly baked with love, made to order', btn: 'Order Now', image: '/media/compare/mock-cake', accent: '#a8506f', cards: [['Birthday Cakes', 'Custom cakes for any party', '/media/compare/mock-cake-c1'], ['Wedding Cakes', 'Elegant tiers for your day', '/media/compare/mock-cake-c2'], ['Cupcakes', 'Sweet treats by the dozen', '/media/compare/mock-cake-c3']] },
     },
   ] as CompareCase[],
 };

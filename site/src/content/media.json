@@ -9,6 +9,24 @@
    1080
   ]
  },
+ "/media/compare/mock-cake-c1": {
+  "360": [
+   360,
+   270
+  ]
+ },
+ "/media/compare/mock-cake-c2": {
+  "360": [
+   360,
+   270
+  ]
+ },
+ "/media/compare/mock-cake-c3": {
+  "360": [
+   360,
+   270
+  ]
+ },
  "/media/compare/mock-travel": {
   "880": [
    880,
@@ -17,6 +35,24 @@
   "1920": [
    1920,
    1080
+  ]
+ },
+ "/media/compare/mock-travel-c1": {
+  "360": [
+   360,
+   270
+  ]
+ },
+ "/media/compare/mock-travel-c2": {
+  "360": [
+   360,
+   270
+  ]
+ },
+ "/media/compare/mock-travel-c3": {
+  "360": [
+   360,
+   270
   ]
  },
  "/media/film/before-1200": {

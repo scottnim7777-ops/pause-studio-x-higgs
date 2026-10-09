@@ -192,34 +192,6 @@ export function initWorkLoops() {
   motion.subscribe(() => vids.forEach(sync));
 }
 
-/* ── 포트폴리오: 마우스를 따라오는 '보기' 원(PC) */
-export function initWorkCursor() {
-  const cur = $('[data-wk-cursor]');
-  const grid = $('[data-work-grid]');
-  if (!cur || !grid) return;
-  const fine = matchMedia('(hover: hover) and (pointer: fine)');
-  let x = 0, y = 0, tx = 0, ty = 0, raf = 0, on = false;
-  const frame = () => {
-    raf = 0;
-    const k = motion.reduced ? 1 : 0.2;
-    x += (tx - x) * k;
-    y += (ty - y) * k;
-    cur.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
-    if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) raf = requestAnimationFrame(frame);
-  };
-  const show = (v: boolean) => { if (v !== on) { on = v; cur.classList.toggle('on', v); } };
-  grid.addEventListener('pointermove', (e) => {
-    if (!fine.matches || e.pointerType !== 'mouse') return;
-    const over = !!(e.target as Element).closest('.wk-btn');
-    tx = e.clientX; ty = e.clientY;
-    if (over && !on) { x = tx; y = ty; } // 그 자리에서 커지기 시작
-    show(over);
-    if (!raf) raf = requestAnimationFrame(frame);
-  });
-  grid.addEventListener('pointerleave', () => show(false));
-  addEventListener('scroll', () => show(false), { passive: true });
-}
-
 /* ── 작업물 크게 보기 */
 type Work = { ref: string; category: string; image: string; w: number; h: number; video: string };
 export function initLightbox() {
@@ -653,9 +625,11 @@ export function initLedger() {
   document.fonts?.ready.then(fit).catch(fit);
   fit();
   addEventListener('resize', fit);
-  const run = () => {
+  let gen = 0, timer = 0;
+  const run = (g: number) => {
     const dur = 2600, t0 = performance.now();
     requestAnimationFrame(function f(now) {
+      if (g !== gen) return; // 도중에 화면 밖으로 나가 처음 상태로 돌아감
       const k = clamp01((now - t0) / dur);
       const v = from * (1 - easeIo(k));
       numEl.textContent = String(Math.ceil(v - 1e-6));
@@ -670,11 +644,28 @@ export function initLedger() {
       el.classList.add('done', 'cinch');
     });
   };
-  const io = new IntersectionObserver(([e]) => {
-    if (!e.isIntersecting) return;
-    io.disconnect();
-    setTimeout(run, 1000); // 숫자가 아래에서 올라온 뒤 시작
-  }, { threshold: 0.45 });
+  /** 화면 밖으로 완전히 나가면 처음 상태로 돌려 두었다가, 다시 들어오면 한 번 더 보여 준다 */
+  const reset = () => {
+    gen++; clearTimeout(timer); timer = 0;
+    el.classList.remove('done', 'cinch');
+    numEl.textContent = String(from);
+    shape(1);
+    months.forEach((m) => m.classList.remove('on'));
+    fit();
+  };
+  let shown = false;
+  const io = new IntersectionObserver((es) => {
+    for (const e of es) {
+      if (e.intersectionRatio >= 0.45 && !shown) {
+        shown = true;
+        const g = ++gen;
+        timer = window.setTimeout(() => run(g), 1000); // 숫자가 아래에서 올라온 뒤 시작
+      } else if (!e.isIntersecting && shown) {
+        shown = false;
+        reset();
+      }
+    }
+  }, { threshold: [0, 0.45] });
   io.observe(el);
 }
 
@@ -855,27 +846,39 @@ export function initAccents() {
     });
     ol.classList.toggle('arrived', p >= 0.995);
   };
-  const seen = (el: Element, line: number, vh: number) => { const r = el.getBoundingClientRect(); return r.top < vh * line && r.bottom > 0 || r.bottom <= 0; };
+  /* 2026-10-09 사용자: '한 번 내리면 끝나서 아쉽다, 다시 올리면 또 나오게' → 화면 밖으로 완전히 나가면 처음 모습으로 되돌려 두고(보이지 않을 때라 튀지 않음),
+     다시 들어오면 또 재생. 시작은 화면 가운데보다 조금 아래(70%)에 왔을 때 — 눈이 머무는 자리에서 보이게 */
+  const LINE = 0.7;
+  const isIn = (el: Element, vh: number) => { const r = el.getBoundingClientRect(); return r.top < vh * LINE && r.bottom > vh * 0.08; };
+  const isOut = (el: Element, vh: number) => { const r = el.getBoundingClientRect(); return r.bottom < 0 || r.top > vh; };
+  const reset = (el: HTMLElement, prop?: string) => {
+    if (!el.dataset.played) return;
+    delete el.dataset.played;
+    tweens.delete(el);
+    if (prop) el.style.setProperty(prop, '0');
+  };
 
   const update = () => {
     raf = 0;
     if (!motion.allowed) { finish(); return; }
     const vh = innerHeight;
-    // 전/후 제목('현실로' · '광고가 됩니다.'): 화면 85% 높이에 오면 1.8초 동안 왼쪽부터 채움
-    inks.forEach((el) => { if (seen(el, 0.85, vh)) play(el, '--ink', 1800); });
-    // 제작 과정 진행 선: PC·태블릿은 단계 윗변이 화면 82% 높이에 오면 3.2초 동안 01 → 05, 휴대폰은 읽는 자리(62%)를 따라감
+    // 전/후 제목('현실로' · '광고가 됩니다.'): 1.8초 동안 왼쪽부터 채움
+    inks.forEach((el) => { if (isOut(el, vh)) reset(el, '--ink'); else if (isIn(el, vh)) play(el, '--ink', 1800); });
+    // 제작 과정 진행 선: PC·태블릿은 3.2초 동안 01 → 05, 휴대폰은 읽는 자리(62%)를 따라감
     lines.forEach((ol) => {
-      if (mobile.matches && !ol.dataset.played) {
+      if (mobile.matches) {
         const r = ol.getBoundingClientRect();
         const p = clamp01((vh * 0.62 - r.top) / r.height);
         ol.style.setProperty('--p', p.toFixed(4));
         lightSteps(ol, p);
-      } else if (seen(ol, 0.82, vh)) play(ol, '--p', 3200, (v) => lightSteps(ol, v));
+      } else if (isOut(ol, vh)) { reset(ol, '--p'); lightSteps(ol, 0); }
+      else if (isIn(ol, vh)) play(ol, '--p', 3200, (v) => lightSteps(ol, v));
     });
-    // 단계·칸 목록(영상 제작 과정 · WHY 여섯 가지 · 추천 대상 체크): 윗변이 화면의 data-steps 높이(기본 82%)를 지나면 켜짐(한 번).
-    // data-stagger면 같은 순간에 켜지는 줄끼리 0.18초씩 차례로
+    // 단계·칸 목록(영상 제작 과정 · WHY 여섯 가지 · 추천 대상 체크): 줄 윗변이 data-steps 높이(기본 75%)를 지나면 켜짐. data-stagger면 0.18초씩 차례로.
+    // 목록 전체가 화면 밖으로 나가면 다시 꺼 둠
     grids.forEach((ol) => {
-      const line = Number(ol.dataset.steps) || 0.82;
+      if (isOut(ol, vh)) { ol.querySelectorAll(':scope > li.on').forEach((li) => li.classList.remove('on')); return; }
+      const line = Number(ol.dataset.steps) || 0.75;
       let n = 0;
       ol.querySelectorAll<HTMLElement>(':scope > li').forEach((li) => {
         if (li.classList.contains('on') || li.getBoundingClientRect().top >= vh * line) return;
@@ -883,12 +886,11 @@ export function initAccents() {
         li.classList.add('on');
       });
     });
-    // WHY PAUSE?: 화면 85% 높이에 오면 한 번 끝까지 재생(글자가 달려와 급정거 → 일시정지 표시 → 물음표)
-    whys.forEach((el) => { if (seen(el, 0.85, vh)) el.classList.add('go'); });
-    // 형광펜: 화면 80% 높이를 지나면 한 번
-    marks.forEach((m) => { if (seen(m, 0.8, vh)) m.classList.add('on'); });
-    // 관리비 지움 · 뷰파인더 · 글자 모임 · 해방: 화면 85% 높이에 오면 data-dur(기본 1.9초) 동안 끝까지
-    sps.forEach((el) => { if (seen(el, 0.85, vh)) play(el, '--sp', Number(el.dataset.dur) || 1900); });
+    // WHY PAUSE?·형광펜: 들어오면 켜고, 완전히 나가면 끔
+    whys.forEach((el) => { if (isOut(el, vh)) el.classList.remove('go'); else if (isIn(el, vh)) el.classList.add('go'); });
+    marks.forEach((m) => { if (isOut(m, vh)) m.classList.remove('on'); else if (isIn(m, vh)) m.classList.add('on'); });
+    // 관리비 베기 · 뷰파인더 · 글자 모임 · 해방 · 비교 제목: data-dur(기본 1.9초) 동안 끝까지
+    sps.forEach((el) => { if (isOut(el, vh)) reset(el, '--sp'); else if (isIn(el, vh)) play(el, '--sp', Number(el.dataset.dur) || 1900); });
   };
 
   let raf = 0;

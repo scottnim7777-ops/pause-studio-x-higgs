@@ -160,7 +160,6 @@ function work() {
     <header class="sec-head work-head"><p class="eyebrow rv">${esc(w.eyebrow)}</p><h2 class="h2 rv" id="work-title">${lines(w.title)}</h2><p class="lead rv" style="--d:.1s">${nl(w.lead)}</p></header>
     <ul class="work-grid" data-work-grid>${items}${next}</ul>
   </div>
-  <span class="wk-cursor" aria-hidden="true" data-wk-cursor>${esc(w.view)}</span>
   <script type="application/json" id="work-data">${data.replace(/</g, '\\u003c')}</script>
 </section>`;
 }
@@ -181,8 +180,8 @@ function signature(id = 'sigm', auto = true) {
   return `<svg class="sig" viewBox="0 0 1363 432" role="img" aria-label="PAUSE STUDIO 대표 서명"${auto ? ' data-sign' : ''}><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1363" height="432">${strokes}</mask></defs><path d="${signatureOutline}" fill="currentColor" fill-rule="evenodd" mask="url(#${id})"/></svg>`;
 }
 
-/** 'WHY PAUSE?' 글자마다 순서(--k). 물음표(.q) 자리에는 일시정지 표시(.pz)가 먼저 깜빡였다가 물음표로 바뀜 */
-const whyLetters = (t: string) => [...t].map((ch, k) => ch === ' ' ? '<i class="sp"></i>' : ch === '?' ? `<i class="q" style="--k:${k}">${esc(ch)}<b class="pz"></b></i>` : `<i style="--k:${k}">${esc(ch)}</i>`).join('');
+/** 'WHY PAUSE?' 글자마다 순서(--k). 물음표(.q)는 잠깐 쉬었다가 마지막에 */
+const whyLetters = (t: string) => [...t].map((ch, k) => ch === ' ' ? '<i class="sp"></i>' : `<i${ch === '?' ? ' class="q"' : ''} style="--k:${k}">${esc(ch)}</i>`).join('');
 const TICK = '<svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5l5.5 5.5L20.5 6"/></svg>';
 
 function why() {
@@ -224,7 +223,7 @@ function chapter(key: 'website' | 'video') {
   return `<section class="chapter ch-${key}" id="${key}" aria-labelledby="ch-${key}" data-scrub>
   <div class="wrap">
     <p class="ch-index rv">${esc(c.index)}</p>
-    <h2 class="ch-word rv" id="ch-${key}"><span class="sr">${esc(c.ko)}</span><span class="ch-move" aria-hidden="true">${esc(c.word)}</span></h2>
+    <h2 class="ch-word rv" id="ch-${key}"><span class="sr">${esc(c.ko)}</span><span class="ch-move" aria-hidden="true">${key === 'video' ? `<span class="shot" data-mark><span class="sh-w">${esc(c.word)}</span><i class="sh-vf"></i><i class="sh-cur"></i><i class="sh-flash"></i><i class="sh-rec">REC</i></span>` : esc(c.word)}</span></h2>
     <div class="ch-foot"><p class="ch-ko rv" aria-hidden="true">${esc(c.ko)}</p><p class="ch-lead rv" style="--d:.1s">${inkPhrase(nl(c.lead), c.em)}</p></div>
   </div>
 </section>`;
@@ -241,7 +240,7 @@ function mock(m: C.CompareCase['mock']) {
   return `<div class="mock" style="--acc:${m.accent}" aria-hidden="true">
     <div class="m-bar"><b>${esc(m.brand)}</b><span class="m-nav">${m.nav.map((n, i) => `<i${i === 0 ? ' class="on"' : ''}>${esc(n)}</i>`).join('')}</span><span class="m-btn">${esc(m.btn)}</span></div>
     <div class="m-hero">${pic}<div class="m-copy"><span class="m-h">${esc(m.title)}</span><span class="m-p">${esc(m.sub)}</span><span class="m-cta">${esc(m.btn)}</span></div></div>
-    <div class="m-sec"><span class="m-st">Our Services</span><span class="m-cards">${m.cards.map(([t, d]) => `<span class="m-card"><span class="m-thumb"${thumb}></span><b>${esc(t)}</b><span>${esc(d)}</span></span>`).join('')}</span></div>
+    <div class="m-sec"><span class="m-st">Our Services</span><span class="m-cards">${m.cards.map(([t, d, im]) => `<span class="m-card"><span class="m-thumb"${im && exists(`${im}.jpg`) ? ` style="background-image:url(${im}.jpg)"` : thumb}></span><b>${esc(t)}</b><span>${esc(d)}</span></span>`).join('')}</span></div>
   </div>`;
 }
 /** 비교 제목 '흔한 템플릿 VS 맞춤 디자인': '흔한 템플릿'은 아래 BEFORE 같은 평범한 글꼴. '맞춤 디자인'은 처음엔 같은 평범한 글꼴(.a)이었다가
@@ -294,7 +293,7 @@ function pricingSec() {
   const notes = p.notes.map((n) => `<li>${t(n)}</li>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner).replace('관리비는', '<span class="nobr"><span class="gone" data-sp data-dur="2600"><span class="g-t">관리비</span><span class="g-b" aria-hidden="true">관리비</span></span>는</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner).replace('관리비는', '<span class="nobr"><span class="gone" data-sp data-dur="3400"><span class="g-t">관리비</span><span class="g-b" aria-hidden="true">관리비</span></span>는</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="plans">${p.plans.map(planCard).join('')}</div>
     <div class="free-band rv"><h3 class="fb-title">${esc(p.freeTitle[0])} <br>${esc(p.freeTitle[1])}</h3><ul>${free}</ul></div>
     <div class="pnotes rv"><h3 class="pnotes-title">${esc(p.notesTitle)}</h3><ol>${notes}</ol></div>
@@ -308,7 +307,7 @@ function ledger() {
   const l = C.fee.ledger;
   return `<figure class="ledger rv" style="--d:.15s" role="img" aria-label="${esc(l.aria)}" data-ledger data-from="${l.from}">
         <div class="ledger-head" aria-hidden="true"><span>${esc(l.head[0])}</span><span>${esc(l.head[1])}</span></div>
-        <p class="ledger-cap" aria-hidden="true"><span class="from">${esc(l.capFrom)}</span><span class="to">${esc(l.capTo)}</span></p>
+        <p class="ledger-cap" aria-hidden="true"><span class="from"><b class="cf-a">${esc(l.capFrom)}</b><b class="cf-b">${esc(l.capFrom)}</b></span><span class="to"><svg class="cap-logo" viewBox="0 0 200 100" aria-hidden="true"><circle cx="76" cy="50" r="44"/><circle cx="124" cy="50" r="44"/></svg><b>${esc(l.capTo)}</b></span></p>
         <p class="ledger-zero" aria-hidden="true"><span class="ld-fig"><span class="cur">$</span><b data-ledger-num>0</b></span><i class="ld-belt"></i></p>
         <ol class="ledger-months" aria-hidden="true">${l.months.map((m, i) => `<li style="--i:${i}"><span>${m}</span><b>$0</b></li>`).join('')}</ol>
         <p class="ledger-total" aria-hidden="true"><span>${esc(l.totalLabel)}</span><b>$0</b></p>
@@ -358,7 +357,7 @@ function fee() {
   return `<section class="sec sec-black fee" id="fee" aria-labelledby="fee-title">
   <div class="wrap">
     <div class="fee-top">
-      <header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 fee-title rv" id="fee-title">${lines(f.title)}</h2><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></header>
+      <header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 fee-title rv" id="fee-title">${lines(f.title).replace('$0', '<span class="z0">$0</span>')}</h2><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></header>
       ${ledger()}
     </div>
     <div class="fee-lists">
@@ -489,9 +488,9 @@ function manifesto() {
 </section>`;
 }
 
-/** '스트레스에서 해방되세요.'의 '해방되세요.'(2026-10-09 사용자: 해방에 효과): 스트레스로 움츠러든 듯 글자들이 서로 짓눌리고 기울어 있다가,
- *  스크롤하면 한 글자씩 어깨를 펴듯 풀려나 제자리에 바로 선다. 화면 읽기용 글은 그대로 */
-const freeWord = (h: string) => h.replace(/(해방\s*되세요\.?)/, (m) => `<span class="sr">${m}</span><span class="free" aria-hidden="true" data-sp data-dur="2000">${[...m].map((ch, k) => `<i style="--k:${k}">${ch}</i>`).join('')}</span>`);
+/** '스트레스에서 해방되세요.'의 '해방되세요.'(2026-10-09 사용자: 해방에 효과 → '어색, 해방 느낌 아님'): 창살 뒤에 갇혀 흐리고 움츠러든 글자 →
+ *  창살이 하나씩 아래로 떨어져 나가고 글자가 밝아지며 숨을 펴듯 풀려남(화면에 들어올 때마다) */
+const freeWord = (h: string) => h.replace(/(해방\s*되세요\.?)/, (m) => `<span class="free" data-mark>${m}<i class="bars" aria-hidden="true">${'<b></b>'.repeat(6)}</i></span>`);
 
 function contactSec() {
   const c = C.contactSection;
@@ -531,7 +530,7 @@ function footer() {
         <div><h3>Studio</h3><p>${esc(C.contact.address)}</p><p>${esc(C.contact.nzbn)}</p></div>
       </div>
     </div>
-    <div class="ft-legal"><details data-acc><summary><span>${esc(f.legalLink)}</span><span class="ic" aria-hidden="true"></span></summary><div class="acc-body"><div class="acc-in body">${f.legal.map((l) => `<p>${esc(l)}</p>`).join('')}</div></div></details></div>
+    <div class="ft-legal"><p class="ft-legal-h">${esc(f.legalLink)}</p><div class="body">${f.legal.map((l) => `<p>${esc(l)}</p>`).join('')}</div></div><!-- 2026-10-09 사용자: 법적 고지는 늘 펼쳐 둠 -->
     <div class="ft-bottom"><span>${esc(f.copyright)}</span><span>${esc(C.contact.address)} · ${esc(C.contact.nzbn)}</span></div>
   </div>
 </footer>`;

@@ -211,7 +211,9 @@ ul.chk .ck { width: 14px; height: 11px; margin-top: calc(.8em - 5px); flex: none
 .wk { flex: var(--ar) 1 calc(var(--ar) * var(--rh)); min-width: 0; }
 .wk-btn { display: block; width: 100%; text-align: left; }
 .wk-media { position: relative; display: block; aspect-ratio: var(--ar); overflow: hidden; background: var(--ink-raise); border-radius: 3px; isolation: isolate; }
-.wk-media::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(252, 238, 216, .08); pointer-events: none; }
+.wk-media::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(252, 238, 216, .08); pointer-events: none; transition: box-shadow .5s var(--ease); }
+/* 2026-10-09 사용자: '보기' 원 커서가 촌스러움 → 없앰. 마우스를 올리면 화면이 살짝 다가오고 안쪽에 가는 크림색 틀이 그어짐 */
+.wk-btn:hover .wk-media::after, .wk-btn:focus-visible .wk-media::after { box-shadow: inset 0 0 0 2px rgba(252, 238, 216, .75); }
 .wk-media picture { display: contents; }
 .wk-img, .wk-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: scale 1s var(--ease); }
 .wk-vid { opacity: 0; transition: opacity .7s var(--ease), scale 1s var(--ease); }
@@ -233,8 +235,6 @@ ul.chk .ck { width: 14px; height: 11px; margin-top: calc(.8em - 5px); flex: none
 .wk-next strong { font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(28px, 2.6vw, 52px); line-height: 1.22; letter-spacing: -.03em; }
 .wk-next .btn-text { align-self: flex-start; }
 /* 마우스를 따라오는 '보기' 원(PC) */
-.wk-cursor { position: fixed; left: 0; top: 0; z-index: 60; width: 92px; height: 92px; margin: -46px 0 0 -46px; display: grid; place-items: center; border-radius: 50%; background: var(--cream); color: var(--ink); font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: 14px; letter-spacing: .06em; pointer-events: none; scale: 0; transition: scale .45s var(--ease); }
-.wk-cursor.on { scale: 1; }
 
 /* 크게 보기 */
 .lightbox { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; border: 0; padding: 0; background: rgba(6, 6, 6, .97); color: var(--cream); }
@@ -297,6 +297,7 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .ch-index::before { content: ""; width: 26px; height: 1.5px; background: currentColor; }
 .ch-word { margin: clamp(18px, 1.8vw, 36px) 0 0 -.05em; font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(76px, 17vw, 330px); line-height: .86; letter-spacing: -.045em; white-space: nowrap; text-wrap: nowrap; overflow: hidden; padding-bottom: .05em; }
 .ch-video .ch-word { font-size: clamp(56px, 12.4vw, 240px); }
+.ch-video .ch-word { overflow: clip; overflow-clip-margin: .32em; } /* 촬영 모서리·REC가 보이게(넘치는 부분을 조금 남김) */
 /* 큰 영문은 스크롤에 따라 오른쪽에서 들어와 제자리(왼쪽 맞춤)에 멈춤. 왼쪽 밖으로 밀려 잘리지 않게(2026-10-09 사용자: 왼쪽으로 사라짐) */
 .ch-move { display: inline-block; transform: translate3d(calc(max(0, .45 - var(--p, .45)) * 18vw), 0, 0); }
 .js .ch-word.rv { opacity: 1; transform: none; }
@@ -333,8 +334,11 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .cmp-frame .vctrl { top: 12px; bottom: auto; z-index: 4; }
 html:not(.js) .cmp-handle, html:not(.js) .cmp-tag { display: none; }
 html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
-.cmp-cap { margin-top: 18px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; gap: 16px; font-size: var(--fs-small); color: var(--on-paper-2); }
-.cmp-cap b { font-family: var(--f-text-md); font-weight: var(--w-text-md); letter-spacing: .14em; color: var(--on-paper); margin-right: 10px; }
+.cmp-cap { margin-top: 18px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; font-size: var(--fs-small); color: var(--on-paper-2); }
+/* 2026-10-09 사용자: 아래 BEFORE·AFTER가 잘 안 보임 → 표처럼 또렷하게(BEFORE는 테두리, AFTER는 검게 채움), 설명 글도 진하게 */
+.cmp-cap { color: var(--on-paper); }
+.cmp-cap b { display: inline-block; padding: 4px 10px 3px; border: 1px solid var(--on-paper); border-radius: 2px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: 12.5px; letter-spacing: .16em; line-height: 1.5; color: var(--on-paper); margin-right: 10px; vertical-align: 1px; }
+.cmp-cap .a b { background: var(--on-paper); color: var(--paper); }
 .cmp-cap .cat { color: var(--on-paper-3); text-align: center; }
 .cmp-cap .a { text-align: right; }
 
@@ -359,8 +363,6 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .m-cards { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2cqw; }
 .m-card { display: grid; grid-template-columns: 7.4cqw minmax(0, 1fr); align-items: center; gap: 0 1.3cqw; padding: 1cqw; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .08); }
 .m-thumb { grid-row: span 2; display: block; aspect-ratio: 4 / 3; background-color: #ddd; background-position: 50% 50%; background-size: cover; background-repeat: no-repeat; }
-.m-card:nth-child(1) .m-thumb { background-position: 15% 70%; }
-.m-card:nth-child(3) .m-thumb { background-position: 85% 40%; }
 .m-card b { align-self: end; font-size: 1.22cqw; color: #222; }
 .m-card span:last-child { align-self: start; font-size: .98cqw; color: #666; }
 
@@ -431,20 +433,39 @@ html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .ledger { position: relative; min-width: 0; padding: clamp(24px, 2.4vw, 46px) clamp(22px, 2.4vw, 46px) clamp(22px, 2.2vw, 40px); border: 1px solid var(--cream-line); background: linear-gradient(180deg, rgba(252, 238, 216, .035), rgba(252, 238, 216, 0) 60%); }
 .ledger-head { display: flex; justify-content: space-between; gap: 16px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: var(--fs-label); letter-spacing: .16em; color: var(--cream-3); }
 /* 큰 $0: $와 0 사이를 띄우고($는 작게 위로), 숫자는 가변 글꼴 PS Ledger(폭·굵기를 JS가 --wd·--wg로 바꿈) */
-/* 위 글: 세는 동안 '타사 관리비' → 0에 닿으면 줄이 그어지고 위로 흩어지며, 'PAUSE Studio라면'이 글자 간격을 좁히며 올라옴(2026-10-09 사용자) */
+/* 위 글(2026-10-09 사용자: '타사 관리비'도 썰려서 사선으로 쏟아지고, PAUSE Studio 로고를 이용한 모션과 함께 등장):
+   0에 닿으면 칼날 빛줄기가 '타사 관리비'를 사선으로 베고 → 윗조각은 위로 튕겨 나가고 아랫조각은 사선으로 쏟아져 내림 →
+   로고의 두 원이 서로 반대 방향으로 그려지며 겹치고 → 그 사이로 'PAUSE Studio라면'이 올라와 로고와 같은 구도(글자가 두 원을 가로지름)가 됨. 원은 은은하게 남음 */
 .ledger-cap { display: grid; justify-items: center; margin-top: clamp(14px, 1.4vw, 26px); font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: clamp(15px, 1.1vw, 20px); line-height: 1.4; letter-spacing: .01em; }
-.ledger-cap span { grid-area: 1 / 1; position: relative; }
+.ledger-cap > span { grid-area: 1 / 1; position: relative; }
+.ledger-cap b { font-weight: inherit; }
 .ledger-cap .from { opacity: 0; color: var(--cream-2); }
-.ledger-cap .from::after { content: ""; position: absolute; left: -.25em; right: -.25em; top: 54%; height: 2px; background: var(--cream); transform: scaleX(0); transform-origin: 0 50%; }
-.ledger-cap .to { color: var(--cream); }
+.ledger-cap .from .cf-a { display: block; white-space: nowrap; clip-path: polygon(-10% -30%, 110% -30%, 110% 28%, -10% 82%); }
+.ledger-cap .from .cf-b { display: block; position: absolute; left: 0; top: 0; white-space: nowrap; clip-path: polygon(-10% 82%, 110% 28%, 110% 130%, -10% 130%); }
+.ledger-cap .from::after { content: ""; position: absolute; left: -.3em; width: calc(100% + .6em); top: 64%; height: 2px; background: linear-gradient(90deg, transparent, var(--cream) 25%, #fff 70%, transparent); box-shadow: 0 0 8px rgba(255, 255, 255, .6); transform-origin: 0 50%; transform: rotate(-12deg) scaleX(0); }
+.ledger-cap .to { display: block; text-align: center; color: var(--cream); } /* 격자(grid)로 두면 SVG 기본 높이(150px)가 줄 높이에 잡혀 칸이 커짐 */
+.ledger-cap .to > b { position: relative; z-index: 1; display: inline-block; padding: 0 .2em; }
+.cap-logo { position: absolute; left: 50%; top: 50%; width: 6.2em; height: 3.1em; transform: translate(-50%, -50%); overflow: visible; pointer-events: none; }
+.cap-logo circle { fill: none; stroke: var(--cream); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-dasharray: 277; stroke-dashoffset: 0; opacity: .32; }
+.cap-logo circle:first-child { transform: rotate(-90deg); transform-origin: 76px 50px; }
+.cap-logo circle:last-child { transform: rotate(90deg) scaleY(-1); transform-origin: 124px 50px; }
 .ledger.armed:not(.done) .ledger-cap .from { opacity: 1; }
-.ledger.armed:not(.done) .ledger-cap .to { opacity: 0; }
-.ledger.armed.done .ledger-cap .from { animation: capOut 1.1s var(--ease) both; }
-.ledger.armed.done .ledger-cap .from::after { animation: capStrike .45s var(--ease) both; }
-.ledger.armed.done .ledger-cap .to { animation: capIn 1s var(--ease) .55s both; }
-@keyframes capStrike { to { transform: scaleX(1); } }
-@keyframes capOut { 0%, 40% { opacity: 1; transform: none; filter: none; } 100% { opacity: 0; transform: translateY(-.9em); filter: blur(3px); } }
-@keyframes capIn { from { opacity: 0; transform: translateY(.9em); letter-spacing: .32em; filter: blur(3px); } to { opacity: 1; transform: none; letter-spacing: .01em; filter: none; } }
+.ledger.armed:not(.done) .ledger-cap .to > b { opacity: 0; }
+.ledger.armed:not(.done) .cap-logo circle { stroke-dashoffset: 277; }
+.ledger.armed.done .ledger-cap .from { opacity: 1; }
+.ledger.armed.done .ledger-cap .from::after { animation: capBlade .65s cubic-bezier(.6, 0, .2, 1) both; }
+.ledger.armed.done .ledger-cap .from .cf-a { animation: capTop .9s cubic-bezier(.3, 0, .2, 1) .55s both; }
+.ledger.armed.done .ledger-cap .from .cf-b { animation: capPour 1.2s cubic-bezier(.5, 0, .9, .6) .55s both; }
+.ledger.armed.done .cap-logo circle { animation: capDraw 1.7s cubic-bezier(.65, 0, .25, 1) 1s both; }
+.ledger.armed.done .cap-logo circle:last-child { animation-delay: 1.12s; }
+.ledger.armed.done .ledger-cap .to > b { animation: capIn 1.1s var(--ease) 1.75s both; }
+@keyframes capBlade { 0% { transform: rotate(-12deg) scaleX(0); opacity: 1; } 65% { transform: rotate(-12deg) scaleX(1); opacity: 1; } 100% { transform: rotate(-12deg) scaleX(1); opacity: 0; } }
+@keyframes capTop { to { transform: translate(.4em, -.75em) rotate(-7deg); opacity: 0; } }
+@keyframes capPour { to { transform: translate(-.7em, 2.2em) rotate(11deg); opacity: 0; } }
+@keyframes capDraw { 0% { stroke-dashoffset: 277; opacity: 1; } 70% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: .32; } }
+@keyframes capIn { from { opacity: 0; transform: translateY(.6em); letter-spacing: .3em; } to { opacity: 1; transform: none; letter-spacing: .01em; } }
+/* 제목 'PAUSE Studio 기본 월 관리비 $0'의 $0(2026-10-09 사용자: 너무 작음): 오른쪽 큰 $0과 같은 PS Ledger로 한글보다 크게 */
+.fee-title .z0 { font-family: 'PS Ledger', var(--f-display); font-variation-settings: 'wdth' 82, 'wght' 620; font-size: 1.42em; line-height: .9; letter-spacing: -.01em; margin-left: .04em; }
 .ledger-zero { --wd: 70; --wg: 500; margin: clamp(4px, .6vw, 12px) 0 clamp(16px, 1.8vw, 32px); display: flex; flex-direction: column; align-items: center; font-family: 'PS Ledger', var(--f-display); font-weight: var(--w-display); font-size: clamp(120px, 14.6vw, 280px); line-height: .92; color: var(--cream); font-variation-settings: 'wdth' var(--wd), 'wght' var(--wg); overflow: hidden; padding-bottom: .08em; }
 .ld-fig { display: inline-flex; align-items: baseline; white-space: nowrap; transform-origin: 50% 100%; scale: var(--fit, 1); }
 /* $는 숫자와 같은 바닥선에, 숫자의 6할 크기로(2026-10-09 사용자: $가 너무 작고 배치가 이상함) */
@@ -788,10 +809,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .ft-cols a { transition: color .3s; }
 .ft-cols a:hover { color: var(--cream); }
 .ft-legal { margin-top: clamp(48px, 4vw, 80px); border-top: 1px solid var(--cream-line); padding-top: 18px; font-size: 13.5px; line-height: 1.8; color: var(--cream-3); }
-.ft-legal summary { display: inline-flex; gap: 14px; align-items: center; color: var(--cream-2); border-color: var(--cream-line); transition: color .3s; }
-.ft-legal summary:hover { color: var(--cream); }
-.ft-legal summary .ic { width: 30px; height: 30px; }
-.ft-legal summary .ic::before, .ft-legal summary .ic::after { width: 10px; margin-left: -5px; }
+.ft-legal-h { color: var(--cream-2); font-family: var(--f-text-md); font-weight: var(--w-text-md); }
 .ft-legal .body { padding-top: 14px; display: grid; gap: 10px; max-width: 70em; }
 .ft-bottom { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; font-size: 13px; color: var(--cream-3); }
 
@@ -1055,23 +1073,18 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .fx .vsteps li:not(.on) > * { opacity: .3; }
 @media (max-width: 767px) { .vsteps li { --sd: 0s; } }
 
-/* WHY PAUSE?(2026-10-09 사용자: 어울리는 창의적인 효과 → '약하다, 빨리 내리면 못 본다'): 이름 그대로 '일시정지'.
-   제목이 화면 78% 높이에 오면 한 번 끝까지 재생(스크롤 속도와 상관없이): 글자들이 앞으로 쏠린 채 오른쪽에서 달려와 급정거하며
-   살짝 뒤로 흔들리고 → 물음표 자리에 일시정지 표시(‖)가 두 번 깜빡이고 → 물음표가 위에서 떨어져 자리를 잡음. PC는 제목이 편지를 읽는 동안 따라옴 */
+/* WHY PAUSE?(2026-10-09 사용자: '달려와 급정거·‖' 판은 촌스럽고 어색함 → 다시): 사이트 제목들과 같은 말투로 절제하되 또렷하게.
+   글자들이 넓은 자간으로 가려진 줄 아래에서 한 자씩 올라오며 자간이 천천히 좁혀져 제자리에 모이고(숨을 고르듯), 잠깐 멈춘 뒤 물음표가 마지막에 올라옴.
+   화면에 들어올 때마다 다시(나가면 처음 모습으로). PC는 제목이 편지를 읽는 동안 따라옴 */
 .why { overflow-x: clip; }
-.why-title .wy { display: inline-block; white-space: nowrap; }
+.why-title .wy { display: inline-block; white-space: nowrap; overflow: hidden; padding: .06em 0 .1em; margin: -.06em 0 -.1em; vertical-align: bottom; }
 .why-title .wy i { display: inline-block; font-style: normal; }
 .why-title .wy .sp { width: .24em; }
-.why-title .wy .q { position: relative; }
-.why-title .pz { display: none; }
-.fx .why-title .wy i:not(.sp):not(.q) { transform: translateX(calc(2.4em + var(--k) * .3em)) skewX(-22deg); opacity: 0; }
-.fx .why-title .wy.go i:not(.sp):not(.q) { transform: none; opacity: 1; transition: transform 1.05s cubic-bezier(.17, 1.32, .32, 1) calc(var(--k) * 60ms), opacity .35s linear calc(var(--k) * 60ms); }
-.fx .why-title .wy .q { color: transparent; }
-.fx .why-title .wy.go .q { animation: whyQ .7s cubic-bezier(.3, 1.55, .5, 1) 2.2s forwards; } /* 시작 전에는 투명·똑바로(안의 ‖가 기울지 않게) */
-.fx .why-title .pz { display: block; position: absolute; left: .02em; bottom: .14em; width: .36em; height: .62em; opacity: 0; background: linear-gradient(90deg, var(--on-paper) 0 32%, transparent 32% 68%, var(--on-paper) 68% 100%); }
-.fx .why-title .wy.go .pz { animation: whyPz .92s steps(1, end) 1.25s both; } /* 글자가 다 멈춘 뒤 제자리에서 깜빡 */
-@keyframes whyPz { 0% { opacity: 1; } 25% { opacity: 0; } 45% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes whyQ { 0% { color: var(--on-paper); transform: translateY(-.9em) rotate(-45deg); } 100% { color: var(--on-paper); transform: none; } }
+.fx .why-title .wy { letter-spacing: .24em; transition: letter-spacing 1.9s cubic-bezier(.2, .7, .1, 1); }
+.fx .why-title .wy.go { letter-spacing: -.04em; }
+.fx .why-title .wy i:not(.sp) { transform: translateY(108%); transition: transform 1.15s cubic-bezier(.2, .7, .1, 1) calc(var(--k) * 75ms); }
+.fx .why-title .wy.go i:not(.sp) { transform: none; }
+.fx .why-title .wy .q { transition-delay: 1.45s; transition-duration: .9s; }
 @media (min-width: 1024px) { .why-grid > header { position: sticky; top: calc(var(--header-h) + 48px); } }
 
 /* WHY 여섯 가지 이유: 칸이 화면 80% 높이를 지나면 줄마다 윗변에 잉크 선이 그어지고 번호가 아래에서 굴러 올라옴(한 번) */
@@ -1092,15 +1105,15 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .fx .who-list li:not(.on) p { opacity: .4; }
 
 /* ── 섹션마다 하나씩(2026-10-09 사용자: 다른 곳도 찾아서, 창의적으로). 모두 스크롤 진행(--sp, data-sp="시작,끝")을 따라감 ── */
-/* 요금 '매달 관리비는 없게.'(2026-10-09 사용자: 칼로 베이듯 사선으로 썰려 나가게): 화면에 들어오면 칼날 같은 빛줄기가 사선으로 '관리비'를
-   그어 지나가고(0~15%), 잠깐 멈췄다가 사선을 따라 위·아래 조각이 어긋나며 밀려나고 흐려짐. 흐려져도 50%(큰 글씨 명도 대비 유지) */
+/* 요금 '매달 관리비는 없게.'(2026-10-09 사용자: 칼로 베이듯 사선으로 썰려 나가게 → '베이는 효과는 없고 잘려만 있다'): 화면 가운데쯤 오면 온전한 글자를
+   잠깐 보여 준 뒤 칼날 같은 빛줄기가 사선으로 천천히 그어 지나가고, 잠깐 멈췄다가 사선을 따라 위·아래 조각이 어긋나며 밀려나고 흐려짐. 흐려져도 50%(큰 글씨 명도 대비 유지) */
 .gone { position: relative; display: inline-block; }
 .gone .g-b { display: none; }
-.fx .gone { --cut: clamp(0, calc(var(--sp, 0) / .15), 1); --sep: clamp(0, calc((var(--sp, 0) - .28) / .5), 1); }
+.fx .gone { --cut: clamp(0, calc((var(--sp, 0) - .12) / .2), 1); --sep: clamp(0, calc((var(--sp, 0) - .42) / .45), 1); } /* 3.4초: 0.4초 온전히 → 0.7초 베기 → 잠깐 → 1.5초 갈라짐 */
 .fx .gone .g-t, .fx .gone .g-b { display: inline-block; opacity: calc(1 - var(--sep) * .5); }
 .fx .gone .g-t { clip-path: polygon(-5% -10%, 105% -10%, 105% 38%, -5% 74%); transform: translate(calc(var(--sep) * .1em), calc(var(--sep) * -.17em)) rotate(calc(var(--sep) * -4deg)); }
 .fx .gone .g-b { position: absolute; left: 0; top: 0; white-space: nowrap; clip-path: polygon(-5% 74%, 105% 38%, 105% 110%, -5% 110%); transform: translate(calc(var(--sep) * -.07em), calc(var(--sep) * .12em)) rotate(calc(var(--sep) * 2.5deg)); }
-.fx .gone::after { content: ""; position: absolute; left: -.2em; width: calc(100% + .4em); top: 74%; height: max(2px, .045em); background: linear-gradient(90deg, transparent, var(--cream) 25%, #fff 70%, transparent); transform-origin: 0 50%; transform: rotate(-9deg) scaleX(var(--cut)); opacity: calc(1 - clamp(0, calc((var(--sp, 0) - .2) / .2), 1)); pointer-events: none; }
+.fx .gone::after { content: ""; position: absolute; left: -.2em; width: calc(100% + .4em); top: 74%; height: max(3px, .07em); background: linear-gradient(90deg, transparent, var(--cream) 20%, #fff 65%, transparent); transform-origin: 0 50%; transform: rotate(-9deg) scaleX(var(--cut)); opacity: calc(1 - clamp(0, calc((var(--sp, 0) - .45) / .2), 1)); pointer-events: none; box-shadow: 0 0 .3em rgba(255, 255, 255, .5); }
 
 /* AI 광고영상 요금 '완성된 광고영상을 드립니다.': 카메라 뷰파인더의 네 모서리가 넓게 벌어져 있다가 스크롤하면 '완성된 광고영상'에 맞게 조여짐(초점을 맞추듯) */
 .vf { position: relative; display: inline-block; }
@@ -1120,10 +1133,16 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .fx .gather i { transform: translateY(calc(var(--gr, 1) * -1 * (var(--k) + 1.2) * .55em)); }
 .fx .gather { --gr: calc((1 - var(--sp, 0)) * (1 - var(--sp, 0)) * 1.3); }
 
-/* 문의 '스트레스에서 해방되세요.': '해방되세요.'가 짓눌리고 기울어 움츠러져 있다가, 스크롤하면 한 글자씩 펴지며 풀려남 */
-.free { display: inline-block; white-space: nowrap; }
-.free i { display: inline-block; font-style: normal; }
-.fx .free i { --ki: clamp(0, calc(var(--sp, 0) * 1.7 - var(--k) * .12), 1); --kr: calc(1 - var(--ki)); margin-right: calc(var(--kr) * -.16em); transform: translateY(calc(var(--kr) * .12em)) rotate(calc(var(--kr) * (var(--k) - 2.5) * 5deg)) scale(calc(1 - var(--kr) * .14)); opacity: calc(.45 + .55 * var(--ki)); transform-origin: 50% 100%; }
+/* 문의 '스트레스에서 해방되세요.'(2026-10-09 사용자: 해방 느낌 → 다시): '해방되세요.'가 가는 창살 뒤에 갇혀 흐리고 조여 있다가,
+   화면에 들어오면 창살이 하나씩 아래로 떨어져 줄 밖으로 사라지고, 글자가 밝아지며 자간이 풀림 */
+.free { position: relative; display: inline-block; white-space: nowrap; }
+.free .bars { display: none; }
+.fx .free { color: rgba(252, 238, 216, .42); letter-spacing: -.07em; transition: color .9s ease 1.05s, letter-spacing 1.4s cubic-bezier(.2, .7, .1, 1) 1s; }
+.fx .free.on { color: var(--cream); letter-spacing: 0; }
+.fx .free .bars { display: flex; justify-content: space-between; position: absolute; left: -.06em; right: -.06em; top: .02em; bottom: .02em; pointer-events: none; }
+.fx .free .bars b { width: max(2px, .045em); background: var(--cream); transition: transform .75s cubic-bezier(.55, 0, .9, .45), opacity .2s linear; transition-delay: calc(.15s + var(--bk, 0) * .11s), calc(.7s + var(--bk, 0) * .11s); }
+.fx .free .bars b:nth-child(2) { --bk: 3; } .fx .free .bars b:nth-child(3) { --bk: 1; } .fx .free .bars b:nth-child(4) { --bk: 4; } .fx .free .bars b:nth-child(5) { --bk: 2; } .fx .free .bars b:nth-child(6) { --bk: 5; }
+.fx .free.on .bars b { transform: translateY(140%) rotate(6deg); opacity: 0; }
 
 /* 포트폴리오 끝 '다음 레퍼런스는 대표님의 브랜드입니다.': 아직 비어 있는 자리 — 점선 테두리가 천천히 돌며 자리를 비워 둔 것처럼 */
 .fx .wk-next-in { position: relative; border-color: transparent; }
@@ -1135,17 +1154,48 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 @keyframes slotDash { to { background-position: 14px 0, -14px 100%, 0 -14px, 100% 14px; } }
 .still .wk-next-in::after { animation: none; }
 
+/* AI VIDEO AD(2026-10-09 사용자: 사진 찍는 듯한 모션그래픽): 화면에 들어오면 카메라처럼 — 뷰파인더 모서리가 넓게 있다가 글자에 맞게 조여지고,
+   흐릿하던 글자에 초점이 맞고, 초점 표시가 깜빡 → 찰칵(위아래 셔터가 순간 닫혔다 열림 + 하얀 플래시) → 모서리는 은은하게 남고 ● REC가 깜빡임 */
+.shot { position: relative; display: inline-block; }
+.shot > i { display: none; }
+.fx .shot > i { display: block; position: absolute; pointer-events: none; font-style: normal; }
+.fx .shot .sh-w { display: inline-block; filter: blur(.06em); transition: filter .7s ease .45s; }
+.fx .shot.on .sh-w { filter: none; }
+.fx .shot .sh-vf { inset: -.08em -.12em -.02em -.1em; --c: var(--cream); --l: .16em; --t: max(2px, .018em); opacity: 0; transform: scale(1.18);
+  background: linear-gradient(var(--c), var(--c)) 0 0 / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 0 0 / var(--t) var(--l),
+    linear-gradient(var(--c), var(--c)) 100% 0 / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 100% 0 / var(--t) var(--l),
+    linear-gradient(var(--c), var(--c)) 0 100% / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 0 100% / var(--t) var(--l),
+    linear-gradient(var(--c), var(--c)) 100% 100% / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 100% 100% / var(--t) var(--l);
+  background-repeat: no-repeat; transition: transform .8s cubic-bezier(.2, .7, .1, 1), opacity .5s ease; }
+.fx .shot.on .sh-vf { opacity: .55; transform: none; }
+.fx .shot .sh-cur { left: 50%; top: 50%; width: .3em; height: .3em; margin: -.15em 0 0 -.15em; border: max(2px, .016em) solid var(--cream); opacity: 0; }
+.fx .shot.on .sh-cur { animation: shFocus .9s steps(1, end) .55s forwards; }
+.fx .shot .sh-flash { inset: -.15em -.2em; background: radial-gradient(closest-side, rgba(255, 255, 255, .95), rgba(255, 250, 240, .35) 55%, rgba(255, 250, 240, 0)); opacity: 0; mix-blend-mode: screen; } /* 가장자리가 없는 빛 번짐(사각형으로 보이지 않게) */
+.fx .shot.on .sh-flash { animation: shFlash .5s cubic-bezier(.2, .7, .3, 1) 1.53s forwards; }
+.fx .shot::before, .fx .shot::after { content: ""; position: absolute; left: -.2em; right: -.2em; height: 0; background: var(--ink); z-index: 2; pointer-events: none; }
+.fx .shot::before { top: -.1em; box-shadow: 0 1px 0 rgba(252, 238, 216, .35); } .fx .shot::after { bottom: -.1em; box-shadow: 0 -1px 0 rgba(252, 238, 216, .35); }
+.fx .shot.on::before, .fx .shot.on::after { animation: shShutter .26s cubic-bezier(.7, 0, .3, 1) 1.4s forwards; }
+.fx .shot .sh-rec { right: -.08em; top: -.38em; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: max(11px, .085em); letter-spacing: .14em; color: var(--cream-2); opacity: 0; padding-left: 1.1em; }
+.fx .shot .sh-rec::before { content: ""; position: absolute; left: 0; top: 50%; width: .62em; height: .62em; margin-top: -.31em; border-radius: 50%; background: #e2453c; animation: shRec 1.2s steps(1, end) infinite; }
+.fx .shot.on .sh-rec { opacity: 1; transition: opacity .4s ease 2s; }
+@keyframes shFocus { 0% { opacity: 1; } 20% { opacity: 0; } 40% { opacity: 1; } 60%, 100% { opacity: 0; } }
+@keyframes shShutter { 0% { height: 0; } 50% { height: 60%; } 100% { height: 0; } }
+@keyframes shFlash { 0% { opacity: .8; } 100% { opacity: 0; } }
+@keyframes shRec { 0%, 55% { opacity: 1; } 56%, 100% { opacity: .15; } }
+.still .shot .sh-rec::before { animation: none; }
+
 /* 비교 제목 '흔한 템플릿 VS 맞춤 디자인'(2026-10-09 사용자: 쉬운 말로, VS는 점 없이, 어울리는 효과):
    '흔한 템플릿'은 아래 BEFORE와 같은 평범한 글꼴. '맞춤 디자인'은 처음엔 같은 평범한 글꼴이다가, 아래 비교 화면 손잡이처럼
    세로 선과 원이 왼쪽에서 오른쪽으로 지나가며 선이 지난 자리부터 PAUSE 제목 글꼴로 바뀜(화면에 들어오면 한 번) */
 .cmp-title .ord, .cmp-title .art .a { font-family: 'Helvetica Neue', Helvetica, Arial, var(--fallback-sans); font-weight: 400; letter-spacing: -.03em; }
 .cmp-title .ord { color: var(--on-paper-3); }
 .cmp-title .cmp-vs { font-size: .44em; letter-spacing: .04em; color: var(--on-paper-3); margin: 0 .1em; vertical-align: .3em; }
-.cmp-title .art { position: relative; display: inline-block; }
+.cmp-title .art { position: relative; display: inline-grid; align-items: baseline; } /* 평범한 글꼴 겹과 제목 글꼴 겹을 한 칸에 겹치고 바닥선을 맞춤 */
+.cmp-title .art > .b, .cmp-title .art > .a { grid-area: 1 / 1; }
 .cmp-title .art .a, .cmp-title .art .h { display: none; }
 .fx .cmp-title .art { --x: calc(var(--sp, 0) * 100%); }
 .fx .cmp-title .art .b { clip-path: inset(-20% calc(100% - var(--x)) -20% -5%); }
-.fx .cmp-title .art .a { display: block; position: absolute; left: 0; top: 0; white-space: nowrap; color: var(--on-paper-3); clip-path: inset(-20% -50% -20% var(--x)); }
+.fx .cmp-title .art .a { display: block; white-space: nowrap; color: var(--on-paper-3); clip-path: inset(-20% -50% -20% var(--x)); }
 .fx .cmp-title .art .h { display: block; position: absolute; top: -.06em; bottom: -.06em; left: var(--x); width: 2px; margin-left: -1px; background: var(--on-paper); opacity: calc(min(1, var(--sp, 0) * 12) * (1 - clamp(0, calc((var(--sp, 0) - .92) / .08), 1))); }
 .fx .cmp-title .art .h::after { content: ""; position: absolute; left: 50%; top: 50%; width: .42em; height: .42em; transform: translate(-50%, -50%); border-radius: 50%; background: var(--on-paper); box-shadow: 0 0 0 .06em var(--paper); }
 
@@ -1165,8 +1215,11 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .fx .vsteps li::before { transform: none !important; }
   .fx .mark { background-size: 100% 100% !important; color: var(--ink) !important; }
   .fx .why-title .wy i { transform: none !important; opacity: 1 !important; animation: none !important; }
-  .fx .why-title .wy .q { color: var(--on-paper) !important; }
-  .fx .why-title .pz { display: none !important; }
+  .fx .why-title .wy { letter-spacing: -.04em !important; }
+  .fx .shot .sh-w { filter: none !important; }
+  .fx .shot::before, .fx .shot::after, .fx .shot .sh-flash, .fx .shot .sh-cur { display: none !important; }
+  .fx .free { color: var(--cream) !important; letter-spacing: 0 !important; }
+  .fx .free .bars { display: none !important; }
   .fx .cmp-title .art .a, .fx .cmp-title .art .h { display: none !important; }
   .fx .cmp-title .art .b { clip-path: none !important; }
   .fx .pillars li::before { transform: none !important; }

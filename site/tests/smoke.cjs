@@ -445,8 +445,11 @@ async function page(browser, vp, opts = {}) {
     check('비교: 방향키·Home으로 손잡이 이동(BEFORE 3%)', k.pos === '3.00%' && k.start && k.vt === 'BEFORE 3%, AFTER 97%', JSON.stringify(k));
     check('비교: 마우스로 끌어 손잡이 이동', Math.abs(d.pos - 80) < 1.5 && d.clip.includes('inset'), JSON.stringify(d));
     check('비교: 틀이 실제 화면 비율 그대로(잘림 없음)', Math.abs(d.ar - d.vw) / d.vw < 0.03, `${d.ar.toFixed(3)} vs ${d.vw.toFixed(3)}`);
-    const mock = await p.evaluate(() => ({ cards: document.querySelectorAll('.mock .m-card').length, brand: document.querySelector('.mock .m-bar b').textContent, img: getComputedStyle(document.querySelector('.mock .m-thumb')).backgroundImage }));
-    check('비교: BEFORE는 평범한 템플릿 사이트 모양(머리줄·사진 제목·서비스 카드 3개)', mock.cards === 6 && mock.brand === 'Kiwi Journeys' && mock.img.includes('mock-travel'), JSON.stringify(mock));
+    const mock = await p.evaluate(() => ({ cards: document.querySelectorAll('.mock .m-card').length, brand: document.querySelector('.mock .m-bar b').textContent, img: getComputedStyle(document.querySelector('.mock .m-thumb')).backgroundImage, thumbs: [...document.querySelectorAll('.mock')].map((m) => new Set([...m.querySelectorAll('.m-card .m-thumb')].map((t) => t.style.backgroundImage)).size) }));
+    check('비교: BEFORE는 평범한 템플릿 사이트 모양(머리줄·사진 제목·서비스 카드 3개, 카드마다 다른 사진)', mock.cards === 6 && mock.brand === 'Kiwi Journeys' && mock.img.includes('mock-travel') && mock.thumbs.length === 2 && mock.thumbs.every((n) => n === 3), JSON.stringify(mock));
+    // 비교 아래 BEFORE·AFTER 이름표: 테두리 있는 꼬리표, AFTER는 크림색으로 채움(2026-10-09 사용자: 잘 안 보임)
+    const tag = await p.evaluate(() => { const b = getComputedStyle(document.querySelector('.cmp-cap .b b')), a = getComputedStyle(document.querySelector('.cmp-cap .a b')); return { bb: b.borderTopWidth, ab: a.backgroundColor, ac: a.color, fs: parseFloat(b.fontSize) }; });
+    check('비교 아래 BEFORE·AFTER 이름표가 잘 보임(테두리 꼬리표 · AFTER 채움)', parseFloat(tag.bb) >= 1 && tag.ab !== 'rgba(0, 0, 0, 0)' && tag.ab !== tag.ac && tag.fs >= 11, JSON.stringify(tag));
     check('비교 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }
@@ -515,10 +518,19 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(2300);
     const mid = await p.evaluate(() => ({ num: Number(document.querySelector('[data-ledger-num]').textContent), on: document.querySelectorAll('.ledger-months li.on').length, wd: Number(document.querySelector('.ledger-zero').style.getPropertyValue('--wd')), from: document.querySelector('.ledger-cap .from').textContent, fromOp: getComputedStyle(document.querySelector('.ledger-cap .from')).opacity }));
     await p.waitForTimeout(2600);
-    // 0에 닿으면 '타사 관리비'에 줄이 그어지고 사라진 뒤 'PAUSE Studio라면'이 올라옴
-    await p.waitForFunction(() => getComputedStyle(document.querySelector('.ledger-cap .to')).opacity === '1' && getComputedStyle(document.querySelector('.ledger-cap .from')).opacity === '0', null, { timeout: 4000 }).catch(() => {});
-    const end = await p.evaluate(() => ({ num: document.querySelector('[data-ledger-num]').textContent, done: document.querySelector('[data-ledger]').classList.contains('done'), on: document.querySelectorAll('.ledger-months li.on').length, wd: document.querySelector('.ledger-zero').style.getPropertyValue('--wd'), cap: getComputedStyle(document.querySelector('.ledger-cap .to')).opacity, capFrom: getComputedStyle(document.querySelector('.ledger-cap .from')).opacity }));
-    check('관리비 $0: "타사 관리비" $100에서 시작(두꺼움) → 세어 내려가며 홀쭉해짐 → $0(12달 모두 $0), 글이 "PAUSE Studio라면"으로 바뀜', before.armed && before.num === '100' && Number(before.wd) > 100 && mid.num > 0 && mid.num < 100 && mid.wd < Number(before.wd) && mid.from === '타사 관리비' && mid.fromOp === '1' && end.num === '0' && end.done && end.on === 12 && Number(end.wd) === 70 && end.cap === '1' && end.capFrom === '0', JSON.stringify({ before, mid, end }));
+    // 0에 닿으면 '타사 관리비'가 사선으로 베여 위아래로 쏟아지고, PAUSE 로고의 두 원이 그려진 뒤 'PAUSE Studio라면'이 올라옴(2026-10-09 사용자)
+    const capSt = () => p.evaluate(() => ({ num: document.querySelector('[data-ledger-num]').textContent, done: document.querySelector('[data-ledger]').classList.contains('done'), on: document.querySelectorAll('.ledger-months li.on').length, wd: document.querySelector('.ledger-zero').style.getPropertyValue('--wd'), cap: getComputedStyle(document.querySelector('.ledger-cap .to > b')).opacity, halves: [...document.querySelectorAll('.ledger-cap .from b')].map((b) => getComputedStyle(b).opacity).join('|'), pour: new DOMMatrix(getComputedStyle(document.querySelector('.ledger-cap .cf-b')).transform).f, circles: [...document.querySelectorAll('.cap-logo circle')].map((c) => parseFloat(getComputedStyle(c).strokeDashoffset)).join('|'), capH: Math.round(document.querySelector('.ledger-cap').getBoundingClientRect().height) }));
+    await p.waitForFunction(() => getComputedStyle(document.querySelector('.ledger-cap .to > b')).opacity === '1', null, { timeout: 5000 }).catch(() => {});
+    const end = await capSt();
+    check('관리비 $0: "타사 관리비" $100에서 시작(두꺼움) → 세어 내려가며 홀쭉해짐 → $0(12달 모두 $0) → "타사 관리비"가 베여 쏟아지고 로고 원이 그려지며 "PAUSE Studio라면"', before.armed && before.num === '100' && Number(before.wd) > 100 && mid.num > 0 && mid.num < 100 && mid.wd < Number(before.wd) && mid.from === '타사 관리비타사 관리비' && mid.fromOp === '1' && end.num === '0' && end.done && end.on === 12 && Number(end.wd) === 70 && end.cap === '1' && end.halves === '0|0' && end.pour > 10 && end.circles === '0|0' && end.capH < 40, JSON.stringify({ before, mid, end }));
+    // 다시 보기: 화면 밖으로 나갔다가 돌아오면 $100부터 한 번 더
+    await p.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+    await p.waitForTimeout(500);
+    const back = await capSt();
+    await p.evaluate(() => document.querySelector('[data-ledger]').scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await p.waitForTimeout(6500);
+    const again = await capSt();
+    check('관리비 $0: 화면 밖으로 나갔다 돌아오면 다시 $100부터 재생', !back.done && back.num === '100' && back.on === 0 && again.done && again.num === '0' && again.cap === '1', JSON.stringify({ back, again }));
     check('관리비 $0 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
     const r = await page(browser, { width: 1440, height: 900 }, { reduced: true });
@@ -664,37 +676,50 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(2400);
     const vs = await p.evaluate(() => ({ on: [...document.querySelectorAll('.vsteps li')].map((li) => li.classList.contains('on') ? 1 : 0).join(''), lines: [...document.querySelectorAll('.vsteps li')].map((li) => new DOMMatrix(getComputedStyle(li, '::before').transform).a.toFixed(2)), film: document.querySelector('#film-title .ink')?.textContent, filmInk: Number(document.querySelector('#film-title .ink').style.getPropertyValue('--ink')), before: getComputedStyle(document.querySelector('#film-title .ol')).webkitTextFillColor }));
     check('AI 광고영상: \'평범한 사진 한 장이,\' 외곽선 · \'광고가 됩니다.\' 채워짐 · 제작 과정 단계가 줄마다 켜짐(밝은 선)', vs.on === '111111' && vs.lines.every((x) => x === '1.00') && vs.film === '광고가 됩니다.' && vs.filmInk === 1 && vs.before === 'rgba(0, 0, 0, 0)', JSON.stringify(vs));
-    // WHY PAUSE?: 화면에 들어오면 한 번 끝까지 — 글자가 달려와 급정거 → 일시정지 표시(‖) → 물음표 · 여섯 가지 이유 선·번호 · 추천 대상 ✓(줄이 화면에 들어오자마자)
+    // WHY PAUSE?(2026-10-09 사용자: 브레이크·‖ 버전은 촌스러움 → 다시): 넓게 벌어진 자간이 천천히 모이며 글자가 한 자씩 아래에서 올라오고, 물음표가 마지막
     const w0 = notYet.why;
     await at('#why-title', 0.6);
-    await p.waitForTimeout(1700);
-    const wMid = await p.evaluate(() => ({ pz: getComputedStyle(document.querySelector('.why-title .pz')).display, q: getComputedStyle(document.querySelector('.why-title .q')).color }));
-    await p.waitForTimeout(1800);
-    const w1 = await p.evaluate(() => ({ go: document.querySelector('[data-why]').classList.contains('go'), letters: [...document.querySelectorAll('.why-title .wy i:not(.sp)')].every((i) => getComputedStyle(i).transform === 'none' || new DOMMatrix(getComputedStyle(i).transform).isIdentity), q: getComputedStyle(document.querySelector('.why-title .q')).color, pz: getComputedStyle(document.querySelector('.why-title .pz')).opacity, sr: document.querySelector('#why-title .sr').textContent }));
+    await p.waitForTimeout(500);
+    const wMid = await p.evaluate(() => ({ ls: parseFloat(getComputedStyle(document.querySelector('.why-title .wy')).letterSpacing), q: new DOMMatrix(getComputedStyle(document.querySelector('.why-title .q')).transform).f }));
+    await p.waitForTimeout(3000);
+    const w1 = await p.evaluate(() => ({ go: document.querySelector('[data-why]').classList.contains('go'), letters: [...document.querySelectorAll('.why-title .wy i:not(.sp)')].every((i) => getComputedStyle(i).transform === 'none' || new DOMMatrix(getComputedStyle(i).transform).isIdentity), ls: parseFloat(getComputedStyle(document.querySelector('.why-title .wy')).letterSpacing), fs: parseFloat(getComputedStyle(document.querySelector('.why-title')).fontSize), sr: document.querySelector('#why-title .sr').textContent, pz: !!document.querySelector('.why-title .pz') }));
     await at('.pillars', 0.75);
     await at('.who-list', 0.85);
     await p.waitForTimeout(2000);
     const wl = await p.evaluate(() => ({ pillars: [...document.querySelectorAll('.pillars li')].every((li) => li.classList.contains('on')), num: new DOMMatrix(getComputedStyle(document.querySelector('.pillars li:last-child .idx b')).transform).f, firstTick: parseFloat(getComputedStyle(document.querySelector('.who-list li .tick path')).strokeDashoffset) }));
-    check('WHY PAUSE?: 화면에 들어오면 글자가 달려와 멈추고 ‖ 다음 물음표가 섬 · 여섯 가지 이유 선·번호 · 추천 대상 첫 줄이 화면 아래쪽에서 바로 ✓', !w0 && wMid.pz === 'block' && w1.go && w1.letters && w1.q === 'rgb(20, 19, 17)' && w1.pz === '0' && w1.sr === 'WHY PAUSE?' && wl.pillars && wl.num === 0 && wl.firstTick === 0, JSON.stringify({ w0, wMid, w1, wl }));
+    check('WHY PAUSE?: 화면에 들어오면 벌어진 자간이 모이며 글자가 한 자씩 올라오고 물음표가 마지막 · ‖ 없음 · 여섯 가지 이유 선·번호 · 추천 대상 첫 줄이 화면 아래쪽에서 바로 ✓', !w0 && wMid.ls > 0 && wMid.q > 0 && w1.go && w1.letters && Math.abs(w1.ls / w1.fs + 0.04) < 0.005 && !w1.pz && w1.sr === 'WHY PAUSE?' && wl.pillars && wl.num === 0 && wl.firstTick === 0, JSON.stringify({ w0, wMid, w1, wl }));
     // 섹션마다 하나씩(2026-10-09 사용자): 화면에 들어오기 전엔 그대로, 들어오면 끝까지 — 요금 '관리비' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · '모았습니다.' · '해방되세요.' · 다음 레퍼런스 점선
     const sp = (q) => p.evaluate((sel) => Number(document.querySelector(sel).style.getPropertyValue('--sp') || 0), q);
     const before = notYet.sp;
     const after = {};
-    for (const q of ['.gone', '.vf', '#faq-title .gather', '.free', '.cmp-title .art']) { await at(q, 0.6); await p.waitForTimeout(2800); after[q] = await sp(q); }
+    const free0 = await p.evaluate(() => ({ on: document.querySelector('.free').classList.contains('on'), bars: document.querySelectorAll('.free .bars b').length }));
+    for (const q of ['.gone', '.vf', '#faq-title .gather', '.cmp-title .art']) { await at(q, 0.6); await p.waitForTimeout(q === '.gone' ? 3800 : 2800); after[q] = await sp(q); }
+    await at('.free', 0.55); await p.waitForTimeout(2600);
     const fin = await p.evaluate(() => ({
       cut: getComputedStyle(document.querySelector('.gone .g-t')).transform !== 'none' && getComputedStyle(document.querySelector('.gone .g-b')).transform !== 'none', op: Number(getComputedStyle(document.querySelector('.gone .g-t')).opacity),
       vfx: Math.round(document.querySelector('.vf').getBoundingClientRect().left - document.querySelector('.vf-c').getBoundingClientRect().left),
       gat: [...document.querySelectorAll('.gather i')].every((i) => new DOMMatrix(getComputedStyle(i).transform).f === 0),
-      free: [...document.querySelectorAll('.free i')].every((i) => { const m = new DOMMatrix(getComputedStyle(i).transform); return Math.abs(m.b) < 1e-3 && Math.abs(m.f) < 0.01; }),
+      free: document.querySelector('.free').classList.contains('on') && [...document.querySelectorAll('.free .bars b')].every((b) => getComputedStyle(b).opacity === '0' && new DOMMatrix(getComputedStyle(b).transform).f > 0) && getComputedStyle(document.querySelector('.free')).color === 'rgb(252, 238, 216)',
       slot: getComputedStyle(document.querySelector('.wk-next-in'), '::after').animationName,
     }));
-    check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · \'해방되세요.\' · 비교 제목 손잡이 · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지)', before.length === 5 && before.every((v) => v === 0) && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, fin }));
+    check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · \'해방되세요.\' · 비교 제목 손잡이 · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지) · \'해방되세요.\'는 갇혀 있던 창살이 떨어져 나가며 글자가 숨을 폄', before.length === 4 && before.every((v) => v === 0) && !free0.on && free0.bars === 6 && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, free0, fin }));
     // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
     const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);
     check('아끼는 금액: 글과 숫자 사이 간격(PC 30px)', gap === '30px', gap);
     // 비교 제목(2026-10-09 사용자: 쉬운 말, VS 점 없이): '흔한 템플릿'은 평범한 글꼴, 끝난 뒤 '맞춤 디자인'은 PAUSE 제목 글꼴
     const ord = await p.evaluate(() => ({ ord: getComputedStyle(document.querySelector('.cmp-title .ord')).fontFamily, b: getComputedStyle(document.querySelector('.cmp-title .art .b')).fontFamily, text: [document.querySelector('.cmp-title .ord').textContent, document.querySelector('.cmp-title .cmp-vs').textContent, document.querySelector('.cmp-title .art .b').textContent].join(' '), aHidden: document.querySelector('.cmp-title .art .a').getAttribute('aria-hidden') }));
     check('비교 제목: \'흔한 템플릿 VS 맞춤 디자인\'(VS 점 없음) · 왼쪽은 평범한 글꼴, \'맞춤 디자인\'은 PAUSE 제목 글꼴(평범한 글꼴 겹은 화면 읽기에서 숨김)', /Helvetica|Arial/.test(ord.ord) && ord.b.includes('PS Display') && ord.text === '흔한 템플릿 VS 맞춤 디자인' && ord.aHidden === 'true', JSON.stringify(ord));
+    // AI VIDEO AD: 사진 찍는 순간(흐림 → 뷰파인더 → 초점 → 셔터 → 빛 → REC)
+    const shot0 = await p.evaluate(() => document.querySelector('.shot').classList.contains('on'));
+    await at('.shot', 0.55);
+    await p.waitForTimeout(400);
+    const shotMid = await p.evaluate(() => getComputedStyle(document.querySelector('.shot .sh-w')).filter);
+    await p.waitForTimeout(2600);
+    const shot = await p.evaluate(() => { const e = document.querySelector('.shot'); return { on: e.classList.contains('on'), f: getComputedStyle(e.querySelector('.sh-w')).filter, vf: getComputedStyle(e.querySelector('.sh-vf')).opacity, rec: getComputedStyle(e.querySelector('.sh-rec')).opacity, flash: getComputedStyle(e.querySelector('.sh-flash')).opacity, sh: getComputedStyle(e, '::before').height, text: e.querySelector('.sh-w').textContent }; });
+    check('AI VIDEO AD: 화면에 들어오면 흐린 글자 → 뷰파인더·초점 → 셔터·빛 → 또렷한 글자와 REC', !shot0 && shotMid.includes('blur') && shot.on && shot.f === 'none' && shot.vf === '0.55' && shot.rec === '1' && shot.flash === '0' && shot.sh === '0px' && shot.text === 'AI VIDEO AD', JSON.stringify({ shot0, shotMid, shot }));
+    // 큰 $0(요금 제목), 법적 고지는 늘 펼침, 작업물 위 '보기' 커서 없음(2026-10-09 사용자)
+    const misc = await p.evaluate(() => ({ z0: parseFloat(getComputedStyle(document.querySelector('.fee-title .z0')).fontSize) / parseFloat(getComputedStyle(document.querySelector('.fee-title')).fontSize), legal: (() => { const l = document.querySelector('.ft-legal'); const b = l?.querySelector('.body'); return !!b && !l.querySelector('details, summary') && b.getBoundingClientRect().height > 40 && getComputedStyle(b).display !== 'none'; })(), cursor: !!document.querySelector('.wk-cursor') }));
+    check('요금 제목의 $0을 크게(1.4배 이상) · 법적 고지 늘 펼쳐 둠 · 작업물 \'보기\' 커서 없음', misc.z0 >= 1.4 && misc.legal && !misc.cursor, JSON.stringify(misc));
     check('세 번째 피드백 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }

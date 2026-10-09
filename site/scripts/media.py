@@ -160,6 +160,28 @@ def compare():
     out = PUB / 'media/compare'
     for name, lbl in {'mock-travel': 'v30-mock-travel', 'mock-cake': 'v30-mock-cake'}.items():
         sizes(name, rgb(Image.open(next((ROOT / 'higgsfield/raw' / lbl).glob('*.png')))), out)
+    # 서비스 카드 세 칸의 작은 사진(2026-10-09 사용자: 세 칸이 모두 같은 사진은 과함 → 서로 다르게).
+    # 여행: 가상 여행사 광고 샘플(SOUTHERN ROUTE)용으로 만든 풍경 3장. 케이크: 흔한 케이크 사진 한 장에서 서로 다른 부분(케이크 전체·장미 장식·풍선)
+    raw = ROOT / 'higgsfield/raw'
+    def one(lbl): return rgb(Image.open(next((raw / lbl).glob('*.png'))))
+    def crop(im, fx, fy, fw):  # 왼쪽 위(비율)와 폭(비율)으로 4:3 자르기
+        w = round(im.width * fw); h = round(w * 3 / 4)
+        x = round((im.width - w) * fx); y = round((im.height - h) * fy)
+        return im.crop((x, y, x + w, y + h))
+    cake = one('v30-mock-cake')
+    thumbs = {
+        'mock-travel-c1': crop(one('v30-ad-travel-lake'), .5, .6, .7),
+        'mock-travel-c2': crop(one('v30-ad-travel-jetty'), .5, .7, .6),
+        'mock-travel-c3': crop(one('v30-ad-travel-before'), .4, .55, .7),
+        'mock-cake-c1': crop(cake, .3, .7, .55),
+        'mock-cake-c2': crop(cake, .45, .62, .22),
+        'mock-cake-c3': crop(cake, .9, .05, .4),
+    }
+    for name, im in thumbs.items():
+        t = im.resize((360, 270), Image.LANCZOS)
+        t.save(out / f'{name}.jpg', 'JPEG', quality=80, optimize=True, progressive=True)
+        manifest[f'/media/compare/{name}'] = {'360': [360, 270]}
+        print(f'  {name}.jpg')
 
 
 def brand():

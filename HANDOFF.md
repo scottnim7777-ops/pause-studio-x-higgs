@@ -19,10 +19,10 @@
    - bam.py 재렌더·finish.py 완료(2026-10-10). 렌더 전 `bash tools/fetch-fonts.sh` 필요(Windows는 SUIT ttf 변환을 python으로 직접)
    - 예전 ondo/route/daon/before-1200 파일 삭제 완료
    - 파이썬 패키지: numpy opencv-python pillow scipy fonttools brotli onnxruntime
-10. 남은 마무리: tests/smoke.cjs 갱신(film 탭 키 ondo/daon → mireille/bam, 새 효과 검사), a11y, docs(STATE·DESIGN_SYSTEM·README·CONTENT_MAP·higgsfield/COSTS.md: v31 스틸 21×0.12 + Nano Banana 2 크레딧, Kling $0.21), 미리보기 아티팩트 16판, 커밋·푸시, 한국어 보고
+10. 마무리 완료(2026-10-10): 점검 165/165, 접근성 위반 0, 미리보기 17판. 이전 메모 — tests/smoke.cjs 갱신(film 탭 키 ondo/daon → mireille/bam, 새 효과 검사), a11y, docs(STATE·DESIGN_SYSTEM·README·CONTENT_MAP·higgsfield/COSTS.md: v31 스틸 21×0.12 + Nano Banana 2 크레딧, Kling $0.21), 미리보기 아티팩트 16판, 커밋·푸시, 한국어 보고
 - Higgsfield 크레딧: 남은 약 5.6 (사용자: 남은 예산 모두 써도 됨, 추가 충전 없음)
 
-## 10차 사용자 피드백(2026-10-10) — 차례로 진행
+## 10차 사용자 피드백(2026-10-10) — 9개 모두 완료(자세한 모양은 docs/DESIGN_SYSTEM.md 7장 '열 번째 피드백')
 1. 헤더·푸터 로고 모션: 멈춤 모양(‖) 빼기. 'PAUSE Studio' 글씨가 나타나는 방식이 성의 없음 → 사이트 무드에 맞게 더 창의적으로
 2. '실제로 만든 웹사이트입니다.'(포트폴리오 제목)에 어울리는 효과
 3. '이런 대표님께 강력히 추천합니다' 옆 체크(✓) 없애기

@@ -438,6 +438,7 @@ export type Faq = { q: string; a: string };
 export const faq = {
   eyebrow: 'FAQ',
   title: ['궁금하신 점들을', '모았습니다.'],
+  tabsHint: '궁금한 분야를 골라 보세요',
   tabs: [
     {
       key: 'web', label: '웹사이트',

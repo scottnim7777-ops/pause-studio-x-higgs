@@ -601,7 +601,7 @@ async function page(browser, vp, opts = {}) {
       const textEnd = input.getBoundingClientRect().left + probe.getBoundingClientRect().width; probe.remove();
       return { val: input.value, ph: input.placeholder, border: cs.borderTopStyle !== 'none' && parseFloat(cs.borderTopWidth) >= 1, pen: !!box.querySelector('.pen'), caret: getComputedStyle(caret).display, anim: getComputedStyle(caret).animationName, gap: Math.round(caret.getBoundingClientRect().left - textEnd), nudge: box.classList.contains('nudge'), hint: document.querySelector('.side-hint')?.textContent };
     });
-    check('계산기: 타사 견적 칸이 입력칸으로 보임(테두리 상자·연필·기본값 500 뒤에서 깜빡이는 입력 표시·처음 보이면 빛남)', ci.val === '500' && ci.ph === '금액 입력' && ci.border && ci.pen && ci.caret === 'block' && ci.anim === 'caretBlink' && ci.gap >= 0 && ci.gap <= 8 && ci.nudge && ci.hint === '직접 입력', JSON.stringify(ci));
+    check('계산기: 타사 견적 칸이 입력칸으로 보임(테두리 상자·기본값 500 뒤에서 깜빡이는 입력 표시·처음 보이면 빛남 · 연필 표시 없음(10차 사용자))', ci.val === '500' && ci.ph === '금액 입력' && ci.border && !ci.pen && ci.caret === 'block' && ci.anim === 'caretBlink' && ci.gap >= 0 && ci.gap <= 8 && ci.nudge && ci.hint === '직접 입력', JSON.stringify(ci));
     // 마무리 선언(2026-10-09 다시): 편지체(PS Letter)로 대표가 직접 치듯 타이핑 → 다짐 문장 → 대표 서명. 빛 번짐·밑줄 없음, 써지는 동안 아래가 밀리지 않음
     await p.evaluate(() => document.querySelector('.mf-big').scrollIntoView({ block: 'center', behavior: 'instant' }));
     await p.waitForTimeout(1500);
@@ -687,34 +687,34 @@ async function page(browser, vp, opts = {}) {
     await at('.pillars', 0.75);
     await at('.who-list', 0.85);
     await p.waitForTimeout(2000);
-    const wl = await p.evaluate(() => ({ pillars: [...document.querySelectorAll('.pillars li')].every((li) => li.classList.contains('on')), num: new DOMMatrix(getComputedStyle(document.querySelector('.pillars li:last-child .idx b')).transform).f, firstTick: parseFloat(getComputedStyle(document.querySelector('.who-list li .tick path')).strokeDashoffset) }));
-    check('WHY PAUSE?: 화면에 들어오면 벌어진 자간이 모이며 글자가 한 자씩 올라오고 물음표가 마지막 · ‖ 없음 · 여섯 가지 이유 선·번호 · 추천 대상 첫 줄이 화면 아래쪽에서 바로 ✓', !w0 && wMid.ls > 0 && wMid.q > 0 && w1.go && w1.letters && Math.abs(w1.ls / w1.fs + 0.04) < 0.005 && !w1.pz && w1.sr === 'WHY PAUSE?' && wl.pillars && wl.num === 0 && wl.firstTick === 0, JSON.stringify({ w0, wMid, w1, wl }));
+    const wl = await p.evaluate(() => ({ pillars: [...document.querySelectorAll('.pillars li')].every((li) => li.classList.contains('on')), num: new DOMMatrix(getComputedStyle(document.querySelector('.pillars li:last-child .idx b')).transform).f, firstOn: document.querySelector('.who-list li').classList.contains('on'), ticks: document.querySelectorAll('.who-list .tick').length }));
+    check('WHY PAUSE?: 화면에 들어오면 벌어진 자간이 모이며 글자가 한 자씩 올라오고 물음표가 마지막 · ‖ 없음 · 여섯 가지 이유 선·번호 · 추천 대상 첫 줄이 화면 아래쪽에서 바로 또렷해짐(✓ 없음, 10차 사용자)', !w0 && wMid.ls > 0 && wMid.q > 0 && w1.go && w1.letters && Math.abs(w1.ls / w1.fs + 0.04) < 0.005 && !w1.pz && w1.sr === 'WHY PAUSE?' && wl.pillars && wl.num === 0 && wl.firstOn && wl.ticks === 0, JSON.stringify({ w0, wMid, w1, wl }));
     // 섹션마다 하나씩(2026-10-09 사용자): 화면에 들어오기 전엔 그대로, 들어오면 끝까지 — 요금 '관리비' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · '모았습니다.' · '해방되세요.' · 다음 레퍼런스 점선
     const sp = (q) => p.evaluate((sel) => Number(document.querySelector(sel).style.getPropertyValue('--sp') || 0), q);
     const before = notYet.sp;
     const after = {};
-    const free0 = await p.evaluate(() => ({ on: document.querySelector('.free').classList.contains('on'), bars: document.querySelectorAll('.free .bars b').length }));
+    const free0 = await p.evaluate(() => ({ on: document.querySelector('.ct-title').classList.contains('on'), pen: !!document.querySelector('.ct-title svg, svg.pen') }));
     // 화면 밖으로 나가면 처음 모습으로 돌아가므로(다시 보기), 끝 모습은 각자 재생 직후에 잼
     const finOf = {
       '.gone': () => ({ cut: getComputedStyle(document.querySelector('.gone .g-t')).transform !== 'none' && getComputedStyle(document.querySelector('.gone .g-b')).transform !== 'none', op: Number(getComputedStyle(document.querySelector('.gone .g-t')).opacity) }),
       '.vf': () => ({ vfx: Math.round(document.querySelector('.vf').getBoundingClientRect().left - document.querySelector('.vf-c').getBoundingClientRect().left) }),
       '#faq-title .gather': () => ({ gat: [...document.querySelectorAll('.gather i')].every((i) => new DOMMatrix(getComputedStyle(i).transform).f === 0) }),
-      '.cmp-title .art': () => ({}),
     };
     let fin = {};
     for (const q of Object.keys(finOf)) { await at(q, 0.6); await p.waitForTimeout(q === '.gone' ? 3800 : 2800); after[q] = await sp(q); fin = { ...fin, ...(await p.evaluate(finOf[q])) }; }
-    await at('.free', 0.55); await p.waitForTimeout(2600);
+    await at('.ct-title', 0.55); await p.waitForTimeout(3600);
     fin = { ...fin, ...(await p.evaluate(() => ({
-      free: document.querySelector('.free').classList.contains('on') && [...document.querySelectorAll('.free .bars b')].every((b) => getComputedStyle(b).opacity === '0' && new DOMMatrix(getComputedStyle(b).transform).f > 0) && getComputedStyle(document.querySelector('.free')).color === 'rgb(252, 238, 216)',
+      free: document.querySelector('.ct-title').classList.contains('on') && [...document.querySelectorAll('.ct-title .burden i')].every((i) => Math.abs(Number(getComputedStyle(i).opacity) - 0.3) < 0.02 && new DOMMatrix(getComputedStyle(i).transform).f > 0) && [...document.querySelectorAll('.ct-title .free i')].every((i) => getComputedStyle(i).color === 'rgb(252, 238, 216)' && new DOMMatrix(getComputedStyle(i).transform).isIdentity) && document.querySelector('#contact-title .sr').textContent === '매달 나가는 웹사이트 관리비, 스트레스에서 해방되세요.',
       slot: getComputedStyle(document.querySelector('.wk-next-in'), '::after').animationName,
     }))) };
-    check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · \'해방되세요.\' · 비교 제목 손잡이 · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지) · \'해방되세요.\'는 갇혀 있던 창살이 떨어져 나가며 글자가 숨을 폄', before.length === 4 && before.every((v) => v === 0) && !free0.on && free0.bars === 6 && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, free0, fin }));
+    check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지) · 문의 제목은 \'웹사이트 관리비,\'가 가라앉아 흐려지고 \'해방되세요.\'가 떠올랐다 내려앉음(빨간 펜 없음)', before.length === 3 && before.every((v) => v === 0) && !free0.on && !free0.pen && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, free0, fin }));
     // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
     const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);
     check('아끼는 금액: 글과 숫자 사이 간격(PC 30px)', gap === '30px', gap);
-    // 비교 제목(2026-10-09 사용자: 쉬운 말, VS 점 없이): '흔한 템플릿'은 평범한 글꼴, 끝난 뒤 '맞춤 디자인'은 PAUSE 제목 글꼴
-    const ord = await p.evaluate(() => ({ ord: getComputedStyle(document.querySelector('.cmp-title .ord')).fontFamily, b: getComputedStyle(document.querySelector('.cmp-title .art .b')).fontFamily, text: [document.querySelector('.cmp-title .ord').textContent, document.querySelector('.cmp-title .cmp-vs').textContent, document.querySelector('.cmp-title .art .b').textContent].join(' '), aHidden: document.querySelector('.cmp-title .art .a').getAttribute('aria-hidden') }));
-    check('비교 제목: \'흔한 템플릿 VS 맞춤 디자인\'(VS 점 없음) · 왼쪽은 평범한 글꼴, \'맞춤 디자인\'은 PAUSE 제목 글꼴(평범한 글꼴 겹은 화면 읽기에서 숨김)', /Helvetica|Arial/.test(ord.ord) && ord.b.includes('PS Display') && ord.text === '흔한 템플릿 VS 맞춤 디자인' && ord.aHidden === 'true', JSON.stringify(ord));
+    // 비교 제목(10차 사용자: 대결 카드·손잡이는 허접 → 다시): 가는 본문 글꼴 '흔한 템플릿'(올라온 뒤 흐려짐) / VS 꼬리표 / 굵은 제목 글꼴 '맞춤 디자인'
+    await at('.cmp-title', 0.5); await p.waitForTimeout(3400);
+    const ord = await p.evaluate(() => { const t = document.querySelector('.cmp-title'); const o = getComputedStyle(t.querySelector('.ord')), a = getComputedStyle(t.querySelector('.art')), v = getComputedStyle(t.querySelector('.vs-tag')); return { ord: o.fontFamily, oc: o.color, art: a.fontFamily, text: t.textContent.replace(/\s+/g, ' ').trim(), vsR: v.borderTopLeftRadius, vsBg: v.backgroundColor }; });
+    check('비교 제목: \'흔한 템플릿 VS 맞춤 디자인\' · 가는 글꼴(흐려짐)과 굵은 제목 글꼴의 대비 · VS는 네모 꼬리표', ord.ord.includes('PS Text') && ord.art.includes('PS Display') && ord.oc !== 'rgb(20, 19, 17)' && ord.text === '흔한 템플릿 VS 맞춤 디자인' && ord.vsR === '2px' && ord.vsBg === 'rgba(0, 0, 0, 0)', JSON.stringify(ord));
     // AI VIDEO AD: 사진 찍는 순간(흐림 → 뷰파인더 → 초점 → 셔터 → 빛 → REC)
     const shot0 = await p.evaluate(() => document.querySelector('.shot').classList.contains('on'));
     await at('.shot', 0.55);
@@ -727,6 +727,31 @@ async function page(browser, vp, opts = {}) {
     const misc = await p.evaluate(() => ({ z0: parseFloat(getComputedStyle(document.querySelector('.fee-title .z0')).fontSize) / parseFloat(getComputedStyle(document.querySelector('.fee-title')).fontSize), legal: (() => { const l = document.querySelector('.ft-legal'); const b = l?.querySelector('.body'); return !!b && !l.querySelector('details, summary') && b.getBoundingClientRect().height > 40 && getComputedStyle(b).display !== 'none'; })(), cursor: !!document.querySelector('.wk-cursor') }));
     check('요금 제목의 $0을 크게(1.4배 이상) · 법적 고지 늘 펼쳐 둠 · 작업물 \'보기\' 커서 없음', misc.z0 >= 1.4 && misc.legal && !misc.cursor, JSON.stringify(misc));
     check('세 번째 피드백 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
+    await ctx.close();
+  }
+  // 18-1) 10차 피드백(2026-10-10): 로고 글자 모션(일시정지 막대 없음) · WEBSITE 레이아웃 격자 · 포트폴리오 제목 속 실제 화면 · 질문 분류 안내 · 마무리 선언 배경
+  {
+    const { ctx, p, errors } = await page(browser, { width: 1440, height: 900 });
+    await p.goto(BASE, { waitUntil: 'networkidle' });
+    const to = (q, f) => p.evaluate(([sel, k]) => { const el = document.querySelector(sel); scrollTo({ top: el.getBoundingClientRect().top + scrollY - innerHeight * k, behavior: 'instant' }); }, [q, f]);
+    const logo = await p.evaluate(() => { const h = document.querySelector('.hd-svg'); return { letters: h.querySelectorAll('.lg-word .lg-l').length, bars: document.querySelectorAll('.lg-bars').length, rest: [...h.querySelectorAll('.lg-l')].every((l) => getComputedStyle(l).transform === 'none' || new DOMMatrix(getComputedStyle(l).transform).isIdentity) }; });
+    await to('#ch-website', 0.3); await p.waitForTimeout(700);
+    const gMid = await p.evaluate(() => ({ on: document.querySelector('.gw').classList.contains('on'), moving: [...document.querySelectorAll('.gc > span')].some((s) => !new DOMMatrix(getComputedStyle(s).transform).isIdentity), guide: getComputedStyle(document.querySelector('.gc'), '::before').animationName }));
+    await p.waitForTimeout(2600);
+    const gEnd = await p.evaluate(() => ({ letters: [...document.querySelectorAll('.gc')].map((g) => g.textContent).join(''), rest: [...document.querySelectorAll('.gc > span')].every((s) => new DOMMatrix(getComputedStyle(s).transform).isIdentity && getComputedStyle(s).opacity === '1'), lines: [...document.querySelectorAll('.gw-h')].every((h) => getComputedStyle(h).opacity === '0'), code: !!document.querySelector('.cw, .cw-tip') }));
+    check('로고: 글씨가 글자마다 나뉘어(11자) 한 자씩 올라옴 · 일시정지 막대 없음', logo.letters === 11 && logo.bars === 0, JSON.stringify(logo));
+    check('WEBSITE: 안내선이 그어지고 흩어진 글자가 제자리에 맞물림 → 안내선 사라짐(코드·검사기 없음)', gMid.on && gMid.moving && gMid.guide === 'gwGuide' && gEnd.letters === 'WEBSITE' && gEnd.rest && gEnd.lines && !gEnd.code, JSON.stringify({ gMid, gEnd }));
+    await to('#work-title', 0.4); await p.waitForTimeout(1200);
+    const rMid = await p.evaluate(() => { const f = getComputedStyle(document.querySelector('.rl-fill')); return { on: document.querySelector('.real').classList.contains('on'), op: Number(f.opacity), img: f.backgroundImage.includes('strip-640'), clip: f.backgroundClip || f.webkitBackgroundClip }; });
+    await p.waitForTimeout(3000);
+    const rEnd = await p.evaluate(() => ({ op: getComputedStyle(document.querySelector('.rl-fill')).opacity, c: getComputedStyle(document.querySelector('.rl-base')).color, sr: document.querySelector('#work-title').textContent.includes('웹사이트입니다.') }));
+    check('포트폴리오 제목: \'웹사이트입니다.\' 글자 속으로 실제 사이트 화면이 지나간 뒤 크림색 글자로', rMid.on && rMid.op > 0.9 && rMid.img && rMid.clip === 'text' && rEnd.op === '0' && rEnd.c === 'rgb(252, 238, 216)' && rEnd.sr, JSON.stringify({ rMid, rEnd }));
+    await to('.faq-pick', 0.5); await p.waitForTimeout(500);
+    const fq = await p.evaluate(() => ({ hint: document.querySelector('.faq-hint').textContent, desc: document.querySelector('.faq-tabs').getAttribute('aria-describedby'), arrow: getComputedStyle(document.querySelector('#faq-tab-video'), '::after').content, arrowSel: getComputedStyle(document.querySelector('#faq-tab-web'), '::after').opacity, h: document.querySelector('.faq-tab').getBoundingClientRect().height, cols: getComputedStyle(document.querySelector('.faq-tabs')).gridTemplateColumns.split(' ').length, small: document.querySelector('#faq-tab-web small').textContent }));
+    check('질문 분류: \'궁금한 분야를 골라 보세요\' 안내 · 같은 폭 두 칸 · 고르지 않은 칸에 화살표 · 질문 수', fq.hint === '궁금한 분야를 골라 보세요' && fq.desc === 'faq-hint' && fq.arrow.includes('→') && fq.arrowSel === '0' && fq.h >= 60 && fq.cols === 2 && /^질문 \d+개$/.test(fq.small), JSON.stringify(fq));
+    const mf = await p.evaluate(() => ({ rows: document.querySelectorAll('.mf-bg .mf-row').length, imgs: document.querySelectorAll('.mf-bg img').length, hidden: document.querySelector('.mf-bg').getAttribute('aria-hidden'), anim: getComputedStyle(document.querySelector('.mf-track')).animationName }));
+    check('마무리 선언 배경: 실제 고객 사이트 화면 세 줄이 천천히 흐름(화면 읽기에서 숨김)', mf.rows === 3 && mf.imgs === 30 && mf.hidden === 'true' && mf.anim === 'mfDrift', JSON.stringify(mf));
+    check('10차 피드백 화면 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }
   // 18-2) 동작 줄이기: 포인트 효과는 처음부터 끝난 모습

@@ -207,3 +207,7 @@
   이 Windows 환경에는 ffmpeg가 없어 winget으로 설치(Gyan.FFmpeg), 세션 PATH가 설치 후 갱신되지 않아 `%APPDATA%\npm`(이미 PATH에 있음)에 ffmpeg.exe 하드링크를 만들어 bash·PowerShell·Python subprocess 모두에서 바로 찾게 함. 다음 세션(새 셸)에서 ffmpeg가 안 보이면 이 하드링크가 지워졌는지 먼저 확인.
   기존 미리보기 주소(claude.ai/artifact/VWXNSBC4SbLVMbq756SSva)는 이 Windows 세션의 클로드 계정에서 목록에 안 보임(다른 계정/세션 게시로 보임) → 접근 불가, 새로 게시: https://claude.ai/code/artifact/8b47160c-f103-456d-8ca0-60a822ccc9aa (16번째 버전, 비공개). 이후부터는 이 주소로 다시 게시.
   이번 게시는 AI 광고영상 bam.py 재렌더·finish.py, 테스트·a11y·문서 정리(HANDOFF.md 9~10번) 전 상태 그대로 — 사용자가 진행 상황을 먼저 보고 싶어 해서 지금 게시. film 영상 중 bam.mp4는 아직 새 네온 장면이 아니라 예전 파일(ondo/route/daon) 그대로 들어 있음.
+- 2026-10-10 9차 마무리 + 10차 피드백: bam.mp4 재렌더(렌더 전 `bash tools/fetch-fonts.sh`, Windows는 SUIT woff2 → ttf를 python으로), finish.py, 예전 샘플(ondo·route·daon·before-1200) 삭제.
+  10차 사용자 피드백 9개(로고 ‖ 없앰·글자 식자 모션, 포트폴리오 제목 속 실제 화면, 추천 대상 ✓ 없앰, WEBSITE 레이아웃 격자, 비교 제목 글꼴 대비, 계산기 연필 없앰, 질문 분류 안내, 마무리 선언 속도·배경, 문의 제목 가라앉음·떠오름) 반영.
+  계산기 연필이 빨갛게 모서리로 튀던 것은 버그였음(연필 아이콘과 문의 제목 빨간 펜이 같은 클래스 `.pen`을 써서 펜 스타일이 덮어씀).
+  테스트용 Playwright는 저장소 밖(세션 scratchpad)에 설치해 `NODE_PATH`로 지정. 점검 165/165, 접근성 위반 0, 미리보기 17번째 버전(같은 주소).

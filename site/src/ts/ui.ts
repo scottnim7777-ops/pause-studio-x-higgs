@@ -492,6 +492,20 @@ export function initFaqTabs() {
   requestAnimationFrame(() => requestAnimationFrame(() => list.classList.remove('instant')));
   new ResizeObserver(place).observe(list);
   document.fonts?.ready.then(place).catch(() => {});
+  // 고를 수 있다는 걸 알리게: 처음 화면에 들어오면 선택 표시가 옆 칸 쪽으로 한 번 살짝 기울었다 돌아옴(손대기 전 한 번만)
+  if (!motion.allowed || !('IntersectionObserver' in window)) return;
+  let touched = false;
+  tabs.forEach((t) => t.addEventListener('pointerdown', () => { touched = true; }, { once: true }));
+  const io = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting || e.intersectionRatio < 1) return;
+    io.disconnect();
+    if (touched) return;
+    const sel = tabs.findIndex((x) => x.getAttribute('aria-selected') === 'true');
+    list.style.setProperty('--peek', `${sel === 0 ? 16 : -16}px`);
+    list.classList.add('peek');
+    list.addEventListener('animationend', () => list.classList.remove('peek'), { once: true });
+  }, { threshold: 1, rootMargin: '0px 0px -20% 0px' });
+  io.observe(list);
 }
 
 /** 가격 앞 통화 표시: 서버가 뉴질랜드 방문자에게만 html.nzd → NZD $, 그 밖은 USD $(같은 숫자, 환율 변환 없음) — ko.ts currencySymbol과 같게 */
@@ -734,7 +748,7 @@ export function initScrub() {
       let gen = 0;
       const wait = (ms: number, g: number) => new Promise<boolean>((r) => window.setTimeout(() => r(g === gen), ms));
       let k = 0;
-      const beat = () => 62 + ((k++ * 37) % 41); // 사람 손처럼 타건마다 조금씩 다른 간격(62~102ms)
+      const beat = () => 36 + ((k++ * 37) % 27); // 사람 손처럼 타건마다 조금씩 다른 간격(36~62ms · 10차 사용자: 너무 느림)
       const reset = () => {
         gen++;
         type.textContent = '';
@@ -743,7 +757,7 @@ export function initScrub() {
       };
       const run = async (g: number) => {
         mf.classList.add('go');
-        if (!(await wait(650, g))) return;
+        if (!(await wait(300, g))) return;
         const caret = document.createElement('i');
         caret.className = 'caret blink';
         for (let li = 0; li < lines.length; li++) {
@@ -752,20 +766,20 @@ export function initScrub() {
           const txt = document.createTextNode('');
           el.append(txt, caret);
           type.append(el);
-          if (li === 0 && !(await wait(420, g))) return; // 첫 글자 전에 커서가 한 번 깜빡이고
+          if (li === 0 && !(await wait(260, g))) return; // 첫 글자 전에 커서가 한 번 깜빡이고
           caret.classList.remove('blink');
           let done = '';
           for (const ch of lines[li]) {
             for (const st of steps(ch)) { txt.data = done + st; if (!(await wait(beat(), g))) return; }
             done += ch;
-            if (ch === ' ' && !(await wait(120, g))) return;
+            if (ch === ' ' && !(await wait(70, g))) return;
           }
-          if (li < lines.length - 1) { caret.classList.add('blink'); if (!(await wait(560, g))) return; } // 줄을 바꾸기 전 잠깐 생각
+          if (li < lines.length - 1) { caret.classList.add('blink'); if (!(await wait(320, g))) return; } // 줄을 바꾸기 전 잠깐 생각
         }
         caret.classList.add('blink');
-        if (!(await wait(700, g))) return;
+        if (!(await wait(380, g))) return;
         mf.classList.add('typed');
-        if (!(await wait(1200, g))) return;
+        if (!(await wait(650, g))) return;
         sig?.classList.add('go');
         if (!(await wait(2600, g))) return;
         caret.classList.add('gone');
@@ -777,7 +791,7 @@ export function initScrub() {
         if (e.intersectionRatio >= 0.5 && state === 'idle') {
           state = 'pending';
           const g = gen;
-          timer = window.setTimeout(() => { if (g === gen) { state = 'running'; void run(g); } }, 350);
+          timer = window.setTimeout(() => { if (g === gen) { state = 'running'; void run(g); } }, 200);
         } else if (!e.isIntersecting && state !== 'idle') {
           clearTimeout(timer);
           state = 'idle';
@@ -946,66 +960,4 @@ export function initLogo() {
     hidden = h;
     if (h) hl.classList.remove('lg-on'); else play();
   }).observe(hd, { attributes: true, attributeFilter: ['class'] });
-}
-
-/* ── 문의 제목 빨간 펜: '웹사이트 관리비,'를 긋는 선과 '해방되세요.' 밑줄을 글자 자리에 맞춰 손으로 그은 듯 그림(조금 비뚤고 끝이 살짝 들림).
- *    줄바꿈이 바뀌면(화면 폭·글꼴 로드) 다시 계산. 실제 그리기는 CSS(.on → stroke-dashoffset) */
-export function initPen() {
-  const h = $('[data-pen]');
-  const em = h ? $('[data-pen-strike]', h) : null;
-  const un = h ? $('[data-pen-under]', h) : null;
-  if (!h || !em || !un) return;
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('class', 'pen');
-  svg.setAttribute('aria-hidden', 'true');
-  const p1 = document.createElementNS(NS, 'path'); p1.setAttribute('class', 'p1'); p1.setAttribute('pathLength', '1');
-  const p2 = document.createElementNS(NS, 'path'); p2.setAttribute('class', 'p2'); p2.setAttribute('pathLength', '1');
-  svg.append(p1, p2);
-  h.append(svg);
-  const f = (n: number) => n.toFixed(1);
-  // 제목 줄은 올라오는 효과(translateY) 중일 수 있으므로, 지금 옮겨진 만큼 빼서 '제자리' 기준으로 잰다
-  const lift = (el: Element) => {
-    const sp = el.closest('.ln > span');
-    if (!sp) return 0;
-    const tf = getComputedStyle(sp).transform;
-    return tf && tf !== 'none' ? new DOMMatrixReadOnly(tf).m42 : 0;
-  };
-  const draw = () => {
-    const o = h.getBoundingClientRect();
-    const fs = parseFloat(getComputedStyle(h).fontSize) || 40;
-    svg.setAttribute('width', f(o.width)); svg.setAttribute('height', f(o.height));
-    svg.setAttribute('viewBox', `0 0 ${f(o.width)} ${f(o.height)}`);
-    // 긋는 선: 글자 몸통 가운데보다 조금 아래에서 시작해 오른쪽 끝에서 살짝 올라감(한 줄이 두 줄로 나뉘면 가장 긴 줄에)
-    const rs = [...em.getClientRects()].filter((r) => r.width > 4);
-    const r = rs.sort((a, b) => b.width - a.width)[0] ?? em.getBoundingClientRect();
-    const x0 = r.left - o.left - fs * 0.05, x1 = r.right - o.left + fs * 0.04;
-    const yc = r.top - lift(em) - o.top + r.height * 0.56;
-    const L = x1 - x0;
-    p1.setAttribute('d', `M${f(x0)},${f(yc + fs * 0.035)} C${f(x0 + L * 0.32)},${f(yc - fs * 0.01)} ${f(x0 + L * 0.66)},${f(yc + fs * 0.03)} ${f(x1)},${f(yc - fs * 0.05)}`);
-    // 밑줄: 글자 바로 아래, 처음은 살짝 내려갔다가 끝에서 위로 짧게 튕김
-    const u = un.getBoundingClientRect();
-    const ux0 = u.left - o.left - fs * 0.02, ux1 = u.right - o.left + fs * 0.03;
-    const uy = u.top - lift(un) - o.top + u.height * 0.93;
-    const UL = ux1 - ux0;
-    p2.setAttribute('d', `M${f(ux0)},${f(uy)} C${f(ux0 + UL * 0.35)},${f(uy + fs * 0.05)} ${f(ux0 + UL * 0.7)},${f(uy + fs * 0.02)} ${f(ux1 - fs * 0.12)},${f(uy - fs * 0.01)} S${f(ux1)},${f(uy - fs * 0.09)} ${f(ux1 + fs * 0.02)},${f(uy - fs * 0.13)}`);
-    h.style.setProperty('--pw1', `${f(Math.max(3, fs * 0.075))}px`);
-    h.style.setProperty('--pw2', `${f(Math.max(2.5, fs * 0.06))}px`);
-  };
-  draw();
-  void document.fonts?.ready.then(draw);
-  new ResizeObserver(draw).observe(h);
-  h.addEventListener('transitionend', draw);
-}
-
-/* ── 웹사이트 장 검사기 표: 상자가 뜨는 순간 실제 글 크기(가로 × 세로 px)를 적음 */
-export function initCodeWord() {
-  document.addEventListener('animationstart', (e) => {
-    if (e.animationName !== 'cwInsp') return;
-    const tip = (e.target as Element).closest('.cw-tip');
-    const cw = tip?.closest('[data-cw]');
-    const word = cw?.querySelector<HTMLElement>('.cw-word');
-    const out = tip?.querySelector('[data-cw-size]');
-    if (word && out) out.textContent = `${Math.round(word.offsetWidth)} \u00d7 ${Math.round(word.offsetHeight)}`;
-  });
 }

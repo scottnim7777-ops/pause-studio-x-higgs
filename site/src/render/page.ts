@@ -118,9 +118,9 @@ function wallCard(id: string) {
   const media = it.video && exists(`${b}.mp4`) ? `${pic}<video data-wall-video muted playsinline loop preload="none" data-src="${b}.mp4"></video>` : pic;
   return `<figure class="card"><div class="scr">${media}</div><figcaption>${refNo(i)}<i>${esc(it.category)}</i></figcaption></figure>`;
 }
-/** 포트폴리오 제목 '웹사이트입니다.'(10차 사용자: 어울리는 효과): 제목이 올라오는 동안 글자 속에서 실제 고객 사이트 화면들이 스크롤되듯 지나가고
- *  끝나면 보통 글자색으로 돌아옴 — 말 그대로 '실제로 만든 웹사이트'. 화면 띠는 밝은 화면 6장을 세로로 이어 붙인 것(strip-640). 화면에 들어올 때마다(data-mark → .on) */
-const realWord = (t: string) => `<span class="real" data-mark><span class="rl-base">${esc(t)}</span><span class="rl-fill" aria-hidden="true"${exists('/media/work/strip-640.webp') ? ' style="background-image:url(/media/work/strip-640.webp)"' : ''}>${esc(t)}</span></span>`;
+/** 포트폴리오 제목 '웹사이트입니다.'(11차 사용자: 글자 속 화면은 구림 → 다시): 브라우저 주소창 아래 로딩 막대처럼
+ *  글 밑에 얇은 선이 빠르게 차오르다 잠깐 멈칫한 뒤 끝까지 차고, 그 순간 흐리던 글이 또렷해짐(약 1.2초, data-mark → .on) */
+const realWord = (t: string) => `<span class="load" data-mark>${esc(t)}<i class="ld-bar" aria-hidden="true"></i></span>`;
 function hero() {
   const rows = WALL.map((r, i) => `<div class="row r${i}"><div class="track">${[...r, ...r].map(wallCard).join('')}</div></div>`).join('');
   const h = C.hero;
@@ -213,18 +213,17 @@ function who() {
 }
 
 /** 문단 안의 한 구절을 굵게 + 보이면 크림색 형광펜(2026-10-09 사용자: '관리비/유지보수 비용 제로' 강조). 구절이 없으면 빌드를 멈춤 */
-const inkPhrase = (html: string, em?: string) => {
+const inkPhrase = (html: string, em?: string, cls = 'mark') => {
   if (!em) return html;
   const k = esc(em);
   if (!html.includes(k)) throw new Error(`강조할 구절을 찾지 못함: ${em}`);
-  return html.replace(k, `<strong class="mark" data-mark>${k}</strong>`);
+  return html.replace(k, `<strong class="${cls}" data-mark>${k}</strong>`);
 };
 
-/** 웹사이트 장 큰 글(10차 사용자: 코드·검사기 효과가 만들다 만 것처럼 어색 → 다시): 디자인 도구의 레이아웃 격자처럼
- *  윗선·바닥선이 그어지고 글자 자리마다 세로 안내선이 내려온 뒤, 흩어져 있던 글자가 한 자씩 제자리에 맞물려 들어감 → 안내선은 사라짐.
- *  글자마다 처음 자리(--dx·--dy·--r)는 정해 둔 값(매번 같은 모양). 화면에 들어올 때마다(data-mark → .on). 움직임 줄이기·JS 없음이면 완성된 글만 */
-const GRID_FROM = [[-.05, -.42, -7], [.03, .36, 5], [-.02, -.3, 4], [.04, .44, -6], [-.03, -.38, 6], [.02, .32, -4], [-.04, -.46, 5], [.03, .4, -5]];
-const gridWord = (w: string) => `<span class="gw" data-mark><i class="gw-h t"></i><i class="gw-h b"></i>${[...w].map((ch, i) => { const [dx, dy, r] = GRID_FROM[i % GRID_FROM.length]; return `<span class="gc" style="--i:${i};--dx:${dx}em;--dy:${dy}em;--r:${r}deg"><span>${esc(ch)}</span></span>`; }).join('')}</span>`;
+/** 웹사이트 장 큰 글(11차 사용자: 웹사이트 제작이니 코드 같은 애니메이션으로 등장): 화면에 들어오면 위에 <h2>가 쳐지고,
+ *  글자 자리마다 코드 기호(< / { } ; = 0 1)가 빠르게 바뀌다가 왼쪽부터 한 자씩 진짜 글자로 맞춰지고, 끝에 </h2>가 닫힘 → 코드 표시는 사라짐.
+ *  글자 폭은 진짜 글자가 미리 잡아 두어 흔들리지 않음. 바꾸는 일은 ui.ts initDecode. 움직임 줄이기·JS 없음이면 완성된 글만 */
+const decodeWord = (w: string) => `<span class="cd" data-mark data-decode><i class="cd-tag o">&lt;h2&gt;</i>${[...w].map((ch, i) => `<span class="cd-c" style="--i:${i}"><span class="cd-l">${esc(ch)}</span><i class="cd-g"></i></span>`).join('')}<i class="cd-tag c">&lt;/h2&gt;</i></span>`;
 
 /* ───────── 장 첫 화면: 아주 큰 영문 단어가 스크롤에 따라 옆으로 천천히 흐름 ───────── */
 function chapter(key: 'website' | 'video') {
@@ -232,8 +231,8 @@ function chapter(key: 'website' | 'video') {
   return `<section class="chapter ch-${key}" id="${key}" aria-labelledby="ch-${key}" data-scrub>
   <div class="wrap">
     <p class="ch-index rv">${esc(c.index)}</p>
-    <h2 class="ch-word rv" id="ch-${key}"><span class="sr">${esc(c.ko)}</span><span class="ch-move" aria-hidden="true">${key === 'video' ? `<span class="shot" data-mark><span class="sh-w">${esc(c.word)}</span><i class="sh-vf"></i><i class="sh-cur"></i><i class="sh-flash"></i><i class="sh-rec">REC</i></span>` : gridWord(c.word)}</span></h2>
-    <div class="ch-foot"><p class="ch-ko rv" aria-hidden="true">${esc(c.ko)}</p><p class="ch-lead rv" style="--d:.1s">${inkPhrase(nl(c.lead), c.em)}</p></div>
+    <h2 class="ch-word rv" id="ch-${key}"><span class="sr">${esc(c.ko)}</span><span class="ch-move" aria-hidden="true">${key === 'video' ? `<span class="shot" data-mark><span class="sh-w">${esc(c.word)}</span><i class="sh-vf"></i><i class="sh-cur"></i><i class="sh-flash"></i><i class="sh-rec">REC</i></span>` : decodeWord(c.word)}</span></h2>
+    <div class="ch-foot"><p class="ch-ko rv" aria-hidden="true">${esc(c.ko)}</p><p class="ch-lead rv" style="--d:.1s">${inkPhrase(nl(c.lead), c.em, key === 'video' ? 'dev' : 'mark')}</p></div>
   </div>
 </section>`;
 }
@@ -252,9 +251,9 @@ function mock(m: C.CompareCase['mock']) {
     <div class="m-sec"><span class="m-st">Our Services</span><span class="m-cards">${m.cards.map(([t, d, im]) => `<span class="m-card"><span class="m-thumb"${im && exists(`${im}.jpg`) ? ` style="background-image:url(${im}.jpg)"` : thumb}></span><b>${esc(t)}</b><span>${esc(d)}</span></span>`).join('')}</span></div>
   </div>`;
 }
-/** 비교 제목(10차 사용자: 대결 카드·손잡이 효과가 허접함 → 다시): 글꼴 대비 자체가 비교 — '흔한 템플릿'은 가는 본문 글꼴, '맞춤 디자인'은 굵은 제목 글꼴.
- *  VS는 작은 네모 꼬리표. 두 줄이 올라온 뒤 '흔한 템플릿'만 조용히 흐려짐(.in) */
-const cmpTitle = ([ord, art]: string[]) => `<span class="ln"><span class="ord">${esc(ord)}</span></span> <span class="ln" style="--li:1"><span><span class="vs-tag">VS</span> <span class="art">${esc(art)}</span></span></span>`;
+/** 비교 제목(11차 사용자: 효과도 없고 배치도 구림 → 다시): 화면 폭 한 줄에 '흔한 템플릿'(평범한 시스템 글꼴, 흐림) ──── VS ──── '맞춤 디자인'(굵은 제목 글꼴).
+ *  들어오면 왼쪽 말이 먼저 놓이고, 가운데 선이 왼쪽에서 오른쪽으로 그어지며 VS가 서고, 오른쪽 말이 선 끝에서 밀려 나오듯 등장(약 1.4초). 휴대폰은 위아래로 */
+const cmpTitle = ([ord, art]: string[]) => `<span class="ord">${esc(ord)}</span> <span class="cmp-mid" aria-hidden="true"><i></i><b>VS</b><i></i></span><span class="sr"> VS </span> <span class="art"><span>${esc(art)}</span></span>`;
 
 function compare() {
   const c = C.compare;
@@ -275,7 +274,7 @@ function compare() {
   }).join('');
   return `<section class="sec sec-paper compare" id="compare" aria-labelledby="compare-title">
   <div class="wrap">
-    <div class="cmp-head"><header><p class="eyebrow rv">${esc(c.eyebrow)}</p><h2 class="cmp-title rv" id="compare-title">${cmpTitle(c.title)}</h2></header><p class="lead rv">${nl(c.lead)}</p></div>
+    <div class="cmp-head"><p class="eyebrow rv">${esc(c.eyebrow)}</p><h2 class="cmp-title" id="compare-title" data-mark>${cmpTitle(c.title)}</h2><p class="lead rv">${nl(c.lead)}</p></div>
     ${cases}
   </div>
 </section>`;
@@ -302,7 +301,7 @@ function pricingSec() {
   const notes = p.notes.map((n) => `<li>${t(n)}</li>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner).replace('관리비는', '<span class="nobr"><span class="gone" data-sp data-dur="3400"><span class="g-t">관리비</span><span class="g-b" aria-hidden="true">관리비</span></span>는</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner).replace('관리비는', '<span class="nobr"><span class="gone" data-sp data-dur="2000"><span class="g-t">관리비</span><span class="g-b" aria-hidden="true">관리비</span></span>는</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="plans">${p.plans.map(planCard).join('')}</div>
     <div class="free-band rv"><h3 class="fb-title">${esc(p.freeTitle[0])} <br>${esc(p.freeTitle[1])}</h3><ul>${free}</ul></div>
     <div class="pnotes rv"><h3 class="pnotes-title">${esc(p.notesTitle)}</h3><ol>${notes}</ol></div>
@@ -488,7 +487,7 @@ function videoPricing() {
   const sched = v.schedule.map(([k, d]) => `<div><dt>${esc(k)}</dt><dd>${esc(d)}</dd></div>`).join('');
   return `<section class="sec sec-dark vpricing" id="video-pricing" aria-labelledby="vpricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading).replace('완성된 광고영상을', '<span class="nobr"><span class="vf" data-sp data-dur="1700"><i class="vf-c" aria-hidden="true"></i>완성된 광고영상</span>을</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading).replace('완성된 광고영상을', '<span class="nobr"><span class="vf" data-sp data-dur="1200"><i class="vf-c" aria-hidden="true"></i>완성된 광고영상</span>을</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="formats rv">
       <div class="fm-copy"><p class="kicker">${esc(fm.kicker)}</p><h3>${nl(fm.title)}</h3><p>${nl(fm.desc)}</p></div>
       <div class="fm-art"><div class="fm-devices" aria-hidden="true">${frames}</div><ul class="fm-list">${formats}</ul></div>
@@ -519,7 +518,7 @@ function faqSec() {
   const all = f.tabs.flatMap((tb) => tb.items);
   return `<section class="sec sec-paper faq" id="faq" aria-labelledby="faq-title">
   <div class="wrap faq-grid">
-    <header class="sec-head"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="faq-title">${lines(f.title).replace('모았습니다.', /* 질문 제목은 PC에서 화면 위에 붙어 따라오므로(sticky) 끝을 38% 높이로 */ `<span class="sr">모았습니다.</span><span class="gather" aria-hidden="true" data-sp data-dur="1600">${[...'모았습니다.'].map((ch, k) => `<i style="--k:${k}">${ch}</i>`).join('')}</span>`)}</h2><div class="faq-pick rv"><p class="faq-hint" id="faq-hint">${esc(f.tabsHint)}</p><div class="faq-tabs" role="tablist" aria-label="질문 분류" aria-describedby="faq-hint">${tabs}</div></div></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="faq-title">${lines(f.title).replace('모았습니다.', /* 질문 제목은 PC에서 화면 위에 붙어 따라오므로(sticky) 끝을 38% 높이로 */ `<span class="sr">모았습니다.</span><span class="gather" aria-hidden="true" data-sp data-dur="1100">${[...'모았습니다.'].map((ch, k) => `<i style="--k:${k}">${ch}</i>`).join('')}</span>`)}</h2><div class="faq-pick rv"><p class="faq-hint" id="faq-hint">${esc(f.tabsHint)}</p><div class="faq-tabs" role="tablist" aria-label="질문 분류" aria-describedby="faq-hint">${tabs}</div></div></header>
     <div class="faq-panels rv">${panels}</div>
   </div>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: all.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } })) }).replace(/</g, '\\u003c')}</script>

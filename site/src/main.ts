@@ -1,7 +1,7 @@
 import { initHero } from './ts/hero';
 import {
   initAccordions, initAutoVideos, initCalc, initCompare, initEmail, initFaqTabs, initFilmSamples, initHeader, initLedger, initLightbox,
-  initMenu, initPhone, initReveal, initScrub, initWorkLoops, initAccents, initLogo,
+  initMenu, initPhone, initReveal, initScrub, initWorkLoops, initAccents, initLogo, initDecode,
 } from './ts/ui';
 import { initConsult } from './ts/consult';
 
@@ -29,6 +29,7 @@ safe('faq', initFaqTabs);
 safe('scrub', initScrub);
 safe('logo', initLogo);
 safe('accents', initAccents);
+safe('decode', initDecode);
 safe('reveal', initReveal);
 safe('hero', () => initHero(() => { /* 인트로가 끝나면 html.intro-done */ }));
 // 히어로에서 오류가 나도 내용이 가려진 채로 남지 않게

@@ -886,7 +886,7 @@ export function initAccents() {
   };
   /* 2026-10-09 사용자: '한 번 내리면 끝나서 아쉽다, 다시 올리면 또 나오게' → 화면 밖으로 완전히 나가면 처음 모습으로 되돌려 두고(보이지 않을 때라 튀지 않음),
      다시 들어오면 또 재생. 시작은 화면 가운데보다 조금 아래(70%)에 왔을 때 — 눈이 머무는 자리에서 보이게 */
-  const LINE = 0.7;
+  const LINE = 0.86; // 10차 사용자: 오래 쳐다봐야 효과가 나옴 → 화면에 들어오자마자(86%) 시작
   const isIn = (el: Element, vh: number) => { const r = el.getBoundingClientRect(); return r.top < vh * LINE && r.bottom > vh * 0.08; };
   const isOut = (el: Element, vh: number) => { const r = el.getBoundingClientRect(); return r.bottom < 0 || r.top > vh; };
   const reset = (el: HTMLElement, prop?: string) => {
@@ -901,7 +901,7 @@ export function initAccents() {
     if (!motion.allowed) { finish(); return; }
     const vh = innerHeight;
     // 전/후 제목('현실로' · '광고가 됩니다.'): 1.8초 동안 왼쪽부터 채움
-    inks.forEach((el) => { if (isOut(el, vh)) reset(el, '--ink'); else if (isIn(el, vh)) play(el, '--ink', 1800); });
+    inks.forEach((el) => { if (isOut(el, vh)) reset(el, '--ink'); else if (isIn(el, vh)) play(el, '--ink', 1300); });
     // 제작 과정 진행 선: PC·태블릿은 3.2초 동안 01 → 05, 휴대폰은 읽는 자리(62%)를 따라감
     lines.forEach((ol) => {
       if (mobile.matches) {
@@ -910,7 +910,7 @@ export function initAccents() {
         ol.style.setProperty('--p', p.toFixed(4));
         lightSteps(ol, p);
       } else if (isOut(ol, vh)) { reset(ol, '--p'); lightSteps(ol, 0); }
-      else if (isIn(ol, vh)) play(ol, '--p', 3200, (v) => lightSteps(ol, v));
+      else if (isIn(ol, vh)) play(ol, '--p', 2400, (v) => lightSteps(ol, v));
     });
     // 단계·칸 목록(영상 제작 과정 · WHY 여섯 가지 · 추천 대상 체크): 줄 윗변이 data-steps 높이(기본 75%)를 지나면 켜짐. data-stagger면 0.18초씩 차례로.
     // 목록 전체가 화면 밖으로 나가면 다시 꺼 둠
@@ -928,7 +928,7 @@ export function initAccents() {
     whys.forEach((el) => { if (isOut(el, vh)) el.classList.remove('go'); else if (isIn(el, vh)) el.classList.add('go'); });
     marks.forEach((m) => { if (isOut(m, vh)) m.classList.remove('on'); else if (isIn(m, vh)) m.classList.add('on'); });
     // 관리비 베기 · 뷰파인더 · 글자 모임 · 해방 · 비교 제목: data-dur(기본 1.9초) 동안 끝까지
-    sps.forEach((el) => { if (isOut(el, vh)) reset(el, '--sp'); else if (isIn(el, vh)) play(el, '--sp', Number(el.dataset.dur) || 1900); });
+    sps.forEach((el) => { if (isOut(el, vh)) reset(el, '--sp'); else if (isIn(el, vh)) play(el, '--sp', Number(el.dataset.dur) || 1400); });
   };
 
   let raf = 0;
@@ -960,4 +960,35 @@ export function initLogo() {
     hidden = h;
     if (h) hl.classList.remove('lg-on'); else play();
   }).observe(hd, { attributes: true, attributeFilter: ['class'] });
+}
+
+/* ── 웹사이트 장 'WEBSITE'(11차): 글자 자리마다 코드 기호가 빠르게 바뀌다가 왼쪽부터 한 자씩 진짜 글자로 맞춰짐.
+ *    화면에 들어와 .on이 붙을 때마다 처음부터(initAccents가 data-mark로 .on을 붙이고 뗌). 동작 줄이기면 아무것도 하지 않음(CSS가 완성된 글) */
+export function initDecode() {
+  const words = $$('[data-decode]');
+  if (!words.length || !motion.allowed) return;
+  const GLYPHS = '<>/{}[]=;:#01*+';
+  words.forEach((w) => {
+    const cells = $$('.cd-c', w);
+    let timer = 0;
+    const reset = () => { clearInterval(timer); timer = 0; cells.forEach((c) => { c.classList.remove('lock'); const g = $('.cd-g', c); if (g) g.textContent = ''; }); };
+    const run = () => {
+      reset();
+      const t0 = performance.now();
+      let n = 0;
+      timer = window.setInterval(() => {
+        const t = performance.now() - t0;
+        cells.forEach((c, i) => {
+          if (c.classList.contains('lock')) return;
+          if (t > 420 + i * 120) { c.classList.add('lock'); return; } // 0.42초 뒤부터 0.12초 간격으로 맞춰짐
+          const g = $('.cd-g', c);
+          if (g) g.textContent = GLYPHS[(i * 7 + n * 5) % GLYPHS.length];
+        });
+        n++;
+        if (cells.every((c) => c.classList.contains('lock'))) { clearInterval(timer); timer = 0; }
+      }, 55);
+    };
+    new MutationObserver(() => { if (w.classList.contains('on')) { if (!timer && !cells[0]?.classList.contains('lock')) run(); } else reset(); })
+      .observe(w, { attributes: true, attributeFilter: ['class'] });
+  });
 }

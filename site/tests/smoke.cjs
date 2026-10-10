@@ -647,8 +647,8 @@ async function page(browser, vp, opts = {}) {
     // 장 소개의 약속: 굵게 + 크림색 형광펜(글자는 검게)
     await at('#website .ch-lead', 0.5);
     await p.waitForTimeout(1700);
-    const em = await p.evaluate(() => [...document.querySelectorAll('.ch-lead .mark')].map((e) => ({ t: e.textContent.replace(/ /g, ' '), ff: getComputedStyle(e).fontFamily, on: e.classList.contains('on'), bg: getComputedStyle(e).backgroundSize, color: getComputedStyle(e).color })));
-    check('장 소개 약속: \'관리비/유지보수 비용 제로\'(웹사이트) · \'가지고 계신 사진만으로\'(영상) 굵게, 화면 가운데쯤 오면 크림색 형광펜이 그어지고 글자가 검게', fx && !mk0 && em.length === 2 && em[0].t === '관리비/⁠유지보수 비용 제로' && em[1].t === '가지고 계신 사진만으로' && em[0].ff.includes('PS Text') && em[0].on && em[0].bg === '100% 100%' && em[0].color === 'rgb(12, 12, 11)', JSON.stringify({ fx, mk0, em }));
+    const em = await p.evaluate(() => [...document.querySelectorAll('.ch-lead :is(.mark, .dev)')].map((e) => ({ cls: e.className, t: e.textContent.replace(/ /g, ' '), ff: getComputedStyle(e).fontFamily, on: e.classList.contains('on'), bg: getComputedStyle(e).backgroundSize, color: getComputedStyle(e).color })));
+    check('장 소개 약속: \'관리비/유지보수 비용 제로\'(웹사이트) · \'가지고 계신 사진만으로\'(영상, 11차: 형광펜 대신 사진 현상 .dev) 굵게, 웹사이트 쪽은 크림색 형광펜이 그어지고 글자가 검게', fx && !mk0 && em.length === 2 && em[1].cls === 'dev' && em[0].t === '관리비/⁠유지보수 비용 제로' && em[1].t === '가지고 계신 사진만으로' && em[0].ff.includes('PS Text') && em[0].on && em[0].bg === '100% 100%' && em[0].color === 'rgb(12, 12, 11)', JSON.stringify({ fx, mk0, em }));
     // 제작 과정(비전에서 현실로): '비전에서' 외곽선 · 화면에 들어오면 정해진 시간 동안 끝까지(2026-10-09 사용자: 빨리 내리면 못 봄 → 스크롤에 묶지 않음)
     const pr = () => p.evaluate(() => {
       const ol = document.querySelector('.steps'), ink = document.querySelector('#process-title .ink'), out = document.querySelector('#process-title .ol');
@@ -711,10 +711,6 @@ async function page(browser, vp, opts = {}) {
     // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
     const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);
     check('아끼는 금액: 글과 숫자 사이 간격(PC 30px)', gap === '30px', gap);
-    // 비교 제목(10차 사용자: 대결 카드·손잡이는 허접 → 다시): 가는 본문 글꼴 '흔한 템플릿'(올라온 뒤 흐려짐) / VS 꼬리표 / 굵은 제목 글꼴 '맞춤 디자인'
-    await at('.cmp-title', 0.5); await p.waitForTimeout(3400);
-    const ord = await p.evaluate(() => { const t = document.querySelector('.cmp-title'); const o = getComputedStyle(t.querySelector('.ord')), a = getComputedStyle(t.querySelector('.art')), v = getComputedStyle(t.querySelector('.vs-tag')); return { ord: o.fontFamily, oc: o.color, art: a.fontFamily, text: t.textContent.replace(/\s+/g, ' ').trim(), vsR: v.borderTopLeftRadius, vsBg: v.backgroundColor }; });
-    check('비교 제목: \'흔한 템플릿 VS 맞춤 디자인\' · 가는 글꼴(흐려짐)과 굵은 제목 글꼴의 대비 · VS는 네모 꼬리표', ord.ord.includes('PS Text') && ord.art.includes('PS Display') && ord.oc !== 'rgb(20, 19, 17)' && ord.text === '흔한 템플릿 VS 맞춤 디자인' && ord.vsR === '2px' && ord.vsBg === 'rgba(0, 0, 0, 0)', JSON.stringify(ord));
     // AI VIDEO AD: 사진 찍는 순간(흐림 → 뷰파인더 → 초점 → 셔터 → 빛 → REC)
     const shot0 = await p.evaluate(() => document.querySelector('.shot').classList.contains('on'));
     await at('.shot', 0.55);
@@ -735,17 +731,21 @@ async function page(browser, vp, opts = {}) {
     await p.goto(BASE, { waitUntil: 'networkidle' });
     const to = (q, f) => p.evaluate(([sel, k]) => { const el = document.querySelector(sel); scrollTo({ top: el.getBoundingClientRect().top + scrollY - innerHeight * k, behavior: 'instant' }); }, [q, f]);
     const logo = await p.evaluate(() => { const h = document.querySelector('.hd-svg'); return { letters: h.querySelectorAll('.lg-word .lg-l').length, bars: document.querySelectorAll('.lg-bars').length, rest: [...h.querySelectorAll('.lg-l')].every((l) => getComputedStyle(l).transform === 'none' || new DOMMatrix(getComputedStyle(l).transform).isIdentity) }; });
-    await to('#ch-website', 0.3); await p.waitForTimeout(700);
-    const gMid = await p.evaluate(() => ({ on: document.querySelector('.gw').classList.contains('on'), moving: [...document.querySelectorAll('.gc > span')].some((s) => !new DOMMatrix(getComputedStyle(s).transform).isIdentity), guide: getComputedStyle(document.querySelector('.gc'), '::before').animationName }));
-    await p.waitForTimeout(2600);
-    const gEnd = await p.evaluate(() => ({ letters: [...document.querySelectorAll('.gc')].map((g) => g.textContent).join(''), rest: [...document.querySelectorAll('.gc > span')].every((s) => new DOMMatrix(getComputedStyle(s).transform).isIdentity && getComputedStyle(s).opacity === '1'), lines: [...document.querySelectorAll('.gw-h')].every((h) => getComputedStyle(h).opacity === '0'), code: !!document.querySelector('.cw, .cw-tip') }));
+    await to('#ch-website', 0.3); await p.waitForTimeout(500);
+    const gMid = await p.evaluate(() => ({ on: document.querySelector('.cd').classList.contains('on'), glyphs: [...document.querySelectorAll('.cd-c:not(.lock) .cd-g')].filter((g) => g.textContent.trim()).length, tag: getComputedStyle(document.querySelector('.cd-tag.o')).animationName }));
+    await p.waitForTimeout(2400);
+    const gEnd = await p.evaluate(() => ({ letters: [...document.querySelectorAll('.cd-l')].map((g) => g.textContent).join(''), locked: [...document.querySelectorAll('.cd-c')].every((c) => c.classList.contains('lock') && getComputedStyle(c.querySelector('.cd-l')).opacity === '1'), tags: [...document.querySelectorAll('.cd-tag')].every((t) => getComputedStyle(t).opacity === '0'), text: document.querySelector('#ch-website .sr').textContent }));
     check('로고: 글씨가 글자마다 나뉘어(11자) 한 자씩 올라옴 · 일시정지 막대 없음', logo.letters === 11 && logo.bars === 0, JSON.stringify(logo));
-    check('WEBSITE: 안내선이 그어지고 흩어진 글자가 제자리에 맞물림 → 안내선 사라짐(코드·검사기 없음)', gMid.on && gMid.moving && gMid.guide === 'gwGuide' && gEnd.letters === 'WEBSITE' && gEnd.rest && gEnd.lines && !gEnd.code, JSON.stringify({ gMid, gEnd }));
-    await to('#work-title', 0.4); await p.waitForTimeout(1200);
-    const rMid = await p.evaluate(() => { const f = getComputedStyle(document.querySelector('.rl-fill')); return { on: document.querySelector('.real').classList.contains('on'), op: Number(f.opacity), img: f.backgroundImage.includes('strip-640'), clip: f.backgroundClip || f.webkitBackgroundClip }; });
-    await p.waitForTimeout(3000);
-    const rEnd = await p.evaluate(() => ({ op: getComputedStyle(document.querySelector('.rl-fill')).opacity, c: getComputedStyle(document.querySelector('.rl-base')).color, sr: document.querySelector('#work-title').textContent.includes('웹사이트입니다.') }));
-    check('포트폴리오 제목: \'웹사이트입니다.\' 글자 속으로 실제 사이트 화면이 지나간 뒤 크림색 글자로', rMid.on && rMid.op > 0.9 && rMid.img && rMid.clip === 'text' && rEnd.op === '0' && rEnd.c === 'rgb(252, 238, 216)' && rEnd.sr, JSON.stringify({ rMid, rEnd }));
+    check('WEBSITE(11차): <h2> 뒤 글자 자리의 코드 기호가 왼쪽부터 진짜 글자로 맞춰지고 코드 표시는 사라짐', gMid.on && gMid.glyphs > 0 && gMid.tag === 'cdTag' && gEnd.letters === 'WEBSITE' && gEnd.locked && gEnd.tags && gEnd.text === '웹사이트 제작', JSON.stringify({ gMid, gEnd }));
+    await to('#work-title', 0.4); await p.waitForTimeout(500);
+    const rMid = await p.evaluate(() => ({ on: document.querySelector('.load').classList.contains('on'), bar: getComputedStyle(document.querySelector('.ld-bar')).animationName }));
+    await p.waitForTimeout(1500);
+    const rEnd = await p.evaluate(() => ({ bar: getComputedStyle(document.querySelector('.ld-bar')).opacity, c: getComputedStyle(document.querySelector('.load')).color, text: document.querySelector('#work-title').textContent }));
+    check('포트폴리오 제목(11차): \'웹사이트입니다.\' 아래 로딩 막대가 차오른 뒤 글이 또렷해짐', rMid.on && rMid.bar === 'ldBar' && rEnd.bar === '0' && rEnd.c === 'rgb(252, 238, 216)' && rEnd.text === '실제로 만든웹사이트입니다.', JSON.stringify({ rMid, rEnd }));
+    // 비교 제목(11차): 한 줄 대결 배치 — 들어오면 왼쪽 말 · 가운데 선과 VS · 오른쪽 말 차례로
+    await to('.cmp-title', 0.5); await p.waitForTimeout(2200);
+    const cmp = await p.evaluate(() => { const t = document.querySelector('.cmp-title'); const r = (q) => t.querySelector(q).getBoundingClientRect(); return { on: t.classList.contains('on'), row: Math.abs(r('.ord').top + r('.ord').height / 2 - (r('.art').top + r('.art').height / 2)) < 30, order: r('.ord').right < r('.cmp-mid').left && r('.cmp-mid').right < r('.art').left, art: getComputedStyle(t.querySelector('.art')).fontFamily, line: new DOMMatrix(getComputedStyle(t.querySelector('.cmp-mid i')).transform).a, text: t.textContent.replace(/\s+/g, ' ').trim() }; });
+    check('비교 제목(11차): 한 줄에 흔한 템플릿 ── VS ── 맞춤 디자인(굵은 제목 글꼴), 선이 끝까지 그어짐', cmp.on && cmp.row && cmp.order && cmp.art.includes('PS Display') && cmp.line === 1 && cmp.text === '흔한 템플릿 VS VS 맞춤 디자인', JSON.stringify(cmp));
     await to('.faq-pick', 0.5); await p.waitForTimeout(500);
     const fq = await p.evaluate(() => ({ hint: document.querySelector('.faq-hint').textContent, desc: document.querySelector('.faq-tabs').getAttribute('aria-describedby'), arrow: getComputedStyle(document.querySelector('#faq-tab-video'), '::after').content, arrowSel: getComputedStyle(document.querySelector('#faq-tab-web'), '::after').opacity, h: document.querySelector('.faq-tab').getBoundingClientRect().height, cols: getComputedStyle(document.querySelector('.faq-tabs')).gridTemplateColumns.split(' ').length, small: document.querySelector('#faq-tab-web small').textContent }));
     check('질문 분류: \'궁금한 분야를 골라 보세요\' 안내 · 같은 폭 두 칸 · 고르지 않은 칸에 화살표 · 질문 수', fq.hint === '궁금한 분야를 골라 보세요' && fq.desc === 'faq-hint' && fq.arrow.includes('→') && fq.arrowSel === '0' && fq.h >= 60 && fq.cols === 2 && /^질문 \d+개$/.test(fq.small), JSON.stringify(fq));
@@ -759,7 +759,7 @@ async function page(browser, vp, opts = {}) {
     const { ctx, p } = await page(browser, { width: 1440, height: 900 }, { reduced: true });
     await p.goto(BASE, { waitUntil: 'networkidle' });
     const st = await p.evaluate(() => ({ ink: [...document.querySelectorAll('.ink')].map((e) => parseFloat(getComputedStyle(e).backgroundPositionX)), marks: [...document.querySelectorAll('.mark')].map((m) => m.classList.contains('on')), on: [...document.querySelectorAll('.steps li, .vsteps li')].every((li) => li.classList.contains('on')), arrived: document.querySelector('.steps').classList.contains('arrived'), chip: getComputedStyle(document.querySelector('.steps li:last-child .hl')).backgroundColor, dim: getComputedStyle(document.querySelector('.steps li:last-child h3')).opacity }));
-    check('동작 줄이기: 포인트 효과가 처음부터 끝난 모습(채워진 제목·형광펜·켜진 단계·채워진 $0)', st.ink.length === 2 && st.ink.every((x) => x === 0) && st.marks.length === 2 && st.marks.every(Boolean) && st.on && st.arrived && st.chip === 'rgb(20, 19, 17)' && st.dim === '1', JSON.stringify(st));
+    check('동작 줄이기: 포인트 효과가 처음부터 끝난 모습(채워진 제목·형광펜·켜진 단계·채워진 $0)', st.ink.length === 2 && st.ink.every((x) => x === 0) && st.marks.length === 1 && st.marks.every(Boolean) && st.on && st.arrived && st.chip === 'rgb(20, 19, 17)' && st.dim === '1', JSON.stringify(st));
     await ctx.close();
   }
 

@@ -311,8 +311,8 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .ch-lead { font-size: var(--fs-lead); line-height: 1.7; color: var(--cream-2); }
 
 /* ───────── 비교: BEFORE(흔한 템플릿) ↔ AFTER(실제 사이트) 손잡이 ───────── */
-.cmp-head { display: grid; grid-template-columns: 7fr 5fr; gap: 40px; align-items: end; margin-bottom: clamp(56px, 5vw, 96px); }
-.cmp-title { font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(40px, 4.6vw, 92px); line-height: 1.02; letter-spacing: -.04em; margin-top: 20px; }
+.cmp-head { margin-bottom: clamp(48px, 4.4vw, 88px); }
+.cmp-head .lead { margin-top: clamp(20px, 1.8vw, 32px); max-width: 34em; }
 .cmp-case { max-width: 1360px; margin-inline: auto; }
 .cmp-case + .cmp-case { margin-top: clamp(64px, 6vw, 120px); }
 .cmp-frame { --pos: 50%; position: relative; aspect-ratio: var(--ar, 16 / 9); overflow: hidden; border-radius: 4px; background: var(--paper-raise); container-type: inline-size; touch-action: pan-y; cursor: ew-resize; -webkit-user-select: none; user-select: none;
@@ -927,10 +927,10 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 /* 등장 움직임 (JS가 켜졌을 때만) */
 .js .rv { opacity: 0; transform: translateY(26px); transition: opacity 1s var(--ease), transform 1.1s var(--ease); transition-delay: var(--d, 0s); }
 .js .rv.in { opacity: 1; transform: none; }
-.js .h2.rv, .js .ct-title.rv, .js .cmp-title.rv { opacity: 1; transform: none; }
-.js .h2.rv .ln, .js .ct-title.rv .ln, .js .cmp-title.rv .ln { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
-.js .h2.rv .ln > span, .js .ct-title.rv .ln > span, .js .cmp-title.rv .ln > span { display: block; transform: translateY(110%); transition: transform 1.1s var(--ease); transition-delay: calc(var(--d, 0s) + var(--li, 0) * .12s); }
-.js .h2.rv.in .ln > span, .js .ct-title.rv.in .ln > span, .js .cmp-title.rv.in .ln > span { transform: none; }
+.js .h2.rv, .js .ct-title.rv { opacity: 1; transform: none; }
+.js .h2.rv .ln, .js .ct-title.rv .ln { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.js .h2.rv .ln > span, .js .ct-title.rv .ln > span { display: block; transform: translateY(110%); transition: transform 1.1s var(--ease); transition-delay: calc(var(--d, 0s) + var(--li, 0) * .12s); }
+.js .h2.rv.in .ln > span, .js .ct-title.rv.in .ln > span { transform: none; }
 
 /* 히어로 인트로(JS): 시작 상태. 인트로가 끝나거나 건너뛰면 html.intro-done */
 @media (prefers-reduced-motion: no-preference) {
@@ -958,7 +958,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .card figcaption { margin-top: 16px; height: 30px; font-size: 22px; line-height: 30px; }
   .veil { background: linear-gradient(180deg, var(--ink) 0%, rgba(12, 12, 11, .92) 7%, rgba(12, 12, 11, .35) 10.7%, rgba(12, 12, 11, 0) 14.5%, rgba(12, 12, 11, 0) 23%, rgba(12, 12, 11, .9) 29.5%, var(--ink) 32.2%); }
   .hero-in { padding-top: 8px; max-width: none; justify-content: flex-start; }
-  .why-grid, .who-grid, .film-grid, .faq-grid, .contact-grid, .ft-top, .free-band, .pnotes, .vnotes, .calc, .fee-top, .cmp-head, .fee-lists, .formats, .v-included, .ch-foot { grid-template-columns: 1fr; }
+  .why-grid, .who-grid, .film-grid, .faq-grid, .contact-grid, .ft-top, .free-band, .pnotes, .vnotes, .calc, .fee-top, .fee-lists, .formats, .v-included, .ch-foot { grid-template-columns: 1fr; }
   .faq-grid .sec-head { position: static; }
   .pillars { grid-template-columns: 1fr; }
   .pillars li, .pillars li + li { padding: 26px 0 0; border-left: 0; }
@@ -1133,7 +1133,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
    잠깐 보여 준 뒤 칼날 같은 빛줄기가 사선으로 천천히 그어 지나가고, 잠깐 멈췄다가 사선을 따라 위·아래 조각이 어긋나며 밀려나고 흐려짐. 흐려져도 50%(큰 글씨 명도 대비 유지) */
 .gone { position: relative; display: inline-block; }
 .gone .g-b { display: none; }
-.fx .gone { --cut: clamp(0, calc((var(--sp, 0) - .12) / .2), 1); --sep: clamp(0, calc((var(--sp, 0) - .42) / .45), 1); } /* 3.4초: 0.4초 온전히 → 0.7초 베기 → 잠깐 → 1.5초 갈라짐 */
+.fx .gone { --cut: clamp(0, calc((var(--sp, 0) - .04) / .26), 1); --sep: clamp(0, calc((var(--sp, 0) - .34) / .52), 1); } /* 2초(10차: 늦게 나타남 → 바로 베기): 0.5초 베기 → 1초 갈라짐 */
 .fx .gone .g-t, .fx .gone .g-b { display: inline-block; opacity: calc(1 - var(--sep) * .5); }
 .fx .gone .g-t { clip-path: polygon(-5% -10%, 105% -10%, 105% 38%, -5% 74%); transform: translate(calc(var(--sep) * .1em), calc(var(--sep) * -.17em)) rotate(calc(var(--sep) * -4deg)); }
 .fx .gone .g-b { position: absolute; left: 0; top: 0; white-space: nowrap; clip-path: polygon(-5% 74%, 105% 38%, 105% 110%, -5% 110%); transform: translate(calc(var(--sep) * -.07em), calc(var(--sep) * .12em)) rotate(calc(var(--sep) * 2.5deg)); }
@@ -1152,10 +1152,10 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 /* 제목 줄은 올라오는 효과 때문에 넘친 부분을 자르므로, 이 줄만 모서리가 보일 만큼(0.7em) 여유를 둠 */
 .js .h2.rv .ln:has(.vf) { overflow: clip; overflow-clip-margin: .7em; }
 
-/* 자주 묻는 질문 '모았습니다.': 글자가 위에서 한 자씩 떨어져 들어와 모임(줄 안에서 잘려 슬롯처럼 보임) */
+/* 자주 묻는 질문 '모았습니다.'(11차 사용자: 위에서 떨어지는 효과가 어색함 → 다시): 낱자들이 양옆으로 흩어져 흐릿하게 있다가 가운데로 모여 붙음(말 그대로 '모음') */
 .gather i { display: inline-block; font-style: normal; }
-.fx .gather i { transform: translateY(calc(var(--gr, 1) * -1 * (var(--k) + 1.2) * .55em)); }
-.fx .gather { --gr: calc((1 - var(--sp, 0)) * (1 - var(--sp, 0)) * 1.3); }
+.fx .gather { --gr: calc(1 - var(--sp, 0)); }
+.fx .gather i { transform: translateX(calc((var(--k) - 2.5) * var(--gr) * var(--gr) * .55em)); opacity: calc(1 - var(--gr) * .8); }
 
 /* 문의 제목(10차 사용자: 빨간 펜은 어색 → 다시): 제목 줄이 올라온 뒤(1.2초) '웹사이트 관리비,'가 한 자씩 조금 가라앉으며 흐려지고(짐을 내려놓듯),
    이어서 '해방되세요.'가 한 자씩 떠올랐다 내려앉으며 밝아짐(숨을 내쉬듯). 화면에 들어올 때마다(data-mark → .on). 움직임 줄이기면 끝난 모습 */
@@ -1181,29 +1181,6 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 
 /* AI VIDEO AD(2026-10-09 사용자: 사진 찍는 듯한 모션그래픽): 화면에 들어오면 카메라처럼 — 뷰파인더 모서리가 넓게 있다가 글자에 맞게 조여지고,
    흐릿하던 글자에 초점이 맞고, 초점 표시가 깜빡 → 찰칵(위아래 셔터가 순간 닫혔다 열림 + 하얀 플래시) → 모서리는 은은하게 남고 ● REC가 깜빡임 */
-/* 웹사이트 장 'WEBSITE'(10차 사용자: 코드·검사기 효과는 만들다 만 것 같음 → 다시): 디자인 도구의 레이아웃 격자.
-   윗선·바닥선이 왼쪽부터 그어지고, 글자 자리마다 세로 안내선이 위에서 내려온 뒤, 흩어져 기울어 있던 글자가 한 자씩 제자리에 맞물려 섬(살짝 지나쳤다 돌아옴)
-   → 안내선은 흐려져 사라짐(약 2.6초). 화면에 들어올 때마다(data-mark → .on) */
-.ch-website .ch-word { overflow: clip; overflow-clip-margin: .5em; }
-.gw { position: relative; display: inline-block; }
-.gc { position: relative; display: inline-block; }
-.gc > span { display: inline-block; }
-.gw-h { display: none; }
-.fx .gw-h { display: block; position: absolute; left: -.08em; right: -.08em; height: 1px; background: rgba(252, 238, 216, .34); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
-.fx .gw-h.t { top: .06em; } .fx .gw-h.b { bottom: .12em; }
-.fx .gc::before, .fx .gc:last-child::after { content: ""; position: absolute; top: -.1em; bottom: -.1em; left: 0; width: 1px; background: rgba(252, 238, 216, .34); transform: scaleY(0); transform-origin: 50% 0; pointer-events: none; }
-.fx .gc:last-child::after { left: auto; right: 0; }
-.fx .gc > span { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)); }
-.fx .gw.on .gw-h { animation: gwLine 2.7s cubic-bezier(.6, 0, .2, 1) both; }
-.fx .gw.on .gw-h.b { animation-delay: .08s; }
-.fx .gw.on .gc::before, .fx .gw.on .gc:last-child::after { animation: gwGuide 2.6s cubic-bezier(.6, 0, .2, 1) calc(.18s + var(--i) * .045s) both; }
-.fx .gw.on .gc > span { animation: gwSnap .8s cubic-bezier(.25, .9, .3, 1) calc(.55s + var(--i) * .085s) both; }
-@keyframes gwLine { 0% { transform: scaleX(0); opacity: 1; } 24% { transform: scaleX(1); opacity: 1; } 76% { opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
-@keyframes gwGuide { 0% { transform: scaleY(0); opacity: 1; } 18% { transform: scaleY(1); opacity: 1; } 72% { opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
-@keyframes gwSnap { 0% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)); } 18% { opacity: 1; } 72% { transform: translate(0, calc(var(--dy) * -.06)) rotate(calc(var(--r) * -.08)); } 100% { opacity: 1; transform: none; } }
-.still .gw-h, .still .gc::before, .still .gc::after { display: none !important; }
-.still .gc > span { opacity: 1 !important; transform: none !important; animation: none !important; }
-
 /* 머리·바닥 로고 모션(10차 사용자: 일시정지 모양은 필요 없음 · 글씨가 나타나는 게 성의 없음): 두 고리가 서로 반대 방향으로 그려지는 동안
    'Pause Studio' 글자가 왼쪽부터 한 자씩 바닥선 아래에서 올라와 자리를 잡음(활자를 한 자씩 식자하듯, 비스듬히 올라와 바로 섬) → ® 점이 톡.
    머리: 처음 뜰 때와 스크롤을 올려 다시 나타날 때마다(.lg-on), 바닥: 화면에 들어올 때마다(data-mark → .on). 움직임 줄이기면 로고 그대로 */
@@ -1248,24 +1225,67 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 @keyframes shRec { 0%, 55% { opacity: 1; } 56%, 100% { opacity: .15; } }
 .still .shot .sh-rec::before { animation: none; }
 
-/* 비교 제목(10차): 가는 '흔한 템플릿' / 굵은 '맞춤 디자인' — 줄마다 올라온 뒤 '흔한 템플릿'이 흐려짐. VS는 작은 네모 꼬리표(모서리 2px) */
-.cmp-title .ln { display: block; }
-.cmp-title .ord { font-family: var(--f-text); font-weight: var(--w-text); letter-spacing: -.045em; transition: color 1.4s ease 1.5s; }
-.cmp-title.in .ord, html:not(.js) .cmp-title .ord { color: var(--on-paper-3); }
-.cmp-title .vs-tag { display: inline-block; vertical-align: .62em; margin-right: .12em; padding: .42em .5em .36em; border: max(1px, .012em) solid currentColor; border-radius: 2px;
-  font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: max(11px, .2em); line-height: 1; letter-spacing: .12em; text-indent: .12em; }
+/* 포트폴리오 제목 '웹사이트입니다.'(11차 사용자: 글자 속 화면은 구림 → 다시): 브라우저 로딩 막대 — 선이 빠르게 70%까지 → 잠깐 멈칫 → 끝까지, 다 차면 글이 또렷해지고 선은 사라짐 */
+.load { position: relative; display: inline-block; }
+.ld-bar { display: none; }
+.fx .ld-bar { display: block; position: absolute; left: 0; right: .2em; bottom: .02em; height: max(2px, .035em); background: var(--cream); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+.fx .load { color: var(--cream-3); transition: color .35s ease; }
+.fx .load.on { color: inherit; transition-delay: .95s; }
+.fx .load.on .ld-bar { animation: ldBar 1.25s linear both; }
+@keyframes ldBar { 0% { transform: scaleX(0); opacity: 1; } 30% { transform: scaleX(.7); } 52% { transform: scaleX(.74); } 76% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+.still .load { color: inherit !important; }
+.still .ld-bar { display: none !important; }
 
-/* 포트폴리오 제목 '웹사이트입니다.'(10차): 글자 속으로 실제 고객 사이트 화면이 스크롤되듯 지나간 뒤(2.6초) 크림색 글자로 돌아옴 */
-.real { position: relative; display: inline-block; }
-.rl-fill { display: none; }
-.fx .rl-fill { display: block; position: absolute; inset: 0; color: transparent; -webkit-background-clip: text; background-clip: text; background-size: 150% auto; background-repeat: no-repeat; background-position: 50% 0; opacity: 0; pointer-events: none; }
-.fx .real .rl-base { transition: color .9s ease; }
-.fx .real.on .rl-base { color: transparent; animation: rlBase 3.4s ease both; }
-.fx .real.on .rl-fill { animation: rlFill 3.4s cubic-bezier(.45, .05, .35, 1) both; }
-@keyframes rlFill { 0% { opacity: 1; background-position: 50% 0; } 76% { opacity: 1; } 92% { background-position: 50% 100%; } 100% { opacity: 0; background-position: 50% 100%; } }
-@keyframes rlBase { 0%, 74% { color: transparent; } 100% { color: var(--cream); } }
-.still .rl-fill { display: none !important; }
-.still .real .rl-base { color: inherit !important; animation: none !important; }
+/* 웹사이트 장 'WEBSITE'(11차 사용자: 웹사이트 제작이니 코드 같은 애니메이션으로 등장): <h2> → 글자 자리마다 코드 기호가 바뀌다 왼쪽부터 진짜 글자로 맞춰짐 → </h2> → 코드 표시 사라짐(약 2초).
+   기호는 JS(initDecode)가 바꾸고, 맞춰진 글자는 .lock. 글자 폭은 진짜 글자(.cd-l)가 늘 잡고 있음 */
+.ch-website .ch-word { overflow: clip; overflow-clip-margin: .4em; }
+.cd { position: relative; display: inline-block; }
+.cd-c { position: relative; display: inline-block; }
+.cd-g, .cd-tag { display: none; }
+.fx .cd-tag { display: block; position: absolute; font-style: normal; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-weight: 400; font-size: max(12px, .075em); line-height: 1; letter-spacing: 0; color: var(--cream-3); opacity: 0; white-space: nowrap; pointer-events: none; }
+.fx .cd-tag.o { left: .04em; top: -.02em; }
+.fx .cd-tag.c { right: -.1em; bottom: .12em; transform: translateX(100%); }
+.fx .cd .cd-l { opacity: 0; }
+.fx .cd .cd-g { display: grid; place-items: center; position: absolute; inset: 0; font-style: normal; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-weight: 400; font-size: .52em; color: var(--cream-3); letter-spacing: 0; pointer-events: none; }
+.fx .cd .cd-c.lock .cd-l { opacity: 1; animation: cdLock .45s ease-out both; }
+.fx .cd .cd-c.lock .cd-g { display: none; }
+.fx .cd.on .cd-tag.o { animation: cdTag 2.3s ease both; }
+.fx .cd.on .cd-tag.c { animation: cdTag 1.2s ease 1.1s both; }
+@keyframes cdLock { from { color: #fff; text-shadow: 0 0 .08em rgba(252, 238, 216, .5); } to { color: inherit; text-shadow: none; } }
+@keyframes cdTag { 0% { opacity: 0; } 10% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+.still .cd .cd-l { opacity: 1 !important; animation: none !important; }
+.still .cd :is(.cd-g, .cd-tag) { display: none !important; }
+
+/* 비교 제목(11차 사용자: 효과도 없고 배치도 구림): 한 줄 대결 — 평범한 시스템 글꼴 '흔한 템플릿' ──── VS ──── 굵은 제목 글꼴 '맞춤 디자인'.
+   들어오면(data-mark → .on) 왼쪽 말 → 가운데 선이 그어지며 VS → 오른쪽 말이 선 끝에서 밀려 나옴(약 1.4초). 휴대폰은 위아래로 쌓음 */
+.cmp-title { display: grid; grid-template-columns: auto minmax(60px, 1fr) auto; align-items: center; gap: clamp(16px, 2vw, 40px); margin-top: 20px; }
+.cmp-title .ord { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', Arial, sans-serif; font-weight: 400; font-size: clamp(26px, 3vw, 58px); letter-spacing: -.02em; line-height: 1.1; color: var(--on-paper-3); }
+.cmp-title .art { display: block; overflow: hidden; padding-bottom: .06em; font-family: var(--f-display); font-weight: var(--w-display); font-size: clamp(44px, 5.6vw, 112px); line-height: 1; letter-spacing: -.045em; }
+.cmp-title .art > span { display: block; }
+.cmp-mid { position: relative; display: flex; align-items: center; height: 1px; }
+.cmp-mid i { flex: 1; height: 1px; background: var(--on-paper); }
+.cmp-mid b { flex: none; margin: 0 14px; display: grid; place-items: center; min-width: 52px; height: 30px; padding: 0 10px; border: 1px solid var(--on-paper); border-radius: 2px; font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: 13px; letter-spacing: .16em; text-indent: .16em; }
+.fx .cmp-title .ord { opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s var(--ease); }
+.fx .cmp-title .cmp-mid i { transform: scaleX(0); transform-origin: 0 50%; transition: transform .45s cubic-bezier(.6, 0, .3, 1) .25s; }
+.fx .cmp-title .cmp-mid b + i { transition-delay: .62s; }
+.fx .cmp-title .cmp-mid b { opacity: 0; transform: scale(.7); transition: opacity .3s ease .55s, transform .4s cubic-bezier(.3, 1.6, .5, 1) .55s; }
+.fx .cmp-title .art > span { transform: translateX(-60%); opacity: 0; transition: transform .8s cubic-bezier(.2, .8, .2, 1) .9s, opacity .3s ease .9s; }
+.fx .cmp-title.on .ord { opacity: 1; transform: none; }
+.fx .cmp-title.on .cmp-mid i { transform: none; }
+.fx .cmp-title.on .cmp-mid b { opacity: 1; transform: none; }
+.fx .cmp-title.on .art > span { transform: none; opacity: 1; }
+@media (max-width: 767px) {
+  .cmp-title { grid-template-columns: 1fr; gap: 14px; justify-items: start; }
+  .cmp-mid { width: 100%; }
+}
+.still .cmp-title :is(.ord, .cmp-mid i, .cmp-mid b, .art > span) { opacity: 1 !important; transform: none !important; }
+
+/* 영상 장 약속 '가지고 계신 사진만으로'(11차 사용자: 형광펜은 구림): 사진이 현상되듯 — 흐리고 바랜 글이 또렷해지며 크림색으로, 한 번 은은하게 빛남 */
+.dev { font-family: var(--f-text-md); font-weight: var(--w-text-md); color: var(--cream); }
+.fx .dev { filter: blur(3px) grayscale(1); opacity: .4; transition: filter 1s ease, opacity 1s ease; }
+.fx .dev.on { filter: none; opacity: 1; animation: devFlash .9s ease-out .7s; }
+@keyframes devFlash { 0% { text-shadow: 0 0 0 transparent; } 25% { text-shadow: 0 0 .5em rgba(255, 250, 240, .7); color: #fff; } 100% { text-shadow: 0 0 0 transparent; } }
+.still .dev { filter: none !important; opacity: 1 !important; animation: none !important; }
 
 /* ───────── 동작 줄이기 ───────── */
 @media (prefers-reduced-motion: reduce) {
@@ -1288,10 +1308,10 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .fx .shot::before, .fx .shot::after, .fx .shot .sh-flash, .fx .shot .sh-cur { display: none !important; }
   .fx .ct-title .burden i { transform: translateY(.1em) !important; opacity: .3 !important; }
   .fx .ct-title .free i { color: var(--cream) !important; animation: none !important; }
-  .fx .gw-h, .fx .gc::before, .fx .gc::after { display: none !important; }
-  .fx .gc > span { opacity: 1 !important; transform: none !important; }
-  .fx .rl-fill { display: none !important; }
-  .fx .real .rl-base { color: inherit !important; animation: none !important; }
+  .fx .cd .cd-l { opacity: 1 !important; } .fx .cd :is(.cd-g, .cd-tag) { display: none !important; }
+  .fx .load { color: inherit !important; } .fx .ld-bar { display: none !important; }
+  .fx .dev { filter: none !important; opacity: 1 !important; }
+  .fx .cmp-title :is(.ord, .cmp-mid i, .cmp-mid b, .art > span) { opacity: 1 !important; transform: none !important; }
   :is(.hd-svg, .ft-svg) ellipse { stroke-dashoffset: 0 !important; }
   :is(.hd-svg, .ft-svg) :is(.lg-l, .lg-dot) { opacity: 1 !important; transform: none !important; }
   .fx .pillars li::before { transform: none !important; }

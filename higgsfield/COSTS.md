@@ -82,3 +82,4 @@
 - SOOM: 기준 정지 화면 qwen-image-3/edit 3장 x $0.075 = $0.225(soul/cinema 2번 생성 실패), 영상 Kling 2.5 Turbo Pro 5초 2컷 x $0.298 = $0.596. 합계 약 $0.82. 편집 tools/adv32/soom.py → drafts/v32/soom.mp4(사용자 확인 대기)
 - SOOM UGC(사용자 제공 프롬프트를 세럼에 맞게 변형): 첫 프레임 qwen-image-3/edit $0.075, Seedance 2.0 7초 1080p는 잔액 부족으로 실패(과금 없음) → 720p(소리 포함) 약 $2.1. 편집 tools/adv32/soom_ugc.py → drafts/v32/soom-ugc.mp4
 - SOOM 하이라이트(참고 영상 프레임에서 제품만 교체 → Kling 2.5 Pro 5초, 소리 없음): 제품 교체 qwen $0.075 + Kling $0.298. Seedance 720p 5초는 잔액 부족으로 거절(과금 없음). drafts/v32/soom-highlight.mp4
+- SOOM 라벨 제품 사진 qwen $0.075, 첫 프레임(라벨 병) qwen $0.075. Kling 5초(머리 넘기기+손톱 탭)는 잔액 부족(403 not_enough_credits)으로 거절 — 이 키 지갑 잔액 0.

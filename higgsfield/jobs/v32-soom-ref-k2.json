@@ -1,0 +1,54 @@
+{
+  "label": "v32-soom-ref-k2",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Edit image 1. Keep absolutely everything in image 1 identical: the same woman, same face, freckles, flushed cheeks, eyes, hair with bangs, blue hoop earrings, same hard low golden sunlight and the shadow across her face, same background, same framing, same camera grain. Only replace the white cream jar in the lower-left with the exact product from image 2: the clear glass dropper bottle with the black dropper cap and the white label reading SOOM / HYDRA SERUM / 30 ml. The label faces the camera and the word SOOM is clearly readable and spelled exactly SOOM. She holds the bottle in her left hand near the lens in the lower-left, upright, at a similar scale to the jar, lit by the same warm sunlight with a realistic glass highlight. Exactly one hand visible, holding the bottle naturally. No other text.",
+    "image_urls": [
+      "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/37441535-9c6e-4cab-9e33-c029821898c7.png",
+      "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/52113683-a74e-43fd-bc83-40bc1f7faefd.png"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "32차 SOOM 라벨 병으로 첫 프레임",
+  "submitted_at": "2026-10-10T10:44:51.382Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T10:44:52.119Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T10:44:53.211Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T10:45:59.260Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "3c133270-c510-4c8c-b288-c2ff5439d4de",
+  "status_url": "https://api.higgsfield.ai/requests/3c133270-c510-4c8c-b288-c2ff5439d4de/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/3c133270-c510-4c8c-b288-c2ff5439d4de/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "3c133270-c510-4c8c-b288-c2ff5439d4de",
+    "status_url": "https://api.higgsfield.ai/requests/3c133270-c510-4c8c-b288-c2ff5439d4de/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/3c133270-c510-4c8c-b288-c2ff5439d4de/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/652521d2-b2d4-45b3-a9d2-ef355e2598ff.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-10T10:45:59.260Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-ref-k2\\v32-soom-ref-k2_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/652521d2-b2d4-45b3-a9d2-ef355e2598ff.png",
+      "bytes": 3042954,
+      "sha256": "50c03cbf3027c58d3c1385102fc2ff9b5b0e1b1102a884a0f4a7614e46c0a36a"
+    }
+  ],
+  "downloaded_at": "2026-10-10T10:46:03.215Z"
+}

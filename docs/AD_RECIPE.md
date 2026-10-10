@@ -24,6 +24,7 @@ API 호출은 `tools/hf.mjs`(키는 저장소 밖 `.env.local`의 HF_CREDENTIALS
    입력: 2의 첫 프레임. 프롬프트 `soom-ref-v2k.json`
    요지: 폰은 앞에 세워 둠(손에 안 듦), 손은 정확히 둘(왼손 병·라벨이 계속 카메라, 오른손 자유) → 0–1.5초 오른손으로 머리를 귀 뒤로 넘기며 렌즈를 봄 → 1.5–4초 병을 렌즈 가까이, 오른손 손톱으로 라벨을 두세 번 톡톡(ASMR), 탭할 때 병을 내려다봄 → 4–5초 다시 렌즈 보며 살짝 지친 듯 자연스러운 반미소. 노을 직사광·주근깨 유지.
    부정어: third hand, two right hands, extra fingers, face drift, stiff expression, eyes looking nowhere, changing/misspelled label, extra bottles, plastic skin, glossy ad lighting, watermark, subtitles
+   결과(2026-10-11, 충전 후 재제출 라벨 `v32-soom-ref-v2k-b`): `drafts/v32/soom-v2.mp4` — 머리 넘기기·손톱 탭·렌즈 보며 미소, 손 둘, SOOM 라벨 유지. 사용자 확인 대기.
 4. **편집** — 소리 제거, H.264, `drafts/v32/`에 저장. 사용자 확인 뒤 사이트(`site/public/media/film/`)로.
 
 ## 이전 시도 (참고)

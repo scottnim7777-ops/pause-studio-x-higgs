@@ -1,0 +1,50 @@
+{
+  "label": "v32-soom-ref-v1k",
+  "endpoint": "kling-video/v2.5-turbo/pro/image-to-video",
+  "input": {
+    "prompt": "5-second, 16:9, 24fps ultra-photorealistic skincare UGC selfie clip, continuing exactly from the start image. Keep the woman's exact face, freckles, flushed cheeks, blue-green eyes, light-brown hair with bangs, blue hoop earrings, white shirt and identity consistent throughout. Keep the exact same small clear glass dropper bottle with the black dropper cap and clear liquid; never change its shape or size, never add a label, never duplicate it. STYLE: authentic end-of-day skincare vlog filmed by herself on a smartphone at arm's length. Relaxed, slightly tired, unperformed. Not a polished ad. Hard low golden-hour sunlight from frame-left with real shadows, as in the start image. No ring light. CAMERA: handheld selfie, small tremor, subtle drift, minor framing corrections, natural autofocus shifts, mild wide-angle distortion, natural motion blur, subtle sensor noise. Never gimbal-smooth. ACTION: she lifts the glass dropper out of the bottle close to the lens, squeezes the black bulb and one clear drop of serum falls onto her fingertip; autofocus shifts from the dropper to her face; she then gently presses the fingertip onto her cheekbone and lifts it; the serum appears briefly and absorbs, leaving only a subtle hydrated sheen in the sunlight while freckles and pores stay visible. Slow blink, small exhale, loose hair moving slightly. SKIN REALISM: pore-level detail, visible freckles, vellus hair, natural catchlights, real lip texture. No plastic skin, no beauty filter, no waxy face. ",
+    "negative_prompt": "face drift, different person, changing face, plastic skin, beauty filter, waxy skin, changing bottle, label, text, extra bottles, extra fingers, glossy ad lighting, gimbal smooth camera, watermark, subtitles",
+    "image_url": "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b0b19898-c1c0-4d4b-9f5f-9eb14fbc8414.png",
+    "duration": 5,
+    "cfg_scale": 0.5
+  },
+  "note": "32차 SOOM 하이라이트(Kling, 잔액 부족으로 Seedance 대신)",
+  "submitted_at": "2026-10-10T10:24:53.411Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T10:24:56.990Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T10:25:08.308Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T10:26:21.001Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "b5881eea-28dc-4c06-a0d7-c4f7b2bcf85f",
+  "status_url": "https://api.higgsfield.ai/requests/b5881eea-28dc-4c06-a0d7-c4f7b2bcf85f/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/b5881eea-28dc-4c06-a0d7-c4f7b2bcf85f/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "b5881eea-28dc-4c06-a0d7-c4f7b2bcf85f",
+    "status_url": "https://api.higgsfield.ai/requests/b5881eea-28dc-4c06-a0d7-c4f7b2bcf85f/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/b5881eea-28dc-4c06-a0d7-c4f7b2bcf85f/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cca54523-e976-4ab1-89d0-95ccb5fd3552.mp4"
+    }
+  },
+  "checked_at": "2026-10-10T10:26:21.001Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-ref-v1k\\v32-soom-ref-v1k_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/cca54523-e976-4ab1-89d0-95ccb5fd3552.mp4",
+      "bytes": 14180934,
+      "sha256": "072f83aa476ca54a4390392c88d503490f43afe091d03c1b0c8d25206c5f4561"
+    }
+  ],
+  "downloaded_at": "2026-10-10T10:27:15.040Z"
+}

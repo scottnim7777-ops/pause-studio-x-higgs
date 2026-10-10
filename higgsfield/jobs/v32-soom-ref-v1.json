@@ -1,0 +1,35 @@
+{
+  "label": "v32-soom-ref-v1",
+  "endpoint": "bytedance/seedance-2.0/image-to-video",
+  "input": {
+    "prompt": "5-second, 16:9, 24fps ultra-photorealistic skincare UGC selfie clip, continuing exactly from the start image. Keep the woman's exact face, freckles, flushed cheeks, blue-green eyes, light-brown hair with bangs, blue hoop earrings, white shirt and identity consistent throughout. Keep the exact same small clear glass dropper bottle with the black dropper cap and clear liquid; never change its shape or size, never add a label, never duplicate it. STYLE: authentic end-of-day skincare vlog filmed by herself on a smartphone at arm's length. Relaxed, slightly tired, unperformed. Not a polished ad. Hard low golden-hour sunlight from frame-left with real shadows, as in the start image. No ring light. CAMERA: handheld selfie, small tremor, subtle drift, minor framing corrections, natural autofocus shifts, mild wide-angle distortion, natural motion blur, subtle sensor noise. Never gimbal-smooth. ACTION: she lifts the glass dropper out of the bottle close to the lens, squeezes the black bulb and one clear drop of serum falls onto her fingertip; autofocus shifts from the dropper to her face; she then gently presses the fingertip onto her cheekbone and lifts it; the serum appears briefly and absorbs, leaving only a subtle hydrated sheen in the sunlight while freckles and pores stay visible. Slow blink, small exhale, loose hair moving slightly. SKIN REALISM: pore-level detail, visible freckles, vellus hair, natural catchlights, real lip texture. No plastic skin, no beauty filter, no waxy face. STRICT NEGATIVE: no face drift, no character change, no hairstyle or outfit change, no product change, no extra bottles, no label text, no glossy ad lighting, no watermark, no subtitles, no text, no UI.",
+    "image_url": "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/b0b19898-c1c0-4d4b-9f5f-9eb14fbc8414.png",
+    "duration": 5,
+    "resolution": "720p",
+    "generate_audio": false
+  },
+  "note": "32차 SOOM 참고 영상 방식 5초 하이라이트",
+  "submitted_at": "2026-10-10T10:24:11.971Z",
+  "status": "failed",
+  "history": [
+    {
+      "at": "2026-10-10T10:24:14.866Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T10:24:21.890Z",
+      "status": "failed"
+    }
+  ],
+  "request_id": "60025227-d8aa-404a-b3d7-54c9c74cd6e7",
+  "status_url": "https://api.higgsfield.ai/requests/60025227-d8aa-404a-b3d7-54c9c74cd6e7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/60025227-d8aa-404a-b3d7-54c9c74cd6e7/cancel",
+  "response": {
+    "status": "failed",
+    "error": "Your credit balance is too low to complete this request. Please top up your balance and try again.",
+    "request_id": "60025227-d8aa-404a-b3d7-54c9c74cd6e7",
+    "status_url": "https://api.higgsfield.ai/requests/60025227-d8aa-404a-b3d7-54c9c74cd6e7/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/60025227-d8aa-404a-b3d7-54c9c74cd6e7/cancel"
+  },
+  "checked_at": "2026-10-10T10:24:21.865Z"
+}

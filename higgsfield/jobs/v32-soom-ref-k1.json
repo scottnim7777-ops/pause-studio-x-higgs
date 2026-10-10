@@ -1,0 +1,54 @@
+{
+  "label": "v32-soom-ref-k1",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Edit image 1. Keep absolutely everything in image 1 identical: the same woman, same face, freckles, flushed cheeks, eyes, hair, blue hoop earrings, same hard low golden sunlight and the phone shadow across her face, same background, same framing, same camera grain and softness. Only replace the white cream jar in the lower-left with the exact product from image 2: the small clear glass dropper bottle with the black ribbed dropper cap and clear transparent liquid, no label. She holds it in the same place and at the same scale, close to the lens in the lower-left, slightly out of focus like the jar was, lit by the same warm sunlight with a realistic glass highlight. No text, no logo.",
+    "image_urls": [
+      "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/8916c892-381c-4cfa-b4c8-8964b2912145.png",
+      "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2e88f085-01c2-44aa-a66d-5d2f6e540ce0.jpeg"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "32차 SOOM 참고 영상 프레임에서 제품만 교체",
+  "submitted_at": "2026-10-10T10:22:17.448Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T10:22:19.016Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T10:22:20.562Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T10:23:10.673Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "c2dd9a8f-6d6f-4a35-bdbd-570a7ccda876",
+  "status_url": "https://api.higgsfield.ai/requests/c2dd9a8f-6d6f-4a35-bdbd-570a7ccda876/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/c2dd9a8f-6d6f-4a35-bdbd-570a7ccda876/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "c2dd9a8f-6d6f-4a35-bdbd-570a7ccda876",
+    "status_url": "https://api.higgsfield.ai/requests/c2dd9a8f-6d6f-4a35-bdbd-570a7ccda876/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/c2dd9a8f-6d6f-4a35-bdbd-570a7ccda876/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/345905c3-acae-40a5-b932-57778a8cd594.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-10T10:23:10.673Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-ref-k1\\v32-soom-ref-k1_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/345905c3-acae-40a5-b932-57778a8cd594.png",
+      "bytes": 2847445,
+      "sha256": "c08ec8d3caf9190c9d2a4696e6d7784969c2ae602c2f1b068b4d354e035f8c9b"
+    }
+  ],
+  "downloaded_at": "2026-10-10T10:23:20.949Z"
+}

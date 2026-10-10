@@ -1,0 +1,53 @@
+{
+  "label": "v32-soom-s2",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Use image 1 as the exact product: keep the very same small clear glass dropper bottle with the black ribbed dropper cap and clear transparent liquid, same proportions, no label, no text. Place it standing on a dark wet slate stone surface in a black studio. A single tall soft strip light from the left draws one clean vertical highlight along the glass; a few tiny water droplets on the glass and on the stone; the liquid inside glows faintly. Low camera angle, product centred slightly right, generous dark negative space on the left. Luxury skincare commercial photograph, 85mm lens, shallow depth of field, realistic, subtle film grain, restrained, no logo, no lettering.",
+    "image_urls": [
+      "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2e88f085-01c2-44aa-a66d-5d2f6e540ce0.jpeg"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "32차 SOOM 기준 정지 화면",
+  "submitted_at": "2026-10-10T06:36:29.446Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T06:36:29.951Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T06:36:34.384Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T06:37:40.266Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "3f9b7564-057a-46ab-86da-1908aff2c689",
+  "status_url": "https://api.higgsfield.ai/requests/3f9b7564-057a-46ab-86da-1908aff2c689/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/3f9b7564-057a-46ab-86da-1908aff2c689/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "3f9b7564-057a-46ab-86da-1908aff2c689",
+    "status_url": "https://api.higgsfield.ai/requests/3f9b7564-057a-46ab-86da-1908aff2c689/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/3f9b7564-057a-46ab-86da-1908aff2c689/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/ae9619c7-6c2d-4f0e-9aec-3a8823016c6a.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-10T06:37:40.266Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-s2\\v32-soom-s2_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/ae9619c7-6c2d-4f0e-9aec-3a8823016c6a.png",
+      "bytes": 1892438,
+      "sha256": "8e88ec806676875467c25d3487ad6a5f5effaccb75b6e4310c3ad2ef5ca0a3fd"
+    }
+  ],
+  "downloaded_at": "2026-10-10T06:37:43.137Z"
+}

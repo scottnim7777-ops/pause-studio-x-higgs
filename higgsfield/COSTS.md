@@ -77,3 +77,6 @@
 ## 31차 (2026-10-10) — AI 광고영상 샘플 4편 교체(tools/adv31)
 - 스틸 21장 × $0.12 = **$2.52** + Nano Banana 2 크레딧(빈 쟁반 v31-b3-empty 등). 영상은 Kling 1컷 **$0.21**, 나머지 움직임은 `tools/adv31/*.py`가 스틸을 깊이 추정·합성해 직접 렌더(추가 비용 없음).
 - 크레딧 남은 약 5.6(사용자: 남은 예산 모두 써도 됨, 추가 충전 없음). 작업 기록 `higgsfield/v31-mcp-log.jsonl`, `v31-steam.json`.
+
+## 32차 (2026-10-10) — AI 광고영상 다시 만들기(한 편씩, 7초)
+- SOOM: 기준 정지 화면 qwen-image-3/edit 3장 x $0.075 = $0.225(soul/cinema 2번 생성 실패), 영상 Kling 2.5 Turbo Pro 5초 2컷 x $0.298 = $0.596. 합계 약 $0.82. 편집 tools/adv32/soom.py → drafts/v32/soom.mp4(사용자 확인 대기)

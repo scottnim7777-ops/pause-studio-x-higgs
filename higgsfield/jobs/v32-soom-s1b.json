@@ -1,0 +1,38 @@
+{
+  "label": "v32-soom-s1b",
+  "endpoint": "higgsfield-ai/soul/cinema",
+  "input": {
+    "prompt": "Macro product commercial photograph, 16:9. A single perfectly clear droplet of serum suspended in mid-air a few centimetres above a completely still, glossy black water surface in a dark studio. One soft horizontal strip light above reflects as a clean thin line on the black water. The droplet catches a tiny crisp highlight. Deep black background, no other objects, no text. Shot on a 100mm macro lens, f/4, high-end skincare advertisement, realistic, natural film grain, restrained and minimal.",
+    "aspect_ratio": "16:9",
+    "resolution": "1080p",
+    "enhance_prompt": false
+  },
+  "note": "32차 SOOM 물방울(1차 실패 재제출)",
+  "submitted_at": "2026-10-10T06:37:56.604Z",
+  "status": "failed",
+  "history": [
+    {
+      "at": "2026-10-10T06:37:57.065Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T06:37:57.672Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T06:38:02.016Z",
+      "status": "failed"
+    }
+  ],
+  "request_id": "2d38541a-d6b0-457a-8cd2-606ba5249977",
+  "status_url": "https://api.higgsfield.ai/requests/2d38541a-d6b0-457a-8cd2-606ba5249977/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/2d38541a-d6b0-457a-8cd2-606ba5249977/cancel",
+  "response": {
+    "status": "failed",
+    "error": "Generation failed",
+    "request_id": "2d38541a-d6b0-457a-8cd2-606ba5249977",
+    "status_url": "https://api.higgsfield.ai/requests/2d38541a-d6b0-457a-8cd2-606ba5249977/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/2d38541a-d6b0-457a-8cd2-606ba5249977/cancel"
+  },
+  "checked_at": "2026-10-10T06:38:02.016Z"
+}

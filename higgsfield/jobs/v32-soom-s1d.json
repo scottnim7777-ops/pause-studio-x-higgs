@@ -1,0 +1,53 @@
+{
+  "label": "v32-soom-s1d",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Use image 1 only for the look: the same glass, the same dark studio, the same wet black slate and soft light. New frame, extreme macro close-up, the bottle is NOT in the frame at all. Only the thin clear glass pipette tip enters from the top centre of the frame, and a single perfectly clear round droplet of serum is just releasing from the tip, hanging in mid-air. Below it, a small shallow pool of still clear liquid on the black slate reflects the tip. One soft strip light from the left draws a thin clean highlight on the glass tip and a crisp tiny highlight inside the droplet. Everything else falls into deep black. No bottle, no hands, no text. 100mm macro lens, very shallow depth of field, luxury skincare commercial photograph, realistic, subtle film grain.",
+    "image_urls": [
+      "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9bbfa378-bf9a-4ab3-862f-fb8e6548ef7a.png"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "32차 SOOM 스포이트 끝 물방울(병 없이)",
+  "submitted_at": "2026-10-10T06:39:22.460Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T06:39:23.043Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T06:39:23.599Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T06:40:29.422Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "24288c40-0be7-4a8a-8874-61f487d08aa8",
+  "status_url": "https://api.higgsfield.ai/requests/24288c40-0be7-4a8a-8874-61f487d08aa8/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/24288c40-0be7-4a8a-8874-61f487d08aa8/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "24288c40-0be7-4a8a-8874-61f487d08aa8",
+    "status_url": "https://api.higgsfield.ai/requests/24288c40-0be7-4a8a-8874-61f487d08aa8/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/24288c40-0be7-4a8a-8874-61f487d08aa8/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/f19d7d63-12fd-4cd4-8da3-68db1d7477b8.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-10T06:40:29.422Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-s1d\\v32-soom-s1d_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/f19d7d63-12fd-4cd4-8da3-68db1d7477b8.png",
+      "bytes": 2148203,
+      "sha256": "9266070f56d66a3a899a9920773151eca36d75a9295fd62807ef376fb694e22e"
+    }
+  ],
+  "downloaded_at": "2026-10-10T06:40:32.314Z"
+}

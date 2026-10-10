@@ -1,0 +1,50 @@
+{
+  "label": "v32-soom-v1",
+  "endpoint": "kling-video/v2.5-turbo/pro/image-to-video",
+  "input": {
+    "prompt": "Locked-off macro shot on a tripod. In slow motion the clear droplet slowly swells at the glass pipette tip, releases and falls into the small shallow pool below, making a delicate crown and a few fine concentric ripples that spread outward and settle. The glass tip and the black slate stay perfectly still. Calm, elegant, luxury skincare commercial.",
+    "negative_prompt": "camera shake, handheld, morphing, deforming glass, changing bottle shape, text, letters, logo, watermark, hands, people, extra objects, flicker, cartoon, CGI look",
+    "image_url": "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/30f2e3c6-fa04-4a69-bd70-fbdb34a1778a.png",
+    "duration": 5,
+    "cfg_scale": 0.6
+  },
+  "note": "32차 SOOM 영상 컷",
+  "submitted_at": "2026-10-10T06:40:58.258Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T06:40:58.800Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T06:41:04.294Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T06:44:53.042Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "81d8cacc-6f83-4ab6-8c4e-ef594d11bfc7",
+  "status_url": "https://api.higgsfield.ai/requests/81d8cacc-6f83-4ab6-8c4e-ef594d11bfc7/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/81d8cacc-6f83-4ab6-8c4e-ef594d11bfc7/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "81d8cacc-6f83-4ab6-8c4e-ef594d11bfc7",
+    "status_url": "https://api.higgsfield.ai/requests/81d8cacc-6f83-4ab6-8c4e-ef594d11bfc7/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/81d8cacc-6f83-4ab6-8c4e-ef594d11bfc7/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/047d3cb4-4ce2-4e12-998d-53a8c70fac4f.mp4"
+    }
+  },
+  "checked_at": "2026-10-10T06:44:53.042Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-v1\\v32-soom-v1_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/047d3cb4-4ce2-4e12-998d-53a8c70fac4f.mp4",
+      "bytes": 3499133,
+      "sha256": "046d8d2b9d25485a5f7954ed7ef64c2a215e5a260603d37be6dcd646b67a1c30"
+    }
+  ],
+  "downloaded_at": "2026-10-10T06:44:56.222Z"
+}

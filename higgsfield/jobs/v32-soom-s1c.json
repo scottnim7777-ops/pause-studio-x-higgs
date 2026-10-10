@@ -1,0 +1,53 @@
+{
+  "label": "v32-soom-s1c",
+  "endpoint": "alibaba/qwen-image-3/edit",
+  "input": {
+    "prompt": "Use image 1 for the exact product and mood: the same clear glass dropper pipette with the black rubber bulb, same dark studio and wet black slate. Extreme macro close-up: only the slim glass pipette tip enters from the top of the frame, held still, and a single perfectly clear round droplet of serum is just releasing from the tip, suspended in mid-air above a tiny shallow pool of still black water on the slate. One soft strip light from the left draws a thin clean highlight on the glass tip and a small crisp highlight inside the droplet. Deep black negative space, no hands, no text. 100mm macro lens, shallow depth of field, luxury skincare commercial photograph, realistic, subtle film grain.",
+    "image_urls": [
+      "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/9bbfa378-bf9a-4ab3-862f-fb8e6548ef7a.png"
+    ],
+    "resolution": "2k",
+    "aspect_ratio": "16:9"
+  },
+  "note": "32차 SOOM 스포이트 끝 물방울",
+  "submitted_at": "2026-10-10T06:38:18.356Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T06:38:18.888Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T06:38:19.465Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T06:39:04.981Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "6c62466b-91d6-48f6-9d66-fb729b198f3a",
+  "status_url": "https://api.higgsfield.ai/requests/6c62466b-91d6-48f6-9d66-fb729b198f3a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/6c62466b-91d6-48f6-9d66-fb729b198f3a/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "6c62466b-91d6-48f6-9d66-fb729b198f3a",
+    "status_url": "https://api.higgsfield.ai/requests/6c62466b-91d6-48f6-9d66-fb729b198f3a/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/6c62466b-91d6-48f6-9d66-fb729b198f3a/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3ba49f3c-9cca-4c28-99a2-7ceab85b148c.png"
+      }
+    ]
+  },
+  "checked_at": "2026-10-10T06:39:04.981Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-s1c\\v32-soom-s1c_01.png",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/3ba49f3c-9cca-4c28-99a2-7ceab85b148c.png",
+      "bytes": 1847372,
+      "sha256": "0c90b2f60e57fdfa65649dc9370eda5b5e1934ed732fa5f6f1a81c58e1702191"
+    }
+  ],
+  "downloaded_at": "2026-10-10T06:39:07.899Z"
+}

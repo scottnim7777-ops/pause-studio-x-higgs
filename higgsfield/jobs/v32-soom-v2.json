@@ -1,0 +1,50 @@
+{
+  "label": "v32-soom-v2",
+  "endpoint": "kling-video/v2.5-turbo/pro/image-to-video",
+  "input": {
+    "prompt": "Very slow smooth dolly-in toward the glass dropper bottle on wet black slate. A soft vertical strip of studio light slowly glides across the glass from left to right, so the highlight travels over the bottle and the clear liquid gently refracts and glints. The bottle itself stays perfectly still and unchanged. Calm, elegant, luxury skincare commercial, realistic.",
+    "negative_prompt": "camera shake, handheld, morphing, deforming glass, changing bottle shape, text, letters, logo, watermark, hands, people, extra objects, flicker, cartoon, CGI look",
+    "image_url": "https://d3snorpfx4xhv8.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/86fda5e9-0e9b-4886-bae1-fc838ef2f1ec.png",
+    "duration": 5,
+    "cfg_scale": 0.6
+  },
+  "note": "32차 SOOM 영상 컷",
+  "submitted_at": "2026-10-10T06:40:59.572Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-10T06:41:00.061Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-10T06:44:56.842Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-10T06:45:01.191Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "4d2cf4b2-6743-4cae-ba31-de46f4900a69",
+  "status_url": "https://api.higgsfield.ai/requests/4d2cf4b2-6743-4cae-ba31-de46f4900a69/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/4d2cf4b2-6743-4cae-ba31-de46f4900a69/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "4d2cf4b2-6743-4cae-ba31-de46f4900a69",
+    "status_url": "https://api.higgsfield.ai/requests/4d2cf4b2-6743-4cae-ba31-de46f4900a69/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/4d2cf4b2-6743-4cae-ba31-de46f4900a69/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/caca5a02-9543-4600-9249-a87d6aeefb5f.mp4"
+    }
+  },
+  "checked_at": "2026-10-10T06:45:01.191Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v32-soom-v2\\v32-soom-v2_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/caca5a02-9543-4600-9249-a87d6aeefb5f.mp4",
+      "bytes": 8195211,
+      "sha256": "f458eb7c0160da5b6c36ea2f89c2dc4c8b16dc7a0f401e52b7c1f6ecf7c37cfe"
+    }
+  ],
+  "downloaded_at": "2026-10-10T06:45:04.703Z"
+}

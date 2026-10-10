@@ -28,7 +28,7 @@ def main():
     for d in ('assets', 'fonts', 'media', 'brand'):
         shutil.copytree(DIST / d, OUT / d)
 
-    html = (DIST / 'index.html').read_text()
+    html = (DIST / 'index.html').read_text(encoding='utf-8')
     head = re.search(r'<head>(.*?)</head>', html, re.S).group(1)
     body = re.search(r'<body>(.*?)</body>', html, re.S).group(1)
     css = re.search(r'<link rel="stylesheet"[^>]*href="/(assets/[^"]+\.css)"', head).group(1)
@@ -52,23 +52,23 @@ def main():
     page = '\n'.join(['<title>PAUSE Studio</title>', inline, *[rel(p) for p in preloads],
                       f'<link rel="stylesheet" crossorigin href="{css}">',
                       f'<script type="module" crossorigin src="{js}"></script>', rel(body).strip()]) + '\n'
-    (OUT / 'index.html').write_text(page)
+    (OUT / 'index.html').write_text(page, encoding='utf-8')
     cssf = OUT / css
-    cssf.write_text(cssf.read_text().replace('url(/fonts/', 'url(../fonts/'))
+    cssf.write_text(cssf.read_text(encoding='utf-8').replace('url(/fonts/', 'url(../fonts/'), encoding='utf-8')
 
-    left = sorted(set(re.findall(r'(?<=["\'\s,(])/(?!/)[a-z][\w./-]*', page + cssf.read_text() + (OUT / js).read_text())))
+    left = sorted(set(re.findall(r'(?<=["\'\s,(])/(?!/)[a-z][\w./-]*', page + cssf.read_text(encoding='utf-8') + (OUT / js).read_text(encoding='utf-8'))))
     print('남은 절대 경로(/api/contact 만 있어야 함):', left)
 
     files = {p.relative_to(OUT).as_posix(): {'from': p.relative_to(OUT).as_posix(), 'contentType': TYPES[p.suffix]}
              for p in sorted(OUT.rglob('*')) if p.is_file() and p.name not in ('index.html', '_local.html')}
-    (SITE / '.cache/artifact-files.json').write_text(json.dumps(files, ensure_ascii=False, indent=1))
+    (SITE / '.cache/artifact-files.json').write_text(json.dumps(files, ensure_ascii=False, indent=1), encoding='utf-8')
     size = sum(p.stat().st_size for p in OUT.rglob('*') if p.is_file())
     print(f'함께 게시할 파일 {len(files)}개, 합계 {size / 1e6:.1f} MB → .cache/artifact-files.json')
 
     (OUT / '_local.html').write_text(  # 로컬 확인용(게시하지 않음): python3 -m http.server -d .cache/artifact → /_local.html
         '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
         '<style>:root{color-scheme:light}body{margin:0;font:14px system-ui;background:#fafaf9}img{max-width:100%}[hidden]{display:none!important}</style>'
-        '</head><body>\n' + page + '</body></html>')
+        '</head><body>\n' + page + '</body></html>', encoding='utf-8')
 
 
 if __name__ == '__main__':

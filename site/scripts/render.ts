@@ -4,9 +4,10 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { renderBody, renderHead } from '../src/render/page';
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tpl = fs.readFileSync(path.join(root, 'index.template.html'), 'utf8');
 
 // 바꿀 내용에 $ 기호(가격)가 있으므로 함수로 넣는다(문자열 치환 규칙 $& 등이 적용되지 않게)

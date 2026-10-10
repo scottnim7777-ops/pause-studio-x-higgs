@@ -7,11 +7,12 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import * as C from '../content/ko';
 import media from '../content/media.json';
 import { signatureOutline, signatureStrokes } from '../assets/signature';
 
-const PUB = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../../public');
+const PUB = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public');
 const exists = (p: string) => fs.existsSync(path.join(PUB, p));
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 /** 문구 안의 '\n' = 의도한 줄바꿈 */

@@ -201,3 +201,9 @@
 
   - 점검 159/159, 접근성 위반 0, 미리보기 14번째 버전.
 - 2026-10-09 사용자: 'PAUSE Studio라면'의 PAUSE Studio를 머리줄의 실제 회사 로고로 → 로고 SVG를 그대로 글 속에 넣어 두 링이 그려지고 글자가 드러난 뒤 '라면'. 점검 159/159, 접근성 위반 0, 미리보기 15번째 버전.
+- 2026-10-10 9차 이어서(Windows 새 세션): Windows(경로에 공백 포함, Administrator)에서 처음 빌드하며 두 가지 버그 발견·수정 —
+  (1) `new URL(import.meta.url).pathname`이 Windows에서 드라이브 문자 중복(`C:\C:\...`)·공백 `%20` 미디코딩으로 깨짐 → `fileURLToPath`로 교체(`site/scripts/render.ts`, `site/src/render/page.ts`, `tools/hf.mjs`). 다른 OS·경로에선 영향 없음.
+  (2) `site/scripts/artifact.py`의 `read_text`/`write_text`가 인코딩 미지정이라 Windows 기본 코드페이지(cp1252)로 한글이 깨짐 → 전부 `encoding='utf-8'` 명시.
+  이 Windows 환경에는 ffmpeg가 없어 winget으로 설치(Gyan.FFmpeg), 세션 PATH가 설치 후 갱신되지 않아 `%APPDATA%\npm`(이미 PATH에 있음)에 ffmpeg.exe 하드링크를 만들어 bash·PowerShell·Python subprocess 모두에서 바로 찾게 함. 다음 세션(새 셸)에서 ffmpeg가 안 보이면 이 하드링크가 지워졌는지 먼저 확인.
+  기존 미리보기 주소(claude.ai/artifact/VWXNSBC4SbLVMbq756SSva)는 이 Windows 세션의 클로드 계정에서 목록에 안 보임(다른 계정/세션 게시로 보임) → 접근 불가, 새로 게시: https://claude.ai/code/artifact/8b47160c-f103-456d-8ca0-60a822ccc9aa (16번째 버전, 비공개). 이후부터는 이 주소로 다시 게시.
+  이번 게시는 AI 광고영상 bam.py 재렌더·finish.py, 테스트·a11y·문서 정리(HANDOFF.md 9~10번) 전 상태 그대로 — 사용자가 진행 상황을 먼저 보고 싶어 해서 지금 게시. film 영상 중 bam.mp4는 아직 새 네온 장면이 아니라 예전 파일(ondo/route/daon) 그대로 들어 있음.

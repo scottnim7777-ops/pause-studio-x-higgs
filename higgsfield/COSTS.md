@@ -73,3 +73,7 @@
 - 이번 회차 합계 **약 $3.44**, REST 지갑 남은 금액 약 $0.7(사용자 충전 전까지 새 생성 없음). Seedance는 견적 API가 가격을 돌려주지 않아 DoP를 씀.
 - 작업 기록 `higgsfield/jobs/v30-*.json`, 입력 `higgsfield/inputs/v30/`, 결과 `higgsfield/raw/v30-*`. 편집은 `tools/ad_edit.py`(사이트 파일 `site/public/media/film/{ondo,route,daon}*`).
 
+
+## 31차 (2026-10-10) — AI 광고영상 샘플 4편 교체(tools/adv31)
+- 스틸 21장 × $0.12 = **$2.52** + Nano Banana 2 크레딧(빈 쟁반 v31-b3-empty 등). 영상은 Kling 1컷 **$0.21**, 나머지 움직임은 `tools/adv31/*.py`가 스틸을 깊이 추정·합성해 직접 렌더(추가 비용 없음).
+- 크레딧 남은 약 5.6(사용자: 남은 예산 모두 써도 됨, 추가 충전 없음). 작업 기록 `higgsfield/v31-mcp-log.jsonl`, `v31-steam.json`.

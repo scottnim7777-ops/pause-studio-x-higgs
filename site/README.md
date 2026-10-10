@@ -30,7 +30,7 @@ npm run check        # 타입 검사 + 빌드
 | `scripts/nz-ip.py` | 뉴질랜드 IP 목록 `src/geo/nz-ip.json` 만들기(인터넷 등록기관 공개 자료) — 가끔 다시 실행 |
 | `scripts/render.ts` | `index.template.html` → `index.html` |
 | `scripts/media.py` | 원본 → `public/media`(WebP·JPEG 880/1920, MP4, 받은 화면 녹화는 끊김 없이 반복되게 끝을 처음 장면과 겹침 — 기본 1초, 커스텀 케이크는 0.4초) + `src/content/media.json`(실제 크기) |
-| `../tools/ad_edit.py` | AI 광고영상 샘플 편집(ONDO · SOUTHERN ROUTE · DAON): Higgsfield 영상 두 컷 → 색보정·비네팅·그레인 + 움직이는 글씨(MaruBuri · Instrument Serif · Archivo) + 끝 화면 → `public/media/film/*.mp4`·포스터·BEFORE 사진 |
+| `../tools/ad_edit.py` | AI 광고영상 샘플 편집(구버전 ONDO · SOUTHERN ROUTE · DAON, 현재 4편은 `tools/adv31/`): Higgsfield 영상 두 컷 → 색보정·비네팅·그레인 + 움직이는 글씨(MaruBuri · Instrument Serif · Archivo) + 끝 화면 → `public/media/film/*.mp4`·포스터·BEFORE 사진 |
 | `tests/smoke.cjs` | 브라우저 점검 159개(화면 폭 7종·커서, 상담 4종 흐름·관심 플랜, 요금 = 견적서 플랜 + 최종 가격(STARTER · BUSINESS · ENTERPRISE · AI 광고영상)·결합 상품·예전 가격·GST 문구 없음, 통화(뉴질랜드 IP만 NZ$, 미국·한국·호주·IPv6·판별 실패는 US$, 꾸민 국가 헤더·?cur 무시), 포트폴리오 반복 재생·잘림 없음, 비교 손잡이, 광고 샘플 탭·자동 넘김, 질문 탭·열고 닫기, 전화 상담·이메일, 줄표·별표 없음, 머리줄, 계산기 플랜 선택, $0 다이어트, 가로·세로 그림(플레이어 16:9 + 휴대폰 9:16), 세로로 긴 창의 히어로 벽, 장 제목 잘림 없음, 비교 손잡이 주기 안내, 계산기 입력칸 표시, 샘플 탭 누른 뒤 자동 넘김, 포트폴리오 줄 맞춤(잘림·틀 없음), 계산기 기본값(500 · 150 → 5년 US$9,500 vs US$1,990), 마무리 선언 편지체 타이핑·서명(밑줄·빛 번짐 없음), 커스텀 케이크 화면 녹화 반복 영상, 합계 가운데, 포인트 효과(스크롤에 따라 채워지는 제목·진행 선과 켜지는 단계·되감기·형광펜·'Ordinary' 글꼴), 움직임 멈추기 버튼 없음(예전 기억 무시), 동작 줄이기, JS 없음) |
 | `tests/fixtures/tiny.webm` | 점검용 6초 영상 — Playwright의 Chromium에는 H.264가 없어 재생 점검 때 .mp4 대신 보냄 |
 | `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
@@ -63,7 +63,7 @@ npm run check        # 타입 검사 + 빌드
 ## 미디어
 - 포트폴리오: 실제 고객 사이트 화면(Ref.01~15, ChillenQ). Ref.16~39는 소유 확인 전이라 넣지 않았습니다.
 - Ref.02 커스텀 케이크(BLOOMING, 2026-10-09) · Ref.03 동대문 · Ref.08 컨템퍼러리 타투 스튜디오 · Ref.17 냉장·냉동 설비(ChillenQ, 2026-10-09): 사용자가 보낸 화면 녹화(원본 `../content/assets/portfolio/originals/*_hero_2026-10-0*.mp4`, 소리 빼고 보관) → 끊김 없이 반복되는 영상(`python3 scripts/media.py loops` 전체, `loops chillenq`처럼 하나만).
-- AI 광고영상 샘플 4편(가상 브랜드, 소개 글에 PAUSE가 직접 기획하고 만든 광고라고 밝힘): SOOM(Seedance) · ONDO COFFEE · SOUTHERN ROUTE · DAON HONEY(Higgsfield soul/cinema 스틸 + DoP 영상 → `../tools/ad_edit.py`).
+- AI 광고영상 샘플 4편(가상 브랜드, 소개 글에 PAUSE가 직접 기획하고 만든 광고라고 밝힘): PAUSE STUDIO · PÂTISSERIE MIREILLE · SOOM · 밤국수(Higgsfield 스틸 + Nano Banana 2 → `../tools/adv31/*.py`로 직접 합성·편집, 마무리 `finish.py`).
 - BEFORE/AFTER의 BEFORE 사진: Higgsfield 생성(`public/media/compare/mock-*`, `python3 scripts/media.py compare`).
 - 다시 만들기: `python3 scripts/media.py` (전체) · `… film` · `… loops` · `… compare` · `… og`(공유 이미지 = 미리보기 첫 화면).
 

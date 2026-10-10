@@ -130,7 +130,7 @@
 
 ## 9. 이미지·영상
 - 포트폴리오: 실제 고객 사이트 화면(WebP + JPEG, 880/1920px), 영상은 H.264 MP4(소리 없음).
-- AI 광고영상 샘플 4편(SOOM · ONDO COFFEE · SOUTHERN ROUTE · DAON HONEY, 모두 가상 브랜드): BEFORE = 사장님이 보내 줄 법한 평범한 사진(4:3), AFTER = 광고영상(16:9, H.264). 화면 위 글씨는 MaruBuri · Instrument Serif · Archivo(`tools/ad_edit.py`), AI 티가 나지 않게 색보정·비네팅·필름 그레인.
+- AI 광고영상 샘플 4편(PAUSE STUDIO 자체 광고 · PÂTISSERIE MIREILLE 파스텔 타블로 · SOOM 검은 공간 미니멀 · 밤국수 비 오는 밤 네온, 감독 스타일을 달리함, PAUSE 외에는 가상 브랜드, `tools/adv31/`): BEFORE = 사장님이 보내 줄 법한 평범한 사진(4:3), AFTER = 광고영상(16:9, H.264). 화면 위 글씨는 MaruBuri · Instrument Serif · Archivo(`tools/ad_edit.py`), AI 티가 나지 않게 색보정·비네팅·필름 그레인.
 - BEFORE/AFTER의 BEFORE는 HTML로 그린 평범한 템플릿 화면(가상 업체 Kiwi Journeys · Sweet Moments Cakes, 사진은 Higgsfield 생성).
 
 ## 10. 접근성

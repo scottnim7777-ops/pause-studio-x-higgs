@@ -447,9 +447,9 @@ async function page(browser, vp, opts = {}) {
     check('비교: 틀이 실제 화면 비율 그대로(잘림 없음)', Math.abs(d.ar - d.vw) / d.vw < 0.03, `${d.ar.toFixed(3)} vs ${d.vw.toFixed(3)}`);
     const mock = await p.evaluate(() => ({ cards: document.querySelectorAll('.mock .m-card').length, brand: document.querySelector('.mock .m-bar b').textContent, img: getComputedStyle(document.querySelector('.mock .m-thumb')).backgroundImage, thumbs: [...document.querySelectorAll('.mock')].map((m) => new Set([...m.querySelectorAll('.m-card .m-thumb')].map((t) => t.style.backgroundImage)).size) }));
     check('비교: BEFORE는 평범한 템플릿 사이트 모양(머리줄·사진 제목·서비스 카드 3개, 카드마다 다른 사진)', mock.cards === 6 && mock.brand === 'Kiwi Journeys' && mock.img.includes('mock-travel') && mock.thumbs.length === 2 && mock.thumbs.every((n) => n === 3), JSON.stringify(mock));
-    // 비교 아래 BEFORE·AFTER 이름표: 테두리 있는 꼬리표, AFTER는 크림색으로 채움(2026-10-09 사용자: 잘 안 보임)
-    const tag = await p.evaluate(() => { const b = getComputedStyle(document.querySelector('.cmp-cap .b b')), a = getComputedStyle(document.querySelector('.cmp-cap .a b')); return { bb: b.borderTopWidth, ab: a.backgroundColor, ac: a.color, fs: parseFloat(b.fontSize) }; });
-    check('비교 아래 BEFORE·AFTER 이름표가 잘 보임(테두리 꼬리표 · AFTER 채움)', parseFloat(tag.bb) >= 1 && tag.ab !== 'rgba(0, 0, 0, 0)' && tag.ab !== tag.ac && tag.fs >= 11, JSON.stringify(tag));
+    // 비교 아래 설명: 위 화면에 BEFORE·AFTER가 이미 있으므로 이름표 없이 화살표만(9차 사용자: 중복)
+    const tag = await p.evaluate(() => ({ b: getComputedStyle(document.querySelector('.cmp-cap .b'), '::before').content, a: getComputedStyle(document.querySelector('.cmp-cap .a'), '::after').content, tags: document.querySelectorAll('.cmp-cap b').length }));
+    check('비교 아래 설명은 화살표만(BEFORE·AFTER 이름표 중복 없음)', tag.b.includes('←') && tag.a.includes('→') && tag.tags === 0, JSON.stringify(tag));
     check('비교 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }
@@ -463,7 +463,7 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(2500);
     const a = await p.evaluate(() => ({ n: document.querySelectorAll('.fs-tab').length, playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused), prog: document.querySelector('.fs-tab[aria-selected="true"]').style.getPropertyValue('--prog') }));
     // 손대지 않으면 한 편이 끝날 때 다음 샘플로
-    const advanced = await p.waitForFunction(() => document.querySelector('#fs-tab-ondo').getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
+    const advanced = await p.waitForFunction(() => document.querySelector('#fs-tab-mireille').getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
     const adv = await p.evaluate(() => ({ vis: [...document.querySelectorAll('.fs-panel')].map((x) => !x.hidden), playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused) }));
     check('광고 샘플: 손대지 않으면 한 편이 끝나고 다음 샘플로 넘어감', advanced && adv.vis[1] && adv.playing[1] && !adv.playing[0], JSON.stringify(adv));
     await p.click('.fs-tab >> nth=2');
@@ -477,7 +477,7 @@ async function page(browser, vp, opts = {}) {
     const loopOff = await p.evaluate(() => [...document.querySelectorAll('[data-fs-video]')].every((v) => !v.loop));
     check('광고 샘플: 4개 · 보이면 첫 샘플 재생(진행 선)', a.n === 4 && a.playing[0] && !a.playing.slice(1).some(Boolean) && Number(a.prog) > 0, JSON.stringify(a));
     check('광고 샘플: 탭 누르면 그 샘플만 보이고 재생', b.sel === 2 && b.vis.join() === 'false,false,true,false' && b.playing[2] && !b.playing[0], JSON.stringify(b));
-    check('광고 샘플: 방향키로 다음 탭(초점 이동)', c.sel === 3 && c.focus === 'fs-tab-daon', JSON.stringify(c));
+    check('광고 샘플: 방향키로 다음 탭(초점 이동)', c.sel === 3 && c.focus === 'fs-tab-bam', JSON.stringify(c));
     check('광고 샘플: 탭을 누른 뒤에도 영상이 끝나면 다음 샘플로(한 편만 반복하지 않음)', afterClick && loopOff, `다음으로 ${afterClick} · 반복 꺼짐 ${loopOff}`);
     check('광고 샘플 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();

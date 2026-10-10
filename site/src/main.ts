@@ -1,7 +1,7 @@
 import { initHero } from './ts/hero';
 import {
   initAccordions, initAutoVideos, initCalc, initCompare, initEmail, initFaqTabs, initFilmSamples, initHeader, initLedger, initLightbox,
-  initMenu, initPhone, initReveal, initScrub, initWorkLoops, initAccents,
+  initMenu, initPhone, initReveal, initScrub, initWorkLoops, initAccents, initLogo, initPen, initCodeWord,
 } from './ts/ui';
 import { initConsult } from './ts/consult';
 
@@ -27,6 +27,9 @@ safe('videos', initAutoVideos);
 safe('accordion', initAccordions);
 safe('faq', initFaqTabs);
 safe('scrub', initScrub);
+safe('logo', initLogo);
+safe('pen', initPen);
+safe('codeword', initCodeWord);
 safe('accents', initAccents);
 safe('reveal', initReveal);
 safe('hero', () => initHero(() => { /* 인트로가 끝나면 html.intro-done */ }));

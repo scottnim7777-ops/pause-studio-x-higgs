@@ -129,29 +129,14 @@ def loop(name: str, f: str, out: Path):
 
 
 def film():
-    print('AI 영상광고 예시(가상 브랜드 SOOM)')
-    raw = ROOT / 'higgsfield/raw'
+    """AI 광고영상 샘플(9차, 2026-10-09): 영상은 tools/adv31/*.py 로 렌더, BEFORE 사진·포스터·복사는 tools/adv31/finish.py.
+    여기서는 그 결과가 있는지만 확인한다(예전 v19 SOOM 자료를 다시 만들어 덮어쓰지 않게)."""
+    print('AI 영상광고 샘플(tools/adv31/finish.py 결과 확인)')
     out = PUB / 'media/film'
-    out.mkdir(parents=True, exist_ok=True)
-    before = rgb(Image.open(raw / 'v19-before/v19-before_01.png'))
-    # 책상 사진은 4:3으로(제품이 가운데 오도록 좌우를 잘라냄)
-    w = round(before.height * 4 / 3)
-    x = (before.width - w) // 2
-    b = fit(before.crop((x, 0, x + w, before.height)), 1200)
-    b.save(out / 'before-1200.jpg', 'JPEG', quality=84, optimize=True, progressive=True)
-    manifest['/media/film/before-1200'] = {'1200': [b.width, b.height]}
-    poster = fit(rgb(Image.open(raw / 'v19-promo-water2/v19-promo-water2_01.png')), 1600)
-    poster.save(out / 'soom-poster.jpg', 'JPEG', quality=84, optimize=True, progressive=True)
-    manifest['/media/film/soom-poster'] = {'1600': [poster.width, poster.height]}
-    clip = sorted((raw / 'site-film-soom').glob('*.mp4')) if (raw / 'site-film-soom').exists() else []
-    if clip:
-        video_mp4(clip[0], out / 'soom.mp4', width=1280, crf=23)
-        # 영상의 첫 장면을 포스터로(영상이 시작될 때 화면이 튀지 않게)
-        p = fit(first_frame(out / 'soom.mp4'), 1600)
-        p.save(out / 'soom-poster.jpg', 'JPEG', quality=84, optimize=True, progressive=True)
-        manifest['/media/film/soom-poster'] = {'1600': [p.width, p.height]}
-    else:
-        print('  soom.mp4 없음 — 사진만 사용')
+    for key in ('pause', 'mireille', 'soom', 'bam'):
+        missing = [n for n in (f'{key}.mp4', f'{key}-poster.jpg', f'{key}-before.jpg') if not (out / n).exists()]
+        if missing:
+            print('  없음:', ', '.join(missing), '→ python tools/adv31/finish.py --films <렌더 폴더>')
 
 
 def compare():

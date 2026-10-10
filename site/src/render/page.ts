@@ -89,7 +89,7 @@ function header() {
   return `<a class="skip" href="#main">본문으로 건너뛰기</a>
 <header class="hd" data-header>
   <div class="hd-in">
-    <a class="hd-logo" href="#top" aria-label="PAUSE Studio 처음으로"><img src="/brand/logo-cream.svg" alt="Pause Studio" width="204" height="103"></a>
+    <a class="hd-logo" href="#top" aria-label="PAUSE Studio 처음으로" data-logo>${inlineLogo('hd-svg', true)}</a>
     <nav class="hd-nav" aria-label="주요 메뉴">${links}<a class="hd-cta" href="#contact">${esc(C.cta.header)}${smallArrow}</a></nav>
     <button class="hd-menu" type="button" aria-expanded="false" aria-controls="mnav" data-menu><span class="sr">메뉴</span><i></i><i></i></button>
   </div>
@@ -217,13 +217,19 @@ const inkPhrase = (html: string, em?: string) => {
   return html.replace(k, `<strong class="mark" data-mark>${k}</strong>`);
 };
 
+/** 웹사이트 장 큰 글(2026-10-09 사용자: 'WEBSITE에 웹사이트 제작처럼 코드 같은 효과'): 화면에 들어올 때마다
+ *  ① 편집기 한 줄에 <h2>WEBSITE</h2>(이 제목의 실제 태그)를 타이핑 → ② 스타일이 아직 없는 브라우저 기본 글꼴(Times)로 먼저 그려짐 →
+ *  ③ CSS가 입혀지는 순간 PAUSE 제목 글꼴로 바뀌며 제 크기로 커짐 → ④ 개발자 도구 검사기처럼 상자와 크기 표시가 잠깐 떴다 사라짐.
+ *  움직임 줄이기·JS 없음이면 완성된 글만 */
+const codeWord = (w: string) => `<span class="cw" data-mark data-cw><span class="cw-word">${esc(w)}</span><span class="cw-raw">${esc(w)}</span><span class="cw-code"><i class="ln">1</i><span class="tp"><b>&lt;h2&gt;</b>${esc(w)}<b>&lt;/h2&gt;</b></span><i class="car"></i></span><i class="cw-box"></i><i class="cw-tip"><b>h2</b><u>.ch-word</u><s data-cw-size></s></i></span>`;
+
 /* ───────── 장 첫 화면: 아주 큰 영문 단어가 스크롤에 따라 옆으로 천천히 흐름 ───────── */
 function chapter(key: 'website' | 'video') {
   const c = C.chapters[key];
   return `<section class="chapter ch-${key}" id="${key}" aria-labelledby="ch-${key}" data-scrub>
   <div class="wrap">
     <p class="ch-index rv">${esc(c.index)}</p>
-    <h2 class="ch-word rv" id="ch-${key}"><span class="sr">${esc(c.ko)}</span><span class="ch-move" aria-hidden="true">${key === 'video' ? `<span class="shot" data-mark><span class="sh-w">${esc(c.word)}</span><i class="sh-vf"></i><i class="sh-cur"></i><i class="sh-flash"></i><i class="sh-rec">REC</i></span>` : esc(c.word)}</span></h2>
+    <h2 class="ch-word rv" id="ch-${key}"><span class="sr">${esc(c.ko)}</span><span class="ch-move" aria-hidden="true">${key === 'video' ? `<span class="shot" data-mark><span class="sh-w">${esc(c.word)}</span><i class="sh-vf"></i><i class="sh-cur"></i><i class="sh-flash"></i><i class="sh-rec">REC</i></span>` : codeWord(c.word)}</span></h2>
     <div class="ch-foot"><p class="ch-ko rv" aria-hidden="true">${esc(c.ko)}</p><p class="ch-lead rv" style="--d:.1s">${inkPhrase(nl(c.lead), c.em)}</p></div>
   </div>
 </section>`;
@@ -245,7 +251,7 @@ function mock(m: C.CompareCase['mock']) {
 }
 /** 비교 제목 '흔한 템플릿 VS 맞춤 디자인': '흔한 템플릿'은 아래 BEFORE 같은 평범한 글꼴. '맞춤 디자인'은 처음엔 같은 평범한 글꼴(.a)이었다가
  *  아래 비교 화면처럼 손잡이가 왼쪽에서 오른쪽으로 지나가며 PAUSE 제목 글꼴(.b)로 바뀐다(화면에 들어오면 한 번) */
-const cmpTitle = ([ord, art]: string[]) => `<span class="ord">${esc(ord)}</span>&nbsp;<span class="cmp-vs">VS</span> <span class="nobr"><span class="art" data-sp data-dur="2200"><span class="b">${esc(art)}</span><span class="a" aria-hidden="true">${esc(art)}</span><i class="h" aria-hidden="true"></i></span></span>`;
+const cmpTitle = ([ord, art]: string[]) => `<span class="ord">${esc(ord)}</span> <span class="cmp-vs"><i aria-hidden="true"></i><b>VS</b></span> <span class="nobr"><span class="art" data-sp data-dur="2200"><span class="b">${esc(art)}</span><span class="a" aria-hidden="true">${esc(art)}</span><i class="h" aria-hidden="true"></i></span></span>`;
 
 function compare() {
   const c = C.compare;
@@ -261,7 +267,7 @@ function compare() {
       <input class="cmp-range" type="range" min="0" max="100" value="50" step="1" aria-label="${esc(`${c.handle} · ${cs.label}`)}">
       ${vctrl()}
     </div>
-    <figcaption class="cmp-cap"><span class="b"><b>${esc(c.before)}</b>${esc(c.beforeSub)}</span><span class="cat">${esc(cs.label)}</span><span class="a"><b>${esc(c.after)}</b>${esc(c.afterSub)}</span></figcaption>
+    <figcaption class="cmp-cap"><span class="b"><span class="sr">${esc(c.before)}: </span>${esc(c.beforeSub)}</span><span class="cat">${esc(cs.label)}</span><span class="a"><span class="sr">${esc(c.after)}: </span>${esc(c.afterSub)}</span></figcaption>
   </figure>`;
   }).join('');
   return `<section class="sec sec-paper compare" id="compare" aria-labelledby="compare-title">
@@ -303,15 +309,18 @@ function pricingSec() {
 
 /* ───────── 관리비 $0 + 총비용 계산기 ───────── */
 /** 머리줄과 같은 회사 로고를 글 속에 그대로(그려지는 움직임을 위해 인라인) — 링·작은 원·글자에 이름을 붙임 */
-function inlineLogo(cls: string) {
+function inlineLogo(cls: string, bars = false) {
   const src = fs.readFileSync(path.join(PUB, 'brand/logo-cream.svg'), 'utf8');
+  // bars: 머리·바닥 로고 모션의 시작 — 두 고리 가운데에 일시정지(‖) 막대 두 개(PAUSE). 막대가 벌어지며 고리로 그려짐
+  const pause = bars ? '<g class="lg-bars" fill="#FCEED8"><rect x="611.82" y="290.62" width="64" height="380" rx="10"/><rect x="991.03" y="290.62" width="64" height="380" rx="10"/></g>' : '';
   return src
     .replace(/<svg [^>]*?viewBox="([^"]+)"[^>]*>/, (_m, vb) => `<svg class="${cls}" viewBox="${vb}" aria-hidden="true" focusable="false">`)
     .replace(/<title>.*?<\/title>/, '')
     .replace(/ps-ring-cut/g, `${cls}-cut`)
     .replace(/<ellipse /g, '<ellipse pathLength="100" ')
     .replace(/<circle /, '<circle class="lg-dot" ')
-    .replace(/<path /, '<path class="lg-word" ');
+    .replace(/<path /, '<path class="lg-word" ')
+    .replace('</svg>', `${pause}</svg>`);
 }
 
 
@@ -501,9 +510,9 @@ function manifesto() {
 </section>`;
 }
 
-/** '스트레스에서 해방되세요.'의 '해방되세요.'(2026-10-09 사용자: 해방에 효과 → '어색, 해방 느낌 아님'): 창살 뒤에 갇혀 흐리고 움츠러든 글자 →
- *  창살이 하나씩 아래로 떨어져 나가고 글자가 밝아지며 숨을 펴듯 풀려남(화면에 들어올 때마다) */
-const freeWord = (h: string) => h.replace(/(해방\s*되세요\.?)/, (m) => `<span class="free" data-mark>${m}<i class="bars" aria-hidden="true">${'<b></b>'.repeat(6)}</i></span>`);
+/** '해방되세요.'(2026-10-09 사용자: 창살 효과 '굉장히 이상함' → 다시): 편집자가 빨간 펜으로 원고를 고치듯
+ *  '웹사이트 관리비,'에 줄을 쭉 긋고(지워 버림) 이어서 '해방되세요.' 아래에 밑줄 — 화면에 들어올 때마다. 펜 선은 JS가 글자 자리에 맞춰 그림(ui.ts initPen) */
+const freeWord = (h: string) => h.replace(/(해방\s*되세요\.?)/, (m) => `<span class="free" data-pen-under>${m}</span>`);
 
 function contactSec() {
   const c = C.contactSection;
@@ -513,7 +522,7 @@ function contactSec() {
   <div class="wrap contact-grid">
     <div class="ct-main">
       <p class="ct-window rv"><span class="dot" aria-hidden="true"></span>${esc(c.windowLabel)} · ${esc(c.status)}</p>
-      <h2 class="ct-title rv" id="contact-title"><span class="ln"><span>${esc(c.title[0].trim())}<br class="m-br"> <em>${esc(c.title[1])}</em></span></span><span class="ln" style="--li:1"><span>${freeWord(esc(c.title[2]) + esc(c.title[3]))}</span></span></h2>
+      <h2 class="ct-title rv" id="contact-title" data-pen data-mark><span class="ln"><span>${esc(c.title[0].trim())}<br class="m-br"> <em data-pen-strike>${esc(c.title[1])}</em></span></span><span class="ln" style="--li:1"><span>${freeWord(esc(c.title[2]) + esc(c.title[3]))}</span></span></h2>
       <p class="ct-desc rv" style="--d:.1s">${esc(c.desc[0])}${esc(c.desc[1])}<em>${esc(c.desc[2])}</em>${esc(c.desc[3])}</p>
       <div class="ctas rv" style="--d:.15s">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
       <p class="ct-note">${esc(c.channelsNote[0])}<em>${esc(c.channelsNote[1])}</em>${esc(c.channelsNote[2])}</p>
@@ -536,7 +545,7 @@ function footer() {
   return `<footer class="ft">
   <div class="wrap">
     <div class="ft-top">
-      <a class="ft-logo" href="#top" aria-label="PAUSE Studio 처음으로"><img src="/brand/logo-cream.svg" alt="Pause Studio" width="210" height="106" loading="lazy"></a>
+      <a class="ft-logo" href="#top" aria-label="PAUSE Studio 처음으로" data-logo data-mark>${inlineLogo('ft-svg', true)}</a>
       <div class="ft-cols">
         <div><h3>Menu</h3><ul>${C.nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}<li><a href="#contact">${esc(C.cta.header)}</a></li></ul></div>
         <div><h3>Contact</h3><ul><li><a href="${C.contact.kakaoUrl}" target="_blank" rel="noopener">카카오톡 오픈채팅</a></li><li><a href="${C.contact.telHref}">${esc(C.contact.phoneLabel)}</a></li><li>${esc(f.emailLabel)} · <button class="reveal-btn" type="button" style="font-size:inherit" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(f.emailReveal)}</button></li></ul></div>

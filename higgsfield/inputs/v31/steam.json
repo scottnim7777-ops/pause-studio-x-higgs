@@ -1,0 +1,7 @@
+{
+  "prompt": "Static locked-off shot on a tripod. Only the steam moves: thin wisps of hot steam rise slowly and curl upward from the bowl of noodle soup into the warm overhead light, drifting and dissolving into the dark background. The bowl, noodles, egg, pork, wooden table and background stay perfectly still.",
+  "negative_prompt": "camera movement, zoom, pan, dolly, shaking, hands, chopsticks, people, text, morphing food, moving noodles",
+  "image_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EByAhDz4ttlycbMZ9taPcqNGmd/hf_20261009_174833_08b08b9f-05aa-4ec6-b336-0e0d6d64c845.png",
+  "duration": 5,
+  "cfg_scale": 0.6
+}

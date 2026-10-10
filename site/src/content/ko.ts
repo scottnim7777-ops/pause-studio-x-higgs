@@ -319,22 +319,23 @@ export const process = {
 };
 
 /**
- * AI 광고영상 샘플(가상 브랜드 · PAUSE 기획). BEFORE = 사장님이 보내 주실 법한 평범한 사진, AFTER = 광고영상
- * 2026-10-08 사용자: SOOM은 '쇼핑몰 상세페이지 영상', 샘플 4개, 고퀄리티 광고처럼(글씨는 좋은 서체로)
+ * AI 광고영상 샘플. BEFORE = 사장님이 보내 주실 법한 평범한 사진, AFTER = 광고영상
+ * 2026-10-09 9차(사용자: 예전 샘플은 모두 AI 티·같은 사람이 만든 듯 → 다시): 첫 번째는 PAUSE Studio 자체 광고(로고를 영상 속 물건에 녹임),
+ * 나머지 셋은 가상 브랜드 — 서로 다른 감독이 찍은 듯 형식·끝맺음이 모두 다름(제작 기록: tools/adv31, research/EYECANNNDY_NOTES.md)
  */
 export type FilmSample = { key: string; brand: string; industry: string; type: string; before: string; beforeAlt: string; video: string; poster: string; videoLabel: string };
 export const film = {
   eyebrow: 'SAMPLE WORKS',
   title: ['평범한 사진 한 장이,', '광고가 됩니다.'],
-  lead: '사장님이 보내 주시는 평범한 사진이 이렇게 바뀝니다.\n아래 샘플은 PAUSE가 가상의 브랜드로 직접 기획하고 만든 광고입니다.',
+  lead: '사장님이 보내 주시는 평범한 사진이 이렇게 바뀝니다.\n첫 번째는 PAUSE Studio 자체 광고, 나머지는 PAUSE가 가상의 브랜드로 직접 기획하고 만든 광고입니다.',
   before: 'BEFORE',
   beforeSub: '보내주신 사진',
   after: 'AFTER',
   samples: [
-    { key: 'soom', brand: 'SOOM', industry: '스킨케어 쇼핑몰', type: '쇼핑몰 상세페이지 영상', before: '/media/film/before-1200.jpg', beforeAlt: '책상 위에서 평범하게 찍은 세럼과 상자 사진', video: '/media/film/soom.mp4', poster: '/media/film/soom-poster.jpg', videoLabel: '물가에 놓인 SOOM 세럼과 상자, 잔잔한 물결과 빛' },
-    { key: 'ondo', brand: 'ONDO COFFEE', industry: '카페', type: 'SNS 광고영상', before: '/media/film/ondo-before.jpg', beforeAlt: '카페 테이블에서 평범하게 찍은 라떼 사진', video: '/media/film/ondo.mp4', poster: '/media/film/ondo-poster.jpg', videoLabel: '아침 햇살 속 라떼 위로 피어오르는 김과 라떼아트를 붓는 장면, 마지막에 ONDO COFFEE 로고' },
-    { key: 'route', brand: 'SOUTHERN ROUTE', industry: '여행사', type: '투어 상품 광고영상', before: '/media/film/route-before.jpg', beforeAlt: '전망대에서 휴대폰으로 찍은 흐린 날의 호수 사진', video: '/media/film/route.mp4', poster: '/media/film/route-poster.jpg', videoLabel: '뉴질랜드 남섬의 빙하 호수와 설산, 아침 안개 속 호숫가의 두 여행자, 마지막에 남섬 투어 문구' },
-    { key: 'daon', brand: 'DAON HONEY', industry: '건강식품', type: '제품 광고영상', before: '/media/film/daon-before.jpg', beforeAlt: '주방 조리대에서 평범하게 찍은 꿀 병 사진', video: '/media/film/daon.mp4', poster: '/media/film/daon-poster.jpg', videoLabel: '천천히 흘러내리는 꿀과 햇살에 빛나는 꿀 병, 마지막에 DAON HONEY 로고' },
+    { key: 'pause', brand: 'PAUSE STUDIO', industry: 'PAUSE 자체 광고', type: '브랜드 필름', before: '/media/film/pause-before.jpg', beforeAlt: '회색 책상 위에 아무것도 인쇄되지 않은 명함 세 장을 휴대폰으로 찍은 사진', video: '/media/film/pause.mp4', poster: '/media/film/pause-poster.jpg', videoLabel: '어두운 벽에 투사기 불빛으로 PAUSE Studio 로고가 맺히고, 촬영장과 카메라 모니터, 형압으로 찍힌 명함 속 로고로 이어진 뒤 불이 꺼지는 장면' },
+    { key: 'mireille', brand: 'PÂTISSERIE MIREILLE', industry: '동네 디저트 가게', type: 'SNS 광고영상', before: '/media/film/mireille-before.jpg', beforeAlt: '가게 선반 위 분홍 상자에 담긴 타르트 두 개를 휴대폰으로 찍은 사진', video: '/media/film/mireille.mp4', poster: '/media/film/mireille-poster.jpg', videoLabel: '분홍 가게 앞 금박 간판, 정면을 보는 파티시에, 빈 쟁반에 타르트가 하나씩 놓이는 스톱모션, 리본 상자와 아침 여덟 시 시계, 분홍 제목 카드' },
+    { key: 'soom', brand: 'SOOM', industry: '스킨케어 쇼핑몰', type: '쇼핑몰 상세페이지 영상', before: '/media/film/soom-before.jpg', beforeAlt: '사무실 책상 위 스포이트 병을 휴대폰으로 찍은 사진', video: '/media/film/soom.mp4', poster: '/media/film/soom-poster.jpg', videoLabel: '검은 공간에서 띠 조명이 지나가며 드러나는 세럼 병, 스포이트 끝 물방울 접사, 마지막에 SOOM 글자' },
+    { key: 'bam', brand: '밤국수', industry: '심야 국숫집', type: 'SNS 광고영상', before: '/media/film/bam-before.jpg', beforeAlt: '흰 식탁 위 국수 한 그릇을 평범하게 찍은 사진', video: '/media/film/bam.mp4', poster: '/media/film/bam-poster.jpg', videoLabel: '비 오는 밤 골목의 불 켜진 국숫집, 창 너머 요리사, 김이 오르는 국수, 마지막에 밤국수 네온 간판이 켜지고 새벽 두 시까지 불 켜 둔다는 자막' },
   ] as FilmSample[],
   play: '재생',
   pause: '일시정지',

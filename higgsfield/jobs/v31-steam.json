@@ -1,0 +1,50 @@
+{
+  "label": "v31-steam",
+  "endpoint": "kling-video/v2.5-turbo/standard/image-to-video",
+  "input": {
+    "prompt": "Static locked-off shot on a tripod. Only the steam moves: thin wisps of hot steam rise slowly and curl upward from the bowl of noodle soup into the warm overhead light, drifting and dissolving into the dark background. The bowl, noodles, egg, pork, wooden table and background stay perfectly still.",
+    "negative_prompt": "camera movement, zoom, pan, dolly, shaking, hands, chopsticks, people, text, morphing food, moving noodles",
+    "image_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EByAhDz4ttlycbMZ9taPcqNGmd/hf_20261009_174833_08b08b9f-05aa-4ec6-b336-0e0d6d64c845.png",
+    "duration": 5,
+    "cfg_scale": 0.6
+  },
+  "note": "국수 김(스팀)만 뽑아 2K 사진 위에 겹칠 용도, $0.21",
+  "submitted_at": "2026-10-09T17:57:26.076Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-09T17:57:27.146Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-09T17:57:32.604Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-09T18:00:43.309Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "0de7dc65-3bbf-49d3-b7a7-3755e7dc08cf",
+  "status_url": "https://api.higgsfield.ai/requests/0de7dc65-3bbf-49d3-b7a7-3755e7dc08cf/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/0de7dc65-3bbf-49d3-b7a7-3755e7dc08cf/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "0de7dc65-3bbf-49d3-b7a7-3755e7dc08cf",
+    "status_url": "https://api.higgsfield.ai/requests/0de7dc65-3bbf-49d3-b7a7-3755e7dc08cf/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/0de7dc65-3bbf-49d3-b7a7-3755e7dc08cf/cancel",
+    "video": {
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1dc588cc-ed54-4818-ade6-9703d9c67099.mp4"
+    }
+  },
+  "checked_at": "2026-10-09T18:00:43.309Z",
+  "files": [
+    {
+      "file": "higgsfield/raw/v31-steam/v31-steam_01.mp4",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/1dc588cc-ed54-4818-ade6-9703d9c67099.mp4",
+      "bytes": 5108792,
+      "sha256": "9548c30494c8ef5673b9043ac2d4b51936201a17507126b8b7c3258e5490e468"
+    }
+  ],
+  "downloaded_at": "2026-10-09T18:00:45.086Z"
+}

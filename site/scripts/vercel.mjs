@@ -1,7 +1,8 @@
 // Vercel 배포 묶음(Build Output API v3): dist → .vercel/output
 // 실행: npm run build && node scripts/vercel.mjs && vercel deploy --prebuilt [--prod]
 // - 정적 파일(assets·fonts·media·brand 등)은 Vercel CDN이 바로 보냄
-// - 첫 화면(/)과 /api/*는 server.ts(Express)를 묶은 함수가 처리 — 첫 화면은 방문자 나라(x-vercel-ip-country)에 맞는 통화로 넣어 보냄
+// - 첫 화면(/)과 /api/*는 server.ts(Express)를 묶은 함수가 처리 — 첫 화면은 방문자 나라에 맞는 통화로 넣어 보냄
+//   (도메인이 Cloudflare 프록시를 거치므로 cf-ipcountry 먼저 — x-vercel-ip-country는 Cloudflare 서버 위치가 됨)
 //   함수 경로를 요청 주소와 같게 두어(index·api/contact·api/currency·api/health) 주소를 바꿔 넘기지 않음
 // - index.html은 정적 파일로 두지 않음(통화 표시가 빠진 원본이 나가지 않게)
 import { build } from 'esbuild';
@@ -33,7 +34,7 @@ fs.writeFileSync(path.join(tmp, 'index.cjs'), "const m = require('./server.cjs')
 fs.copyFileSync(path.join(DIST, 'index.html'), path.join(tmp, 'dist/index.html'));
 fs.writeFileSync(path.join(tmp, '.vc-config.json'), JSON.stringify({
   runtime: 'nodejs22.x', handler: 'index.cjs', launcherType: 'Nodejs', shouldAddHelpers: false, maxDuration: 60,
-  environment: { NODE_ENV: 'production', GEO_HEADER: 'x-vercel-ip-country', TRUST_PROXY: '1', STATIC_DIR: 'dist' },
+  environment: { NODE_ENV: 'production', GEO_HEADER: 'cf-ipcountry,x-vercel-ip-country', TRUST_PROXY: '1', STATIC_DIR: 'dist' },
 }, null, 2));
 for (const fn of ['index', 'api/contact', 'api/currency', 'api/health']) {
   fs.cpSync(tmp, path.join(OUT, 'functions', `${fn}.func`), { recursive: true });

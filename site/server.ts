@@ -190,7 +190,8 @@ app.post('/api/contact', (req, res, next) => {
   if (ok) await receipt(m);
   console.log(`상담 신청 ${id}: 저장 ${saved ? '됨' : '안 됨'} · 메일 ${ok ? '전송됨' : '전송 실패'} (${oneLine(body.consultType, 40) || '-'}, 첨부 ${files.length}개)`);
   // 메일이 안 나갔으면 손님 브라우저가 FormSubmit으로 직접 보내도록 정리된 내용을 돌려줌(FormSubmit은 서버에서 보내면 403으로 막음)
-  res.status(ok ? 200 : 502).json(ok ? { ok } : { ok, saved, relay: { to: TO, subject: m.subject, replyTo: m.replyTo, rows: m.rows } });
+  // 실패도 200으로: 앞단 Cloudflare가 5xx 응답 본문을 자기 오류 화면으로 바꿔 relay가 사라지기 때문(2026-10-12 실제로 겪음)
+  res.status(200).json(ok ? { ok } : { ok, saved, relay: { to: TO, subject: m.subject, replyTo: m.replyTo, rows: m.rows } });
 });
 
 app.get('/api/health', (_req, res) => { res.json({ ok: true }); });

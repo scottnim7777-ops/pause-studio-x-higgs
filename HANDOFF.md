@@ -43,4 +43,6 @@
   - 배포: `cd site && npm run build && node scripts/vercel.mjs && vercel deploy --prebuilt --prod`
 - 문의 흐름: ① 비공개 Blob 저장소 `pause-inquiries`에 신청서·첨부 먼저 저장(`inquiries/날짜/아이디/`) ② 서버 SMTP(설정 시) ③ 실패하면 손님 브라우저가 FormSubmit으로 info@pause8studio.com에 직접 전송. 첨부 합계 4MB(Vercel 한도)
   - FormSubmit은 서버에서 보내면 403 → 브라우저 전송만 됨. 첫 사용 확인 메일을 info@로 보냄(2026-10-12 발송) → 사용자 승인 완료(2026-10-12), 브라우저 전송 성공 확인
-- **남은 일**: pause8studio.com·www는 `pause-studio` 프로젝트에 추가됨(소유 확인 대기). 사용자가 Cloudflare에 TXT `_vercel.pause8studio.com` 두 줄(vc-domain-verify=pause8studio.com,… / www.pause8studio.com,…)을 넣으면 확인 → 예전 다른 계정 프로젝트에서 넘어옴. 그 뒤 사이트·문의 실제 시험
+- 2026-10-12 pause8studio.com 연결 완료(Cloudflare TXT `_vercel` 2줄로 소유 확인 → 예전 다른 계정 프로젝트에서 넘어옴). www → 기본 주소 308. 통화는 cf-ipcountry 먼저
+- 실제 상담 창 → 저장 + FormSubmit → '접수 완료' 확인. 서버는 메일 실패도 200으로 응답(Cloudflare가 5xx 본문을 바꿔 relay가 사라짐)
+- 문의 메일 제목 `💻 [PAUSE 상담] 종류 · 이름 (회사)`, FormSubmit 표 양식

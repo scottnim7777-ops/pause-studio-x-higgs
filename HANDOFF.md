@@ -37,3 +37,10 @@
 - 웹사이트 효과 완료(커밋 62864e2): WEBSITE 코드 해독 등장, 비교 제목 한 줄 대결 배치, 포트폴리오 제목 로딩 막대, '사진만으로' 현상, '모았습니다.' 모임, 효과는 화면 진입 즉시(86%)·재생 시간 단축. 미리보기 같은 주소 4버전.
 - **AI 광고영상 4편 다시 만들기 — 콘티 승인 대기**: docs/AD_STORYBOARD_v32.md (한 편 7초, 3컷). 사용자 승인 전 생성 금지.
 - Higgsfield 키: 사용자가 새로 발급, 저장소 밖 `.env.local`(git 무시)에만 저장. 출력·커밋 금지.
+
+## 12차(2026-10-12) — 새 사이트 Vercel 배포 · 문의 메일
+- 새 사이트 임시 주소: https://pause-studio-three.vercel.app (Vercel 계정 scottnim7777-4767, 프로젝트 `pause-studio`)
+  - 배포: `cd site && npm run build && node scripts/vercel.mjs && vercel deploy --prebuilt --prod`
+- 문의 흐름: ① 비공개 Blob 저장소 `pause-inquiries`에 신청서·첨부 먼저 저장(`inquiries/날짜/아이디/`) ② 서버 SMTP(설정 시) ③ 실패하면 손님 브라우저가 FormSubmit으로 info@pause8studio.com에 직접 전송. 첨부 합계 4MB(Vercel 한도)
+  - FormSubmit은 서버에서 보내면 403 → 브라우저 전송만 됨. 첫 사용 확인 메일을 info@로 보냄(2026-10-12 발송) → **사용자가 'Activate Form'을 눌러야** 메일이 옴
+- **남은 일**: pause8studio.com은 다른 Vercel 계정의 예전 프로젝트에 연결되어 있음 → 사용자가 그 계정에서 도메인을 빼면 `vercel domains add pause8studio.com pause-studio`(+ www), Cloudflare DNS 확인, 실제 문의 시험

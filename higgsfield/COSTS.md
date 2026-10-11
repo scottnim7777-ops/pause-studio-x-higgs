@@ -84,3 +84,15 @@
 - SOOM 하이라이트(참고 영상 프레임에서 제품만 교체 → Kling 2.5 Pro 5초, 소리 없음): 제품 교체 qwen $0.075 + Kling $0.298. Seedance 720p 5초는 잔액 부족으로 거절(과금 없음). drafts/v32/soom-highlight.mp4
 - SOOM 라벨 제품 사진 qwen $0.075, 첫 프레임(라벨 병) qwen $0.075. Kling 5초(머리 넘기기+손톱 탭)는 잔액 부족(403 not_enough_credits)으로 거절 — 이 키 지갑 잔액 0.
 - 2026-10-11 API 지갑 10달러 충전 후 Kling 5초(머리 넘기기+손톱 탭) $0.298 → drafts/v32/soom-v2.mp4
+
+## 35차 (2026-10-11) — 건강기능식품 가상모델 후보(29세 한국 여성, 단아·귀염상)
+- soul/cinema 1080p 3:4, 12건 제출 중 10장 완료 × $0.006 = **$0.06** (실패 2건은 환불). 입력 `higgsfield/inputs/v35/`, 후보 `drafts/v35/model-*.png`, 모아 보기 `drafts/v35/candidates.jpg`.
+- 2차 요청("60대 남성이 좋아할 미인상, 건강미"): soul/cinema 6건 중 4장 완료 × $0.006 = **$0.024** (실패 2건 환불). 후보 `drafts/v35/model-C1~C4.png`, 모아 보기 `drafts/v35/sheet3.jpg`.
+- 3차("더 예뻐도 됨, C4는 AI 티"): soul/cinema 6장 × $0.006 + C4 실사화 qwen-image-3/edit 1장 $0.075 = **$0.111**. 후보 `drafts/v35/model-D1~D6.png`, `model-C4R.png`, 모아 보기 `drafts/v35/sheet4.jpg`. 35차 누계 약 $0.195.
+- 4차(사용자 기준: 복스러운 둥근 얼굴·반달 눈웃음·시원한 미소·단정): soul/cinema 12장 × $0.006 = **$0.072**. 후보 `drafts/v35/candidates2.jpg`(E5·F1~F6). 35차 누계 약 $0.27.
+- 모델 비교(같은 프롬프트): soul/v2 4장 $0.013 + grok 2.0 $0.06 + qwen-image-3 t2i $0.075 = **$0.148**. soul/v2는 체형·얼굴이 과장되어 탈락, grok이 가장 예쁘고 자연스러움. `drafts/v35/sheet-cmp.jpg`. 35차 누계 약 $0.42.
+- Soul 스타일 시험: soul/standard 720p(Realistic·iPhone) 2장 $0.188 + soul/v2(Nature light·Digital camera) 8장 $0.026 = **$0.214**. 몸매 과장·아마추어 사진 느낌으로 탈락. `drafts/v35/sheet-g.jpg`.
+- 실사 강화: soul/cinema 역광·솜털 프롬프트 6장 $0.036(피부는 실사, 얼굴은 수수) + F3 얼굴에 H5 질감 입히기 qwen edit 1장 $0.075(2건 실패 환불) → `drafts/v35/model-F3-real.png`, 비교 `real-f3-cmp.jpg`. 35차 누계 약 $0.75.
+- 최종 인물(사용자 선택: G2-iphone 인물 + G3-3 실사 질감): qwen edit 실사화+단아한 니트 2장 $0.15(b 채택 → `drafts/v35/model-G2-real.png`) + 상반신 사면도 1장 $0.075 → `drafts/v35/model-G2-turnaround.png`. 35차 누계 약 $0.97.
+- 재작업(화장·볼살·가슴 볼륨 유지 + 필름 질감): qwen edit 3건 중 1장 완료 $0.075(2건 실패 환불) → `model-G2-real2.png`, 로컬 필름 질감 `tools/adv35/filmlook.py` → `model-G2-real2-film.jpg`(무료). 35차 누계 약 $1.05.
+- G3-3 스타일(soul/v2 Nature light 1080p)로 G2 특징 묘사 8장 $0.046 → `drafts/v35/sheet-k.jpg`. 35차 누계 약 $1.10.

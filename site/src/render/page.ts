@@ -410,7 +410,7 @@ function fee() {
   return `<section class="sec sec-black fee" id="fee" aria-labelledby="fee-title">
   <div class="wrap">
     <div class="fee-top">
-      <header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 fee-title rv" id="fee-title">${lines(f.title).replace('$0', '<span class="z0">$0</span>')}</h2><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></header>
+      <header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 fee-title rv" id="fee-title">${lines(f.title).replace('$0', '<span class="z0">$0</span>').replace('관리비', '<span class="gone" data-sp data-dur="2000"><span class="g-t">관리비</span><span class="g-b" aria-hidden="true">관리비</span></span>')}</h2><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></header>
       ${ledger()}
     </div>
     <div class="fee-lists">

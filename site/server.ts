@@ -62,7 +62,8 @@ console.log(transporter ? `메일: SMTP(${process.env.SMTP_HOST}:${smtpPort})` :
 const F = consult.fields as Record<string, string | string[]>;
 const ORDER: [string, string][] = [
   ['consultType', '상담 종류'],
-  ...['company', 'name', 'email', 'phone', 'country', 'industry', 'currentSite', 'product', 'needs', 'itemCount', 'bookingPay', 'integrations',
+  // 메일에서 누구인지·어떻게 연락할지가 먼저 보이게(2026-10-12 사용자: 양식을 보기 좋게)
+  ...['name', 'phone', 'email', 'company', 'country', 'industry', 'currentSite', 'product', 'needs', 'itemCount', 'bookingPay', 'integrations',
     'videoProduct', 'videoUse', 'photos', 'mood', 'automation', 'systems', 'timeline', 'message']
     .map((k): [string, string] => [k, String(F[k])]),
 ];
@@ -81,8 +82,13 @@ function compose(body: Record<string, unknown>) {
   const name = oneLine(body.name, 60) || '이름 없음';
   const email = oneLine(body.email, 200);
   const page = oneLine(body._page, 300);
-  const text = [`${consult.title}`, '', ...rows.map(([k, v]) => `■ ${k}\n${v}`), '', `보낸 페이지: ${page || '-'}`, `받은 시각: ${new Date().toISOString()}`].join('\n');
-  return { subject: `[브랜딩 상담] ${type} · ${name}`, text, rows, replyTo: EMAIL_RE.test(email) ? email : undefined };
+  const company = oneLine(body.company, 60);
+  const at = new Date().toLocaleString('ko-KR', { timeZone: 'Pacific/Auckland', dateStyle: 'long', timeStyle: 'short' });
+  rows.push(['받은 시각', `${at} (뉴질랜드)`]);
+  if (page) rows.push(['보낸 페이지', page]);
+  const text = [`${consult.title}`, '', ...rows.map(([k, v]) => `■ ${k}\n${v}`)].join('\n');
+  // 제목 앞 💻(2026-10-12 사용자: 메일함에서 눈에 잘 띄게)
+  return { subject: `💻 [PAUSE 상담] ${type} · ${name}${company ? ` (${company})` : ''}`, text, rows, replyTo: EMAIL_RE.test(email) ? email : undefined };
 }
 
 async function viaSmtp(m: ReturnType<typeof compose>, files: Express.Multer.File[]) {
@@ -107,7 +113,7 @@ async function viaFormSubmit(m: ReturnType<typeof compose>, files: Express.Multe
   try {
     const fd = new FormData();
     fd.append('_subject', m.subject);
-    fd.append('_template', 'box');
+    fd.append('_template', 'table');
     fd.append('_captcha', 'false');
     if (m.replyTo) fd.append('_replyto', m.replyTo);
     m.rows.forEach(([k, v]) => fd.append(k, v));

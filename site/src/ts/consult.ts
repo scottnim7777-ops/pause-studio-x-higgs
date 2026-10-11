@@ -22,7 +22,7 @@ async function relay(r: Relay, files: File[]) {
   try {
     const fd = new FormData();
     fd.append('_subject', r.subject);
-    fd.append('_template', 'box');
+    fd.append('_template', 'table');
     fd.append('_captcha', 'false');
     if (r.replyTo) fd.append('_replyto', r.replyTo);
     r.rows.forEach(([k, v]) => fd.append(k, v));

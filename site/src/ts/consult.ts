@@ -3,17 +3,35 @@
  * - 상담 종류: 웹사이트 제작 · AI 광고영상 · 둘 다 함께 · AI 업무 자동화/맞춤 개발 → 종류에 맞는 질문만 보여줌
  * - 서비스·요금 버튼에서 열면 종류(와 상품)를 미리 골라 둠(data-type · data-field · data-value)
  * - 열고 닫을 때와 단계를 넘길 때 짧은 움직임(앞으로/뒤로 방향)
- * - 서버(/api/contact)가 실제로 성공(2xx + ok)을 돌려줄 때만 '접수 완료'. 실패하면 메일 앱·복사·카카오톡으로 같은 내용을 보낼 수 있게
+ * - 서버(/api/contact)가 신청서를 저장하고 메일을 보냄. 서버 메일이 실패하면 브라우저가 FormSubmit으로 한 번 더 보냄
+ *   둘 중 하나라도 성공을 확인했을 때만 '접수 완료'. 둘 다 실패하면 메일 앱·복사·카카오톡으로 같은 내용을 보낼 수 있게
  */
 import { consult as C, contact } from '../content/ko';
 import { animateCancel, closeDialog, closeMenu } from './ui';
 
-const MAX_BYTES = 25 * 1024 * 1024;
+const MAX_BYTES = 4 * 1024 * 1024; // 서버(server.ts MAX_TOTAL)와 같음
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 /** 상담 종류(문구 파일의 순서) → 보여줄 상세 질문 묶음 */
 const DETAILS: Record<string, string[]> = Object.fromEntries(
   C.types.map((t, i) => [t.value, [['web'], ['film'], ['web', 'film'], ['ax']][i] ?? []]),
 );
+
+type Relay = { to: string; subject: string; replyTo?: string; rows: [string, string][] };
+/** 서버가 메일을 못 보냈을 때(신청서는 서버에 이미 저장됨) 브라우저에서 FormSubmit으로 직접 보냄 — 성공을 확인했을 때만 true */
+async function relay(r: Relay, files: File[]) {
+  try {
+    const fd = new FormData();
+    fd.append('_subject', r.subject);
+    fd.append('_template', 'box');
+    fd.append('_captcha', 'false');
+    if (r.replyTo) fd.append('_replyto', r.replyTo);
+    r.rows.forEach(([k, v]) => fd.append(k, v));
+    files.forEach((f) => fd.append('attachment', f, f.name));
+    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(r.to)}`, { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(30000) });
+    const data = await res.json().catch(() => ({})) as { success?: string | boolean };
+    return res.ok && String(data.success) === 'true';
+  } catch { return false; }
+}
 
 export function initConsult() {
   const dlg = document.querySelector<HTMLDialogElement>('#consult');
@@ -189,8 +207,9 @@ export function initConsult() {
     let ok = false;
     try {
       const res = await fetch('/api/contact', { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: ctrl.signal });
-      const data = await res.json().catch(() => ({}));
-      ok = res.ok && (data as { ok?: boolean }).ok === true;
+      const data = await res.json().catch(() => ({})) as { ok?: boolean; relay?: Relay };
+      ok = res.ok && data.ok === true;
+      if (!ok && data.relay) ok = await relay(data.relay, fd.getAll('attachment').filter((v): v is File => v instanceof File));
     } catch { ok = false; }
     clearTimeout(timer);
     sending = false;

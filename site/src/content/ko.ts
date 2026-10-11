@@ -522,7 +522,7 @@ export const consult = {
     mood: '원하는 분위기·참고 영상',
     automation: '자동화하고 싶은 업무', systems: '사용 중인 시스템(POS, CRM 등)',
     timeline: '원하는 시작·오픈 시기', message: '남기실 말씀',
-    files: '참고 자료 첨부', filesHint: '이미지·PDF·문서·ZIP, 합계 25MB까지',
+    files: '참고 자료 첨부', filesHint: '이미지·PDF·문서·ZIP, 합계 4MB까지 · 더 큰 파일은 이메일로',
     privacy: '보내주신 정보는 상담과 견적 안내에만 사용합니다.',
   },
   buttons: { next: '다음', prev: '이전', submit: '상담 신청 보내기', close: '닫기', done: '확인' },
@@ -534,7 +534,7 @@ export const consult = {
     desc: '네트워크 문제로 보내지 못했습니다. 아래 방법으로 같은 내용을 보내주세요.',
     mail: '메일 앱으로 보내기', copy: '내용 복사하기', copied: '복사했습니다', kakao: '카카오톡으로 문의하기',
   },
-  errors: { name: '성함을 입력해 주세요.', email: '이메일 주소를 확인해 주세요.', type: '상담 종류를 선택해 주세요.', files: '첨부 파일은 합계 25MB까지 보낼 수 있습니다.' },
+  errors: { name: '성함을 입력해 주세요.', email: '이메일 주소를 확인해 주세요.', type: '상담 종류를 선택해 주세요.', files: '첨부 파일은 합계 4MB까지 보낼 수 있습니다. 더 큰 파일은 이메일로 보내 주세요.' },
 };
 
 export const footer = {

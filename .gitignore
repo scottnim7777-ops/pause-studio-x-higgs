@@ -39,3 +39,6 @@ higgsfield/uploads.json
 
 # 히어로 영상 렌더용 임시 프레임
 drafts/v27/out/frames/
+
+# Vercel 배포 묶음·연결 정보
+.vercel/

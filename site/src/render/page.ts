@@ -449,7 +449,7 @@ function film() {
     <div class="film-grid"><header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="film-title">${lines(f.title, 1)}</h2></header><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></div>
     <div class="fs rv" data-fs>
       <div class="fs-stage">${panels}</div>
-      <div class="fs-tabs" role="tablist" aria-label="샘플 광고">${tabs}</div>
+      <div class="fs-tabs" role="tablist" aria-label="샘플 광고" style="--fs-n:${ready.length}">${tabs}</div>
     </div>
   </div>
 </section>`;

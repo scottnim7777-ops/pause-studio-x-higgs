@@ -116,7 +116,7 @@ async function viaFormSubmit(m: ReturnType<typeof compose>, files: Express.Multe
     fd.append('_template', 'table');
     fd.append('_captcha', 'false');
     if (m.replyTo) fd.append('_replyto', m.replyTo);
-    m.rows.forEach(([k, v]) => fd.append(k, v));
+    m.rows.forEach(([k, v]) => fd.append(k.replace(/ /g, ' '), v)); // 띄어쓰기가 밑줄로 바뀌지 않게(src/ts/consult.ts와 같음)
     files.forEach((f) => fd.append('attachment', new Blob([new Uint8Array(f.buffer)], { type: f.mimetype }), f.originalname));
     // FormSubmit은 어느 페이지에서 왔는지(Referer)가 없으면 거절하는 경우가 있어 사이트 주소를 붙임
     const site = process.env.SITE_URL || 'https://pause8studio.com';

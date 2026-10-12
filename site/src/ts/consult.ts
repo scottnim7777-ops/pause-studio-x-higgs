@@ -25,7 +25,8 @@ async function relay(r: Relay, files: File[]) {
     fd.append('_template', 'table');
     fd.append('_captcha', 'false');
     if (r.replyTo) fd.append('_replyto', r.replyTo);
-    r.rows.forEach(([k, v]) => fd.append(k, v));
+    // FormSubmit(PHP)은 항목 이름의 띄어쓰기·마침표를 밑줄로 바꿈 → 줄바꿈 없는 공백(U+00A0)으로 보내 메일에서 그대로 보이게
+    r.rows.forEach(([k, v]) => fd.append(k.replace(/ /g, ' '), v));
     files.forEach((f) => fd.append('attachment', f, f.name));
     const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(r.to)}`, { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(30000) });
     const data = await res.json().catch(() => ({})) as { success?: string | boolean };

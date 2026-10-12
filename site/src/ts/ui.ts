@@ -72,6 +72,10 @@ export function initHeader() {
   const update = () => {
     ticking = false;
     const y = scrollY;
+    // 먼저 재고(섹션 위치) 나중에 바꿈 — 클래스를 바꾼 뒤 재면 배치를 한 번 더 계산함
+    const line = innerHeight * 0.4;
+    let cur = -1;
+    secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= line) cur = i; });
     hd.classList.toggle('scrolled', y > 24);
     const dy = y - lastY;
     if (y <= 480) hd.classList.remove('hide');
@@ -80,9 +84,6 @@ export function initHeader() {
       lastY = y;
     }
     if (y <= 480) lastY = y;
-    const line = innerHeight * 0.4;
-    let cur = -1;
-    secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= line) cur = i; });
     links.forEach((a, i) => { if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
   };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
@@ -627,7 +628,7 @@ export function initLedger() {
     zero.style.setProperty('--wg', (SLIM.wg + (FAT.wg - SLIM.wg) * k).toFixed(0));
   };
   const fit = () => { // 두꺼운 숫자가 칸을 넘으면 그만큼만 줄여 보여 줌
-    zero.style.setProperty('--fit', '1');
+    // --fit은 scale이라 잰 폭(scrollWidth)에 영향 없음 → 1로 되돌렸다 재던 이중 배치 계산을 없앰(2026-10-12 모바일 버벅임)
     const room = zero.clientWidth - 8, w = fig.scrollWidth;
     const s = w > room && w > 0 ? room / w : 1;
     zero.style.setProperty('--fit', s.toFixed(3));
@@ -877,14 +878,26 @@ export function initAccents() {
     tweens.set(el, { t0: performance.now(), dur, prop, step });
     if (!tw) tw = requestAnimationFrame(tick);
   };
+  // 단계 칸의 위치·목록 크기는 스크롤로 바뀌지 않으므로 한 번만 재 둠(창 크기가 바뀌면 다시) — 매 프레임 읽고 쓰기를 섞어 배치를 거듭 계산하던 것을 없앰
+  let geo = new WeakMap<HTMLElement, { h: number; w: number; items: HTMLElement[]; top: number[]; left: number[] }>();
+  const geoOf = (ol: HTMLElement) => {
+    let g = geo.get(ol);
+    if (!g) {
+      const items = [...ol.querySelectorAll<HTMLElement>(':scope > li')];
+      g = { h: ol.offsetHeight, w: ol.offsetWidth, items, top: items.map((li) => li.offsetTop), left: items.map((li) => li.offsetLeft) };
+      geo.set(ol, g);
+    }
+    return g;
+  };
+  addEventListener('resize', () => { geo = new WeakMap(); });
+  document.fonts?.ready.then(() => { geo = new WeakMap(); }); // 글꼴이 늦게 와서 줄 높이가 바뀌면 다시 잼
   const lightSteps = (ol: HTMLElement, p: number) => {
-    const r = ol.getBoundingClientRect();
-    const items = [...ol.querySelectorAll<HTMLElement>(':scope > li')];
-    items.forEach((li, i) => {
+    const g = geoOf(ol);
+    g.items.forEach((li, i) => {
       let on: boolean;
-      if (mobile.matches) on = p * r.height >= li.offsetTop + 14;
-      else if (wide.matches) on = p * r.width >= li.offsetLeft + 12;
-      else on = p >= (i + 0.2) / items.length;
+      if (mobile.matches) on = p * g.h >= g.top[i] + 14;
+      else if (wide.matches) on = p * g.w >= g.left[i] + 12;
+      else on = p >= (i + 0.2) / g.items.length;
       li.classList.toggle('on', on);
     });
     ol.classList.toggle('arrived', p >= 0.995);
@@ -892,8 +905,11 @@ export function initAccents() {
   /* 2026-10-09 사용자: '한 번 내리면 끝나서 아쉽다, 다시 올리면 또 나오게' → 화면 밖으로 완전히 나가면 처음 모습으로 되돌려 두고(보이지 않을 때라 튀지 않음),
      다시 들어오면 또 재생. 시작은 화면 가운데보다 조금 아래(70%)에 왔을 때 — 눈이 머무는 자리에서 보이게 */
   const LINE = 0.86; // 10차 사용자: 오래 쳐다봐야 효과가 나옴 → 화면에 들어오자마자(86%) 시작
-  const isIn = (el: Element, vh: number) => { const r = el.getBoundingClientRect(); return r.top < vh * LINE && r.bottom > vh * 0.08; };
-  const isOut = (el: Element, vh: number) => { const r = el.getBoundingClientRect(); return r.bottom < 0 || r.top > vh; };
+  // 한 번의 update 안에서는 먼저 모두 재고(rc) 나중에 바꿈 — 읽기·쓰기를 번갈아 하면 브라우저가 배치를 매번 다시 계산함
+  let rc = new Map<Element, DOMRect>();
+  const rectOf = (el: Element) => { let r = rc.get(el); if (!r) { r = el.getBoundingClientRect(); rc.set(el, r); } return r; };
+  const isIn = (el: Element, vh: number) => { const r = rectOf(el); return r.top < vh * LINE && r.bottom > vh * 0.08; };
+  const isOut = (el: Element, vh: number) => { const r = rectOf(el); return r.bottom < 0 || r.top > vh; };
   const reset = (el: HTMLElement, prop?: string) => {
     if (!el.dataset.played) return;
     delete el.dataset.played;
@@ -905,12 +921,16 @@ export function initAccents() {
     raf = 0;
     if (!motion.allowed) { finish(); return; }
     const vh = innerHeight;
+    rc = new Map();
+    [...inks, ...lines, ...grids, ...whys, ...marks, ...sps].forEach(rectOf);
+    grids.forEach((ol) => ol.querySelectorAll(':scope > li').forEach(rectOf));
+    lines.forEach((ol) => geoOf(ol));
     // 전/후 제목('현실로' · '광고가 됩니다.'): 1.8초 동안 왼쪽부터 채움
     inks.forEach((el) => { if (isOut(el, vh)) reset(el, '--ink'); else if (isIn(el, vh)) play(el, '--ink', 1300); });
     // 제작 과정 진행 선: PC·태블릿은 3.2초 동안 01 → 05, 휴대폰은 읽는 자리(62%)를 따라감
     lines.forEach((ol) => {
       if (mobile.matches) {
-        const r = ol.getBoundingClientRect();
+        const r = rectOf(ol);
         const p = clamp01((vh * 0.62 - r.top) / r.height);
         ol.style.setProperty('--p', p.toFixed(4));
         lightSteps(ol, p);
@@ -924,7 +944,7 @@ export function initAccents() {
       const line = Number(ol.dataset.steps) || 0.75;
       let n = 0;
       ol.querySelectorAll<HTMLElement>(':scope > li').forEach((li) => {
-        if (li.classList.contains('on') || li.getBoundingClientRect().top >= vh * line) return;
+        if (li.classList.contains('on') || rectOf(li).top >= vh * line) return;
         if (ol.hasAttribute('data-stagger')) li.style.setProperty('--td', `${(0.2 + n++ * 0.18).toFixed(2)}s`);
         li.classList.add('on');
       });

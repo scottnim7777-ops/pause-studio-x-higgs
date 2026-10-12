@@ -70,10 +70,10 @@ async function page(browser, vp, opts = {}) {
 
   // 2) 상담 신청 — 종류별 질문과 성공·실패
   const flows = [
-    { type: 'AI 광고영상', show: ['film', 'common'], hide: ['web', 'ax'], status: 200, body: { ok: true }, expect: 'done' },
-    { type: '웹사이트 제작', show: ['web', 'common'], hide: ['film', 'ax'], status: 502, body: { ok: false }, expect: 'fail' },
-    { type: '웹사이트 + AI 광고영상', show: ['web', 'film', 'common'], hide: ['ax'], status: 200, body: { ok: false }, expect: 'fail' },
-    { type: 'AI 업무 자동화 · 맞춤 개발', show: ['ax', 'common'], hide: ['web', 'film'], status: 200, body: { ok: true }, expect: 'done' },
+    { type: 'AI 광고영상', status: 200, body: { ok: true }, expect: 'done' },
+    { type: '웹사이트 제작', status: 502, body: { ok: false }, expect: 'fail' },
+    { type: '웹사이트 + AI 광고영상', status: 200, body: { ok: false }, expect: 'fail' },
+    { type: 'AI 업무 자동화 · 맞춤 개발', status: 200, body: { ok: true }, expect: 'done' },
   ];
   for (const f of flows) {
     const { ctx, p, errors } = await page(browser, { width: 1440, height: 900 }, { allow502: f.status === 502 });
@@ -93,10 +93,8 @@ async function page(browser, vp, opts = {}) {
     await p.fill('input[name="email"]', 'test@example.com');
     await p.click('[data-cs-next]');
     const vis = await p.evaluate(() => Object.fromEntries([...document.querySelectorAll('[data-detail]')].map((d) => [d.dataset.detail, !d.hidden])));
-    const okDetails = f.show.every((k) => vis[k]) && f.hide.every((k) => !vis[k]);
-    if (vis.film) { await p.check('input[name="videoUse"][value="SNS 광고"]', { force: true }); await p.check('input[name="videoProduct"][value="AI BRAND AD · 30초"]', { force: true }); }
-    if (vis.web) await p.check('input[name="product"][value="BUSINESS · 비즈니스형"]', { force: true });
-    if (vis.ax) await p.fill('textarea[name="automation"]', '견적서 자동화');
+    // 2026-10-12 사용자: 문의는 간단하게 — 어떤 종류든 상세 단계는 '남기실 말씀 + 첨부'만
+    const okDetails = Object.keys(vis).join() === 'common' && vis.common && await p.isVisible('textarea[name="message"]') && await p.isVisible('input[name="attachment"]');
     await p.fill('textarea[name="message"]', '테스트 문의');
     await p.click('[data-cs-next]');
     const summary = await p.textContent('[data-summary]');
@@ -106,11 +104,10 @@ async function page(browser, vp, opts = {}) {
     const mail = f.expect === 'fail' ? await p.getAttribute('[data-cs-mail]', 'href') : '';
     check(`상담(${f.type}) 종류 미선택 오류`, typeErr);
     check(`상담(${f.type}) 필수 칸 오류`, nameErr === 'true');
-    check(`상담(${f.type}) 종류별 질문`, okDetails, JSON.stringify(vis));
+    check(`상담(${f.type}) 상세는 남기실 말씀·첨부만`, okDetails, JSON.stringify(vis));
     check(`상담(${f.type}) 요약에 종류 표시`, summary.includes(f.type));
     check(`상담(${f.type}) 보낸 내용에 종류·이름`, !!posted && posted.includes(f.type) && posted.includes('테스트'));
-    check(`상담(${f.type}) 숨긴 질문은 보내지 않음`, !!posted && (vis.web || !posted.includes('name="product"')) && (vis.film || !posted.includes('name="videoUse"')));
-    if (vis.film) check(`상담(${f.type}) 영상 상품 선택이 함께 보내짐`, !!posted && posted.includes('name="videoProduct"') && posted.includes('AI BRAND AD'));
+    check(`상담(${f.type}) 남기실 말씀·국가번호가 함께 보내짐`, !!posted && posted.includes('테스트 문의') && posted.includes('name="phoneCode"'));
     check(`상담(${f.type}) 응답 ${f.status}/${JSON.stringify(f.body)} → ${f.expect}`, shown, mail ? mail.slice(0, 60) : '');
     if (f.type === 'AI 광고영상') { await p.waitForTimeout(900); await p.screenshot({ path: path.join(OUT, 'consult-done.png') }); }
     if (f.expect === 'fail' && f.status === 502) await p.screenshot({ path: path.join(OUT, 'consult-fail.png') });
@@ -127,7 +124,7 @@ async function page(browser, vp, opts = {}) {
     await p.waitForSelector('#consult[open]');
     const st = await p.evaluate(() => ({
       type: document.querySelector('input[name="consultType"]:checked')?.value,
-      product: document.querySelector('input[name="product"]:checked')?.value,
+      product: document.querySelector('input[name="interest"]')?.value,
       step: [...document.querySelectorAll('[data-step]')].find((s) => !s.hidden)?.dataset.step,
     }));
     check('요금(BUSINESS) 버튼 → 종류·플랜 미리 선택, 2단계부터', st.type === '웹사이트 제작' && st.product === 'BUSINESS · 비즈니스형' && st.step === '1', JSON.stringify(st));
@@ -141,7 +138,7 @@ async function page(browser, vp, opts = {}) {
     for (const [sel, want] of [['.vplan.featured [data-consult]', 'AI BRAND AD · 30초'], ['.vmonthly [data-consult]', 'MONTHLY CREATIVE · 월 4편']]) {
       await p.click(sel);
       await p.waitForSelector('#consult[open]');
-      const t2 = await p.evaluate(() => ({ type: document.querySelector('input[name="consultType"]:checked')?.value, product: document.querySelector('input[name="videoProduct"]:checked')?.value }));
+      const t2 = await p.evaluate(() => ({ type: document.querySelector('input[name="consultType"]:checked')?.value, product: document.querySelector('input[name="interest"]')?.value }));
       check(`AI 광고영상 요금 버튼 → AI 광고영상 · ${want}`, t2.type === 'AI 광고영상' && t2.product === want, JSON.stringify(t2));
       await p.click('#consult [data-cs-close].cs-x');
       await p.waitForTimeout(700);

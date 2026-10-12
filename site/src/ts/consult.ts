@@ -51,6 +51,10 @@ export function initConsult() {
   let step: number | 'done' | 'fail' = 0;
   let sending = false;
   let plain = ''; // 요약(메일·복사용)
+  // 국가번호 처음 선택: 뉴질랜드 접속이면 +64, 그 밖은 +1(다시 열 때 form.reset() 뒤에도)
+  const phoneCode = form.querySelector<HTMLSelectElement>('select[name=phoneCode]');
+  const defaultCode = () => { if (phoneCode) phoneCode.value = document.documentElement.classList.contains('nzd') ? '+64' : '+1'; };
+  defaultCode();
 
   // 오류 문구 연결(화면 읽기 프로그램이 함께 읽도록)
   qa<HTMLElement>('.fld').forEach((f, i) => {
@@ -107,6 +111,8 @@ export function initConsult() {
   /** 요약: 화면에 보이는 질문 순서대로(라벨은 화면 문구 그대로) */
   function summary(): { rows: [string, string][]; text: string } {
     const rows: [string, string][] = [['상담 종류', typeValue()]];
+    const interest = q<HTMLInputElement>('input[name="interest"]')?.value;
+    if (interest) rows.push([C.fields.interest, interest]);
     const steps = [q('[data-step="1"]')!, q('[data-step="2"]')!];
     steps.forEach((st) => st.querySelectorAll<HTMLElement>('.fld').forEach((f) => {
       if (f.closest('[hidden]')) return;
@@ -120,6 +126,8 @@ export function initConsult() {
         if (ctl.type === 'file') value = [...(ctl.files ?? [])].map((x) => `${x.name} (${(x.size / 1024 / 1024).toFixed(1)}MB)`).join(', ');
         else value = ctl.value.trim();
       }
+      const code = f.querySelector<HTMLSelectElement>('select[name=phoneCode]');
+      if (code?.value && value) value = `${code.value} ${value}`;
       if (label && value) rows.push([label, value]);
     }));
     const text = [`[${C.title}]`, ...rows.map(([k, v]) => `${k}: ${v}`), '', `보낸 곳: ${location.origin}${location.pathname}`].join('\n');
@@ -168,6 +176,7 @@ export function initConsult() {
 
   function reset() {
     form!.reset();
+    defaultCode();
     qa('.err').forEach((e) => { e.textContent = ''; e.hidden = true; });
     qa('[aria-invalid]').forEach((e) => e.removeAttribute('aria-invalid'));
     showDetails();
@@ -180,10 +189,9 @@ export function initConsult() {
       const r = qa<HTMLInputElement>('input[name="consultType"]').find((x) => x.value === type);
       if (r) r.checked = true;
     }
-    if (field && value) {
-      const p = qa<HTMLInputElement>(`input[name="${CSS.escape(field)}"]`).find((x) => x.value === value);
-      if (p) p.checked = true;
-    }
+    // 요금 버튼에서 연 경우 고른 상품을 숨은 칸에 담아 함께 보냄(질문 칸은 없앴음 — 2026-10-12 사용자: 문의는 간단하게)
+    const interest = q<HTMLInputElement>('input[name="interest"]');
+    if (interest) interest.value = field && value ? value : '';
     showDetails();
     dlg!.showModal();
     document.documentElement.classList.add('modal-open');

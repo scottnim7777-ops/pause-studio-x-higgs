@@ -514,7 +514,9 @@ export const consult = {
   ],
   fields: {
     company: '회사 / 브랜드명', name: '성함', email: '이메일', phone: '연락처', country: '사업장 소재 국가', industry: '업종', currentSite: '기존 웹사이트 주소',
-    countries: ['뉴질랜드', '미국', '기타'],
+    countries: ['뉴질랜드', '미국', '한국', '기타'],
+    // 연락처 국가번호(2026-10-12 사용자). 처음 선택은 접속 나라(뉴질랜드면 +64, 그 밖은 +1) — src/ts/consult.ts
+    phoneCode: '국가번호', phoneCodes: [['+64', '뉴질랜드 +64'], ['+1', '미국 +1'], ['+82', '한국 +82'], ['', '기타']] as [string, string][],
     product: '관심 있는 플랜', products: ['STARTER · 기본형', 'BUSINESS · 비즈니스형', 'ENTERPRISE · 기업형', '잘 모르겠어요'],
     needs: '필요한 페이지·기능', needOptions: ['회사·서비스 소개', '오시는 길', '갤러리·포트폴리오', '문의 폼·이메일 연동', '예약', '온라인 주문·결제', '제품·재고 관리', '회원·고객 관리', '추가 언어 페이지', '관리자 기능'],
     itemCount: '페이지·상품 수(대략)', bookingPay: '사용 중인 예약·결제 서비스', integrations: '추가 연동이 필요한 시스템',
@@ -524,6 +526,8 @@ export const consult = {
     mood: '원하는 분위기·참고 영상',
     automation: '자동화하고 싶은 업무', systems: '사용 중인 시스템(POS, CRM 등)',
     timeline: '원하는 시작·오픈 시기', message: '남기실 말씀',
+    // 2026-10-12 사용자: 문의는 간단하게(자세한 건 이메일로) — 남기실 말씀 + 첨부만. 요금 버튼에서 열면 고른 상품은 숨은 칸 interest로 함께 보냄
+    messageHint: '원하시는 내용을 편하게 적어 주세요. 참고 사이트나 일정이 있으면 함께 적어 주셔도 좋습니다.', interest: '관심 상품',
     files: '참고 자료 첨부', filesHint: '이미지·PDF·문서·ZIP, 합계 4MB까지 · 더 큰 파일은 이메일로',
     privacy: '보내주신 정보는 상담과 견적 안내에만 사용합니다.',
   },

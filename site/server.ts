@@ -59,12 +59,11 @@ const transporter = process.env.SMTP_HOST
 console.log(transporter ? `메일: SMTP(${process.env.SMTP_HOST}:${smtpPort})` : '메일: SMTP 설정 없음 → FormSubmit 사용');
 
 /** 받은 항목 이름 → 메일에 쓸 이름(화면 문구와 같음) */
-const F = consult.fields as Record<string, string | string[]>;
+const F = consult.fields as unknown as Record<string, string | string[]>;
 const ORDER: [string, string][] = [
   ['consultType', '상담 종류'],
   // 메일에서 누구인지·어떻게 연락할지가 먼저 보이게(2026-10-12 사용자: 양식을 보기 좋게)
-  ...['name', 'phone', 'email', 'company', 'country', 'industry', 'currentSite', 'product', 'needs', 'itemCount', 'bookingPay', 'integrations',
-    'videoProduct', 'videoUse', 'photos', 'mood', 'automation', 'systems', 'timeline', 'message']
+  ...['name', 'phone', 'email', 'company', 'country', 'interest', 'message']
     .map((k): [string, string] => [k, String(F[k])]),
 ];
 const clean = (v: unknown, max = 5000) => String(v ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, max);
@@ -75,7 +74,8 @@ function compose(body: Record<string, unknown>) {
   const rows: [string, string][] = [];
   for (const [key, label] of ORDER) {
     const v = body[key];
-    const val = Array.isArray(v) ? v.map((x) => clean(x, 200)).filter(Boolean).join(', ') : clean(v);
+    let val = Array.isArray(v) ? v.map((x) => clean(x, 200)).filter(Boolean).join(', ') : clean(v);
+    if (key === 'phone' && val && oneLine(body.phoneCode, 6)) val = `${oneLine(body.phoneCode, 6)} ${val}`; // 국가번호 + 번호
     if (val) rows.push([label, val]);
   }
   const type = oneLine(body.consultType, 60) || '상담';

@@ -611,30 +611,13 @@ function consultDialog() {
       <section class="cs-step" data-step="0"><h3>어떤 상담이 필요하신가요?</h3><div class="cs-types" role="radiogroup" aria-label="상담 종류">${types}</div><p class="fld"><span class="err" data-err="type" hidden></span></p></section>
       <section class="cs-step" data-step="1" hidden>
         <div class="grid2">${input('company', f.company)}${input('name', f.name, 'text', true, ' autocomplete="name"')}</div>
-        <div class="grid2">${input('email', f.email, 'email', true, ' autocomplete="email"')}${input('phone', f.phone, 'tel', false, ' autocomplete="tel"')}</div>
+        <div class="grid2">${input('email', f.email, 'email', true, ' autocomplete="email"')}<label class="fld"><span>${esc(f.phone)}</span><span class="tel"><select name="phoneCode" aria-label="${esc(f.phoneCode)}">${f.phoneCodes.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join('')}</select><input type="tel" name="phone" autocomplete="tel-national"></span><span class="err" hidden></span></label></div>
         <fieldset class="fld"><legend>${esc(f.country)}</legend>${chips('country', f.countries, 'radio')}</fieldset>
-        <div class="grid2">${input('industry', f.industry)}${input('currentSite', f.currentSite, 'url', false, ' placeholder="https://"')}</div>
       </section>
       <section class="cs-step" data-step="2" hidden>
-        <div class="cs-detail" data-detail="web"><h4>웹사이트</h4>
-          <fieldset class="fld"><legend>${esc(f.product)}</legend>${chips('product', f.products, 'radio')}</fieldset>
-          <fieldset class="fld"><legend>${esc(f.needs)}</legend>${chips('needs', f.needOptions)}</fieldset>
-          <div class="grid2">${input('itemCount', f.itemCount)}${input('bookingPay', f.bookingPay)}</div>
-          ${input('integrations', f.integrations)}
-        </div>
-        <div class="cs-detail" data-detail="film" hidden><h4>AI 광고영상</h4>
-          <fieldset class="fld"><legend>${esc(f.videoProduct)}</legend>${chips('videoProduct', f.videoProducts, 'radio')}</fieldset>
-          <fieldset class="fld"><legend>${esc(f.videoUse)}</legend>${chips('videoUse', f.videoUses)}</fieldset>
-          ${input('photos', f.photos, 'text', false, ` placeholder="${esc(f.photosHint)}"`)}
-          ${input('mood', f.mood)}
-        </div>
-        <div class="cs-detail" data-detail="ax" hidden><h4>AI 업무 자동화 · 맞춤 개발</h4>
-          ${text('automation', f.automation)}
-          ${input('systems', f.systems)}
-        </div>
         <div class="cs-detail" data-detail="common">
-          ${input('timeline', f.timeline)}
-          ${text('message', f.message)}
+          <input type="hidden" name="interest">
+          ${text('message', f.message, f.messageHint)}
           <label class="fld"><span>${esc(f.files)}</span><input type="file" name="attachment" multiple accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.zip"><span class="err" data-err="files" hidden></span><span class="h" style="font-size:13px;color:var(--on-paper-3)">${esc(f.filesHint)}</span></label>
         </div>
       </section>

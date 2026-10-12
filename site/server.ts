@@ -11,7 +11,8 @@
  *   (src/geo/currency.ts). IP는 판별에만 쓰고 기록하지 않는다. 배포 후 확인: /api/currency
  */
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
-import { put } from '@vercel/blob';
+import { get, put } from '@vercel/blob';
+import { Readable } from 'node:stream';
 import crypto from 'node:crypto';
 import multer from 'multer';
 import nodemailer from 'nodemailer';
@@ -132,16 +133,24 @@ async function viaFormSubmit(m: ReturnType<typeof compose>, files: Express.Multe
 }
 
 /** 메일보다 먼저 저장(누락 방지). 저장소가 연결되어 있지 않으면(로컬 등) 건너뜀 */
+/** 첨부 내려받기 링크: 비공개 저장소의 파일을 /api/file 로 내보냄. 링크마다 서명(HMAC)을 붙여 아는 사람만 열 수 있게, 만료 없음
+ *  (2026-10-12 사용자 '첨부만 잘 되게': FormSubmit은 AJAX 전송에서 첨부를 빼고 보냄 → 메일에 링크로) */
+const SITE = process.env.SITE_URL || 'https://pause8studio.com';
+const sign = (p: string) => crypto.createHmac('sha256', process.env.FILE_LINK_SECRET || process.env.BLOB_READ_WRITE_TOKEN || '').update(p).digest('base64url').slice(0, 32);
+const fileLink = (p: string) => `${SITE}/api/file?p=${encodeURIComponent(p)}&s=${sign(p)}`;
+
+/** 메일보다 먼저 저장(누락 방지). 저장소가 연결되어 있지 않으면(로컬 등) 건너뜀. 저장한 첨부의 경로를 돌려줌 */
 async function store(id: string, m: ReturnType<typeof compose>, files: Express.Multer.File[]) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) return false;
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return { saved: false, paths: [] as string[] };
   try {
     const day = id.slice(0, 10);
-    await Promise.all(files.map((f, i) => put(`inquiries/${day}/${id}/${i + 1}-${f.originalname.replace(/[^\w.\-가-힣]/g, '_').slice(-80)}`, f.buffer, { access: 'private', contentType: f.mimetype, addRandomSuffix: false })));
+    const paths = files.map((f, i) => `inquiries/${day}/${id}/${i + 1}-${f.originalname.replace(/[^\w.\-가-힣]/g, '_').slice(-80)}`);
+    await Promise.all(files.map((f, i) => put(paths[i], f.buffer, { access: 'private', contentType: f.mimetype, addRandomSuffix: false })));
     await put(`inquiries/${day}/${id}/inquiry.json`, JSON.stringify({ id, subject: m.subject, replyTo: m.replyTo, rows: m.rows, files: files.map((f) => f.originalname), text: m.text }, null, 2), { access: 'private', contentType: 'application/json', addRandomSuffix: false });
-    return true;
+    return { saved: true, paths };
   } catch (err) {
     console.error('신청서 저장 실패:', (err as Error).message);
-    return false;
+    return { saved: false, paths: [] as string[] };
   }
 }
 
@@ -185,7 +194,14 @@ app.post('/api/contact', (req, res, next) => {
   if (files.reduce((a, f) => a + f.size, 0) > MAX_TOTAL) { res.status(413).json({ ok: false, code: 'too_large' }); return; }
   const m = compose(body);
   const id = `${new Date().toISOString().replace(/[:.]/g, '-')}-${crypto.randomBytes(3).toString('hex')}`;
-  const saved = await store(id, m, files);
+  const { saved, paths } = await store(id, m, files);
+  // 첨부는 메일에 내려받기 링크로(메일 서비스가 첨부를 빼더라도 받을 수 있게). 받은 시각 앞에 넣음
+  if (paths.length) {
+    const row: [string, string] = ['첨부 파일', paths.map((p, i) => `${files[i].originalname}\n${fileLink(p)}`).join('\n\n')];
+    const at = m.rows.findIndex(([k]) => k === '받은 시각');
+    m.rows.splice(at < 0 ? m.rows.length : at, 0, row);
+    m.text += `\n\n■ 첨부 파일\n${row[1]}`;
+  }
   const ok = (await viaSmtp(m, files)) || (await viaFormSubmit(m, files));
   if (ok) await receipt(m);
   console.log(`상담 신청 ${id}: 저장 ${saved ? '됨' : '안 됨'} · 메일 ${ok ? '전송됨' : '전송 실패'} (${oneLine(body.consultType, 40) || '-'}, 첨부 ${files.length}개)`);
@@ -195,6 +211,23 @@ app.post('/api/contact', (req, res, next) => {
 });
 
 app.get('/api/health', (_req, res) => { res.json({ ok: true }); });
+app.get('/api/file', async (req, res) => {
+  const p = String(req.query.p || ''), s = String(req.query.s || '');
+  const want = sign(p);
+  if (!p.startsWith('inquiries/') || s.length !== want.length || !crypto.timingSafeEqual(Buffer.from(s), Buffer.from(want))) { res.status(404).type('text/plain').send('Not found'); return; }
+  try {
+    const r = await get(p, { access: 'private' });
+    if (!r || r.statusCode !== 200) { res.status(404).type('text/plain').send('Not found'); return; }
+    const name = p.split('/').pop()!.replace(/^\d+-/, '');
+    res.setHeader('Content-Type', r.blob.contentType || 'application/octet-stream');
+    res.setHeader('Content-Disposition', `attachment; filename*=UTF-8''${encodeURIComponent(name)}`);
+    res.setHeader('Cache-Control', 'private, no-store');
+    Readable.fromWeb(r.stream as Parameters<typeof Readable.fromWeb>[0]).pipe(res);
+  } catch (err) {
+    console.error('첨부 내려받기 실패:', (err as Error).message);
+    res.status(500).type('text/plain').send('Error');
+  }
+});
 /** 배포 후 확인용: 이 접속이 어떤 통화로 보이는지와 판별 근거만(IP 등 개인 정보는 돌려주지 않음) */
 app.get('/api/currency', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');

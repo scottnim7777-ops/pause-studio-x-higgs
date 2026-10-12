@@ -31,7 +31,7 @@ export const meta = {
   siteName: 'PAUSE Studio',
   ogTitle: 'PAUSE Studio | 웹사이트 제작 · AI 광고영상',
   ogDescription: '새로워진 PAUSE Studio. 대표가 직접 만드는 맞춤 웹사이트, 사진 한 장으로 만드는 AI 광고영상. 제작비는 한 번, 월 관리비 $0.',
-  ogImage: 'https://pause8studio.com/og.jpg',
+  ogImage: 'https://pause8studio.com/og-20261013.jpg', // 파일 이름을 바꿔야 카카오·페이스북이 예전 이미지를 다시 쓰지 않음(2026-10-13),
   ogImageAlt: 'Pause Studio 로고와 브랜드의 첫인상을 설계합니다, 한인 비즈니스를 위한 브랜딩 스튜디오',
   /** 화면 맨 아래 영어 소개 한 줄(영어 검색용, 실제로 보이는 글) */
   aboutEn: 'PAUSE Studio is a bilingual branding studio based in Auckland, building custom websites and AI video ads for Korean businesses across the United States and New Zealand.',

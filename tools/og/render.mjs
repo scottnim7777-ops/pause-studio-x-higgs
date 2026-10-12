@@ -1,4 +1,4 @@
-// og.html → site/public/og.jpg (2배로 찍어 줄임). 사용: node tools/og/render.mjs [chrome 경로]
+// og.html → site/public/og-20261013.jpg (2배로 찍어 줄임). 사용: node tools/og/render.mjs [chrome 경로]
 import { spawn, execFileSync } from 'node:child_process'; import fs from 'node:fs'; import path from 'node:path'; import os from 'node:os'; import { fileURLToPath, pathToFileURL } from 'node:url';
 const DIR = path.dirname(fileURLToPath(import.meta.url));
 const CH = process.argv[2] || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
@@ -16,6 +16,6 @@ await send('Runtime.evaluate', { expression: 'document.fonts.ready', awaitPromis
 const shot = await send('Page.captureScreenshot', { format: 'png' });
 const tmp = path.join(prof, 'og@2x.png'); fs.writeFileSync(tmp, Buffer.from(shot.data, 'base64'));
 c.kill();
-const out = path.resolve(DIR, '../../site/public/og.jpg');
+const out = path.resolve(DIR, '../../site/public/og-20261013.jpg');
 execFileSync('python', ['-c', `from PIL import Image;Image.open(r'${tmp}').convert('RGB').resize((1200,630),Image.LANCZOS).save(r'${out}',quality=90,optimize=True,progressive=True)`]);
 console.log('→', out); process.exit(0);

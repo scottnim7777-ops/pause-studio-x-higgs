@@ -1,0 +1,49 @@
+{
+  "label": "v36-og-a",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "input": {
+    "prompt": "Minimal luxury editorial still life photograph, dark charcoal studio, wide 16:9 composition. On the right side a thin sleek black monitor seen at a slight angle, its screen softly glowing with an elegant out-of-focus website layout, and next to it a small black cinema camera with a lens catching a warm cream highlight. Soft warm rim light, deep shadows, subtle film grain, muted cream and black palette. The entire left 55 percent of the frame is calm, empty dark negative space with a faint warm gradient. No text, no letters, no logos, no people. Shot on medium format, 50mm, f/4, quiet and restrained like a high-end design agency campaign.",
+    "aspect_ratio": "16:9"
+  },
+  "note": "카카오 링크 미리보기 배경",
+  "submitted_at": "2026-10-12T01:14:11.041Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-12T01:14:11.463Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-12T01:14:12.646Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-12T01:14:58.178Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "06aace12-cfe7-4557-af3b-feef8e703be3",
+  "status_url": "https://api.higgsfield.ai/requests/06aace12-cfe7-4557-af3b-feef8e703be3/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/06aace12-cfe7-4557-af3b-feef8e703be3/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "06aace12-cfe7-4557-af3b-feef8e703be3",
+    "status_url": "https://api.higgsfield.ai/requests/06aace12-cfe7-4557-af3b-feef8e703be3/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/06aace12-cfe7-4557-af3b-feef8e703be3/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2c838ba5-ab25-45c0-9650-a5619a83fcef.jpeg"
+      }
+    ]
+  },
+  "checked_at": "2026-10-12T01:14:58.178Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v36-og-a\\v36-og-a_01.jpeg",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/2c838ba5-ab25-45c0-9650-a5619a83fcef.jpeg",
+      "bytes": 105093,
+      "sha256": "567f7e3dfc27920dfeaec7e5908f99016b793ce1a0036e0db095e1e12a9e6c47"
+    }
+  ],
+  "downloaded_at": "2026-10-12T01:14:59.937Z"
+}

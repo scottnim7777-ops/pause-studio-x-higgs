@@ -22,14 +22,19 @@ export const contact = {
 
 export const meta = {
   lang: 'ko',
-  title: 'PAUSE Studio | 퍼즈 스튜디오 · 한인 비즈니스를 위한 브랜딩 스튜디오',
+  // 2026-10-12 사용자: 한글·영어 모두, 특히 미국에서 검색되게 — 제목에 한글 서비스명 + 영어 서비스명, 설명은 한글 뒤에 짧은 영어 한 문장
+  title: 'PAUSE Studio 퍼즈 스튜디오 | 웹사이트 제작 · AI 광고영상 | Web Design & AI Video Ads for Korean Businesses',
   description:
-    '선택받는 브랜드는 보여지는 방식이 다릅니다. 웹사이트 제작부터 AI 광고영상까지, 뉴질랜드·미국 한인 비즈니스를 위한 브랜드 맞춤 제작. 제작비는 한 번, PAUSE Studio 기본 월 관리비 $0.',
-  keywords: 'pausestudio, pause8studio, pause studio, 퍼즈스튜디오, 퍼즈 스튜디오, 웹사이트 제작, AI 광고영상, AI 영상 제작, 오클랜드 웹사이트 제작, 뉴질랜드 웹 제작, 한인 비즈니스',
+    '미국·뉴질랜드 한인 비즈니스를 위한 웹사이트 제작과 AI 광고영상. 대표가 직접 만드는 브랜드 맞춤 디자인, 제작비는 한 번, 기본 월 관리비 $0. Custom website design and AI video ads for Korean businesses in the US and New Zealand.',
+  keywords: 'PAUSE Studio, pausestudio, pause8studio, 퍼즈 스튜디오, 퍼즈스튜디오, 웹사이트 제작, 홈페이지 제작, 한인 웹사이트 제작, 미국 한인 홈페이지 제작, LA 웹사이트 제작, 뉴욕 웹사이트 제작, 오클랜드 웹사이트 제작, 뉴질랜드 홈페이지 제작, 반응형 웹사이트, 쇼핑몰 제작, 예약 웹사이트, AI 광고영상, AI 영상 제작, 숏폼 광고, 릴스 광고 제작, Korean web design agency, Korean American business website, website design for Korean businesses, web design Los Angeles, web design New York, web design Auckland, AI video ads, AI commercial video production',
   canonical: 'https://pause8studio.com/',
-  ogTitle: 'PAUSE Studio | 한인 비즈니스를 위한 브랜딩 스튜디오',
-  ogDescription: '브랜드는 더 돋보이게. 매달 관리비는 없게. 웹사이트 제작부터 AI 광고영상까지, 브랜드가 고객에게 보여지는 모든 순간을 만듭니다.',
+  siteName: 'PAUSE Studio',
+  ogTitle: 'PAUSE Studio | 웹사이트 제작 · AI 광고영상',
+  ogDescription: '새로워진 PAUSE Studio. 대표가 직접 만드는 맞춤 웹사이트, 사진 한 장으로 만드는 AI 광고영상. 제작비는 한 번, 월 관리비 $0.',
   ogImage: 'https://pause8studio.com/og.jpg',
+  ogImageAlt: 'PAUSE Studio 로고와 웹사이트 제작 · AI 광고영상',
+  /** 화면 맨 아래 영어 소개 한 줄(영어 검색용, 실제로 보이는 글) */
+  aboutEn: 'PAUSE Studio is a bilingual branding studio based in Auckland, building custom websites and AI video ads for Korean businesses across the United States and New Zealand.',
   googleSiteVerification: 'YRTNSno7nYptgfm08ZthTl09DUbhS9NT6hKgg9iOQ4U',
 };
 

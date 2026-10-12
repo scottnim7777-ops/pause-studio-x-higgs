@@ -1,0 +1,49 @@
+{
+  "label": "v36-og-b",
+  "endpoint": "xai/grok-imagine-image-2.0",
+  "input": {
+    "prompt": "Quiet high-end still life photograph for a design studio, near-black background with a soft warm cream light falling diagonally. On the right third: the edge of a thin aluminium laptop with a dimly glowing screen and a vintage film clapper slate lying flat beside it, both partly in shadow. Elegant, restrained, lots of empty dark space on the left two thirds for typography. Fine film grain, low contrast highlights, palette of black #0C0C0B and cream #FCEED8. No text, no letters, no logos, no people.",
+    "aspect_ratio": "16:9"
+  },
+  "note": "카카오 링크 미리보기 배경",
+  "submitted_at": "2026-10-12T01:14:11.620Z",
+  "status": "completed",
+  "history": [
+    {
+      "at": "2026-10-12T01:14:12.069Z",
+      "status": "queued"
+    },
+    {
+      "at": "2026-10-12T01:15:00.432Z",
+      "status": "in_progress"
+    },
+    {
+      "at": "2026-10-12T01:15:10.714Z",
+      "status": "completed"
+    }
+  ],
+  "request_id": "4a24b0e3-80d8-4849-be63-0366ed8c3b3a",
+  "status_url": "https://api.higgsfield.ai/requests/4a24b0e3-80d8-4849-be63-0366ed8c3b3a/status",
+  "cancel_url": "https://api.higgsfield.ai/requests/4a24b0e3-80d8-4849-be63-0366ed8c3b3a/cancel",
+  "response": {
+    "status": "completed",
+    "request_id": "4a24b0e3-80d8-4849-be63-0366ed8c3b3a",
+    "status_url": "https://api.higgsfield.ai/requests/4a24b0e3-80d8-4849-be63-0366ed8c3b3a/status",
+    "cancel_url": "https://api.higgsfield.ai/requests/4a24b0e3-80d8-4849-be63-0366ed8c3b3a/cancel",
+    "images": [
+      {
+        "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/0acfd311-dbcd-4273-b75b-e29e4f6b9a1b.jpeg"
+      }
+    ]
+  },
+  "checked_at": "2026-10-12T01:15:10.714Z",
+  "files": [
+    {
+      "file": "higgsfield\\raw\\v36-og-b\\v36-og-b_01.jpeg",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/36045b63-b4da-4a5d-bf09-94592268d4fc/0acfd311-dbcd-4273-b75b-e29e4f6b9a1b.jpeg",
+      "bytes": 125357,
+      "sha256": "0f733cda874085c8a300590ecfd89827b0a38beb6d708e06ebe316142a440b0b"
+    }
+  ],
+  "downloaded_at": "2026-10-12T01:15:12.602Z"
+}

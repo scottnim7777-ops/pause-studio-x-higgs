@@ -588,6 +588,7 @@ function footer() {
       </div>
     </div>
     <div class="ft-legal"><p class="ft-legal-h">${esc(f.legalLink)}</p><div class="body">${f.legal.map((l) => `<p>${esc(l)}</p>`).join('')}</div></div><!-- 2026-10-09 사용자: 법적 고지는 늘 펼쳐 둠 -->
+    <p class="ft-en" lang="en">${esc(C.meta.aboutEn)}</p>
     <div class="ft-bottom"><span>${esc(f.copyright)}</span><span>${esc(C.contact.address)} · ${esc(C.contact.nzbn)}</span></div>
   </div>
 </footer>`;
@@ -679,18 +680,36 @@ export function renderBody() {
 
 export function renderHead() {
   const m = C.meta;
+  const org = `${m.canonical}#studio`;
+  const svc = (name: string, en: string) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name, alternateName: en, areaServed: ['US', 'NZ'] } });
   const ld = {
-    '@context': 'https://schema.org', '@type': 'ProfessionalService', name: 'PAUSE Studio', alternateName: '퍼즈 스튜디오',
-    description: m.description, url: m.canonical, image: m.ogImage, email: C.contact.email, telephone: '+64-20-488-7198',
-    address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
-    areaServed: ['NZ', 'US'], serviceType: ['웹사이트 제작', '비즈니스 웹사이트(예약·주문·결제) 제작', 'AI 업무 자동화', 'AI 광고영상 제작'],
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'WebSite', '@id': `${m.canonical}#site`, url: m.canonical, name: m.siteName, alternateName: ['퍼즈 스튜디오', 'Pause Studio', 'pausestudio'], inLanguage: ['ko', 'en'], publisher: { '@id': org } },
+      {
+        '@type': 'ProfessionalService', '@id': org, name: 'PAUSE Studio', alternateName: ['퍼즈 스튜디오', 'Pause Studio'],
+        description: m.description, url: m.canonical, image: m.ogImage, logo: `${m.canonical}icon-512.png`, email: C.contact.email, telephone: '+64-20-488-7198',
+        address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
+        areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'New Zealand' }],
+        knowsLanguage: ['ko', 'en'], priceRange: '$$',
+        sameAs: ['https://open.kakao.com/o/s58WfSEi'],
+        makesOffer: [
+          svc('웹사이트 제작', 'Custom website design & development'),
+          svc('비즈니스 웹사이트(예약·주문·결제) 제작', 'Business websites with booking, ordering and payments'),
+          svc('AI 광고영상 제작', 'AI video ads for social media and websites'),
+          svc('AI 업무 자동화', 'AI workflow automation'),
+        ],
+      },
+    ],
   };
   return `<title>${esc(m.title)}</title>
 <meta name="description" content="${esc(m.description)}">
 <meta name="keywords" content="${esc(m.keywords)}">
 <link rel="canonical" href="${m.canonical}">
 <meta name="google-site-verification" content="${m.googleSiteVerification}">
-<meta property="og:type" content="website"><meta property="og:url" content="${m.canonical}"><meta property="og:title" content="${esc(m.ogTitle)}"><meta property="og:description" content="${esc(m.ogDescription)}"><meta property="og:image" content="${m.ogImage}"><meta property="og:locale" content="ko_KR">
+<meta property="og:type" content="website"><meta property="og:url" content="${m.canonical}"><meta property="og:title" content="${esc(m.ogTitle)}"><meta property="og:description" content="${esc(m.ogDescription)}"><meta property="og:image" content="${m.ogImage}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(m.ogImageAlt)}"><meta property="og:site_name" content="${esc(m.siteName)}"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US">
+<link rel="alternate" hreflang="ko" href="${m.canonical}"><link rel="alternate" hreflang="x-default" href="${m.canonical}">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(m.ogTitle)}"><meta name="twitter:description" content="${esc(m.ogDescription)}"><meta name="twitter:image" content="${m.ogImage}">
 <meta name="theme-color" content="#0C0C0B">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">

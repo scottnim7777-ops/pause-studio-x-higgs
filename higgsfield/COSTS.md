@@ -96,3 +96,4 @@
 - 최종 인물(사용자 선택: G2-iphone 인물 + G3-3 실사 질감): qwen edit 실사화+단아한 니트 2장 $0.15(b 채택 → `drafts/v35/model-G2-real.png`) + 상반신 사면도 1장 $0.075 → `drafts/v35/model-G2-turnaround.png`. 35차 누계 약 $0.97.
 - 재작업(화장·볼살·가슴 볼륨 유지 + 필름 질감): qwen edit 3건 중 1장 완료 $0.075(2건 실패 환불) → `model-G2-real2.png`, 로컬 필름 질감 `tools/adv35/filmlook.py` → `model-G2-real2-film.jpg`(무료). 35차 누계 약 $1.05.
 - G3-3 스타일(soul/v2 Nature light 1080p)로 G2 특징 묘사 8장 $0.046 → `drafts/v35/sheet-k.jpg`. 35차 누계 약 $1.10.
+- 36차 카카오 링크 미리보기 배경: grok-imagine-image-2.0 16:9 2장 × $0.06 = **$0.12** (a 채택, 모니터에 Ref.03 화면 합성·로고·글자는 사이트 파일) → `tools/og/`, `site/public/og.jpg`

@@ -365,6 +365,7 @@ export function initFilmSamples() {
   const panels = $$<HTMLElement>('[data-fs-panel]', root);
   if (!tabs.length || tabs.length !== panels.length) return;
   const vids = panels.map((p) => $<HTMLVideoElement>('video', p)!);
+  vids.forEach((v) => { v.loop = false; }); // HTML의 loop는 JS 없을 때용 — JS가 있으면 끝나면 다음 샘플로
   const btns = panels.map((p) => $<HTMLButtonElement>('[data-vctrl]', p));
   let cur = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
   if (cur < 0) cur = 0;

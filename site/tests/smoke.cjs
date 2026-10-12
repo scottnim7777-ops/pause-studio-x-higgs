@@ -360,7 +360,7 @@ async function page(browser, vp, opts = {}) {
       zero: document.querySelector('.ledger-zero .ld-fig').textContent,
       mf: getComputedStyle(document.querySelector('.mf-ghost')).visibility === 'visible' && document.querySelector('.mf-ghost').textContent === '사장님보다 더사장님 같은 마음으로' && [...document.querySelectorAll('.mf-stmt, .mf-sign')].every((e) => getComputedStyle(e).opacity === '1'),
     }));
-    check('JS 없이도 제목·내용 표시(질문 27개 · 광고 샘플 4개 모두 보임 · 관리비 $0 · 마무리 선언)', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 27 && st.film === 4 && st.zero === '$0' && st.mf, JSON.stringify(st));
+    check('JS 없이도 제목·내용 표시(질문 27개 · 광고 샘플 5개 모두 보임 · 관리비 $0 · 마무리 선언)', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 27 && st.film === 5 && st.zero === '$0' && st.mf, JSON.stringify(st));
     await ctx.close();
   }
 
@@ -463,7 +463,7 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(2500);
     const a = await p.evaluate(() => ({ n: document.querySelectorAll('.fs-tab').length, playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused), prog: document.querySelector('.fs-tab[aria-selected="true"]').style.getPropertyValue('--prog') }));
     // 손대지 않으면 한 편이 끝날 때 다음 샘플로
-    const advanced = await p.waitForFunction(() => document.querySelector('#fs-tab-mireille').getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
+    const advanced = await p.waitForFunction(() => document.querySelector('#fs-tab-glow').getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
     const adv = await p.evaluate(() => ({ vis: [...document.querySelectorAll('.fs-panel')].map((x) => !x.hidden), playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused) }));
     check('광고 샘플: 손대지 않으면 한 편이 끝나고 다음 샘플로 넘어감', advanced && adv.vis[1] && adv.playing[1] && !adv.playing[0], JSON.stringify(adv));
     await p.click('.fs-tab >> nth=2');
@@ -475,9 +475,9 @@ async function page(browser, vp, opts = {}) {
     await p.click('.fs-tab >> nth=1');
     const afterClick = await p.waitForFunction(() => document.querySelectorAll('.fs-tab')[2].getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
     const loopOff = await p.evaluate(() => [...document.querySelectorAll('[data-fs-video]')].every((v) => !v.loop));
-    check('광고 샘플: 4개 · 보이면 첫 샘플 재생(진행 선)', a.n === 4 && a.playing[0] && !a.playing.slice(1).some(Boolean) && Number(a.prog) > 0, JSON.stringify(a));
-    check('광고 샘플: 탭 누르면 그 샘플만 보이고 재생', b.sel === 2 && b.vis.join() === 'false,false,true,false' && b.playing[2] && !b.playing[0], JSON.stringify(b));
-    check('광고 샘플: 방향키로 다음 탭(초점 이동)', c.sel === 3 && c.focus === 'fs-tab-bam', JSON.stringify(c));
+    check('광고 샘플: 5개 · 보이면 첫 샘플 재생(진행 선)', a.n === 5 && a.playing[0] && !a.playing.slice(1).some(Boolean) && Number(a.prog) > 0, JSON.stringify(a));
+    check('광고 샘플: 탭 누르면 그 샘플만 보이고 재생', b.sel === 2 && b.vis.join() === 'false,false,true,false,false' && b.playing[2] && !b.playing[0], JSON.stringify(b));
+    check('광고 샘플: 방향키로 다음 탭(초점 이동)', c.sel === 3 && c.focus === 'fs-tab-soom', JSON.stringify(c));
     check('광고 샘플: 탭을 누른 뒤에도 영상이 끝나면 다음 샘플로(한 편만 반복하지 않음)', afterClick && loopOff, `다음으로 ${afterClick} · 반복 꺼짐 ${loopOff}`);
     check('광고 샘플 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
@@ -707,7 +707,7 @@ async function page(browser, vp, opts = {}) {
       free: document.querySelector('.ct-title').classList.contains('on') && [...document.querySelectorAll('.ct-title .burden i')].every((i) => Math.abs(Number(getComputedStyle(i).opacity) - 0.3) < 0.02 && new DOMMatrix(getComputedStyle(i).transform).f > 0) && [...document.querySelectorAll('.ct-title .free i')].every((i) => getComputedStyle(i).color === 'rgb(252, 238, 216)' && new DOMMatrix(getComputedStyle(i).transform).isIdentity) && document.querySelector('#contact-title .sr').textContent === '매달 나가는 웹사이트 관리비, 스트레스에서 해방되세요.',
       slot: getComputedStyle(document.querySelector('.wk-next-in'), '::after').animationName,
     }))) };
-    check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지) · 문의 제목은 \'웹사이트 관리비,\'가 가라앉아 흐려지고 \'해방되세요.\'가 떠올랐다 내려앉음(빨간 펜 없음)', before.length === 3 && before.every((v) => v === 0) && !free0.on && !free0.pen && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, free0, fin }));
+    check('섹션마다 효과: 요금 \'관리비\' 사선으로 베여 어긋남 · 영상 요금 뷰파인더 · \'모았습니다.\' · 다음 레퍼런스 점선(들어오기 전엔 그대로, 들어오면 끝까지) · 문의 제목은 \'웹사이트 관리비,\'가 가라앉아 흐려지고 \'해방되세요.\'가 떠올랐다 내려앉음(빨간 펜 없음)', before.length === 4 && before.every((v) => v === 0) && !free0.on && !free0.pen && Object.values(after).every((v) => v === 1) && fin.cut && fin.op === 0.5 && fin.vfx > 0 && fin.vfx < 12 && fin.gat && fin.free && fin.slot === 'slotDash', JSON.stringify({ before, after, free0, fin }));
     // 아끼는 금액: 글과 숫자 사이를 띄움(2026-10-09 사용자)
     const gap = await p.evaluate(() => getComputedStyle(document.querySelector('.calc-save')).columnGap);
     check('아끼는 금액: 글과 숫자 사이 간격(PC 30px)', gap === '30px', gap);

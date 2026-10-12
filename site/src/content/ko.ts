@@ -352,7 +352,7 @@ export type VideoPlan = { key: string; name: string; tagline: string; desc: stri
 export const videoPricing = {
   eyebrow: 'PRICING',
   title: 'AI 광고영상 제작 비용',
-  heading: ['AI 생성 횟수가 아니라,', '완성된 광고영상을 드립니다.'],
+  heading: ['기획부터 편집까지,', '바로 쓰는 광고영상을 드립니다.'], // 2026-10-12 사용자: '생성 횟수'는 낯선 말 → 쉬운 문장
   lead: '사업과 제품을 이해하고 광고 콘셉트와 메시지를 기획한 뒤,\nAI 생성 기술과 전문 편집으로 실제로 쓸 수 있는 광고영상을 만듭니다.',
   formats: {
     kicker: '모든 영상 상품 기본 제공',

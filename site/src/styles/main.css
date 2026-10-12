@@ -1151,6 +1151,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 
 /* AI 광고영상 요금 '완성된 광고영상을 드립니다.': 카메라 뷰파인더의 네 모서리가 넓게 벌어져 있다가 스크롤하면 '완성된 광고영상'에 맞게 조여짐(초점을 맞추듯) */
 .vf { position: relative; display: inline-block; }
+.fx .vf { margin-inline: .16em .09em; } /* 문장 가운데에 와도 모서리가 앞뒤 글자에 닿지 않게(2026-10-12 바로 쓰는 [광고영상]) */
 .vf-c { display: none; }
 .fx .vf-c { display: block; position: absolute; pointer-events: none; top: 0; bottom: 0; left: calc(-.14em - var(--vr, 1) * 1.6em); right: calc(-.07em - var(--vr, 1) * 1.6em); opacity: calc(.15 + .85 * var(--sp, 0)); --vr: calc((1 - var(--sp, 0)) * (1 - var(--sp, 0))); --c: var(--cream); --l: .3em; --t: max(2px, .05em);
   background: linear-gradient(var(--c), var(--c)) 0 0 / var(--l) var(--t), linear-gradient(var(--c), var(--c)) 0 0 / var(--t) var(--l),

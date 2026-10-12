@@ -487,7 +487,7 @@ function videoPricing() {
   const sched = v.schedule.map(([k, d]) => `<div><dt>${esc(k)}</dt><dd>${esc(d)}</dd></div>`).join('');
   return `<section class="sec sec-dark vpricing" id="video-pricing" aria-labelledby="vpricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading).replace('완성된 광고영상을', '<span class="nobr"><span class="vf" data-sp data-dur="1200"><i class="vf-c" aria-hidden="true"></i>완성된 광고영상</span>을</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading).replace('광고영상을', '<span class="nobr"><span class="vf" data-sp data-dur="1200"><i class="vf-c" aria-hidden="true"></i>광고영상</span>을</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="formats rv">
       <div class="fm-copy"><p class="kicker">${esc(fm.kicker)}</p><h3>${nl(fm.title)}</h3><p>${nl(fm.desc)}</p></div>
       <div class="fm-art"><div class="fm-devices" aria-hidden="true">${frames}</div><ul class="fm-list">${formats}</ul></div>

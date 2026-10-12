@@ -360,7 +360,7 @@ async function page(browser, vp, opts = {}) {
       zero: document.querySelector('.ledger-zero .ld-fig').textContent,
       mf: getComputedStyle(document.querySelector('.mf-ghost')).visibility === 'visible' && document.querySelector('.mf-ghost').textContent === '사장님보다 더사장님 같은 마음으로' && [...document.querySelectorAll('.mf-stmt, .mf-sign')].every((e) => getComputedStyle(e).opacity === '1'),
     }));
-    check('JS 없이도 제목·내용 표시(질문 27개 · 광고 샘플 5개 모두 보임 · 관리비 $0 · 마무리 선언)', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 27 && st.film === 5 && st.zero === '$0' && st.mf, JSON.stringify(st));
+    check('JS 없이도 제목·내용 표시(질문 27개 · 광고 샘플 2개 모두 보임 · 관리비 $0 · 마무리 선언)', st.h1.includes('선택받는 브랜드는') && st.op === '1' && st.faq === 27 && st.film === 2 && st.zero === '$0' && st.mf, JSON.stringify(st));
     await ctx.close();
   }
 
@@ -463,21 +463,21 @@ async function page(browser, vp, opts = {}) {
     await p.waitForTimeout(2500);
     const a = await p.evaluate(() => ({ n: document.querySelectorAll('.fs-tab').length, playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused), prog: document.querySelector('.fs-tab[aria-selected="true"]').style.getPropertyValue('--prog') }));
     // 손대지 않으면 한 편이 끝날 때 다음 샘플로
-    const advanced = await p.waitForFunction(() => document.querySelector('#fs-tab-glow').getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
+    const advanced = await p.waitForFunction(() => document.querySelector('#fs-tab-soom').getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
     const adv = await p.evaluate(() => ({ vis: [...document.querySelectorAll('.fs-panel')].map((x) => !x.hidden), playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused) }));
     check('광고 샘플: 손대지 않으면 한 편이 끝나고 다음 샘플로 넘어감', advanced && adv.vis[1] && adv.playing[1] && !adv.playing[0], JSON.stringify(adv));
-    await p.click('.fs-tab >> nth=2');
+    await p.click('.fs-tab >> nth=0');
     await p.waitForTimeout(1200);
     const b = await p.evaluate(() => ({ sel: [...document.querySelectorAll('.fs-tab')].findIndex((t) => t.getAttribute('aria-selected') === 'true'), vis: [...document.querySelectorAll('.fs-panel')].map((x) => !x.hidden), playing: [...document.querySelectorAll('[data-fs-video]')].map((v) => !v.paused) }));
     await p.keyboard.press('ArrowRight');
     const c = await p.evaluate(() => ({ sel: [...document.querySelectorAll('.fs-tab')].findIndex((t) => t.getAttribute('aria-selected') === 'true'), focus: document.activeElement?.id }));
     // 탭을 눌러 고른 뒤에도 그 영상이 끝나면 다음 샘플로(2026-10-09 사용자: 누르면 그 영상만 무한 반복되던 것)
     await p.click('.fs-tab >> nth=1');
-    const afterClick = await p.waitForFunction(() => document.querySelectorAll('.fs-tab')[2].getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
+    const afterClick = await p.waitForFunction(() => document.querySelectorAll('.fs-tab')[0].getAttribute('aria-selected') === 'true', null, { timeout: 9000 }).then(() => true).catch(() => false);
     const loopOff = await p.evaluate(() => [...document.querySelectorAll('[data-fs-video]')].every((v) => !v.loop));
-    check('광고 샘플: 5개 · 보이면 첫 샘플 재생(진행 선)', a.n === 5 && a.playing[0] && !a.playing.slice(1).some(Boolean) && Number(a.prog) > 0, JSON.stringify(a));
-    check('광고 샘플: 탭 누르면 그 샘플만 보이고 재생', b.sel === 2 && b.vis.join() === 'false,false,true,false,false' && b.playing[2] && !b.playing[0], JSON.stringify(b));
-    check('광고 샘플: 방향키로 다음 탭(초점 이동)', c.sel === 3 && c.focus === 'fs-tab-soom', JSON.stringify(c));
+    check('광고 샘플: 2개 · 보이면 첫 샘플 재생(진행 선)', a.n === 2 && a.playing[0] && !a.playing.slice(1).some(Boolean) && Number(a.prog) > 0, JSON.stringify(a));
+    check('광고 샘플: 탭 누르면 그 샘플만 보이고 재생', b.sel === 0 && b.vis.join() === 'true,false' && b.playing[0] && !b.playing[1], JSON.stringify(b));
+    check('광고 샘플: 방향키로 다음 탭(초점 이동)', c.sel === 1 && c.focus === 'fs-tab-soom', JSON.stringify(c));
     check('광고 샘플: 탭을 누른 뒤에도 영상이 끝나면 다음 샘플로(한 편만 반복하지 않음)', afterClick && loopOff, `다음으로 ${afterClick} · 반복 꺼짐 ${loopOff}`);
     check('광고 샘플 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();

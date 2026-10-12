@@ -738,6 +738,10 @@ export function initScrub() {
   //   글이 절반 넘게 보이고 0.35초 머물면 시작, 화면 밖으로 완전히 나가면 처음으로 되돌려 다시 들어올 때마다 다시 침(다른 효과와 같게).
   // 동작 줄이기면 완성된 글을 바로(.static)
   const mf = $('[data-manifesto]');
+  // 배경 화면 띠는 화면 근처에서만 흐름(멀리 있을 때 계속 그리지 않게, CSS .near)
+  if (mf && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => mf.classList.toggle('near', e.isIntersecting), { rootMargin: '300px 0px' }).observe(mf);
+  } else mf?.classList.add('near');
   if (mf) {
     const type = $('[data-mf-type]', mf);
     const ghost = $('.mf-ghost', mf);

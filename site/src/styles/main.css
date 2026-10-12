@@ -772,6 +772,7 @@ html:not(.js) .faq-pick { display: none; }
 @keyframes mfDrift { to { transform: translateX(-50%); } }
 .mf-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6, 6, 6, .94) 0%, rgba(6, 6, 6, .82) 46%, rgba(6, 6, 6, .5) 100%), linear-gradient(180deg, var(--black) 0%, rgba(6, 6, 6, 0) 22%, rgba(6, 6, 6, 0) 78%, var(--black) 100%); }
 .still .mf-track { animation: none; }
+.js .manifesto:not(.near) .mf-track { animation-play-state: paused; } /* 화면 근처에서만 흐름(멀리 있을 때 계속 그리지 않게) */
 @media (max-width: 767px) { .mf-plane { opacity: .26; } .mf-bg::after { background: linear-gradient(180deg, var(--black) 0%, rgba(6, 6, 6, .8) 25%, rgba(6, 6, 6, .8) 75%, var(--black) 100%); } }
 .mf-kicker { display: flex; align-items: center; gap: 14px; font-size: var(--fs-lead); line-height: 1.5; color: var(--cream-2); }
 .mf-kicker::before { content: ""; width: 26px; height: 1.5px; background: currentColor; flex: none; }
@@ -1106,14 +1107,14 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
    글자들이 넓은 자간으로 가려진 줄 아래에서 한 자씩 올라오며 자간이 천천히 좁혀져 제자리에 모이고(숨을 고르듯), 잠깐 멈춘 뒤 물음표가 마지막에 올라옴.
    화면에 들어올 때마다 다시(나가면 처음 모습으로). PC는 제목이 편지를 읽는 동안 따라옴 */
 .why { overflow-x: clip; }
-.why-title .wy { display: inline-block; white-space: nowrap; overflow: hidden; padding: .06em 0 .1em; margin: -.06em 0 -.1em; vertical-align: bottom; }
+.why-title .wy { display: inline-block; white-space: nowrap; clip-path: inset(0 -100vw); padding: .06em 0 .1em; margin: -.06em 0 -.1em; vertical-align: bottom; } /* 위아래만 자름(글자가 오른쪽에서 모여 들어오므로) */
 .why-title .wy i { display: inline-block; font-style: normal; }
 .why-title .wy .sp { width: .24em; }
-.fx .why-title .wy { letter-spacing: .24em; transition: letter-spacing 2.2s cubic-bezier(.45, 0, .15, 1); } /* 앞쪽에 몰리지 않게: 처음 반 초에 다 모여 버리면 눈치 못 챔 */
-.fx .why-title .wy.go { letter-spacing: -.04em; }
-.fx .why-title .wy i:not(.sp) { transform: translateY(108%); transition: transform 1.15s cubic-bezier(.2, .7, .1, 1) calc(var(--k) * 75ms); }
-.fx .why-title .wy.go i:not(.sp) { transform: none; }
-.fx .why-title .wy .q { transition-delay: 1.45s; transition-duration: .9s; }
+.fx .why-title .wy i:not(.sp) { translate: calc(var(--k) * .28em) 0; transform: translateY(108%); transition: translate 2.2s cubic-bezier(.45, 0, .15, 1), transform 1.15s cubic-bezier(.2, .7, .1, 1) calc(var(--k) * 75ms); }
+/* 2026-10-12 사용자 '서신이 렉 걸리듯 등장': 예전엔 자간(letter-spacing)을 움직여 매 프레임 섹션 전체 배치를 다시 계산 →
+   같은 모양을 글자마다 옆으로 옮기는 translate로(벌어진 자간 .24em → -.04em = 글자마다 .28em × 순서). 화면 합성만 하므로 버벅임 없음 */
+.fx .why-title .wy.go i:not(.sp) { translate: 0 0; transform: none; }
+.fx .why-title .wy .q { transition-delay: 0s, 1.45s; transition-duration: 2.2s, .9s; }
 @media (min-width: 1024px) { .why-grid > header { position: sticky; top: calc(var(--header-h) + 48px); } }
 
 /* WHY 여섯 가지 이유: 칸이 화면 80% 높이를 지나면 줄마다 윗변에 잉크 선이 그어지고 번호가 아래에서 굴러 올라옴(한 번) */
@@ -1304,7 +1305,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .fx .vsteps li::before { transform: none !important; }
   .fx .mark { background-size: 100% 100% !important; color: var(--ink) !important; }
   .fx .why-title .wy i { transform: none !important; opacity: 1 !important; animation: none !important; }
-  .fx .why-title .wy { letter-spacing: -.04em !important; }
+  .fx .why-title .wy i { translate: none !important; }
   .fx .shot .sh-w { filter: none !important; }
   .fx .shot::before, .fx .shot::after, .fx .shot .sh-flash, .fx .shot .sh-cur { display: none !important; }
   .fx .ct-title .burden i { transform: translateY(.1em) !important; opacity: .3 !important; }

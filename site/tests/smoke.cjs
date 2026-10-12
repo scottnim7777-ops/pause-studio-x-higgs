@@ -681,7 +681,7 @@ async function page(browser, vp, opts = {}) {
     const w0 = notYet.why;
     await at('#why-title', 0.6);
     await p.waitForTimeout(500);
-    const wMid = await p.evaluate(() => ({ ls: parseFloat(getComputedStyle(document.querySelector('.why-title .wy')).letterSpacing), q: new DOMMatrix(getComputedStyle(document.querySelector('.why-title .q')).transform).f }));
+    const wMid = await p.evaluate(() => ({ ls: parseFloat(getComputedStyle(document.querySelector('.why-title .q')).translate) || 0, q: new DOMMatrix(getComputedStyle(document.querySelector('.why-title .q')).transform).f }));
     await p.waitForTimeout(3000);
     const w1 = await p.evaluate(() => ({ go: document.querySelector('[data-why]').classList.contains('go'), letters: [...document.querySelectorAll('.why-title .wy i:not(.sp)')].every((i) => getComputedStyle(i).transform === 'none' || new DOMMatrix(getComputedStyle(i).transform).isIdentity), ls: parseFloat(getComputedStyle(document.querySelector('.why-title .wy')).letterSpacing), fs: parseFloat(getComputedStyle(document.querySelector('.why-title')).fontSize), sr: document.querySelector('#why-title .sr').textContent, pz: !!document.querySelector('.why-title .pz') }));
     await at('.pillars', 0.75);

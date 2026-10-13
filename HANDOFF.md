@@ -46,3 +46,6 @@
 - 2026-10-12 pause8studio.com 연결 완료(Cloudflare TXT `_vercel` 2줄로 소유 확인 → 예전 다른 계정 프로젝트에서 넘어옴). www → 기본 주소 308. 통화는 cf-ipcountry 먼저
 - 실제 상담 창 → 저장 + FormSubmit → '접수 완료' 확인. 서버는 메일 실패도 200으로 응답(Cloudflare가 5xx 본문을 바꿔 relay가 사라짐)
 - 문의 메일 제목 `💻 [PAUSE 상담] 종류 · 이름 (회사)`, FormSubmit 표 양식
+
+## 13차(2026-10-14) — 영어판 기획
+- 기획서: `docs/EN_PLAN.md` (구현은 Sonnet 세션 예정). `/` 한국어 · `/en` 영어, 국기 SVG 알약 버튼, 효과 단어 짝, 영어 글꼴, 검색·문의 메일까지.

@@ -127,3 +127,18 @@
 2. 영어 주소: **`pause8studio.com/en`(권장)**
 3. 영어 문구 초안(4번 표 포함)은 구현 세션이 전체를 써서 보여 주고 확인받는다. 특히 법적 고지·요금 안내 문구는 직접 확인 필요.
 4. 미리보기 이미지: 지금 이미지 그대로 / 영어 문구판 따로
+
+---
+## 구현 결과 (2026-10-14, Sonnet 5.5) — 기획과 달라진 점·남은 확인
+- `/` 한국어 · `/en` 영어 구현, 국기 SVG 알약 버튼(PC 머리줄 두 칸 · 휴대폰 머리줄 한 칸 · 메뉴 두 칸 · 푸터 글자 링크), 눌러도 보던 섹션 유지(`#섹션`).
+- 문구 파일: `site/src/content/en.ts` (ko.ts와 같은 모양, `content/index.ts`가 타입으로 강제 → 빠진 항목이 있으면 빌드 실패).
+- 효과 단어 칸: `pricing.cut` · `fee.cut` · `videoPricing.frame` · `faq.gather` · `contactSection.title{lead,burden,tail,free}`. 영어 효과 단어: monthly fees / fee / ready to use ad / answered. / monthly website fees? · Let them go.
+- 스크립트 속 글: `ui` 문구 → 페이지의 `#ui-text` JSON → `src/ts/i18n.ts`(T).
+- 영어 글꼴: `scripts/fonts_en.py` → PS Text EN(Archivo 100) · PS Letter EN(Instrument Serif Italic), `:lang(en)` 규칙은 main.css 맨 아래. 영어 제목은 한글보다 좁아 크기·자간을 따로 맞춤.
+- 한국어 전용 줄바꿈(`glue`)은 영어에서 영어 규칙(짧은 낱말 뒤 공백 붙임)으로 바뀜.
+- 서버: `/en` 라우트, 영어 문의는 `lang=en` → 메일 제목 `💻 [PAUSE 상담 · EN] …` + 맨 위 '언어: 영어(영어로 답장)'. 받는 메일은 한국어 그대로.
+- Vercel: 함수 `en` 추가, `/en/` → `/en` 308. `vite.config.ts`는 입력 2개.
+- 점검: `tests/smoke.cjs`(한국어 163) · `tests/en.cjs`(영어 19: 한글 0자·표기 규칙·효과 개수 동일·언어 버튼·상담 창·통화) · a11y 한/영 위반 0.
+- 카톡 미리보기 이미지는 사용자 결정으로 한국어 이미지 그대로(영어판 따로 만들지 않음).
+- **사용자 확인이 필요한 영어 문구**(사실 약속이 들어간 곳): FAQ '영어로도 소통 가능'(Korean or English), 'We can help with both…', 법적 고지·환불 문구, 가격 단위 'and up'. `docs/EN_PLAN.md` 4번 표의 영어 초안은 en.ts에 그대로 반영.
+- 미리보기 링크(artifact.py)는 한국어만 올라가므로 거기서 EN 버튼을 누르면 이동할 페이지가 없음(실제 사이트에서만 동작).

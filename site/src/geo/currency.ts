@@ -120,7 +120,8 @@ export function overrideFrom(query: unknown, allowed: boolean): Currency | null 
 /** 빌드된 페이지(기본 USD)에 통화 표시를 넣는다 — 뉴질랜드면 <html class="nzd"> */
 export function withCurrency(html: string, cur: Currency): string {
   if (cur === 'USD') return html;
-  const out = html.replace('<html lang="ko">', '<html lang="ko" class="nzd">');
-  if (out === html) throw new Error('index.html에 <html lang="ko"> 가 없습니다 — 통화 표시를 넣을 수 없음');
+  // 한국어('/')와 영어('/en') 페이지 모두 <html lang="..."> 에 통화 표시(nzd)를 붙임
+  const out = html.replace(/<html lang="(ko|en)">/, '<html lang="$1" class="nzd">');
+  if (out === html) throw new Error('index.html에 <html lang="ko|en"> 이 없습니다 — 통화 표시를 넣을 수 없음');
   return out;
 }

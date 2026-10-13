@@ -1,7 +1,7 @@
 import { initHero } from './ts/hero';
 import {
   initAccordions, initAutoVideos, initCalc, initCompare, initEmail, initFaqTabs, initFilmSamples, initHeader, initLedger, initLightbox,
-  initMenu, initPhone, initReveal, initScrub, initWorkLoops, initAccents, initLogo, initDecode,
+  initMenu, initPhone, initLang, initReveal, initScrub, initWorkLoops, initAccents, initLogo, initDecode,
 } from './ts/ui';
 import { initConsult } from './ts/consult';
 
@@ -13,6 +13,7 @@ const safe = (name: string, f: () => void) => {
 };
 
 safe('header', initHeader);
+safe('lang', initLang);
 safe('menu', initMenu);
 safe('consult', initConsult);
 safe('lightbox', initLightbox);

@@ -6,6 +6,8 @@ export default defineConfig({
     outDir: 'dist',
     assetsInlineLimit: 0,
     cssCodeSplit: false,
+    // 한국어 '/'(index.html)와 영어 '/en'(en/index.html) 두 페이지가 같은 스크립트·스타일을 씀
+    rollupOptions: { input: { main: 'index.html', en: 'en/index.html' } },
   },
   server: { port: 5173 },
 });

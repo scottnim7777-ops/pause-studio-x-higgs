@@ -6,15 +6,16 @@
  * - 서버(/api/contact)가 신청서를 저장하고 메일을 보냄. 서버 메일이 실패하면 브라우저가 FormSubmit으로 한 번 더 보냄
  *   둘 중 하나라도 성공을 확인했을 때만 '접수 완료'. 둘 다 실패하면 메일 앱·복사·카카오톡으로 같은 내용을 보낼 수 있게
  */
-import { consult as C, contact } from '../content/ko';
+import { contact } from '../content/ko';
+import { T } from './i18n';
+/** 이 페이지 언어의 상담 창 글(문구 원본: content/*.ts consult · ui) */
+const C = T.c;
 import { animateCancel, closeDialog, closeMenu } from './ui';
 
 const MAX_BYTES = 4 * 1024 * 1024; // 서버(server.ts MAX_TOTAL)와 같음
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-/** 상담 종류(문구 파일의 순서) → 보여줄 상세 질문 묶음 */
-const DETAILS: Record<string, string[]> = Object.fromEntries(
-  C.types.map((t, i) => [t.value, [['web'], ['film'], ['web', 'film'], ['ax']][i] ?? []]),
-);
+/** 상세 단계는 어떤 종류든 '남기실 말씀 + 첨부'(2026-10-12) */
+const DETAILS: Record<string, string[]> = {};
 
 type Relay = { to: string; subject: string; replyTo?: string; rows: [string, string][] };
 /** 서버가 메일을 못 보냈을 때(신청서는 서버에 이미 저장됨) 브라우저에서 FormSubmit으로 직접 보냄 — 성공을 확인했을 때만 true */
@@ -110,9 +111,9 @@ export function initConsult() {
 
   /** 요약: 화면에 보이는 질문 순서대로(라벨은 화면 문구 그대로) */
   function summary(): { rows: [string, string][]; text: string } {
-    const rows: [string, string][] = [['상담 종류', typeValue()]];
+    const rows: [string, string][] = [[C.stepType, typeValue()]];
     const interest = q<HTMLInputElement>('input[name="interest"]')?.value;
-    if (interest) rows.push([C.fields.interest, interest]);
+    if (interest) rows.push([C.interest, interest]);
     const steps = [q('[data-step="1"]')!, q('[data-step="2"]')!];
     steps.forEach((st) => st.querySelectorAll<HTMLElement>('.fld').forEach((f) => {
       if (f.closest('[hidden]')) return;
@@ -130,7 +131,7 @@ export function initConsult() {
       if (code?.value && value) value = `${code.value} ${value}`;
       if (label && value) rows.push([label, value]);
     }));
-    const text = [`[${C.title}]`, ...rows.map(([k, v]) => `${k}: ${v}`), '', `보낸 곳: ${location.origin}${location.pathname}`].join('\n');
+    const text = [`[${C.title}]`, ...rows.map(([k, v]) => `${k}: ${v}`), '', `${C.sentFrom}: ${location.origin}${location.pathname}`].join('\n');
     return { rows, text };
   }
 
@@ -211,6 +212,7 @@ export function initConsult() {
       fd.append(k, v);
     }
     fd.append('_page', `${location.origin}${location.pathname}`);
+    fd.append('lang', T.lang);
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 60000);
     let ok = false;
@@ -247,7 +249,7 @@ export function initConsult() {
       try { done = document.execCommand('copy'); } catch { done = false; }
       ta.remove();
     }
-    if (done) { lb.textContent = C.failure.copied; setTimeout(() => { lb.textContent = before; }, 2200); }
+    if (done) { lb.textContent = C.copied; setTimeout(() => { lb.textContent = before; }, 2200); }
   }
 
   /* ── 이벤트 */

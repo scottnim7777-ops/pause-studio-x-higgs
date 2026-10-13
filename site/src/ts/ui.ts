@@ -4,6 +4,7 @@
  * 움직임은 모두 motion(운영체제 '동작 줄이기')을 따른다.
  */
 import { motion, saveData } from './motion';
+import { T, fillT } from './i18n';
 import { steps } from './hangul';
 
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
@@ -99,7 +100,7 @@ export function initMenu() {
   const outside = [$('#main'), $('.ft')].filter(Boolean) as HTMLElement[];
   const set = (open: boolean, focusBtn = true) => {
     btn.setAttribute('aria-expanded', String(open));
-    if (label) label.textContent = open ? '메뉴 닫기' : '메뉴';
+    if (label) label.textContent = open ? T.menuClose : T.menu;
     nav.hidden = !open;
     document.documentElement.classList.toggle('menu-open', open);
     $('[data-header]')?.classList.remove('hide');
@@ -145,7 +146,7 @@ export function initAutoVideos() {
     if (!s.btn) return;
     const playing = !v.paused;
     s.btn.classList.toggle('paused', !playing);
-    s.btn.setAttribute('aria-label', playing ? '영상 일시정지' : '영상 재생');
+    s.btn.setAttribute('aria-label', playing ? T.videoPause : T.videoPlay);
   };
   const load = (v: HTMLVideoElement) => { if (!v.src && v.dataset.src) { v.src = v.dataset.src; } };
   const play = (v: HTMLVideoElement) => { load(v); v.play().catch(() => syncBtn(v)); };
@@ -213,7 +214,7 @@ export function initLightbox() {
       const v = document.createElement('video');
       v.src = it.video; v.poster = `${it.image}.jpg`; v.muted = true; v.loop = true; v.playsInline = true; v.controls = true;
       v.width = it.w; v.height = it.h;
-      v.setAttribute('aria-label', `${it.ref} ${it.category} 웹사이트 화면 녹화`);
+      v.setAttribute('aria-label', fillT(T.workVideo, { ref: it.ref, cat: it.category }));
       if (!motion.reduced) v.autoplay = true;
       media = v;
     } else {
@@ -221,7 +222,7 @@ export function initLightbox() {
       const src = document.createElement('source');
       src.type = 'image/webp'; src.srcset = `${it.image}.webp`;
       const im = document.createElement('img');
-      im.src = `${it.image}.jpg`; im.alt = `${it.ref} ${it.category} 웹사이트 화면`; im.width = it.w; im.height = it.h; im.decoding = 'async';
+      im.src = `${it.image}.jpg`; im.alt = fillT(T.workShot, { ref: it.ref, cat: it.category }); im.width = it.w; im.height = it.h; im.decoding = 'async';
       pic.append(src, im);
       media = pic;
     }
@@ -379,7 +380,7 @@ export function initFilmSamples() {
     if (!b) return;
     const playing = !vids[i].paused;
     b.classList.toggle('paused', !playing);
-    b.setAttribute('aria-label', playing ? '영상 일시정지' : '영상 재생');
+    b.setAttribute('aria-label', playing ? T.videoPause : T.videoPlay);
   };
   const progress = () => {
     raf = 0;
@@ -529,7 +530,7 @@ export function initCalc() {
   const saveBox = $('[data-save]', root);
   const live = $('[data-calc-live]', root);
   const labels = $$('.calc-out p > span:first-child, .calc-save > span', root).map((s) => s.textContent || '');
-  const unit = (outYears.textContent || '').replace(/[\d\s]/g, '') || '년';
+  const unitOf = (n: number) => (n === 1 ? T.unitOne : T.unit);
   const num = (s: string) => Number(s.replace(/[^\d]/g, '')) || 0;
   const money = (n: number) => `${sym()}${Math.round(n).toLocaleString('en-US')}`;
   const plan = () => plans.find((p) => p.checked) ?? plans[0];
@@ -550,7 +551,7 @@ export function initCalc() {
     const other = a + m * 12 * y;
     const pause = pauseSetup();
     const save = Math.max(0, other - pause);
-    outYears.textContent = `${y}${unit}`;
+    outYears.textContent = `${y}${unitOf(y)}`;
     if (pauseSetupEl) {
       pauseSetupEl.textContent = money(pause);
       const suffix = plan()?.dataset.suffix;
@@ -1016,4 +1017,30 @@ export function initDecode() {
     new MutationObserver(() => { if (w.classList.contains('on')) { if (!timer && !cells[0]?.classList.contains('lock')) run(); } else reset(); })
       .observe(w, { attributes: true, attributeFilter: ['class'] });
   });
+}
+
+/* ── 언어 전환(국기 알약): 각 링크의 주소 끝을 지금 보는 섹션(#pricing 등)으로 바꿔 두어, 눌러도 보던 자리에서 이어 봄.
+      누르면 밑줄이 옆 칸으로 옮겨 가고(0.26초) 그 주소로 이동. 동작 줄이기·새 탭 열기(⌘/Ctrl 클릭)는 바로 */
+export function initLang() {
+  const links = $$<HTMLAnchorElement>('.lang a.lg-opt');
+  if (!links.length) return;
+  const base = links.map((a) => a.getAttribute('href') || '/');
+  const secs = $$<HTMLElement>('main > section[id]');
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const line = innerHeight * 0.4;
+    let cur = '';
+    secs.forEach((sec) => { if (sec.getBoundingClientRect().top <= line) cur = sec.id; });
+    links.forEach((a, i) => a.setAttribute('href', base[i] + (cur && cur !== 'top' ? `#${cur}` : '')));
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+  links.forEach((a) => a.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    if (a.classList.contains('on') || motion.reduced) return;
+    e.preventDefault();
+    $$<HTMLAnchorElement>('.lang a.lg-opt').forEach((x) => { x.classList.toggle('on', x.lang === a.lang); if (x.lang === a.lang) x.setAttribute('aria-current', 'true'); else x.removeAttribute('aria-current'); });
+    window.setTimeout(() => { location.href = a.href; }, 260);
+  }));
 }

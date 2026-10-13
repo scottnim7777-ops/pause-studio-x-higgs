@@ -84,12 +84,15 @@ function compose(body: Record<string, unknown>) {
   const email = oneLine(body.email, 200);
   const page = oneLine(body._page, 300);
   const company = oneLine(body.company, 60);
+  // 영어 페이지(/en)에서 온 문의: 제목에 EN, 맨 위에 '영어로 답장' 표시(2026-10-14)
+  const en = oneLine(body.lang, 4) === 'en';
+  if (en) rows.unshift(['언어', '영어 (영어로 답장해 주세요)']);
   const at = new Date().toLocaleString('ko-KR', { timeZone: 'Pacific/Auckland', dateStyle: 'long', timeStyle: 'short' });
   rows.push(['받은 시각', `${at} (뉴질랜드)`]);
   if (page) rows.push(['보낸 페이지', page]);
   const text = [`${consult.title}`, '', ...rows.map(([k, v]) => `■ ${k}\n${v}`)].join('\n');
   // 제목 앞 💻(2026-10-12 사용자: 메일함에서 눈에 잘 띄게)
-  return { subject: `💻 [PAUSE 상담] ${type} · ${name}${company ? ` (${company})` : ''}`, text, rows, replyTo: EMAIL_RE.test(email) ? email : undefined };
+  return { subject: `💻 [PAUSE 상담${en ? ' · EN' : ''}] ${type} · ${name}${company ? ` (${company})` : ''}`, text, rows, replyTo: EMAIL_RE.test(email) ? email : undefined };
 }
 
 async function viaSmtp(m: ReturnType<typeof compose>, files: Express.Multer.File[]) {
@@ -257,17 +260,20 @@ async function setup(): Promise<Express> {
     // 개발: Vite가 index.html·스크립트·스타일을 바로 처리(첫 화면만 통화 표시를 넣어 직접 보냄)
     const { createServer } = await import('vite');
     const vite = await createServer({ server: { middlewareMode: true }, appType: 'spa' });
-    app.get(['/', '/index.html'], async (req, res, next) => {
+    app.get(['/', '/index.html', '/en', '/en/', '/en/index.html'], async (req, res, next) => {
       try {
-        sendPage(req, res, await vite.transformIndexHtml(req.originalUrl, fs.readFileSync(path.resolve('index.html'), 'utf8')));
+        const en = req.path.startsWith('/en');
+        sendPage(req, res, await vite.transformIndexHtml(req.originalUrl, fs.readFileSync(path.resolve(en ? 'en/index.html' : 'index.html'), 'utf8')));
       } catch (err) { next(err); }
     });
     app.use(vite.middlewares);
   } else {
     if (!fs.existsSync(path.join(DIST, 'index.html'))) throw new Error(`빌드 결과가 없습니다: ${DIST} (npm run build)`);
     const page = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
-    withCurrency(page, 'NZD'); // 시작할 때 한 번 확인(통화 표시를 넣을 자리가 없으면 바로 알림)
+    const pageEn = fs.readFileSync(path.join(DIST, 'en/index.html'), 'utf8');
+    withCurrency(page, 'NZD'); withCurrency(pageEn, 'NZD'); // 시작할 때 한 번 확인(통화 표시를 넣을 자리가 없으면 바로 알림)
     app.get(['/', '/index.html'], (req, res) => sendPage(req, res, page));
+    app.get(['/en', '/en/', '/en/index.html'], (req, res) => sendPage(req, res, pageEn));
     app.use(express.static(DIST, {
       index: false,
       setHeaders(res, file) {

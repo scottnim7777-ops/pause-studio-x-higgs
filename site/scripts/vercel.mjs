@@ -18,7 +18,7 @@ if (!fs.existsSync(path.join(DIST, 'index.html'))) throw new Error('dist가 없�
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(path.join(OUT, 'static'), { recursive: true });
 for (const f of fs.readdirSync(DIST)) {
-  if (f === 'index.html' || f === 'server.cjs') continue;
+  if (f === 'index.html' || f === 'server.cjs' || f === 'en') continue; // en/ 은 영어 첫 화면(함수가 보냄)
   fs.cpSync(path.join(DIST, f), path.join(OUT, 'static', f), { recursive: true });
 }
 
@@ -32,11 +32,13 @@ await build({
 });
 fs.writeFileSync(path.join(tmp, 'index.cjs'), "const m = require('./server.cjs');\nmodule.exports = async (req, res) => (await m.ready)(req, res);\n");
 fs.copyFileSync(path.join(DIST, 'index.html'), path.join(tmp, 'dist/index.html'));
+fs.mkdirSync(path.join(tmp, 'dist/en'), { recursive: true });
+fs.copyFileSync(path.join(DIST, 'en/index.html'), path.join(tmp, 'dist/en/index.html'));
 fs.writeFileSync(path.join(tmp, '.vc-config.json'), JSON.stringify({
   runtime: 'nodejs22.x', handler: 'index.cjs', launcherType: 'Nodejs', shouldAddHelpers: false, maxDuration: 60,
   environment: { NODE_ENV: 'production', GEO_HEADER: 'cf-ipcountry,x-vercel-ip-country', TRUST_PROXY: '1', STATIC_DIR: 'dist' },
 }, null, 2));
-for (const fn of ['index', 'api/contact', 'api/currency', 'api/health', 'api/file']) {
+for (const fn of ['index', 'en', 'api/contact', 'api/currency', 'api/health', 'api/file']) {
   fs.cpSync(tmp, path.join(OUT, 'functions', `${fn}.func`), { recursive: true });
 }
 
@@ -51,6 +53,7 @@ fs.writeFileSync(path.join(OUT, 'config.json'), JSON.stringify({
     { src: '^/(fonts|media|brand)/(.*)$', headers: { 'Cache-Control': 'public, max-age=604800' }, continue: true },
     { src: '^/(.*)$', headers: security, continue: true },
     { src: '^/index\\.html$', status: 301, headers: { Location: '/' } },
+    { src: '^/en/$', status: 308, headers: { Location: '/en' } },
     { handle: 'filesystem' },
     // 예전 사이트 주소(/promo-image 등)는 첫 화면으로
     { src: '^/(?!api/)[^.]+$', status: 301, headers: { Location: '/' } },

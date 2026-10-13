@@ -22,6 +22,8 @@ export const contact = {
 
 export const meta = {
   lang: 'ko',
+  /** 언어 전환(2026-10-14): 이 페이지의 주소와 짝 페이지 — 한국어 '/', 영어 '/en'. 정해진 순서는 docs/EN_PLAN.md */
+  locale: 'ko_KR', altLocale: 'en_US', path: '/', altPath: '/en', altLang: 'en',
   // 2026-10-12 사용자: 한글·영어 모두, 특히 미국에서 검색되게 — 제목에 한글 서비스명 + 영어 서비스명, 설명은 한글 뒤에 짧은 영어 한 문장
   title: 'PAUSE Studio 퍼즈 스튜디오 | 웹사이트 제작 · AI 광고영상 | Web Design & AI Video Ads for Korean Businesses',
   description:
@@ -52,6 +54,18 @@ export const cta = {
   kakao: '카카오톡 1:1 실시간 상담',
   /** 플랜·상품 버튼: 어떤 구성이 맞는지는 상담에서 정함(2026-10-08 사용자) */
   free: '무료 상담받기',
+};
+
+/** 화면·스크립트 곳곳의 짧은 글(대체 텍스트·aria·버튼 이름). 자리표시 {ref} {cat} {n} {label} {id}는 코드가 채움. 스크립트용은 페이지의 #ui-text JSON으로 전달 */
+export const ui = {
+  skip: '본문으로 건너뛰기', home: 'PAUSE Studio 처음으로', navMain: '주요 메뉴', navMobile: '모바일 메뉴', menu: '메뉴', menuClose: '메뉴 닫기',
+  newWindow: '(새 창)', servicesAria: '서비스', openChat: '카카오톡 오픈채팅', openChatGo: '오픈채팅으로 바로 문의',
+  lightbox: '작업물 크게 보기', lbClose: '닫기', lbPrev: '이전 작업물', lbNext: '다음 작업물',
+  workOpen: '{ref} {cat} 크게 보기', workShot: '{ref} {cat} 웹사이트 화면', workVideo: '{ref} {cat} 웹사이트 화면 녹화',
+  signAria: 'PAUSE STUDIO 대표 서명', sampleTabs: '샘플 광고', compareVideo: '{label} · PAUSE가 만든 실제 사이트 화면 녹화',
+  faqTabs: '질문 분류', faqCount: '질문 {n}개', qrAlt: '{label}: 카카오톡 아이디 {id}',
+  honeypot: '회사 홈페이지(비워 두세요)', progress: '진행 단계', askType: '어떤 상담이 필요하신가요?', typeAria: '상담 종류', confirm: '보내실 내용을 확인해 주세요', sentFrom: '보낸 곳',
+  videoPause: '영상 일시정지', videoPlay: '영상 재생', switchLang: '언어 선택', switchTo: 'English',
 };
 
 export const hero = {
@@ -226,6 +240,8 @@ export const pricing = {
   title: '웹사이트 제작 비용',
   /** 사업 정책 §13·§20 확정 후킹 */
   banner: ['브랜드는 더 돋보이게.', '매달 관리비는 없게.'],
+  /** 사선으로 베이는 말(+ 그 뒤에 붙는 조사). banner 안에 그대로 들어 있어야 함 */
+  cut: ['관리비', '는'] as [string, string],
   /** 견적서 머리말 */
   bannerLead: '브랜드의 방향과 비즈니스 목표에 맞는 웹사이트를 제작합니다.\n기획부터 디자인, 개발까지 모든 과정을 한 번에 진행합니다.',
   targetLabel: '추천 대상',
@@ -257,6 +273,8 @@ export const pricing = {
 export const fee = {
   eyebrow: 'MONTHLY FEE',
   title: ['PAUSE Studio', '기본 월 관리비 $0'],
+  /** title 안에서 사선으로 베이는 말 */
+  cut: '관리비',
   lead: '웹사이트를 만든 뒤 PAUSE Studio에 매달 내는 관리비가 없습니다.\n무엇이 무료이고 언제 비용이 생기는지, 숨김없이 알려드립니다.',
   freeTitle: '모두 무료',
   free: ['웹사이트 유지보수', '웹사이트 관리비', '웹 호스팅', '서버 문제 확인', '관리자 기능 사용 안내'],
@@ -288,6 +306,7 @@ export const fee = {
     totalLabel: '총비용',
     saveLabel: 'PAUSE Studio로 아끼는 금액',
     unit: '년',
+    unitOne: '년',
     /** PAUSE 쪽 초기 제작비: 플랜을 고를 수 있게, 기본 선택 = STARTER(2026-10-08 사용자) */
     planLabel: '플랜 선택',
     plans: [
@@ -353,6 +372,8 @@ export const videoPricing = {
   eyebrow: 'PRICING',
   title: 'AI 광고영상 제작 비용',
   heading: ['기획부터 편집까지,', '바로 쓰는 광고영상을 드립니다.'], // 2026-10-12 사용자: '생성 횟수'는 낯선 말 → 쉬운 문장
+  /** heading 안에서 뷰파인더 틀을 씌우는 말(+ 뒤 조사) */
+  frame: ['광고영상', '을'] as [string, string],
   lead: '사업과 제품을 이해하고 광고 콘셉트와 메시지를 기획한 뒤,\nAI 생성 기술과 전문 편집으로 실제로 쓸 수 있는 광고영상을 만듭니다.',
   formats: {
     kicker: '모든 영상 상품 기본 제공',
@@ -441,6 +462,8 @@ export type Faq = { q: string; a: string };
 export const faq = {
   eyebrow: 'FAQ',
   title: ['궁금하신 점들을', '모았습니다.'],
+  /** title 끝에서 한 글자씩 모이는 말 */
+  gather: '모았습니다.',
   tabsHint: '궁금한 분야를 골라 보세요',
   tabs: [
     {
@@ -494,7 +517,8 @@ export const manifesto = {
 export const contactSection = {
   windowLabel: '비공개 1:1 상담실',
   status: '신규 프로젝트 상담 가능',
-  title: ['매달 나가는 ', '웹사이트 관리비,', '스트레스에서 해방', '되세요.'],
+  /** 문의 제목 두 줄: 첫 줄 = lead + burden(눌렸다 튀어 오르는 말), 둘째 줄 = tail + free(빛나며 떠오르는 말) */
+  title: { lead: '매달 나가는', burden: '웹사이트 관리비,', tail: '스트레스에서', free: '해방되세요.' },
   desc: ['현재 지출 중인 웹사이트 비용을 투명하게 진단하고,', ' 기본 월 관리비 없는 ', '자체 운영 방식', '으로의 전환 방안을 제안해 드립니다. 웹사이트와 AI 광고영상 상담 모두 가능합니다.'],
   channelsNote: ['시차와 거리에 구애받지 않고 ', 'Zoom 화상회의, 전화상담, 카카오톡, 이메일', ' 등 사장님께 가장 편안한 방식으로 소통합니다.'],
   phone: { title: '전화 상담', hint: '누르시면 전화 걸기와 문자 보내기를 고를 수 있습니다.', call: '전화 걸기', sms: '문자 보내기', copy: '번호 복사', copied: '번호를 복사했습니다' },

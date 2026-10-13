@@ -20,3 +20,11 @@ PAUSE STUDIO 웹사이트에 쓰인 폰트
    마무리 선언 두 줄과 타이핑 중에 지나가는 자모·글자만 남기고 이름을 바꾼 수정본입니다.
 
 SIL Open Font License 1.1 전문: https://openfontlicense.org/open-font-license-official-text/
+
+5) PS Text EN(영어 본문)
+   원본: Archivo — Copyright 2020 The Archivo Project Authors. SIL Open Font License 1.1
+   폭 100 · 굵기 400/700으로 고정하고 글자를 줄인 수정본입니다.
+
+6) PS Letter EN(영어 마무리 선언)
+   원본: Instrument Serif Italic — Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif). SIL Open Font License 1.1
+   선언 글자만 남기고 이름을 바꾼 수정본입니다.

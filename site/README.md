@@ -36,6 +36,7 @@ npm run check        # 타입 검사 + 빌드
 | `tests/a11y.cjs` | 접근성 점검(axe-core, WCAG 2.1 A·AA) |
 | `scripts/fonts.py` | 무료 폰트 → `public/fonts`(사이트 글자·나머지 한글로 나눈 woff2, 관리비 숫자용 PS Ledger, 마무리 선언용 PS Letter) + `src/styles/fonts.css` |
 | `Dockerfile` | 배포용(Cloud Run 등) — `node dist/server.cjs`, 포트는 `PORT`(기본 8080) |
+| `src/content/en.ts` · `scripts/fonts_en.py` | 영어 페이지(`/en`) 문구(ko.ts와 같은 모양, 타입으로 강제) · 영어 본문 글꼴. 구성은 `../docs/EN_PLAN.md` |
 | `scripts/artifact.py` | 미리보기 링크(claude.ai 아티팩트)용 묶음 — `dist`를 상대 경로로 바꿔 `.cache/artifact`에. 서버가 없어 IP 대신 기기 시간대로 통화를 정함(전환 버튼 없음). 주소는 `../STATE.md` |
 
 ## 폰트(무료 · 직접 호스팅)

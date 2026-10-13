@@ -3,6 +3,7 @@
    폰트 파일·@font-face는 scripts/fonts.py 가 만든다(fonts.css)
    움직임: 절제된 한 가지씩(등장·호버·열고 닫기). 운영체제 '동작 줄이기'(html.still)를 따른다. 2026-10-09 사용자: '움직임 멈추기' 버튼은 두지 않음 */
 @import './fonts.css';
+@import './fonts-en.css';
 
 /* ───────── 토큰 ───────── */
 :root {
@@ -88,7 +89,7 @@ em { font-style: normal; }
 .h3 { font-family: var(--f-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1.3; letter-spacing: -.02em; }
 /* 제목 글꼴 낱말 사이(2026-10-09 9차 '글자 비율·줄'): PS Display의 띄어쓰기는 0.144em인데 글자 사이를 좁히면(−0.035em) 0.1em 남짓만 남아
    '매달나가는웹사이트관리비'처럼 낱말이 붙어 보임 → 제목 글꼴을 쓰는 곳에 0.09em을 더함(영문 큰 장 제목은 그대로) */
-:is(.h2, .h3, .mnav-links a, .hero-title, .hero-svc .nm, .wk-next strong, .why-title, .ch-ko, .cmp-title, .plan-name, .free-band b, .fee-lists h3, .fs-tab b, .fm-copy h3, .addons > summary, .vsteps h4, .ct-title, .ct-card .big, .cs-title, .cs-detail h4, .cs-state h3) { word-spacing: .09em; }
+:lang(ko) :is(.h2, .h3, .mnav-links a, .hero-title, .hero-svc .nm, .wk-next strong, .why-title, .ch-ko, .cmp-title, .plan-name, .free-band b, .fee-lists h3, .fs-tab b, .fm-copy h3, .addons > summary, .vsteps h4, .ct-title, .ct-card .big, .cs-title, .cs-detail h4, .cs-state h3) { word-spacing: .09em; }
 .lead { font-size: var(--fs-lead); line-height: 1.7; letter-spacing: -.01em; max-width: 34em; }
 .sec-dark .lead, .sec-black .lead { color: var(--cream-2); }
 .sec-paper .lead { color: var(--on-paper-2); }
@@ -1335,3 +1336,38 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 
 /* 메뉴·창이 열려 있을 때 뒤 화면 고정 */
 html.menu-open, html.modal-open { overflow: hidden; }
+
+
+/* ───────── 영어 페이지(/en, html lang="en") 글꼴·줄 간격(2026-10-14): 제목은 그대로 PS Display Latin(Archivo 좁은 폭), 본문만 Archivo 보통 폭 ───────── */
+:root:lang(en) { --f-text: 'PS Text EN', 'Helvetica Neue', Arial, sans-serif; --f-text-md: 'PS Text EN', 'Helvetica Neue', Arial, sans-serif; --fallback-sans: 'Helvetica Neue', Arial, sans-serif; }
+:lang(en) body { line-height: 1.7; }
+:root:lang(en) { --fs-hero: clamp(44px, 4.9vw, 94px); --fs-h2: clamp(40px, 3.9vw, 76px); --fs-h3: clamp(26px, 1.95vw, 37px); }
+/* 영어 제목은 한글보다 글자 폭이 좁아 같은 크기면 작아 보임 → 키우고, 한글용으로 좁힌 자간·낱말 간격을 영어에 맞게 */
+:lang(en) :is(.h2, .h3, .hero-title, .ct-title, .ch-ko, .cmp-title, .plan-name, .wk-next strong, .mnav-links a, .fs-tab b, .fm-copy h3, .free-band b) { letter-spacing: -.012em; word-spacing: .12em; }
+@media (max-width: 767px) { :lang(en) .hero-title { font-size: clamp(32px, 9.6vw, 40px); } :root:lang(en) { --fs-h2: clamp(34px, 9.4vw, 44px); } }
+:lang(en) .mf-big { font-family: 'PS Letter EN', Georgia, serif; font-style: italic; font-size: clamp(46px, 8.6vw, 172px); letter-spacing: 0; line-height: 1.12; }
+:lang(en) :is(.h2, .hero-title, .why-title, .ct-title) { text-wrap: balance; }
+:lang(en) :is(.lead, .letter p, .pl-target, .desc, .acc-in p, .ch-lead) { text-wrap: pretty; }
+
+/* ───────── 언어 전환(국기): 얇은 알약, 지금 언어는 원래 색 + 밑줄, 다른 언어는 흑백·반투명(올리면 색이 돌아옴) ───────── */
+.lang { display: inline-flex; align-items: center; }
+.lang .flag { width: 15px; height: 15px; flex: none; border-radius: 50%; box-shadow: 0 0 0 1px rgba(252, 238, 216, .28); transition: filter .45s var(--ease), opacity .45s var(--ease); }
+.lang a.lg-opt, .hd-nav .lang a.lg-opt { position: relative; display: inline-flex; align-items: center; gap: 7px; height: 100%; padding: 0 11px; font-family: var(--f-display); font-weight: var(--w-display); font-size: 12px; line-height: 1; letter-spacing: .14em; color: var(--cream-3); transition: color .35s var(--ease); }
+.lang a.lg-opt .flag { filter: grayscale(.6); opacity: .62; }
+.lang a.lg-opt.on, .lang a.lg-opt:hover, .lang a.lg-opt:focus-visible, .hd-nav .lang a.lg-opt:hover, .hd-nav .lang a.lg-opt[aria-current="true"] { color: var(--cream); }
+.lang a.lg-opt.on .flag, .lang a.lg-opt:hover .flag, .lang a.lg-opt:focus-visible .flag { filter: none; opacity: 1; }
+.lang a.lg-opt::after, .hd-nav .lang a.lg-opt::after { content: ""; position: absolute; left: 11px; right: 11px; bottom: 6px; height: 1px; background: var(--cream); transform: scaleX(0); transform-origin: 100% 50%; transition: transform .45s var(--ease); }
+.lang a.lg-opt.on::after, .lang a.lg-opt:hover::after, .hd-nav .lang a.lg-opt[aria-current="true"]::after, .hd-nav .lang a.lg-opt:hover::after { transform: scaleX(1); transform-origin: 0 50%; }
+:is(.lang-hd, .lang-hd-m, .lang-mnav) { height: 32px; border: 1px solid var(--cream-line); border-radius: 999px; padding: 0 3px; }
+.lang-hd-m { display: none; margin-left: auto; margin-right: 6px; }
+.lang-hd-m a.lg-opt { color: var(--cream); } .lang-hd-m a.lg-opt .flag { filter: none; opacity: 1; } /* 한 칸뿐이라 항상 원래 색 */
+.lang-mnav { align-self: flex-start; height: 44px; animation: riseIn .7s var(--ease) .22s both; }
+.lang-mnav a.lg-opt { padding: 0 16px; font-size: 14px; gap: 9px; }
+.lang-mnav a.lg-opt::after { left: 16px; right: 16px; bottom: 9px; }
+.lang-mnav .flag { width: 19px; height: 19px; }
+.lang-ft { margin-top: 18px; gap: 10px; font-size: 13px; }
+.lang-ft a.lg-opt { height: auto; padding: 0; gap: 7px; font-family: var(--f-text); font-weight: var(--w-text); font-size: 13px; letter-spacing: .02em; }
+.lang-ft a.lg-opt::after { left: 0; right: 0; bottom: -3px; }
+.lang-ft i { font-style: normal; color: var(--cream-3); }
+@media (max-width: 1023px) { .lang-hd-m { display: inline-flex; } }
+@media (forced-colors: active) { .lang a.lg-opt .flag { filter: none; opacity: 1; } }

@@ -1,0 +1,4 @@
+/* 자동 생성: python3 scripts/fonts_en.py — 직접 고치지 마세요. 라이선스: public/fonts/LICENSE.txt */
+@font-face{font-family:'PS Text EN';src:url('/fonts/ps-text-en.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+20-7E, U+A0-FF, U+2010-2011, U+2013-2015, U+2017-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2032-2033, U+2039-203A, U+203E, U+2044, U+2052, U+20AC, U+2122, U+2190, U+2192, U+2212}
+@font-face{font-family:'PS Text EN';src:url('/fonts/ps-text-en-bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;unicode-range:U+20-7E, U+A0-FF, U+2010-2011, U+2013-2015, U+2017-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2032-2033, U+2039-203A, U+203E, U+2044, U+2052, U+20AC, U+2122, U+2190, U+2192, U+2212}
+@font-face{font-family:'PS Letter EN';src:url('/fonts/ps-letter-en.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}

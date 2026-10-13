@@ -8,10 +8,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as C from '../content/ko';
+import * as KO from '../content/ko';
+import { contentOf, type Content, type Lang } from '../content';
 import media from '../content/media.json';
 import { signatureOutline, signatureStrokes } from '../assets/signature';
 
+/** 지금 만드는 페이지의 문구·언어(renderBody/renderHead가 정함). 한국어 '/' · 영어 '/en' */
+let C: Content = KO;
+let LANG: Lang = 'ko';
+/** '{ref}' 같은 자리표시를 채움 */
+const fill = (tpl: string, v: Record<string, string | number>) => tpl.replace(/\{(\w+)\}/g, (_m, k: string) => String(v[k] ?? ''));
 const PUB = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public');
 const exists = (p: string) => fs.existsSync(path.join(PUB, p));
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -63,10 +69,10 @@ const dim = (base: string, tag: string): Dim => M[base]?.[tag] ?? [1600, 900];
 const big = (base: string): Dim => { const m = M[base]; if (!m) return [1600, 900]; const k = Object.keys(m).sort((a, b) => m[b][0] - m[a][0])[0]; return m[k]; };
 
 /** 통화별 글(ko.ts Txt): 문자열은 그대로, { NZD, USD }는 두 표기를 모두 넣고 CSS가 방문자 통화 하나만 보여 준다(빈 글은 넣지 않음) */
-const t = (x: C.Txt) => typeof x === 'string' ? nl(x)
+const t = (x: KO.Txt) => typeof x === 'string' ? nl(x)
   : (['NZD', 'USD'] as const).filter((c) => x[c]).map((c) => `<span data-c="${c}">${nl(x[c])}</span>`).join('');
 /** 가격 앞 통화 표시: 뉴질랜드 NZD $ · 그 외 USD $(2026-10-09 사용자 예시 NZD $1,990 · USD $1,990) */
-const SYM: C.Txt = C.currencySymbol;
+const SYM: KO.Txt = KO.currencySymbol;
 const isNum = (s: string) => /^\d/.test(s);
 /** '1,990' → 통화 표시(작게) + 숫자 + 꼬리(부터, /월). 숫자가 아니면('맞춤 견적') 그대로 */
 const priceHtml = (s: string, suffix = '') => isNum(s)
@@ -81,22 +87,39 @@ const preset = (key: string) => {
 const consultBtn = (label: string, cls = 'btn btn-solid', key = '') =>
   `<a class="${cls}" href="#contact" data-consult${key ? preset(key) : ''}><span class="lb">${esc(label)}</span>${arrow()}</a>`;
 const kakaoBtn = (cls = 'btn btn-line') =>
-  `<a class="${cls}" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener"><span class="lb">${bubble}${esc(C.cta.kakao)}</span>${arrow()}<span class="sr">(새 창)</span></a>`;
+  `<a class="${cls}" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener"><span class="lb">${bubble}${esc(C.cta.kakao)}</span>${arrow()}<span class="sr">${esc(C.ui.newWindow)}</span></a>`;
 /** 자동 재생 영상의 재생·일시정지 버튼(움직임이 5초 넘게 이어지므로 멈출 수 있어야 함) */
-const vctrl = () => `<button class="vctrl" type="button" data-vctrl aria-label="${esc(C.film.pause)}"><i aria-hidden="true"></i></button>`;
+const vctrl = () => `<button class="vctrl" type="button" data-vctrl aria-label="${esc(C.ui.videoPause)}"><i aria-hidden="true"></i></button>`;
+
+/* ───────── 언어 전환(한국어 '/' ↔ English '/en'): 직접 그린 원형 국기(윈도우는 국기 이모지를 글자로 보여 줌) ───────── */
+const flagKR = `<svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="fkc"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#fkc)"><rect width="24" height="24" fill="#f4f1ea"/><circle cx="12" cy="12" r="5" fill="#0047A0"/><path d="M7 12a5 5 0 0 1 10 0a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 0-5 0z" fill="#CD2E3A"/><g stroke="#161616" stroke-width="1.1"><g transform="translate(4.6 4.6) rotate(-45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g><g transform="translate(19.4 4.6) rotate(45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g><g transform="translate(4.6 19.4) rotate(45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g><g transform="translate(19.4 19.4) rotate(-45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g></g></g></svg>`;
+const flagUS = `<svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="fuc"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#fuc)"><rect width="24" height="24" fill="#f4f1ea"/>${[0, 2, 4, 6].map((i) => `<rect y="${(i * 24) / 7}" width="24" height="${24 / 7}" fill="#B22234"/>`).join('')}<rect width="12.5" height="13.7" fill="#3C3B6E"/><g fill="#f4f1ea">${[[3, 3], [6.5, 3], [10, 3], [4.7, 6], [8.2, 6], [3, 9], [6.5, 9], [10, 9], [4.7, 12], [8.2, 12]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r=".75"/>`).join('')}</g></g></svg>`;
+const LANGS = [{ code: 'ko', label: 'KO', name: '한국어', flag: flagKR, path: '/' }, { code: 'en', label: 'EN', name: 'English', flag: flagUS, path: '/en' }];
+/** variant: 'hd' = PC 머리줄(두 칸 알약) · 'hd-m' = 휴대폰 머리줄(다른 언어 한 칸만) · 'mnav' = 휴대폰 메뉴(큰 두 칸) · 'ft' = 푸터(글자 링크).
+ *  주소 끝(#섹션)은 스크립트(ui.ts initLang)가 지금 보는 곳으로 바꿔 줌 */
+function langSwitch(variant: string, otherOnly = false) {
+  const cur = LANGS.find((l) => l.code === LANG)!;
+  const items = (otherOnly ? LANGS.filter((l) => l.code !== LANG) : LANGS).map((l) => {
+    const on = l.code === LANG;
+    return `<a class="lg-opt${on ? ' on' : ''}" href="${l.path}" lang="${l.code}" hreflang="${l.code}"${on ? ' aria-current="true"' : ''}>${l.flag}<span aria-hidden="true">${variant === 'ft' ? l.name : l.label}</span><span class="sr">${l.name}</span></a>`;
+  });
+  return `<nav class="lang lang-${variant}" aria-label="${esc(C.ui.switchLang)}" data-lang="${cur.code}">${items.join(variant === 'ft' ? '<i aria-hidden="true">·</i>' : '')}</nav>`;
+}
 
 function header() {
   const links = C.nav.map((n) => `<a href="${n.href}">${esc(n.label)}</a>`).join('');
-  return `<a class="skip" href="#main">본문으로 건너뛰기</a>
+  return `<a class="skip" href="#main">${esc(C.ui.skip)}</a>
 <header class="hd" data-header>
   <div class="hd-in">
-    <a class="hd-logo" href="#top" aria-label="PAUSE Studio 처음으로" data-logo>${inlineLogo('hd-svg')}</a>
-    <nav class="hd-nav" aria-label="주요 메뉴">${links}<a class="hd-cta" href="#contact">${esc(C.cta.header)}${smallArrow}</a></nav>
-    <button class="hd-menu" type="button" aria-expanded="false" aria-controls="mnav" data-menu><span class="sr">메뉴</span><i></i><i></i></button>
+    <a class="hd-logo" href="#top" aria-label="${esc(C.ui.home)}" data-logo>${inlineLogo('hd-svg')}</a>
+    <nav class="hd-nav" aria-label="${esc(C.ui.navMain)}">${links}${langSwitch('hd')}<a class="hd-cta" href="#contact">${esc(C.cta.header)}${smallArrow}</a></nav>
+    ${langSwitch('hd-m', true)}
+    <button class="hd-menu" type="button" aria-expanded="false" aria-controls="mnav" data-menu><span class="sr">${esc(C.ui.menu)}</span><i></i><i></i></button>
   </div>
 </header>
 <div class="mnav" id="mnav" hidden>
-  <nav class="mnav-links" aria-label="모바일 메뉴">${C.nav.map((n, i) => `<a href="${n.href}" style="--i:${i}">${esc(n.label)}</a>`).join('')}<a href="#contact" style="--i:${C.nav.length}">${esc(C.cta.header)}</a></nav>
+  <nav class="mnav-links" aria-label="${esc(C.ui.navMobile)}">${C.nav.map((n, i) => `<a href="${n.href}" style="--i:${i}">${esc(n.label)}</a>`).join('')}<a href="#contact" style="--i:${C.nav.length}">${esc(C.cta.header)}</a></nav>
+  ${langSwitch('mnav')}
   <div class="ctas">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
 </div>`;
 }
@@ -132,7 +155,7 @@ function hero() {
     <h1 class="hero-title" id="hero-title"><span class="sr">${esc(h.titleLines.join(' '))}</span><span class="tt" aria-hidden="true" data-type-title><span class="l1">${esc(h.titleLinesMobile[0])}</span><span class="l2">${esc(h.titleLinesMobile[1])} </span><span class="l3">${esc(h.titleLinesMobile[2])}</span></span></h1>
     <p class="hero-sub">${esc(h.sub[0])}<br> ${esc(h.sub[1])}</p>
     <div class="ctas">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
-    <ul class="hero-svc" aria-label="서비스">${svc}</ul>
+    <ul class="hero-svc" aria-label="${esc(C.ui.servicesAria)}">${svc}</ul>
   </div>
 </section>`;
 }
@@ -148,8 +171,8 @@ function work() {
     // 칸 = 화면 비율 그대로(--ar). 한 줄의 높이를 맞춰 폭을 꽉 채우고(자르지 않음), 모바일은 한 칸씩 크게(아주 긴 세로 화면만 --arm으로 높이 제한)
     // 세로로 긴 화면(택시 앱 0.69)은 칸 폭이 너무 좁아지지 않게 칸 비율만 1.25까지(사진은 잘리지 않고 칸 안에 그대로)
     const ar = iw / ih;
-    return `<li class="wk rv" style="--d:${(i % 4) * 0.06}s;--ar:${Math.max(ar, 1.25).toFixed(4)};--arm:${Math.max(ar, 1).toFixed(4)}"><button class="wk-btn" type="button" data-work="${i}" aria-label="${esc(`${refNo(i)} ${it.category} 크게 보기`)}">
-      <span class="wk-media">${img(b, `${refNo(i)} ${it.category} 웹사이트 화면`, '(max-width: 767px) 92vw, (max-width: 1279px) 48vw, 36vw', 'wk-img')}${vid}</span>
+    return `<li class="wk rv" style="--d:${(i % 4) * 0.06}s;--ar:${Math.max(ar, 1.25).toFixed(4)};--arm:${Math.max(ar, 1).toFixed(4)}"><button class="wk-btn" type="button" data-work="${i}" aria-label="${esc(fill(C.ui.workOpen, { ref: refNo(i), cat: it.category }))}">
+      <span class="wk-media">${img(b, fill(C.ui.workShot, { ref: refNo(i), cat: it.category }), '(max-width: 767px) 92vw, (max-width: 1279px) 48vw, 36vw', 'wk-img')}${vid}</span>
       <span class="wk-cap"><span class="wk-ref">${refNo(i)}</span><span class="wk-cat">${esc(it.category)}</span>${arrow()}</span>
     </button></li>`;
   }).join('');
@@ -169,11 +192,11 @@ function work() {
 }
 
 function lightbox() {
-  return `<dialog class="lightbox" id="lightbox" aria-label="작업물 크게 보기">
+  return `<dialog class="lightbox" id="lightbox" aria-label="${esc(C.ui.lightbox)}">
   <div class="lb-in">
-    <div class="lb-top"><span data-lb-count>01 / ${String(C.work.items.length).padStart(2, '0')}</span><button class="lb-close" type="button" data-lb-close><span>닫기</span><i aria-hidden="true"></i></button></div>
+    <div class="lb-top"><span data-lb-count>01 / ${String(C.work.items.length).padStart(2, '0')}</span><button class="lb-close" type="button" data-lb-close><span>${esc(C.ui.lbClose)}</span><i aria-hidden="true"></i></button></div>
     <div class="lb-fig" data-lb-fig></div>
-    <div class="lb-bot"><p class="lb-cap" data-lb-cap></p><div class="lb-nav"><button class="prev" type="button" data-lb-prev aria-label="이전 작업물">${arrow('')}</button><button class="next" type="button" data-lb-next aria-label="다음 작업물">${arrow('')}</button></div></div>
+    <div class="lb-bot"><p class="lb-cap" data-lb-cap></p><div class="lb-nav"><button class="prev" type="button" data-lb-prev aria-label="${esc(C.ui.lbPrev)}">${arrow('')}</button><button class="next" type="button" data-lb-next aria-label="${esc(C.ui.lbNext)}">${arrow('')}</button></div></div>
   </div>
 </dialog>`;
 }
@@ -181,7 +204,7 @@ function lightbox() {
 /** 대표 서명(획 순서대로 그려짐). id = 마스크 이름(한 페이지에 두 번 쓰므로 달라야 함), auto = 보이면 스스로 그리기 시작(아니면 다른 코드가 .go를 붙임) */
 function signature(id = 'sigm', auto = true) {
   const strokes = signatureStrokes.map((s) => `<path class="st" d="${s.d}" style="--l:${s.l}px;--dur:${s.dur}ms;--off:${s.off}ms;--e:${s.e}"/>`).join('');
-  return `<svg class="sig" viewBox="0 0 1363 432" role="img" aria-label="PAUSE STUDIO 대표 서명"${auto ? ' data-sign' : ''}><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1363" height="432">${strokes}</mask></defs><path d="${signatureOutline}" fill="currentColor" fill-rule="evenodd" mask="url(#${id})"/></svg>`;
+  return `<svg class="sig" viewBox="0 0 1363 432" role="img" aria-label="${esc(C.ui.signAria)}"${auto ? ' data-sign' : ''}><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1363" height="432">${strokes}</mask></defs><path d="${signatureOutline}" fill="currentColor" fill-rule="evenodd" mask="url(#${id})"/></svg>`;
 }
 
 /** 'WHY PAUSE?' 글자마다 순서(--k). 물음표(.q)는 잠깐 쉬었다가 마지막에 */
@@ -238,7 +261,7 @@ function chapter(key: 'website' | 'video') {
 }
 
 /* ───────── 비교: BEFORE(흔한 템플릿 예시 화면)를 손잡이로 밀어 AFTER(실제 사이트 녹화)와 비교 ───────── */
-function mock(m: C.CompareCase['mock']) {
+function mock(m: KO.CompareCase['mock']) {
   const b = m.image;
   const has = exists(`${b}-880.jpg`);
   const pic = has ? `<picture><source type="image/webp" srcset="${b}-880.webp"><img src="${b}-880.jpg" alt="" loading="lazy" decoding="async"></picture>` : '';
@@ -262,7 +285,7 @@ function compare() {
     const [bw, bh] = big(cs.media);
     return `<figure class="cmp-case rv"${i ? ' style="--d:.08s"' : ''}>
     <div class="cmp-frame" style="--ar:${bw}/${bh}" data-cmp>
-      <div class="cmp-after"><video muted playsinline loop preload="none" data-auto data-src="${cs.media}.mp4" poster="${cs.media}-880.jpg" width="${vw}" height="${vh}" aria-label="${esc(`${cs.label} · PAUSE가 만든 실제 사이트 화면 녹화`)}"></video></div>
+      <div class="cmp-after"><video muted playsinline loop preload="none" data-auto data-src="${cs.media}.mp4" poster="${cs.media}-880.jpg" width="${vw}" height="${vh}" aria-label="${esc(fill(C.ui.compareVideo, { label: cs.label }))}"></video></div>
       <div class="cmp-before">${mock(cs.mock)}</div>
       <span class="cmp-tag b" aria-hidden="true">${esc(c.before)}</span><span class="cmp-tag a" aria-hidden="true">${esc(c.after)}</span>
       <span class="cmp-handle" aria-hidden="true"><i>${smallArrow}${smallArrow}</i></span>
@@ -281,7 +304,7 @@ function compare() {
 }
 
 /* ───────── 웹사이트 요금: STARTER · BUSINESS · ENTERPRISE(견적서), 그 플랜만의 기능은 위에 크게(+), 다른 플랜과 같은 기능은 체크 목록으로 또렷하게 ───────── */
-function planCard(pl: C.Plan, i: number) {
+function planCard(pl: KO.Plan, i: number) {
   const p = C.pricing;
   const adds = pl.base
     ? `<p class="pl-lab add"><span class="plus" aria-hidden="true">+</span>${esc(pl.addsTitle)}</p><ul class="adds">${pl.adds.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`
@@ -301,7 +324,7 @@ function pricingSec() {
   const notes = p.notes.map((n) => `<li>${t(n)}</li>`).join('');
   return `<section class="sec sec-dark pricing" id="pricing" aria-labelledby="pricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner).replace('관리비는', '<span class="nobr"><span class="gone" data-sp data-dur="2000"><span class="g-t">관리비</span><span class="g-b" aria-hidden="true">관리비</span></span>는</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(p.eyebrow)}<span class="ko"> · ${esc(p.title)}</span></span></p><h2 class="h2 price-hook rv" id="pricing-title">${lines(p.banner).replace(esc(p.cut[0] + p.cut[1]), `<span class="nobr"><span class="gone" data-sp data-dur="2000"><span class="g-t">${esc(p.cut[0])}</span><span class="g-b" aria-hidden="true">${esc(p.cut[0])}</span></span>${esc(p.cut[1])}</span>`)}</h2><p class="lead rv" style="--d:.12s">${nl(p.bannerLead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="plans">${p.plans.map(planCard).join('')}</div>
     <div class="free-band rv"><h3 class="fb-title">${esc(p.freeTitle[0])} <br>${esc(p.freeTitle[1])}</h3><ul>${free}</ul></div>
     <div class="pnotes rv"><h3 class="pnotes-title">${esc(p.notesTitle)}</h3><ol>${notes}</ol></div>
@@ -410,7 +433,7 @@ function fee() {
   return `<section class="sec sec-black fee" id="fee" aria-labelledby="fee-title">
   <div class="wrap">
     <div class="fee-top">
-      <header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 fee-title rv" id="fee-title">${lines(f.title).replace('$0', '<span class="z0">$0</span>').replace('관리비', '<span class="gone" data-sp data-dur="2000"><span class="g-t">관리비</span><span class="g-b" aria-hidden="true">관리비</span></span>')}</h2><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></header>
+      <header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 fee-title rv" id="fee-title">${lines(f.title).replace('$0', '<span class="z0">$0</span>').replace(esc(f.cut), `<span class="gone" data-sp data-dur="2000"><span class="g-t">${esc(f.cut)}</span><span class="g-b" aria-hidden="true">${esc(f.cut)}</span></span>`)}</h2><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></header>
       ${ledger()}
     </div>
     <div class="fee-lists">
@@ -449,14 +472,14 @@ function film() {
     <div class="film-grid"><header class="sec-head" style="margin:0"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="film-title">${lines(f.title, 1)}</h2></header><p class="lead rv" style="--d:.1s">${nl(f.lead)}</p></div>
     <div class="fs rv" data-fs>
       <div class="fs-stage">${panels}</div>
-      <div class="fs-tabs" role="tablist" aria-label="샘플 광고" style="--fs-n:${ready.length}">${tabs}</div>
+      <div class="fs-tabs" role="tablist" aria-label="${esc(C.ui.sampleTabs)}" style="--fs-n:${ready.length}">${tabs}</div>
     </div>
   </div>
 </section>`;
 }
 
 /* ───────── AI 광고영상 요금·규격·추가 작업·과정 ───────── */
-function videoPlanCard(pl: C.VideoPlan, i: number) {
+function videoPlanCard(pl: KO.VideoPlan, i: number) {
   const specs = pl.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
   return `<article class="vplan${pl.featured ? ' featured' : ''} rv" style="--d:${i * 0.08}s" aria-labelledby="vplan-${pl.key}">
       ${pl.badge ? `<span class="badge">${esc(pl.badge)}</span>` : ''}<h3 class="plan-name" id="vplan-${pl.key}">${esc(pl.name)}</h3>
@@ -487,7 +510,7 @@ function videoPricing() {
   const sched = v.schedule.map(([k, d]) => `<div><dt>${esc(k)}</dt><dd>${esc(d)}</dd></div>`).join('');
   return `<section class="sec sec-dark vpricing" id="video-pricing" aria-labelledby="vpricing-title">
   <div class="wrap">
-    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading).replace('광고영상을', '<span class="nobr"><span class="vf" data-sp data-dur="1200"><i class="vf-c" aria-hidden="true"></i>광고영상</span>을</span>')}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
+    <header class="sec-head"><p class="eyebrow rv"><span>${esc(v.eyebrow)}<span class="ko"> · ${esc(v.title)}</span></span></p><h2 class="h2 rv" id="vpricing-title">${lines(v.heading).replace(esc(v.frame[0] + v.frame[1]), `<span class="nobr"><span class="vf" data-sp data-dur="1200"><i class="vf-c" aria-hidden="true"></i>${esc(v.frame[0])}</span>${esc(v.frame[1])}</span>`)}</h2><p class="lead rv" style="--d:.12s">${nl(v.lead)}</p><p class="currency rv" style="--d:.15s">${t(C.currencyChip)}</p></header>
     <div class="formats rv">
       <div class="fm-copy"><p class="kicker">${esc(fm.kicker)}</p><h3>${nl(fm.title)}</h3><p>${nl(fm.desc)}</p></div>
       <div class="fm-art"><div class="fm-devices" aria-hidden="true">${frames}</div><ul class="fm-list">${formats}</ul></div>
@@ -513,12 +536,12 @@ function videoPricing() {
 /* ───────── 자주 묻는 질문: 웹사이트 / AI 광고영상 탭 ───────── */
 function faqSec() {
   const f = C.faq;
-  const tabs = f.tabs.map((tb, i) => `<button class="faq-tab" type="button" role="tab" id="faq-tab-${tb.key}" aria-controls="faq-${tb.key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-faq-tab><span>${esc(tb.label)}</span><small>질문 ${tb.items.length}개</small></button>`).join('');
+  const tabs = f.tabs.map((tb, i) => `<button class="faq-tab" type="button" role="tab" id="faq-tab-${tb.key}" aria-controls="faq-${tb.key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''} data-faq-tab><span>${esc(tb.label)}</span><small>${esc(fill(C.ui.faqCount, { n: tb.items.length }))}</small></button>`).join('');
   const panels = f.tabs.map((tb, i) => `<div class="faq-list" id="faq-${tb.key}" role="tabpanel" aria-labelledby="faq-tab-${tb.key}" data-faq-panel${i ? ' hidden' : ''}>${tb.items.map((it) => `<details data-acc><summary><span>${esc(it.q)}</span><span class="ic" aria-hidden="true"></span></summary><div class="acc-body"><div class="acc-in"><p>${esc(it.a)}</p></div></div></details>`).join('')}</div>`).join('');
   const all = f.tabs.flatMap((tb) => tb.items);
   return `<section class="sec sec-paper faq" id="faq" aria-labelledby="faq-title">
   <div class="wrap faq-grid">
-    <header class="sec-head"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="faq-title">${lines(f.title).replace('모았습니다.', /* 질문 제목은 PC에서 화면 위에 붙어 따라오므로(sticky) 끝을 38% 높이로 */ `<span class="sr">모았습니다.</span><span class="gather" aria-hidden="true" data-sp data-dur="1100">${[...'모았습니다.'].map((ch, k) => `<i style="--k:${k}">${ch}</i>`).join('')}</span>`)}</h2><div class="faq-pick rv"><p class="faq-hint" id="faq-hint">${esc(f.tabsHint)}</p><div class="faq-tabs" role="tablist" aria-label="질문 분류" aria-describedby="faq-hint">${tabs}</div></div></header>
+    <header class="sec-head"><p class="eyebrow rv">${esc(f.eyebrow)}</p><h2 class="h2 rv" id="faq-title">${lines(f.title).replace(esc(f.gather), /* 질문 제목은 PC에서 화면 위에 붙어 따라오므로(sticky) 끝을 38% 높이로 */ `<span class="sr">${esc(f.gather)}</span><span class="gather" aria-hidden="true" data-sp data-dur="1100">${[...f.gather].map((ch, k) => ch === ' ' ? ' ' : `<i style="--k:${k}">${esc(ch)}</i>`).join('')}</span>`)}</h2><div class="faq-pick rv"><p class="faq-hint" id="faq-hint">${esc(f.tabsHint)}</p><div class="faq-tabs" role="tablist" aria-label="${esc(C.ui.faqTabs)}" aria-describedby="faq-hint">${tabs}</div></div></header>
     <div class="faq-panels rv">${panels}</div>
   </div>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: all.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } })) }).replace(/</g, '\\u003c')}</script>
@@ -557,7 +580,7 @@ function contactSec() {
   <div class="wrap contact-grid">
     <div class="ct-main">
       <p class="ct-window rv"><span class="dot" aria-hidden="true"></span>${esc(c.windowLabel)} · ${esc(c.status)}</p>
-      <h2 class="ct-title rv" id="contact-title" data-mark><span class="sr">${esc([c.title[0], c.title[1], c.title[2] + c.title[3]].join(' ').replace(/\s+/g, ' ').trim())}</span><span class="ln" aria-hidden="true"><span>${esc(c.title[0].trim())}<br class="m-br"> ${charSpans(c.title[1].trim(), 'burden')}</span></span><span class="ln" style="--li:1" aria-hidden="true"><span>${(c.title[2] + c.title[3]).replace(/^(.*?)(해방\s*되세요\.?)$/, (_m, a: string, b: string) => esc(a) + charSpans(b, 'free'))}</span></span></h2>
+      <h2 class="ct-title rv" id="contact-title" data-mark><span class="sr">${esc([c.title.lead, c.title.burden, c.title.tail, c.title.free].filter(Boolean).join(' '))}</span><span class="ln" aria-hidden="true"><span>${esc(c.title.lead)}<br class="m-br"> ${charSpans(c.title.burden, 'burden')}</span></span><span class="ln" style="--li:1" aria-hidden="true"><span>${c.title.tail ? `${esc(c.title.tail)} ` : ''}${charSpans(c.title.free, 'free')}</span></span></h2>
       <p class="ct-desc rv" style="--d:.1s">${esc(c.desc[0])}${esc(c.desc[1])}<em>${esc(c.desc[2])}</em>${esc(c.desc[3])}</p>
       <div class="ctas rv" style="--d:.15s">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
       <p class="ct-note">${esc(c.channelsNote[0])}<em>${esc(c.channelsNote[1])}</em>${esc(c.channelsNote[2])}</p>
@@ -567,7 +590,7 @@ function contactSec() {
         <button class="big" type="button" aria-expanded="false" aria-controls="ph-menu" data-phone>${esc(C.contact.phoneLabel)}${arrow()}</button>
         <div class="ph-menu" id="ph-menu" hidden data-phone-menu><a href="${C.contact.telHref}">${esc(ph.call)}</a><a href="${C.contact.smsHref}">${esc(ph.sms)}</a><button type="button" data-phone-copy data-copied="${esc(ph.copied)}">${esc(ph.copy)}</button></div>
         <p class="h">${esc(ph.hint)}</p></article>
-      <article class="ct-card kakao rv" style="--d:.08s"><h3>${esc(c.kakao.title)}</h3><p class="big">${esc(C.contact.kakaoId)}</p><p class="h">${esc(c.kakao.idLabel)} · ${esc(c.kakao.hint)}</p><a class="btn-text" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener">오픈채팅으로 바로 문의${arrow()}<span class="sr">(새 창)</span></a><img class="qr" src="/media/kakao-qr.png" alt="${esc(c.kakao.qrLabel)}: 카카오톡 아이디 ${esc(C.contact.kakaoId)}" width="233" height="236" loading="lazy"></article>
+      <article class="ct-card kakao rv" style="--d:.08s"><h3>${esc(c.kakao.title)}</h3><p class="big">${esc(C.contact.kakaoId)}</p><p class="h">${esc(c.kakao.idLabel)} · ${esc(c.kakao.hint)}</p><a class="btn-text" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener">${esc(C.ui.openChatGo)}${arrow()}<span class="sr">${esc(C.ui.newWindow)}</span></a><img class="qr" src="/media/kakao-qr.png" alt="${esc(fill(C.ui.qrAlt, { label: c.kakao.qrLabel, id: C.contact.kakaoId }))}" width="233" height="236" loading="lazy"></article>
       <article class="ct-card rv" style="--d:.16s"><h3>${esc(c.email.title)}</h3><button class="reveal-btn" type="button" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(c.email.label)}</button><p class="h">${esc(c.email.hint)}</p></article>
     </div>
   </div>
@@ -580,10 +603,10 @@ function footer() {
   return `<footer class="ft">
   <div class="wrap">
     <div class="ft-top">
-      <a class="ft-logo" href="#top" aria-label="PAUSE Studio 처음으로" data-logo data-mark>${inlineLogo('ft-svg')}</a>
+      <a class="ft-logo" href="#top" aria-label="${esc(C.ui.home)}" data-logo data-mark>${inlineLogo('ft-svg')}</a>
       <div class="ft-cols">
-        <div><h3>Menu</h3><ul>${C.nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}<li><a href="#contact">${esc(C.cta.header)}</a></li></ul></div>
-        <div><h3>Contact</h3><ul><li><a href="${C.contact.kakaoUrl}" target="_blank" rel="noopener">카카오톡 오픈채팅</a></li><li><a href="${C.contact.telHref}">${esc(C.contact.phoneLabel)}</a></li><li>${esc(f.emailLabel)} · <button class="reveal-btn" type="button" style="font-size:inherit" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(f.emailReveal)}</button></li></ul></div>
+        <div><h3>Menu</h3><ul>${C.nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}<li><a href="#contact">${esc(C.cta.header)}</a></li></ul>${langSwitch('ft')}</div>
+        <div><h3>Contact</h3><ul><li><a href="${C.contact.kakaoUrl}" target="_blank" rel="noopener">${esc(C.ui.openChat)}</a></li><li><a href="${C.contact.telHref}">${esc(C.contact.phoneLabel)}</a></li><li>${esc(f.emailLabel)} · <button class="reveal-btn" type="button" style="font-size:inherit" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(f.emailReveal)}</button></li></ul></div>
         <div><h3>Studio</h3><p>${esc(C.contact.address)}</p><p>${esc(C.contact.nzbn)}</p></div>
       </div>
     </div>
@@ -604,11 +627,11 @@ function consultDialog() {
   const text = (name: string, label: string, hint = '') => `<label class="fld"><span>${esc(label)}</span><textarea name="${name}"${hint ? ` placeholder="${esc(hint)}"` : ''}></textarea></label>`;
   return `<dialog class="cs" id="consult" aria-labelledby="cs-title">
   <form method="dialog" novalidate data-consult-form>
-    <div class="hp" aria-hidden="true"><label>회사 홈페이지(비워 두세요)<input type="text" name="_hp" tabindex="-1" autocomplete="off"></label></div>
+    <div class="hp" aria-hidden="true"><label>${esc(C.ui.honeypot)}<input type="text" name="_hp" tabindex="-1" autocomplete="off"></label></div>
     <div class="cs-head"><h2 class="cs-title" id="cs-title">${esc(c.title)}</h2><button class="cs-x" type="button" data-cs-close aria-label="${esc(c.buttons.close)}"></button></div>
-    <ol class="cs-prog" aria-label="진행 단계">${c.steps.map((s, i) => `<li${i === 0 ? ' aria-current="step"' : ''}>${String(i + 1).padStart(2, '0')} ${esc(s)}</li>`).join('')}</ol>
+    <ol class="cs-prog" aria-label="${esc(C.ui.progress)}">${c.steps.map((s, i) => `<li${i === 0 ? ' aria-current="step"' : ''}>${String(i + 1).padStart(2, '0')} ${esc(s)}</li>`).join('')}</ol>
     <div class="cs-body">
-      <section class="cs-step" data-step="0"><h3>어떤 상담이 필요하신가요?</h3><div class="cs-types" role="radiogroup" aria-label="상담 종류">${types}</div><p class="fld"><span class="err" data-err="type" hidden></span></p></section>
+      <section class="cs-step" data-step="0"><h3>${esc(C.ui.askType)}</h3><div class="cs-types" role="radiogroup" aria-label="${esc(C.ui.typeAria)}">${types}</div><p class="fld"><span class="err" data-err="type" hidden></span></p></section>
       <section class="cs-step" data-step="1" hidden>
         <div class="grid2">${input('company', f.company)}${input('name', f.name, 'text', true, ' autocomplete="name"')}</div>
         <div class="grid2">${input('email', f.email, 'email', true, ' autocomplete="email"')}<label class="fld"><span>${esc(f.phone)}</span><span class="tel"><select name="phoneCode" aria-label="${esc(f.phoneCode)}">${f.phoneCodes.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join('')}</select><input type="tel" name="phone" autocomplete="tel-national"></span><span class="err" hidden></span></label></div>
@@ -621,7 +644,7 @@ function consultDialog() {
           <label class="fld"><span>${esc(f.files)}</span><input type="file" name="attachment" multiple accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.zip"><span class="err" data-err="files" hidden></span><span class="h" style="font-size:13px;color:var(--on-paper-3)">${esc(f.filesHint)}</span></label>
         </div>
       </section>
-      <section class="cs-step" data-step="3" hidden><h3>보내실 내용을 확인해 주세요</h3><dl class="cs-summary" data-summary></dl><p class="cs-privacy">${esc(f.privacy)}</p></section>
+      <section class="cs-step" data-step="3" hidden><h3>${esc(C.ui.confirm)}</h3><dl class="cs-summary" data-summary></dl><p class="cs-privacy">${esc(f.privacy)}</p></section>
       <section class="cs-step cs-state" data-step="done" hidden><span class="cs-ok" aria-hidden="true">${check}</span><h3>${esc(c.success.title)}</h3><p>${esc(c.success.desc)}</p><div class="ctas"><button class="btn btn-solid" type="button" data-cs-close><span class="lb">${esc(c.buttons.done)}</span>${arrow()}</button></div></section>
       <section class="cs-step cs-state" data-step="fail" hidden><h3>${esc(c.failure.title)}</h3><p>${esc(c.failure.desc)}</p><div class="ctas"><a class="btn btn-solid" data-cs-mail href="#"><span class="lb">${esc(c.failure.mail)}</span>${arrow()}</a><button class="btn btn-line" type="button" data-cs-copy><span class="lb">${esc(c.failure.copy)}</span>${arrow()}</button><a class="btn btn-line" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener"><span class="lb">${esc(c.failure.kakao)}</span>${arrow()}</a></div></section>
     </div>
@@ -635,20 +658,35 @@ function consultDialog() {
  * 'ㅇㅇ을 쓸 / 곳을'처럼 한 글자만 줄 끝에 남지 않고, 가운뎃점으로 이은 말(갤러리·포트폴리오)은 붙어 있다. 태그 안(속성 값)과 <script>는 건드리지 않는다.
  */
 const glue = (html: string) => html.replace(/(<script[\s\S]*?<\/script>)|(?<=>)([^<]+)(?=<)/g, (m, script, text) => script ? m
-  : text.replace(/(?<=^|[\s(\u00A0])([가-힣])[ ](?=[^\s])/g, '$1\u00A0').replace(/Full HD MP4/g, 'Full\u00A0HD\u00A0MP4')
+  : (LANG === 'en'
+    // 영어: 짧은 낱말(a·to·of·in…) 뒤 공백을 붙는 공백으로 — 줄 끝에 한두 글자만 남지 않게
+    ? text.replace(/(?<=^|[\s(\u00A0])(a|an|A|I|to|of|in|on|at|by|or|no|is|as|it|we|up|so|if) (?=[^\s])/g, '$1\u00A0')
+    : text.replace(/(?<=^|[\s(\u00A0])([가-힣])[ ](?=[^\s])/g, '$1\u00A0'))
+    .replace(/Full HD MP4/g, 'Full\u00A0HD\u00A0MP4')
     // 가운뎃점(·) 양옆에서 줄이 바뀌지 않게('갤러리 / ·포트폴리오' 방지): 보이지 않는 단어 이음표(U+2060)
     .replace(/(?<=\S)·(?=\S)/g, '\u2060·\u2060')
     // 띄어 쓴 가운뎃점('릴스 · 틱톡')은 앞말에 붙여 줄 첫머리가 '·'로 시작하지 않게
     .replace(/ · /g, '\u00A0· ')
-    // 브랜드 이름(PAUSE / Studio)과 보조 용언(보여 / 주고, 찾고 / 계신, 제안해 / 드립니다)이 두 줄로 갈라지지 않게(2026-10-09)
+    // 브랜드 이름(PAUSE / Studio)이 두 줄로 갈라지지 않게(2026-10-09)
     .replace(/PAUSE (Studio|STUDIO)/g, 'PAUSE\u00A0$1')
+    // 한국어 전용: 보조 용언(보여 / 주고, 찾고 / 계신, 제안해 / 드립니다)과 꾸밈말('모든 / 순간')이 두 줄로 갈라지지 않게
     .replace(/(?<=[가-힣](?:여|어|아|해|려|워|춰|와|내|줘)) (?=(?:주|드)[가-힣])/g, '\u00A0')
     .replace(/(?<=[가-힣]고) (?=(?:계|있|싶)[가-힣])/g, '\u00A0')
-    // 꾸밈말은 뒷말과 함께('모든 / 순간' 방지)
     .replace(/(?<=^|[\s\u00A0(])(모든|어떤|다른|여러) (?=[가-힣])/g, '$1\u00A0')
     .replace(/(?<=\S)\/(?=\S)/g, '/\u2060'));
 
-export function renderBody() {
+/** 스크립트가 읽는 이 페이지 언어의 짧은 글(#ui-text). 스크립트 파일은 하나라 문구는 페이지에 실어 보냄 */
+function uiText() {
+  const c = C.consult;
+  return `<script type="application/json" id="ui-text">${JSON.stringify({
+    lang: LANG, menu: C.ui.menu, menuClose: C.ui.menuClose, videoPause: C.ui.videoPause, videoPlay: C.ui.videoPlay,
+    workShot: C.ui.workShot, workVideo: C.ui.workVideo, unit: C.fee.calc.unit, unitOne: C.fee.calc.unitOne,
+    c: { title: c.title, stepType: c.steps[0], interest: c.fields.interest, errors: c.errors, sending: c.sending, copied: c.failure.copied, sentFrom: C.ui.sentFrom },
+  }).replace(/</g, '\\u003c')}</script>`;
+}
+
+export function renderBody(lang: Lang = 'ko') {
+  C = contentOf(lang); LANG = lang;
   return glue([
     header(),
     '<main id="main">',
@@ -657,21 +695,25 @@ export function renderBody() {
     chapter('video'), film(), videoPricing(),
     faqSec(), manifesto(), contactSec(),
     '</main>',
-    footer(), lightbox(), consultDialog(),
+    footer(), lightbox(), consultDialog(), uiText(),
   ].join('\n'));
 }
 
-export function renderHead() {
+export function renderHead(lang: Lang = 'ko') {
+  C = contentOf(lang); LANG = lang;
   const m = C.meta;
-  const org = `${m.canonical}#studio`;
-  const svc = (name: string, en: string) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name, alternateName: en, areaServed: ['US', 'NZ'] } });
+  const ROOT = 'https://pause8studio.com/';
+  const alt = { ko: `${ROOT}`, en: `${ROOT}en` };
+  const org = `${ROOT}#studio`;
+  const ko = lang === 'ko';
+  const svc = (name: string, en: string) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: ko ? name : en, alternateName: ko ? en : name, areaServed: ['US', 'NZ'] } });
   const ld = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'WebSite', '@id': `${m.canonical}#site`, url: m.canonical, name: m.siteName, alternateName: ['퍼즈 스튜디오', 'Pause Studio', 'pausestudio'], inLanguage: ['ko', 'en'], publisher: { '@id': org } },
+      { '@type': 'WebSite', '@id': `${m.canonical}#site`, url: m.canonical, name: m.siteName, alternateName: ['퍼즈 스튜디오', 'Pause Studio', 'pausestudio'], inLanguage: lang, publisher: { '@id': org } },
       {
         '@type': 'ProfessionalService', '@id': org, name: 'PAUSE Studio', alternateName: ['퍼즈 스튜디오', 'Pause Studio'],
-        description: m.description, url: m.canonical, image: m.ogImage, logo: `${m.canonical}icon-512.png`, email: C.contact.email, telephone: '+64-20-488-7198',
+        description: m.description, url: m.canonical, image: m.ogImage, logo: `${ROOT}icon-512.png`, email: C.contact.email, telephone: '+64-20-488-7198',
         address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
         areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'New Zealand' }],
         knowsLanguage: ['ko', 'en'], priceRange: '$$',
@@ -690,8 +732,8 @@ export function renderHead() {
 <meta name="keywords" content="${esc(m.keywords)}">
 <link rel="canonical" href="${m.canonical}">
 <meta name="google-site-verification" content="${m.googleSiteVerification}">
-<meta property="og:type" content="website"><meta property="og:url" content="${m.canonical}"><meta property="og:title" content="${esc(m.ogTitle)}"><meta property="og:description" content="${esc(m.ogDescription)}"><meta property="og:image" content="${m.ogImage}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(m.ogImageAlt)}"><meta property="og:site_name" content="${esc(m.siteName)}"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US">
-<link rel="alternate" hreflang="ko" href="${m.canonical}"><link rel="alternate" hreflang="x-default" href="${m.canonical}">
+<meta property="og:type" content="website"><meta property="og:url" content="${m.canonical}"><meta property="og:title" content="${esc(m.ogTitle)}"><meta property="og:description" content="${esc(m.ogDescription)}"><meta property="og:image" content="${m.ogImage}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(m.ogImageAlt)}"><meta property="og:site_name" content="${esc(m.siteName)}"><meta property="og:locale" content="${m.locale}"><meta property="og:locale:alternate" content="${m.altLocale}">
+<link rel="alternate" hreflang="ko" href="${alt.ko}"><link rel="alternate" hreflang="en" href="${alt.en}"><link rel="alternate" hreflang="x-default" href="${alt.ko}">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(m.ogTitle)}"><meta name="twitter:description" content="${esc(m.ogDescription)}"><meta name="twitter:image" content="${m.ogImage}">
 <meta name="theme-color" content="#0C0C0B">

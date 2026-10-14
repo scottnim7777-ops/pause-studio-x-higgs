@@ -9,6 +9,10 @@ on:
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
+    inputs:
+      site:
+        description: '점검할 주소(경고 메일 시험용으로 일부러 틀린 주소를 넣을 수 있음)'
+        default: 'https://pause8studio.com'
 
 jobs:
   watch:
@@ -18,7 +22,7 @@ jobs:
       - name: 점검
         id: check
         run: |
-          SITE=https://pause8studio.com
+          SITE="${{ github.event.inputs.site || 'https://pause8studio.com' }}"
           probe() {
             report=""
             for p in / /en /api/health /sitemap.xml; do

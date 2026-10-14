@@ -11,7 +11,7 @@
  *   (src/geo/currency.ts). IP는 판별에만 쓰고 기록하지 않는다. 배포 후 확인: /api/currency
  */
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
-import { get, put } from '@vercel/blob';
+import { get, list, put } from '@vercel/blob';
 import { Readable } from 'node:stream';
 import crypto from 'node:crypto';
 import multer from 'multer';
@@ -157,6 +157,37 @@ async function store(id: string, m: ReturnType<typeof compose>, files: Express.M
   }
 }
 
+/** 메일이 나갔다는 표시(문의별 mailed.txt). 이 표시가 없는 문의가 일정 시간 넘게 남으면 /api/status 가 '미전송'으로 알리고,
+ *  감시(.github/workflows/watch.yml)가 주인에게 경고 메일을 보냄(2026-10-15 사용자: 문의 메일이 안 가면 알려 줘) */
+async function markMailed(id: string) {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return;
+  try { await put(`inquiries/${id.slice(0, 10)}/${id}/mailed.txt`, '1', { access: 'private', contentType: 'text/plain', addRandomSuffix: false, allowOverwrite: true }); }
+  catch (err) { console.error('전송 표시 실패:', (err as Error).message); }
+}
+/** 최근 이틀 안의 문의 중 메일 전송 표시가 없고 PENDING_MIN분(기본 10)이 지난 것의 개수(개인 정보 없이 개수만) */
+async function pendingCount() {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return { storage: false, pending: 0, total: 0 };
+  const now = Date.now(), limit = Number(process.env.PENDING_MIN ?? 10) * 60 * 1000;
+  // 이 기능을 켜기 전에 들어온 문의(표시가 없음)는 세지 않음
+  const since = Date.parse(process.env.PENDING_SINCE ?? '2026-10-14T14:25:00Z');
+  const days = [0, 1].map((d) => new Date(now - d * 86400000).toISOString().slice(0, 10));
+  const byId = new Map<string, Set<string>>();
+  for (const day of days) {
+    let cursor: string | undefined;
+    do {
+      const r = await list({ prefix: `inquiries/${day}/`, limit: 1000, cursor });
+      for (const b of r.blobs) { const [, , id, file] = b.pathname.split('/'); if (id && file) (byId.get(id) ?? byId.set(id, new Set()).get(id)!).add(file); }
+      cursor = r.hasMore ? r.cursor : undefined;
+    } while (cursor);
+  }
+  let pending = 0;
+  for (const [id, files] of byId) {
+    const t = Date.parse(id.replace(/T(\d\d)-(\d\d)-(\d\d)-(\d+)Z.*/, 'T$1:$2:$3.$4Z'));
+    if (files.has('inquiry.json') && !files.has('mailed.txt') && Number.isFinite(t) && t > since && now - t > limit) pending++;
+  }
+  return { storage: true, pending, total: byId.size };
+}
+
 /** 손님에게 접수 확인 메일(SMTP가 있을 때만, 실패해도 신청 결과에는 영향 없음) */
 async function receipt(m: ReturnType<typeof compose>) {
   if (!transporter || !m.replyTo) return;
@@ -206,14 +237,27 @@ app.post('/api/contact', (req, res, next) => {
     m.text += `\n\n■ 첨부 파일\n${row[1]}`;
   }
   const ok = (await viaSmtp(m, files)) || (await viaFormSubmit(m, files));
-  if (ok) await receipt(m);
+  if (ok) { await receipt(m); if (saved) await markMailed(id); }
   console.log(`상담 신청 ${id}: 저장 ${saved ? '됨' : '안 됨'} · 메일 ${ok ? '전송됨' : '전송 실패'} (${oneLine(body.consultType, 40) || '-'}, 첨부 ${files.length}개)`);
   // 메일이 안 나갔으면 손님 브라우저가 FormSubmit으로 직접 보내도록 정리된 내용을 돌려줌(FormSubmit은 서버에서 보내면 403으로 막음)
   // 실패도 200으로: 앞단 Cloudflare가 5xx 응답 본문을 자기 오류 화면으로 바꿔 relay가 사라지기 때문(2026-10-12 실제로 겪음)
-  res.status(200).json(ok ? { ok } : { ok, saved, relay: { to: TO, subject: m.subject, replyTo: m.replyTo, rows: m.rows } });
+  res.status(200).json(ok ? { ok, id } : { ok, saved, id, relay: { to: TO, subject: m.subject, replyTo: m.replyTo, rows: m.rows } });
 });
 
 app.get('/api/health', (_req, res) => { res.json({ ok: true }); });
+/** 손님 브라우저가 대신 보낸(relay) 메일이 성공했다는 신호. id는 신청한 사람만 아는 무작위 값 */
+app.post('/api/mailed', express.json({ limit: '2kb' }), async (req, res) => {
+  const id = String((req.body as { id?: unknown })?.id ?? '');
+  if (!/^\d{4}-\d\d-\d\dT[\d-]+Z-[0-9a-f]{6}$/.test(id)) { res.status(400).json({ ok: false }); return; }
+  await markMailed(id);
+  res.json({ ok: true });
+});
+/** 감시용: 서버·저장소가 살아 있고 메일이 안 나간 문의가 없는지. 개인 정보 없이 개수만 */
+app.get('/api/status', async (_req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  try { const s = await pendingCount(); res.json({ ok: s.pending === 0, ...s }); }
+  catch (err) { console.error('상태 확인 실패:', (err as Error).message); res.json({ ok: false, error: 'storage' }); }
+});
 app.get('/api/file', async (req, res) => {
   const p = String(req.query.p || ''), s = String(req.query.s || '');
   const want = sign(p);

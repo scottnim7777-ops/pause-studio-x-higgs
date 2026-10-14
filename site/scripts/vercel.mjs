@@ -38,7 +38,7 @@ fs.writeFileSync(path.join(tmp, '.vc-config.json'), JSON.stringify({
   runtime: 'nodejs22.x', handler: 'index.cjs', launcherType: 'Nodejs', shouldAddHelpers: false, maxDuration: 60,
   environment: { NODE_ENV: 'production', GEO_HEADER: 'cf-ipcountry,x-vercel-ip-country', TRUST_PROXY: '1', STATIC_DIR: 'dist' },
 }, null, 2));
-for (const fn of ['index', 'en', 'api/contact', 'api/currency', 'api/health', 'api/file']) {
+for (const fn of ['index', 'en', 'api/contact', 'api/currency', 'api/health', 'api/file', 'api/mailed', 'api/status']) {
   fs.cpSync(tmp, path.join(OUT, 'functions', `${fn}.func`), { recursive: true });
 }
 

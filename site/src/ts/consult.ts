@@ -218,9 +218,13 @@ export function initConsult() {
     let ok = false;
     try {
       const res = await fetch('/api/contact', { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: ctrl.signal });
-      const data = await res.json().catch(() => ({})) as { ok?: boolean; relay?: Relay };
+      const data = await res.json().catch(() => ({})) as { ok?: boolean; id?: string; relay?: Relay };
       ok = res.ok && data.ok === true;
-      if (!ok && data.relay) ok = await relay(data.relay, fd.getAll('attachment').filter((v): v is File => v instanceof File));
+      if (!ok && data.relay) {
+        ok = await relay(data.relay, fd.getAll('attachment').filter((v): v is File => v instanceof File));
+        // 브라우저가 대신 보낸 메일이 성공했음을 서버에 알림(안 알리면 감시가 '메일 안 나간 문의'로 경고함)
+        if (ok && data.id) fetch('/api/mailed', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: data.id }), keepalive: true }).catch(() => {});
+      }
     } catch { ok = false; }
     clearTimeout(timer);
     sending = false;

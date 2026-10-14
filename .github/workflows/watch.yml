@@ -1,0 +1,62 @@
+# 사이트 감시(2026-10-15 사용자: 웹사이트가 고장 나거나 문의 메일이 안 가면 나한테 이메일)
+# 30분마다 실제 사이트를 열어 보고, 이상이 있으면 ① 이 점검이 '실패'로 끝나 GitHub가 저장소 주인에게 메일을 보내고
+# ② info@pause8studio.com 으로도 경고 메일을 한 번 더 시도한다(FormSubmit, 안 되어도 ①은 동작).
+# 점검 내용: 한국어·영어 첫 화면, 문의 기능(오류 요청에 정상 응답), 문의 저장소, '메일이 안 나간 문의' 개수(/api/status), 사이트맵.
+# 알림 메일 주소 바꾸기: GitHub 계정 설정 > Notifications 에서 받는 메일 주소(권장: info@ 또는 자주 보는 주소)와 'Actions' 알림을 확인.
+name: 사이트 감시
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: 점검
+        id: check
+        run: |
+          SITE=https://pause8studio.com
+          probe() {
+            report=""
+            for p in / /en /api/health /sitemap.xml; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' -m 25 "$SITE$p" || echo 000)
+              [ "$code" = "200" ] || report="$report- $p 응답 $code\n"
+            done
+            curl -s -m 25 "$SITE/" | grep -q 'data-consult-form' || report="$report- 한국어 첫 화면에 상담 창이 없음\n"
+            curl -s -m 25 "$SITE/en" | grep -q '<html lang="en"' || report="$report- 영어 첫 화면이 영어 페이지가 아님\n"
+            # 문의 기능이 살아 있는지: 일부러 빈 신청서를 보내 '입력 오류(invalid)' 응답이 오는지(메일은 가지 않음)
+            c=$(curl -s -m 25 -X POST -F 'name=' -F 'email=' "$SITE/api/contact" || true)
+            echo "$c" | grep -q '"code":"invalid"' || report="$report- 문의 기능 응답이 이상함: $c\n"
+            st=$(curl -s -m 40 "$SITE/api/status" || true)
+            echo "$st" | grep -q '"ok":true' || report="$report- 문의 저장소·전송 상태 이상(메일이 안 나간 문의가 있을 수 있음): $st\n"
+          }
+          probe
+          if [ -n "$report" ]; then
+            echo "1차 점검에서 이상, 30초 뒤 다시 확인"; sleep 30; probe
+          fi
+          if [ -n "$report" ]; then
+            printf "%b" "$report" > report.txt
+            cat report.txt
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "이상 없음"
+          fi
+      - name: 경고 메일(info@)
+        if: steps.check.outputs.failed == 'true'
+        continue-on-error: true
+        run: |
+          curl -s -m 30 -X POST https://formsubmit.co/ajax/info@pause8studio.com \
+            -H 'Accept: application/json' -H 'Origin: https://pause8studio.com' -H 'Referer: https://pause8studio.com/' \
+            -F '_subject=🚨 [PAUSE 사이트 고장 감지] 확인이 필요합니다' -F '_template=table' -F '_captcha=false' \
+            -F "점검 시각=$(date -u +'%Y-%m-%d %H:%M UTC')" \
+            -F "이상 내용=$(cat report.txt)" \
+            -F "확인 방법=GitHub 저장소 > Actions > 사이트 감시 에서 자세한 기록, Vercel 대시보드(pause-studio) 에서 배포 상태"
+      - name: 실패로 끝내기(GitHub 알림 메일이 나가도록)
+        if: steps.check.outputs.failed == 'true'
+        run: |
+          echo "::error::사이트 이상 감지 — report 내용을 확인하세요"
+          cat report.txt
+          exit 1

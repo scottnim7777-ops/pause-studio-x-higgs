@@ -35,6 +35,7 @@ async function curtain(mid: () => void | 'leave') {
   await wait(LIFT);
   pt.classList.remove('lift', 'play');
   busy = false;
+  document.dispatchEvent(new Event('ps:resume')); // 광고 샘플 영상 등을 이어서 재생
 }
 
 /** 새 페이지가 덮인 채 열렸다면(html.pt-hold) 로고를 잠깐 보여 준 뒤 걷음 */
@@ -47,6 +48,7 @@ async function openCurtain() {
   await wait(LIFT);
   root.classList.remove('pt-hold');
   pt.classList.remove('lift', 'play', 'done');
+  document.dispatchEvent(new Event('ps:resume'));
 }
 
 function jumpTo(hash: string) {

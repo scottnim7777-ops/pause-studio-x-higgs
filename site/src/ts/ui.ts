@@ -371,10 +371,12 @@ export function initFilmSamples() {
   const btns = panels.map((p) => $<HTMLButtonElement>('[data-vctrl]', p));
   let cur = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
   if (cur < 0) cur = 0;
-  let inView = false, userPaused = false, raf = 0;
+  // 2026-10-14 사용자: 광고 샘플 영상은 어떤 일이 있어도 멈추지 않게 — 화면 밖으로 나가거나(페이지 전환·언어 전환·다른 섹션으로 이동) 브라우저가 멈춰도 계속 재생.
+  //   처음 시작은 가까이(위아래 한 화면 반) 왔을 때(미리 내려받지 않게). 시작한 뒤에는 사용자가 직접 일시정지를 누르거나 '동작 줄이기·데이터 절약'을 켰을 때만 멈춤.
+  let started = false, userPaused = false, raf = 0;
   // 선택된 탭의 선: 재생할 수 있으면 진행률, 아니면 꽉 찬 선
   tabs[cur].style.setProperty('--prog', motion.allowed && !saveData() ? '0' : '1');
-  const can = () => inView && motion.allowed && !saveData() && !userPaused;
+  const can = () => started && motion.allowed && !saveData() && !userPaused;
   const syncBtn = (i: number) => {
     const b = btns[i];
     if (!b) return;
@@ -421,7 +423,11 @@ export function initFilmSamples() {
   rovingKeys(tabs, (i) => select(i, true, true));
   vids.forEach((v, i) => {
     v.addEventListener('play', () => { syncBtn(i); if (i === cur && !raf) raf = requestAnimationFrame(progress); });
-    v.addEventListener('pause', () => syncBtn(i));
+    v.addEventListener('pause', () => {
+      syncBtn(i);
+      // 사용자가 누르지 않았는데 멈춘 경우(브라우저 절전·다른 스크립트 등)는 바로 이어서 재생
+      if (i === cur && !userPaused && !v.ended && !document.hidden) window.setTimeout(play, 120);
+    });
     v.addEventListener('ended', () => {
       if (i !== cur) return;
       if (can()) select((cur + 1) % tabs.length, false);
@@ -432,8 +438,17 @@ export function initFilmSamples() {
     });
     syncBtn(i);
   });
-  new IntersectionObserver(([e]) => { inView = e.isIntersecting; play(); }, { threshold: 0.35 }).observe(root);
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) { started = true; play(); } }, { rootMargin: '150% 0px' }).observe(root);
+  // 어디에서 열었든(맨 위·언어 전환 직후 등) 페이지가 다 뜬 뒤 1.5초 안에 시작: 보이지 않아도 계속 재생 중이어야 하므로
+  const early = () => window.setTimeout(() => { started = true; play(); }, 1500);
+  if (document.readyState === 'complete') early(); else addEventListener('load', early, { once: true });
   motion.subscribe(play);
+  // 되살리기: 탭으로 돌아올 때 · 뒤로 가기 복원 · 전환 막이 걷힌 뒤 · 1초마다 점검(멈춰 있으면 이어서)
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) play(); });
+  addEventListener('pageshow', play);
+  addEventListener('focus', play);
+  document.addEventListener('ps:resume', play);
+  window.setInterval(() => { if (started && !userPaused && vids[cur].paused && !vids[cur].ended && !document.hidden) play(); }, 1000);
 }
 
 /* ── 열고 닫는 목록(details[data-acc]): 높이가 부드럽게. 동작 줄이기면 기본 동작 그대로 */

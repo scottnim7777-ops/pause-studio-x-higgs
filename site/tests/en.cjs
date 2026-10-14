@@ -87,7 +87,7 @@ const check = (name, ok, info = '') => { results.push({ name, ok }); console.log
     const mv = await m.p.evaluate(() => ({ single: document.querySelectorAll('.lang-hd-m a').length, shown: getComputedStyle(document.querySelector('.lang-hd-m')).display }));
     await m.p.click('.hd-menu'); await m.p.waitForTimeout(700);
     const mn = await m.p.evaluate(() => ({ two: document.querySelectorAll('.lang-mnav a').length, vis: !!document.querySelector('.lang-mnav').getClientRects().length }));
-    check('언어 버튼(휴대폰): 머리줄엔 다른 언어 한 칸, 메뉴엔 두 칸', mv.single === 1 && mv.shown !== 'none' && mn.two === 2 && mn.vis, JSON.stringify({ mv, mn }));
+    check('언어 버튼(휴대폰): 머리줄엔 다른 언어 한 칸, 메뉴엔 두 칸', mv.single === 2 && mv.shown !== 'none' && mn.two === 2 && mn.vis, JSON.stringify({ mv, mn }));
     await m.p.screenshot({ path: path.join(OUT, 'en-mobile-menu.png') });
     await m.ctx.close();
   }
@@ -135,6 +135,53 @@ const check = (name, ok, info = '') => { results.push({ name, ok }); console.log
     const one = (await p.textContent('[data-o="years"]')).trim();
     check('계산기(영어): 1년이면 단수(1 year)', one === '1 year', one);
     await ctx.close();
+  }
+
+  // 6) 페이지 전환·언어 자동 선택
+  {
+    const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+    const human = async (locale, langs) => {
+      const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, locale, userAgent: UA });
+      await ctx.addInitScript((l) => { Object.defineProperty(navigator, 'webdriver', { get: () => false }); if (l) Object.defineProperty(navigator, 'languages', { get: () => l }); }, langs || null);
+      return ctx;
+    };
+    let ctx = await human('en-US');
+    let p = await ctx.newPage();
+    await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+    await p.waitForTimeout(2500);
+    const toast = await p.evaluate(() => ({ path: location.pathname, lang: document.documentElement.lang, note: document.querySelector('.lang-toast')?.textContent || '' }));
+    check('언어 자동 선택: 한국어가 없는 브라우저(en-US)로 첫 방문 → 영어 페이지 + 한국어 안내', toast.path === '/en' && toast.lang === 'en' && /English/.test(toast.note) && /한국어/.test(toast.note), JSON.stringify(toast));
+    await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(800);
+    await p.click('.lang-hd a[lang="ko"]');
+    await p.waitForURL((u) => u.pathname === '/', { timeout: 6000 }).catch(() => {});
+    await p.waitForTimeout(600);
+    const back = await p.evaluate(() => ({ path: location.pathname, pref: localStorage.getItem('ps-lang') }));
+    await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+    check('언어 자동 선택: 한국어를 눌러 돌아오면 선택을 기억(다시 와도 한국어)', back.path === '/' && back.pref === 'ko' && new URL(p.url()).pathname === '/', JSON.stringify(back));
+    await ctx.close();
+    ctx = await human('ko-KR');
+    p = await ctx.newPage(); await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+    check('언어 자동 선택: 한국어 브라우저는 한국어 그대로', new URL(p.url()).pathname === '/');
+    await ctx.close();
+    ctx = await human('en-US', ['en-US', 'ko']);
+    p = await ctx.newPage(); await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+    check('언어 자동 선택: 언어 목록에 한국어가 있으면(en-US, ko) 한국어 그대로', new URL(p.url()).pathname === '/');
+    await ctx.close();
+    // 검색 로봇·자동화 도구는 건드리지 않음
+    const bot = await browser.newContext({ locale: 'en-US', userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' });
+    p = await bot.newPage(); await p.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+    check('언어 자동 선택: 검색 로봇(Googlebot)은 한국어 페이지 그대로(색인 보호)', new URL(p.url()).pathname === '/');
+    await bot.close();
+    // 페이지 전환: #섹션 링크는 막이 덮었다 걷히며 이동
+    const t = await mk(`${BASE}/en`);
+    await t.p.waitForTimeout(2500);
+    await t.p.click('.hd-nav a[href="#faq"]');
+    await t.p.waitForTimeout(300);
+    const mid = await t.p.evaluate(() => ({ cover: document.querySelector('.pt').classList.contains('cover'), y: scrollY }));
+    await t.p.waitForTimeout(1900);
+    const end = await t.p.evaluate(() => ({ cls: document.querySelector('.pt').className, hash: location.hash, top: Math.round(document.getElementById('faq').getBoundingClientRect().top) }));
+    check('페이지 전환: 누르면 막이 덮고(스크롤이 쭉 내려가지 않음) 걷힌 뒤 해당 섹션에', mid.cover && mid.y < 400 && end.cls === 'pt' && end.hash === '#faq' && Math.abs(end.top) < 200, JSON.stringify({ mid, end }));
+    await t.ctx.close();
   }
 
   await browser.close();

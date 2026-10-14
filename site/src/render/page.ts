@@ -113,7 +113,7 @@ function header() {
   <div class="hd-in">
     <a class="hd-logo" href="#top" aria-label="${esc(C.ui.home)}" data-logo>${inlineLogo('hd-svg')}</a>
     <nav class="hd-nav" aria-label="${esc(C.ui.navMain)}">${links}${langSwitch('hd')}<a class="hd-cta" href="#contact">${esc(C.cta.header)}${smallArrow}</a></nav>
-    ${langSwitch('hd-m', true)}
+    ${langSwitch('hd-m')}
     <button class="hd-menu" type="button" aria-expanded="false" aria-controls="mnav" data-menu><span class="sr">${esc(C.ui.menu)}</span><i></i><i></i></button>
   </div>
 </header>
@@ -675,12 +675,15 @@ const glue = (html: string) => html.replace(/(<script[\s\S]*?<\/script>)|(?<=>)(
     .replace(/(?<=^|[\s\u00A0(])(모든|어떤|다른|여러) (?=[가-힣])/g, '$1\u00A0')
     .replace(/(?<=\S)\/(?=\S)/g, '/\u2060'));
 
+/** 페이지 전환 막(ts/transition.ts): 검은 막 가운데 머리줄과 같은 로고 */
+const transitionOverlay = () => `<div class="pt" aria-hidden="true">${inlineLogo('pt-svg')}</div>`;
+
 /** 스크립트가 읽는 이 페이지 언어의 짧은 글(#ui-text). 스크립트 파일은 하나라 문구는 페이지에 실어 보냄 */
 function uiText() {
   const c = C.consult;
   return `<script type="application/json" id="ui-text">${JSON.stringify({
     lang: LANG, menu: C.ui.menu, menuClose: C.ui.menuClose, videoPause: C.ui.videoPause, videoPlay: C.ui.videoPlay,
-    workShot: C.ui.workShot, workVideo: C.ui.workVideo, unit: C.fee.calc.unit, unitOne: C.fee.calc.unitOne,
+    workShot: C.ui.workShot, workVideo: C.ui.workVideo, unit: C.fee.calc.unit, unitOne: C.fee.calc.unitOne, autoNote: C.ui.autoNote,
     c: { title: c.title, stepType: c.steps[0], interest: c.fields.interest, errors: c.errors, sending: c.sending, copied: c.failure.copied, sentFrom: C.ui.sentFrom },
   }).replace(/</g, '\\u003c')}</script>`;
 }
@@ -695,7 +698,7 @@ export function renderBody(lang: Lang = 'ko') {
     chapter('video'), film(), videoPricing(),
     faqSec(), manifesto(), contactSec(),
     '</main>',
-    footer(), lightbox(), consultDialog(), uiText(),
+    footer(), lightbox(), consultDialog(), transitionOverlay(), uiText(),
   ].join('\n'));
 }
 
@@ -717,6 +720,10 @@ export function renderHead(lang: Lang = 'ko') {
         address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
         areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'New Zealand' }],
         knowsLanguage: ['ko', 'en'], priceRange: '$$',
+        // 구글 지도·검색이 업종·위치를 이해하도록(2026-10-14): 지도 검색 주소, 다루는 분야, 연락처
+        hasMap: 'https://www.google.com/maps/search/?api=1&query=PAUSE+Studio+75+Victoria+Street+West+Auckland',
+        knowsAbout: ['Website design', 'Web development', 'AI video ads', 'Short form video ads', 'Branding for Korean businesses', ...(ko ? ['웹사이트 제작', 'AI 광고영상 제작', '한인 비즈니스 브랜딩'] : [])],
+        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', email: C.contact.email, telephone: '+64-20-488-7198', availableLanguage: ['Korean', 'English'], areaServed: ['NZ', 'US'] },
         sameAs: ['https://open.kakao.com/o/s58WfSEi'],
         makesOffer: [
           svc('웹사이트 제작', 'Custom website design & development'),

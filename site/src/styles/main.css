@@ -52,7 +52,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
 [hidden] { display: none !important; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); } /* 2026-10-14: 쭉 내려가는 부드러운 스크롤 대신 로고 전환(ts/transition.ts) */
 body {
   background: var(--ink); color: var(--cream);
   font-family: var(--f-text); font-weight: var(--w-text); font-size: var(--fs-body); line-height: 1.8;
@@ -1371,3 +1371,52 @@ html.menu-open, html.modal-open { overflow: hidden; }
 .lang-ft i { font-style: normal; color: var(--cream-3); }
 @media (max-width: 1023px) { .lang-hd-m { display: inline-flex; } }
 @media (forced-colors: active) { .lang a.lg-opt .flag { filter: none; opacity: 1; } }
+
+/* ───────── 페이지 전환(2026-10-14, ts/transition.ts): 검은 막이 아래에서 위로 덮고, 그 안에서 머리줄과 같은 로고가 그려지고, 위로 걷힘 ───────── */
+.pt { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; background: var(--ink); pointer-events: none; visibility: hidden; clip-path: inset(100% 0 0 0); }
+.pt-svg { width: clamp(210px, 26vw, 360px); height: auto; overflow: visible; }
+.pt.cover { visibility: visible; pointer-events: auto; clip-path: inset(0); transition: clip-path .42s cubic-bezier(.7, 0, .2, 1); }
+.pt.lift { visibility: visible; pointer-events: auto; clip-path: inset(0 0 100% 0); transition: clip-path .56s cubic-bezier(.7, 0, .2, 1); }
+.pt-svg ellipse { stroke-dasharray: 100; stroke-dashoffset: 100; }
+.pt-svg ellipse:first-of-type { transform: rotate(180deg) scaleX(-1); transform-box: fill-box; transform-origin: center; }
+.pt-svg .lg-l { transform-box: fill-box; transform-origin: 0 100%; transform: translateY(108%) skewX(-14deg); }
+.pt-svg .lg-dot { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.pt.play .pt-svg ellipse { animation: capDraw .66s cubic-bezier(.55, 0, .25, 1) both; }
+.pt.play .pt-svg ellipse:last-of-type { animation-delay: .06s; }
+.pt.play .pt-svg .lg-l { animation: lgSet .5s cubic-bezier(.2, .85, .25, 1) calc(.14s + var(--i) * .03s) both; }
+.pt.play .pt-svg .lg-dot { animation: lgDot .32s cubic-bezier(.3, 1.6, .5, 1) .56s both; }
+/* 언어 전환으로 열린 새 페이지: 완성된 로고가 덮인 채 시작 → 걷힘(스크립트가 멈춰도 2.4초 뒤 스스로 걷힘) */
+html.pt-hold .pt { visibility: visible; pointer-events: auto; clip-path: inset(0); animation: ptFailsafe .6s cubic-bezier(.7, 0, .2, 1) 2.4s forwards; }
+html.pt-hold .pt .pt-svg ellipse { stroke-dashoffset: 0; }
+html.pt-hold .pt .pt-svg .lg-l { transform: none; }
+html.pt-hold .pt .pt-svg .lg-dot { opacity: 1; }
+html.pt-hold .pt.lift { animation: none; clip-path: inset(0 0 100% 0); transition: clip-path .56s cubic-bezier(.7, 0, .2, 1); }
+@keyframes ptFailsafe { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .pt, html.pt-hold .pt { display: none; } }
+
+/* 자동으로 영어 페이지를 보여 준 뒤 한국어로 돌아가는 안내 */
+.lang-toast { position: fixed; left: 50%; bottom: 22px; z-index: 120; transform: translate(-50%, 24px); opacity: 0; display: flex; align-items: center; gap: 14px; padding: 12px 20px; border: 1px solid var(--cream-line); border-radius: 999px; background: rgba(12, 12, 11, .95); color: var(--cream); font-size: 14px; line-height: 1.2; pointer-events: none; transition: opacity .5s var(--ease), transform .6s var(--ease); }
+.lang-toast.on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.lang-toast a { color: var(--cream); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+/* 언어 버튼을 더 잘 보이게(2026-10-14 사용자: 미국 고객이 영어 전환을 못 찾고 나갈 수 있음): 더 크게·테두리 선명·두 나라 국기 모두 원래 색,
+   지금 언어는 밝은 알약으로 채움. 휴대폰 머리줄에도 두 칸 모두 */
+:is(.lang-hd, .lang-hd-m, .lang-mnav) { height: 40px; padding: 0 3px; border-color: rgba(252, 238, 216, .5); background: rgba(252, 238, 216, .06); }
+.lang .flag { width: 19px; height: 19px; }
+.lang a.lg-opt, .hd-nav .lang a.lg-opt { padding: 0 14px; gap: 8px; font-size: 13px; color: var(--cream-2); border-radius: 999px; }
+.lang a.lg-opt .flag { filter: none; opacity: .8; }
+.lang a.lg-opt.on, .hd-nav .lang a.lg-opt[aria-current="true"] { color: var(--cream); background: rgba(252, 238, 216, .17); }
+.lang a.lg-opt.on .flag { opacity: 1; }
+.lang a.lg-opt.on::after, .hd-nav .lang a.lg-opt[aria-current="true"]::after { transform: scaleX(0); }
+.lang-hd-m { gap: 0; height: 36px; }
+.lang-hd-m a.lg-opt { padding: 0 10px; gap: 6px; font-size: 12px; }
+.lang-hd-m .flag { width: 17px; height: 17px; }
+.lang-mnav { height: 48px; }
+.lang-mnav a.lg-opt { padding: 0 20px; font-size: 15px; }
+.lang-mnav .flag { width: 22px; height: 22px; }
+
+/* 영어에서 사선으로 베는 선: 영문은 글자 몸통(x 높이)이 줄 상자 아래쪽에 있어 한글용 위치(38~74%)보다 8% 아래로 */
+:lang(en) .gone { white-space: nowrap; }
+.fx :lang(en) .gone .g-t, .fx .gone:lang(en) .g-t { clip-path: polygon(-5% -10%, 105% -10%, 105% 46%, -5% 82%); }
+.fx :lang(en) .gone .g-b, .fx .gone:lang(en) .g-b { clip-path: polygon(-5% 82%, 105% 46%, 105% 110%, -5% 110%); }
+.fx :lang(en) .gone::after { top: 82%; }

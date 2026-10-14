@@ -1,9 +1,10 @@
 import { initHero } from './ts/hero';
 import {
   initAccordions, initAutoVideos, initCalc, initCompare, initEmail, initFaqTabs, initFilmSamples, initHeader, initLedger, initLightbox,
-  initMenu, initPhone, initLang, initReveal, initScrub, initWorkLoops, initAccents, initLogo, initDecode,
+  initMenu, initPhone, initReveal, initScrub, initWorkLoops, initAccents, initLogo, initDecode,
 } from './ts/ui';
 import { initConsult } from './ts/consult';
+import { initTransition } from './ts/transition';
 
 declare global { interface Window { __ps?: boolean } }
 window.__ps = true; // index.html의 안전장치: 스크립트가 실행됐음을 알림
@@ -13,7 +14,7 @@ const safe = (name: string, f: () => void) => {
 };
 
 safe('header', initHeader);
-safe('lang', initLang);
+safe('transition', initTransition);
 safe('menu', initMenu);
 safe('consult', initConsult);
 safe('lightbox', initLightbox);

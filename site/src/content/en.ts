@@ -50,7 +50,7 @@ export const ui = {
   signAria: 'PAUSE STUDIO founder signature', sampleTabs: 'Sample ads', compareVideo: '{label} · screen recording of a real site built by PAUSE',
   faqTabs: 'Question categories', faqCount: '{n} questions', qrAlt: '{label}: KakaoTalk ID {id}',
   honeypot: 'Company website (leave blank)', progress: 'Progress', askType: 'What kind of consultation do you need?', typeAria: 'Consultation type', confirm: 'Please review what you are sending', sentFrom: 'Sent from',
-  videoPause: 'Pause video', videoPlay: 'Play video', switchLang: 'Language', switchTo: '한국어',
+  videoPause: 'Pause video', videoPlay: 'Play video', switchLang: 'Language', switchTo: '한국어', autoNote: 'Showing the English site.',
 };
 
 export const hero = {
@@ -59,7 +59,7 @@ export const hero = {
   titleLinesMobile: ['Brands people choose', 'are presented', 'differently.'],
   sub: ['From websites to AI video ads,', 'we shape every moment your brand meets a customer.'],
   services: [
-    { index: '01', name: 'Website design', lead: 'Pay once, with a basic monthly fee of $0', desc: 'Maintenance and web hosting included free', href: '#website' },
+    { index: '01', name: 'Website design', lead: 'Pay once, $0 basic monthly fee', desc: 'Maintenance and web hosting included free', href: '#website' },
     { index: '02', name: 'AI video ads', lead: 'No shoot, just the photos you already have', desc: 'Landscape and vertical ads, delivered together', href: '#video' },
   ],
 };
@@ -112,7 +112,7 @@ export const who = {
 };
 
 export const chapters = {
-  website: { index: 'CHAPTER 01', word: 'WEBSITE', ko: 'Website design', lead: 'A solution with zero management and maintenance fees, found nowhere else.\nFrom the first screen to the last button that leads to an inquiry,\nwe design it from scratch around your brand.', em: 'zero management and maintenance fees' },
+  website: { index: 'CHAPTER 01', word: 'WEBSITE', ko: 'Website design', lead: 'Zero management and maintenance fees, a model you will not find anywhere else.\nFrom the first screen to the last button that leads to an inquiry,\nwe design it from scratch around your brand.', em: 'Zero management and maintenance fees' },
   video: { index: 'CHAPTER 02', word: 'AI VIDEO AD', ko: 'AI video ads', lead: 'No shoot, just the photos you already have.\nFrom planning to editing and sound, we deliver a finished video ad.', em: 'just the photos you already have' },
 };
 
@@ -197,7 +197,7 @@ export const pricing = {
 export const fee = {
   eyebrow: 'MONTHLY FEE',
   title: ['PAUSE Studio', 'Monthly fee $0'],
-  cut: 'fee',
+  cut: 'Monthly fee',
   lead: 'There is no monthly fee to PAUSE Studio after your website is built.\nWe tell you plainly what is free and when costs can arise.',
   freeTitle: 'All free',
   free: ['Website maintenance', 'Website management', 'Web hosting', 'Server issue checks', 'Guidance on using the admin tools'],
@@ -251,7 +251,7 @@ export const process = {
   title: ['From vision', 'to reality'],
   subtitle: 'How we build your website',
   steps: [
-    { id: '01', title: '1:1 planning and consultation', highlight: 'Core value analysis', desc: 'We start with a conversation that deeply understands your business and works out the solution you need most.' },
+    { id: '01', title: '1:1 planning and consultation', highlight: 'Finding what matters most', desc: 'We start with a conversation that deeply understands your business and works out the solution you need most.' },
     { id: '02', title: 'Clear, secure payment', highlight: 'Upfront payment', desc: 'Once the quote is confirmed by scope of work, you pay the production fee upfront and we start building right away.' },
     { id: '03', title: 'Custom design and development', highlight: 'Precise custom development', desc: "We carry your brand's mood and strengths into the screens and the code." },
     { id: '04', title: 'Careful review and feedback', highlight: 'Two formal design revisions', desc: 'We polish even the smallest details together. Production errors or missing contracted features are fixed regardless of the number of rounds.' },

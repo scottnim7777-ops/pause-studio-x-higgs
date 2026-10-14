@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!--HEAD-->
 <script>
+  /* 언어·전환 준비(그림이 나오기 전에): ① 언어 전환으로 열린 페이지는 로고 막이 덮인 채 시작(html.pt-hold, ts/transition.ts가 걷음)
+     ② 한국어 첫 화면('/')에서 선택을 기억하고 있거나(localStorage ps-lang) 처음 온 브라우저의 언어 목록에 한국어(ko)가 하나도 없으면 영어 페이지('/en')로.
+        검색 로봇·미리보기·자동화 도구는 건드리지 않음(색인 보호). 자동으로 보낸 경우 ps-auto로 안내 표시 */
+  (function () { try {
+    var d = document.documentElement, ss = sessionStorage;
+    if (ss.getItem('ps-pt')) { ss.removeItem('ps-pt'); d.classList.add('pt-hold'); }
+    var p = location.pathname;
+    if (d.lang === 'ko' && (p === '/' || p === '/index.html')) {
+      var pref = localStorage.getItem('ps-lang'), go = pref === 'en';
+      if (!pref) {
+        var ls = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'ko'];
+        var bot = navigator.webdriver || /bot|crawl|spider|slurp|lighthouse|pagespeed|headless|preview|scrap/i.test(navigator.userAgent);
+        if (!bot && !ls.some(function (l) { return /^ko/i.test(l); })) { go = true; ss.setItem('ps-auto', '1'); }
+      }
+      if (go) location.replace('/en' + location.hash);
+    }
+  } catch (e) {} })();
+</script>
+<script>
   /* 움직임은 JS가 켜졌을 때만. 스크립트를 못 불러오면 4초 뒤 모든 내용을 그대로 보여준다 */
   document.documentElement.classList.add('js');
   setTimeout(function () { if (!window.__ps) document.documentElement.classList.remove('js'); }, 4000);

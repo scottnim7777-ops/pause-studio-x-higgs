@@ -65,7 +65,7 @@ export const ui = {
   signAria: 'PAUSE STUDIO 대표 서명', sampleTabs: '샘플 광고', compareVideo: '{label} · PAUSE가 만든 실제 사이트 화면 녹화',
   faqTabs: '질문 분류', faqCount: '질문 {n}개', qrAlt: '{label}: 카카오톡 아이디 {id}',
   honeypot: '회사 홈페이지(비워 두세요)', progress: '진행 단계', askType: '어떤 상담이 필요하신가요?', typeAria: '상담 종류', confirm: '보내실 내용을 확인해 주세요', sentFrom: '보낸 곳',
-  videoPause: '영상 일시정지', videoPlay: '영상 재생', switchLang: '언어 선택', switchTo: 'English',
+  videoPause: '영상 일시정지', videoPlay: '영상 재생', switchLang: '언어 선택', switchTo: 'English', autoNote: '영어 페이지로 보여 드렸어요.',
 };
 
 export const hero = {

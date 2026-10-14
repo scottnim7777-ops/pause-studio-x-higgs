@@ -1018,29 +1018,3 @@ export function initDecode() {
       .observe(w, { attributes: true, attributeFilter: ['class'] });
   });
 }
-
-/* ── 언어 전환(국기 알약): 각 링크의 주소 끝을 지금 보는 섹션(#pricing 등)으로 바꿔 두어, 눌러도 보던 자리에서 이어 봄.
-      누르면 밑줄이 옆 칸으로 옮겨 가고(0.26초) 그 주소로 이동. 동작 줄이기·새 탭 열기(⌘/Ctrl 클릭)는 바로 */
-export function initLang() {
-  const links = $$<HTMLAnchorElement>('.lang a.lg-opt');
-  if (!links.length) return;
-  const base = links.map((a) => a.getAttribute('href') || '/');
-  const secs = $$<HTMLElement>('main > section[id]');
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    const line = innerHeight * 0.4;
-    let cur = '';
-    secs.forEach((sec) => { if (sec.getBoundingClientRect().top <= line) cur = sec.id; });
-    links.forEach((a, i) => a.setAttribute('href', base[i] + (cur && cur !== 'top' ? `#${cur}` : '')));
-  };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  update();
-  links.forEach((a) => a.addEventListener('click', (e) => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-    if (a.classList.contains('on') || motion.reduced) return;
-    e.preventDefault();
-    $$<HTMLAnchorElement>('.lang a.lg-opt').forEach((x) => { x.classList.toggle('on', x.lang === a.lang); if (x.lang === a.lang) x.setAttribute('aria-current', 'true'); else x.removeAttribute('aria-current'); });
-    window.setTimeout(() => { location.href = a.href; }, 260);
-  }));
-}

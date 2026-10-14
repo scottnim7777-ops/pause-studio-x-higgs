@@ -51,3 +51,6 @@
 - 기획서: `docs/EN_PLAN.md` (구현은 Sonnet 세션 예정). `/` 한국어 · `/en` 영어, 국기 SVG 알약 버튼, 효과 단어 짝, 영어 글꼴, 검색·문의 메일까지.
 - 2026-10-14 영어판 구현·배포 완료: `/en`, 국기 버튼, 영어 글꼴, 점검(ko 163 · en 19 · a11y 0). 자세한 내용은 `docs/EN_PLAN.md` 맨 아래 '구현 결과'. 영어 문구는 사용자 확인 대기(사실 약속 문구 목록 있음).
 - 2026-10-14 2차: 로고 전환(ts/transition.ts), 언어 자동 선택(index.template.html 머리 스크립트: 브라우저 언어 목록에 ko가 없으면 /en, 봇 제외, 선택 기억 ps-lang), 언어 버튼 확대, 영어 베기선 보정, 구글 노출 정리(docs/GOOGLE_LISTING.md). 영어 점검 25.
+- 2026-10-15 사이트 감시: `.github/workflows/watch.yml`(30분마다 한·영 첫 화면, /api/health, 사이트맵, 문의 기능, /api/status). 이상이면 30초 뒤 재확인 → 그래도 이상이면 ① GitHub 이슈 `사이트감시` 열기/댓글 ② 점검을 실패로 끝내 GitHub이 저장소 주인에게 메일. info@ 직접 발송은 FormSubmit이 GitHub 서버를 막아 불가(시험 확인). 시험: `gh workflow run watch.yml -f site=https://pause8studio.invalid`(이슈가 열리니 끝나면 닫기).
+  - 서버: 문의별 `mailed.txt` 표시, `POST /api/mailed`(손님 브라우저 relay 성공 보고), `GET /api/status`(메일이 안 나간 문의 개수, `PENDING_MIN` 기본 10분, `PENDING_SINCE` 기본 2026-10-14T14:25Z 이전 문의 제외).
+  - 한계: 점검 간격 30분, 저장소가 60일 무활동이면 GitHub이 예약 실행을 끌 수 있음.

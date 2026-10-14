@@ -336,7 +336,6 @@ html:not(.js) .sig .st { stroke-dashoffset: 0; }
 .cmp-tag.b { left: clamp(12px, 1.8cqw, 24px); background: rgba(255, 255, 255, .94); color: #2b2a27; box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .35); }
 .cmp-tag.a { right: clamp(12px, 1.8cqw, 24px); background: rgba(12, 12, 11, .82); color: var(--cream); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .cmp-frame.at-start .cmp-tag.b, .cmp-frame.at-end .cmp-tag.a { opacity: 0; }
-.cmp-frame .vctrl { top: 12px; bottom: auto; z-index: 4; }
 html:not(.js) .cmp-handle, html:not(.js) .cmp-tag { display: none; }
 html:not(.js) .cmp-before { clip-path: inset(0 50% 0 0); }
 .cmp-cap { margin-top: 18px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; font-size: var(--fs-small); color: var(--on-paper-2); }
@@ -611,11 +610,6 @@ html:not(.js) .fs-panel + .fs-panel { margin-top: 64px; }
 html:not(.js) .fs-tabs { display: none; }
 
 /* 자동 재생 영상의 재생·일시정지 */
-.vctrl { position: absolute; right: 12px; bottom: 12px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center; background: rgba(6, 6, 6, .58); color: var(--cream); border: 1px solid rgba(252, 238, 216, .28); transition: background .3s, color .3s, opacity .3s; }
-.vctrl:hover { background: var(--cream); color: var(--ink); }
-.vctrl i { width: 10px; height: 12px; border-left: 3px solid currentColor; border-right: 3px solid currentColor; }
-.vctrl.paused i { width: 0; height: 0; margin-left: 3px; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
-html:not(.js) .vctrl { display: none; }
 
 /* ───────── AI 광고영상 요금·규격·추가 작업·과정 ───────── */
 .formats { margin-bottom: clamp(56px, 5vw, 96px); padding: clamp(28px, 3vw, 56px); display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 100px); align-items: center; border: 1px solid var(--cream-line); background: linear-gradient(120deg, rgba(252, 238, 216, .06), rgba(252, 238, 216, 0) 55%); }
@@ -1016,9 +1010,6 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
   .cmp-tag.b { left: 8px; } .cmp-tag.a { right: 8px; }
   .cmp-handle i { width: 36px; height: 36px; gap: 3px; }
   .cmp-handle svg { width: 9px; height: 7px; }
-  .cmp-frame .vctrl { top: 6px; right: 6px; width: 32px; height: 32px; }
-  .cmp-frame .vctrl i { width: 8px; height: 10px; border-width: 0 2.5px; }
-  .cmp-frame .vctrl.paused i { border-width: 5px 0 5px 8px; }
   .cmp-cap { font-size: 13.5px; gap: 6px 16px; line-height: 1.5; align-items: start; }
   .steps { grid-template-columns: 1fr; row-gap: 0; }
   .steps li, .steps li + li { padding: 26px 0 26px; border-left: 0; }

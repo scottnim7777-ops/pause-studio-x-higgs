@@ -139,39 +139,24 @@ export function initReveal() {
 
 /* ── 자동 재생 영상(비교 화면의 AFTER): 보이면 재생, 버튼으로 멈춤 */
 export function initAutoVideos() {
+  // 2026-10-14 사용자: 정지 버튼 필요 없음, 영상은 항상 재생 — 비교 화면 영상은 가까이 오면 시작해서 그 뒤로는 화면 밖으로 나가도 멈추지 않음
   const vids = $$<HTMLVideoElement>('video[data-auto]:not([data-fs-video])');
-  const state = new Map<HTMLVideoElement, { seen: boolean; userPaused: boolean; btn: HTMLButtonElement | null }>();
-  const syncBtn = (v: HTMLVideoElement) => {
-    const s = state.get(v)!;
-    if (!s.btn) return;
-    const playing = !v.paused;
-    s.btn.classList.toggle('paused', !playing);
-    s.btn.setAttribute('aria-label', playing ? T.videoPause : T.videoPlay);
-  };
-  const load = (v: HTMLVideoElement) => { if (!v.src && v.dataset.src) { v.src = v.dataset.src; } };
-  const play = (v: HTMLVideoElement) => { load(v); v.play().catch(() => syncBtn(v)); };
-  const want = (v: HTMLVideoElement) => { const s = state.get(v)!; return s.seen && !s.userPaused && motion.allowed && !saveData(); };
+  const started = new Set<HTMLVideoElement>();
+  const play = (v: HTMLVideoElement) => { if (!v.src && v.dataset.src) v.src = v.dataset.src; v.play().catch(() => { /* 자동 재생이 막히면 포스터 그대로 */ }); };
+  const resume = () => started.forEach((v) => { if (v.paused && !document.hidden) play(v); });
   const io = new IntersectionObserver((es) => es.forEach((e) => {
-    const v = e.target as HTMLVideoElement;
-    state.get(v)!.seen = e.isIntersecting;
-    if (want(v)) play(v); else if (!v.paused) v.pause();
-  }), { threshold: 0.35 });
+    if (e.isIntersecting) { started.add(e.target as HTMLVideoElement); play(e.target as HTMLVideoElement); }
+  }), { rootMargin: '150% 0px' });
   vids.forEach((v) => {
-    const btn = v.closest('[data-cmp], .media')?.querySelector<HTMLButtonElement>('[data-vctrl]') ?? null;
-    state.set(v, { seen: false, userPaused: false, btn });
-    v.addEventListener('play', () => syncBtn(v));
-    v.addEventListener('pause', () => syncBtn(v));
-    btn?.addEventListener('click', () => {
-      const s = state.get(v)!;
-      if (v.paused) { s.userPaused = false; play(v); } else { s.userPaused = true; v.pause(); }
-    });
-    syncBtn(v);
+    v.addEventListener('pause', () => { if (!v.ended && !document.hidden) window.setTimeout(() => { if (started.has(v)) play(v); }, 120); });
     io.observe(v);
   });
-  motion.subscribe(() => vids.forEach((v) => { if (want(v)) play(v); else if (!v.paused) v.pause(); }));
+  document.addEventListener('visibilitychange', resume);
+  addEventListener('pageshow', resume);
+  addEventListener('focus', resume);
+  document.addEventListener('ps:resume', resume);
+  window.setInterval(resume, 1000);
 }
-
-/* ── 포트폴리오: 화면 녹화는 마우스를 올리지 않아도 보이는 동안 계속 반복 재생 */
 export function initWorkLoops() {
   const vids = $$<HTMLVideoElement>('video[data-loop]');
   if (!vids.length || !('IntersectionObserver' in window)) return;
@@ -212,7 +197,7 @@ export function initLightbox() {
     let media: HTMLElement;
     if (it.video) {
       const v = document.createElement('video');
-      v.src = it.video; v.poster = `${it.image}.jpg`; v.muted = true; v.loop = true; v.playsInline = true; v.controls = true;
+      v.src = it.video; v.poster = `${it.image}.jpg`; v.muted = true; v.loop = true; v.playsInline = true; v.controls = false;
       v.width = it.w; v.height = it.h;
       v.setAttribute('aria-label', fillT(T.workVideo, { ref: it.ref, cat: it.category }));
       if (!motion.reduced) v.autoplay = true;
@@ -376,7 +361,7 @@ export function initFilmSamples() {
   let started = false, userPaused = false, raf = 0;
   // 선택된 탭의 선: 재생할 수 있으면 진행률, 아니면 꽉 찬 선
   tabs[cur].style.setProperty('--prog', motion.allowed && !saveData() ? '0' : '1');
-  const can = () => started && motion.allowed && !saveData() && !userPaused;
+  const can = () => started; // 정지 버튼 없음·항상 재생(2026-10-14 사용자). 동작 줄이기·데이터 절약도 영상 재생에는 적용하지 않음
   const syncBtn = (i: number) => {
     const b = btns[i];
     if (!b) return;
@@ -432,9 +417,6 @@ export function initFilmSamples() {
       if (i !== cur) return;
       if (can()) select((cur + 1) % tabs.length, false);
       else { v.currentTime = 0; play(); }
-    });
-    btns[i]?.addEventListener('click', () => {
-      if (v.paused) { userPaused = false; play(); } else { userPaused = true; v.pause(); }
     });
     syncBtn(i);
   });

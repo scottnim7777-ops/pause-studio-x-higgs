@@ -321,7 +321,8 @@ async function page(browser, vp, opts = {}) {
     await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { scrollTo({ top: y, behavior: 'instant' }); await new Promise((r) => setTimeout(r, 60)); } });
     await p.waitForTimeout(600);
     const playing2 = await p.evaluate(() => [...document.querySelectorAll('video')].filter((v) => !v.paused).length);
-    check('동작 줄이기: 인트로 생략·내용 바로 보임·자동 재생 없음(끝까지 내려도)', st.done && st.toggle && st.op === '1' && st.playing === 0 && playing2 === 0 && st.still && st.caret, JSON.stringify({ ...st, playing2 }));
+    // 2026-10-14 사용자: 영상은 항상 재생(정지 버튼 없음) → 동작 줄이기여도 광고·비교 영상은 재생. 포트폴리오 벽(playing)은 그대로 멈춤
+    check('동작 줄이기: 인트로 생략·내용 바로 보임·포트폴리오 영상 멈춤(광고 영상은 항상 재생)', st.done && st.toggle && st.op === '1' && st.playing === 0 && st.still && st.caret, JSON.stringify({ ...st, playing2 }));
     check('동작 줄이기 콘솔 오류 없음', errors.length === 0, errors.slice(0, 2).join(' | '));
     await ctx.close();
   }

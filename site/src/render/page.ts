@@ -89,7 +89,8 @@ const consultBtn = (label: string, cls = 'btn btn-solid', key = '') =>
 const kakaoBtn = (cls = 'btn btn-line') =>
   `<a class="${cls}" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener"><span class="lb">${bubble}${esc(C.cta.kakao)}</span>${arrow()}<span class="sr">${esc(C.ui.newWindow)}</span></a>`;
 /** 자동 재생 영상의 재생·일시정지 버튼(움직임이 5초 넘게 이어지므로 멈출 수 있어야 함) */
-const vctrl = () => `<button class="vctrl" type="button" data-vctrl aria-label="${esc(C.ui.videoPause)}"><i aria-hidden="true"></i></button>`;
+/** 자동 재생 영상의 일시정지 버튼은 없음(2026-10-14 사용자: 정지 버튼 필요 없음, 영상은 항상 재생) */
+const vctrl = () => '';
 
 /* ───────── 언어 전환(한국어 '/' ↔ English '/en'): 직접 그린 원형 국기(윈도우는 국기 이모지를 글자로 보여 줌) ───────── */
 const flagKR = `<svg class="flag" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="fkc"><circle cx="12" cy="12" r="12"/></clipPath></defs><g clip-path="url(#fkc)"><rect width="24" height="24" fill="#f4f1ea"/><circle cx="12" cy="12" r="5" fill="#0047A0"/><path d="M7 12a5 5 0 0 1 10 0a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 0-5 0z" fill="#CD2E3A"/><g stroke="#161616" stroke-width="1.1"><g transform="translate(4.6 4.6) rotate(-45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g><g transform="translate(19.4 4.6) rotate(45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g><g transform="translate(4.6 19.4) rotate(45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g><g transform="translate(19.4 19.4) rotate(-45)"><path d="M-2.3 -1.3h4.6M-2.3 0h4.6M-2.3 1.3h4.6"/></g></g></g></svg>`;

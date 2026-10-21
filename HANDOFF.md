@@ -54,3 +54,11 @@
 - 2026-10-15 사이트 감시: `.github/workflows/watch.yml`(30분마다 한·영 첫 화면, /api/health, 사이트맵, 문의 기능, /api/status). 이상이면 30초 뒤 재확인 → 그래도 이상이면 ① GitHub 이슈 `사이트감시` 열기/댓글 ② 점검을 실패로 끝내 GitHub이 저장소 주인에게 메일. info@ 직접 발송은 FormSubmit이 GitHub 서버를 막아 불가(시험 확인). 시험: `gh workflow run watch.yml -f site=https://pause8studio.invalid`(이슈가 열리니 끝나면 닫기).
   - 서버: 문의별 `mailed.txt` 표시, `POST /api/mailed`(손님 브라우저 relay 성공 보고), `GET /api/status`(메일이 안 나간 문의 개수, `PENDING_MIN` 기본 10분, `PENDING_SINCE` 기본 2026-10-14T14:25Z 이전 문의 제외).
   - 한계: 점검 간격 30분, 저장소가 60일 무활동이면 GitHub이 예약 실행을 끌 수 있음.
+
+## 2026-10-22 — 영어 페이지 대상 바꿈 · WhatsApp
+- 언어는 나라가 아닌 브라우저 언어로 정함(그대로 유지). 통화만 나라(IP)로 정함.
+- 영어 페이지(/en)는 한인이 아닌 현지 전체가 대상. 첫 화면 `First impressions take 50 milliseconds.` / `Look the part. Get chosen.`(사용자 선택). 영어 전체를 원어민 기준으로 다시 씀. 한국어·영어 모두 가능하다는 점은 강점으로 유지.
+- 영어 공유 이미지 `og-en-20261022.jpg`: 사용자 카드에서 한글만 지운 `tools/og/bg-en.png` + `tools/og/og-en.html` → `node tools/og/render.mjs og-en.html og-en-20261022.jpg`. 한국어 og-20261013.jpg(사용자 제작)는 덮어쓰지 않음.
+- 메신저는 언어별 `chat`(ko.ts 카카오톡 / en.ts WhatsApp wa.me/64204887198, QR `media/whatsapp-qr.png`).
+- WhatsApp 프로필 사진: 바탕화면 `PauseStudio/WhatsApp 프로필/`(저장소 밖).
+- 배포: 이 세션의 자동 모드는 실제 배포를 막아서 사용자가 `!`로 실행함. 실제 사이트 반영, 감시 점검 '이상 없음' 확인.

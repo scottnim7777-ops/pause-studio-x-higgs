@@ -20,6 +20,9 @@ export const contact = {
   nzbn: 'NZBN: 9429053533340',
 };
 
+/** 메신저 상담 채널: 한국어 페이지는 카카오톡, 영어 페이지는 WhatsApp(en.ts, 2026-10-22). 버튼·연락처 카드·QR·하단 링크·전송 실패 버튼이 이걸 쓴다 */
+export const chat = { url: contact.kakaoUrl, id: contact.kakaoId, qr: '/media/kakao-qr.png', qrW: 233, qrH: 236 };
+
 export const meta = {
   lang: 'ko',
   /** 언어 전환(2026-10-14): 이 페이지의 주소와 짝 페이지 — 한국어 '/', 영어 '/en'. 정해진 순서는 docs/EN_PLAN.md */

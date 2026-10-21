@@ -87,7 +87,7 @@ const preset = (key: string) => {
 const consultBtn = (label: string, cls = 'btn btn-solid', key = '') =>
   `<a class="${cls}" href="#contact" data-consult${key ? preset(key) : ''}><span class="lb">${esc(label)}</span>${arrow()}</a>`;
 const kakaoBtn = (cls = 'btn btn-line') =>
-  `<a class="${cls}" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener"><span class="lb">${bubble}${esc(C.cta.kakao)}</span>${arrow()}<span class="sr">${esc(C.ui.newWindow)}</span></a>`;
+  `<a class="${cls}" href="${C.chat.url}" target="_blank" rel="noopener"><span class="lb">${bubble}${esc(C.cta.kakao)}</span>${arrow()}<span class="sr">${esc(C.ui.newWindow)}</span></a>`;
 /** 자동 재생 영상의 재생·일시정지 버튼(움직임이 5초 넘게 이어지므로 멈출 수 있어야 함) */
 /** 자동 재생 영상의 일시정지 버튼은 없음(2026-10-14 사용자: 정지 버튼 필요 없음, 영상은 항상 재생) */
 const vctrl = () => '';
@@ -591,7 +591,7 @@ function contactSec() {
         <button class="big" type="button" aria-expanded="false" aria-controls="ph-menu" data-phone>${esc(C.contact.phoneLabel)}${arrow()}</button>
         <div class="ph-menu" id="ph-menu" hidden data-phone-menu><a href="${C.contact.telHref}">${esc(ph.call)}</a><a href="${C.contact.smsHref}">${esc(ph.sms)}</a><button type="button" data-phone-copy data-copied="${esc(ph.copied)}">${esc(ph.copy)}</button></div>
         <p class="h">${esc(ph.hint)}</p></article>
-      <article class="ct-card kakao rv" style="--d:.08s"><h3>${esc(c.kakao.title)}</h3><p class="big">${esc(C.contact.kakaoId)}</p><p class="h">${esc(c.kakao.idLabel)} · ${esc(c.kakao.hint)}</p><a class="btn-text" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener">${esc(C.ui.openChatGo)}${arrow()}<span class="sr">${esc(C.ui.newWindow)}</span></a><img class="qr" src="/media/kakao-qr.png" alt="${esc(fill(C.ui.qrAlt, { label: c.kakao.qrLabel, id: C.contact.kakaoId }))}" width="233" height="236" loading="lazy"></article>
+      <article class="ct-card kakao rv" style="--d:.08s"><h3>${esc(c.kakao.title)}</h3><p class="big">${esc(C.chat.id)}</p><p class="h">${esc(c.kakao.idLabel)} · ${esc(c.kakao.hint)}</p><a class="btn-text" href="${C.chat.url}" target="_blank" rel="noopener">${esc(C.ui.openChatGo)}${arrow()}<span class="sr">${esc(C.ui.newWindow)}</span></a><img class="qr" src="${C.chat.qr}" alt="${esc(fill(C.ui.qrAlt, { label: c.kakao.qrLabel, id: C.chat.id }))}" width="${C.chat.qrW}" height="${C.chat.qrH}" loading="lazy"></article>
       <article class="ct-card rv" style="--d:.16s"><h3>${esc(c.email.title)}</h3><button class="reveal-btn" type="button" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(c.email.label)}</button><p class="h">${esc(c.email.hint)}</p></article>
     </div>
   </div>
@@ -607,7 +607,7 @@ function footer() {
       <a class="ft-logo" href="#top" aria-label="${esc(C.ui.home)}" data-logo data-mark>${inlineLogo('ft-svg')}</a>
       <div class="ft-cols">
         <div><h3>Menu</h3><ul>${C.nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}<li><a href="#contact">${esc(C.cta.header)}</a></li></ul>${langSwitch('ft')}</div>
-        <div><h3>Contact</h3><ul><li><a href="${C.contact.kakaoUrl}" target="_blank" rel="noopener">${esc(C.ui.openChat)}</a></li><li><a href="${C.contact.telHref}">${esc(C.contact.phoneLabel)}</a></li><li>${esc(f.emailLabel)} · <button class="reveal-btn" type="button" style="font-size:inherit" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(f.emailReveal)}</button></li></ul></div>
+        <div><h3>Contact</h3><ul><li><a href="${C.chat.url}" target="_blank" rel="noopener">${esc(C.ui.openChat)}</a></li><li><a href="${C.contact.telHref}">${esc(C.contact.phoneLabel)}</a></li><li>${esc(f.emailLabel)} · <button class="reveal-btn" type="button" style="font-size:inherit" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(f.emailReveal)}</button></li></ul></div>
         <div><h3>Studio</h3><p>${esc(C.contact.address)}</p><p>${esc(C.contact.nzbn)}</p></div>
       </div>
     </div>
@@ -647,7 +647,7 @@ function consultDialog() {
       </section>
       <section class="cs-step" data-step="3" hidden><h3>${esc(C.ui.confirm)}</h3><dl class="cs-summary" data-summary></dl><p class="cs-privacy">${esc(f.privacy)}</p></section>
       <section class="cs-step cs-state" data-step="done" hidden><span class="cs-ok" aria-hidden="true">${check}</span><h3>${esc(c.success.title)}</h3><p>${esc(c.success.desc)}</p><div class="ctas"><button class="btn btn-solid" type="button" data-cs-close><span class="lb">${esc(c.buttons.done)}</span>${arrow()}</button></div></section>
-      <section class="cs-step cs-state" data-step="fail" hidden><h3>${esc(c.failure.title)}</h3><p>${esc(c.failure.desc)}</p><div class="ctas"><a class="btn btn-solid" data-cs-mail href="#"><span class="lb">${esc(c.failure.mail)}</span>${arrow()}</a><button class="btn btn-line" type="button" data-cs-copy><span class="lb">${esc(c.failure.copy)}</span>${arrow()}</button><a class="btn btn-line" href="${C.contact.kakaoUrl}" target="_blank" rel="noopener"><span class="lb">${esc(c.failure.kakao)}</span>${arrow()}</a></div></section>
+      <section class="cs-step cs-state" data-step="fail" hidden><h3>${esc(c.failure.title)}</h3><p>${esc(c.failure.desc)}</p><div class="ctas"><a class="btn btn-solid" data-cs-mail href="#"><span class="lb">${esc(c.failure.mail)}</span>${arrow()}</a><button class="btn btn-line" type="button" data-cs-copy><span class="lb">${esc(c.failure.copy)}</span>${arrow()}</button><a class="btn btn-line" href="${C.chat.url}" target="_blank" rel="noopener"><span class="lb">${esc(c.failure.kakao)}</span>${arrow()}</a></div></section>
     </div>
     <div class="cs-foot" data-cs-foot><button class="btn btn-line" type="button" data-cs-prev hidden><span class="lb">${esc(c.buttons.prev)}</span></button><button class="btn btn-solid" type="button" data-cs-next style="margin-left:auto"><span class="lb">${esc(c.buttons.next)}</span>${arrow()}</button><button class="btn btn-solid" type="submit" data-cs-submit hidden style="margin-left:auto"><span class="lb">${esc(c.buttons.submit)}</span>${arrow()}</button></div>
   </form>

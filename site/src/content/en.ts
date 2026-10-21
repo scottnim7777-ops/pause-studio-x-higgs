@@ -13,6 +13,9 @@ export { byCur, currencySymbol } from './ko';
 export type { Cur, Txt } from './ko';
 export { contact } from './ko';
 
+// Messenger channel (2026-10-22): WhatsApp on the English page instead of KakaoTalk. The button opens a chat with a short greeting typed in
+export const chat = { url: "https://wa.me/64204887198?text=Hi%20PAUSE%20Studio%2C%20I%27d%20like%20to%20ask%20about%20a%20project.", id: '+64 20 488 7198', qr: '/media/whatsapp-qr.png', qrW: 216, qrH: 216 };
+
 export const meta = {
   lang: 'en',
   locale: 'en_US', altLocale: 'ko_KR', path: '/en', altPath: '/', altLang: 'ko',
@@ -40,17 +43,17 @@ export const nav = [
 export const cta = {
   header: 'Contact',
   consult: 'Free consultation',
-  kakao: 'Chat on KakaoTalk',
+  kakao: 'Chat on WhatsApp',
   free: 'Free consultation',
 };
 
 export const ui = {
   skip: 'Skip to main content', home: 'Back to the top of PAUSE Studio', navMain: 'Main menu', navMobile: 'Mobile menu', menu: 'Menu', menuClose: 'Close menu',
-  newWindow: '(opens in a new window)', servicesAria: 'Services', openChat: 'KakaoTalk open chat', openChatGo: 'Message us on open chat',
+  newWindow: '(opens in a new window)', servicesAria: 'Services', openChat: 'WhatsApp', openChatGo: 'Message us on WhatsApp',
   lightbox: 'View work larger', lbClose: 'Close', lbPrev: 'Previous work', lbNext: 'Next work',
   workOpen: 'View {ref} {cat} larger', workShot: '{ref} {cat} website screen', workVideo: '{ref} {cat} website screen recording',
   signAria: 'PAUSE STUDIO founder signature', sampleTabs: 'Sample ads', compareVideo: '{label} · screen recording of a real site built by PAUSE',
-  faqTabs: 'Question categories', faqCount: '{n} questions', qrAlt: '{label}: KakaoTalk ID {id}',
+  faqTabs: 'Question categories', faqCount: '{n} questions', qrAlt: '{label}: WhatsApp {id}',
   honeypot: 'Company website (leave blank)', progress: 'Progress', askType: 'What kind of consultation do you need?', typeAria: 'Consultation type', confirm: 'Please review what you are sending', sentFrom: 'Sent from',
   videoPause: 'Pause video', videoPlay: 'Play video', switchLang: 'Language', switchTo: '한국어', autoNote: "You're viewing the English site.",
 };
@@ -384,7 +387,7 @@ export const faq = {
         { q: 'What if I want to switch providers or manage it myself later?', a: "We register your domain in your name wherever possible, and hand over the contracted materials so another developer can take over. Of course, we'd love to stay with you the whole way." },
         { q: 'How many design revisions are included?', a: 'The contract includes 2 rounds of design revisions. All the feedback you collect and send in one go counts as one round. Production errors on our side and missing or broken contracted features are fixed regardless of the count. Completely changing an approved design, new pages or features, or a full restructure cost extra.' },
         { q: 'Do you work with clients outside New Zealand?', a: 'Yes. We are based in Auckland and work with businesses in New Zealand, the United States and beyond. Prices on this site show the same numbers in the currency of the country you visit from; they are not exchange rate conversions. Your contract currency is confirmed on the quote, based on where your business is located.' },
-        { q: 'How do we communicate if we are in different countries?', a: 'Easily. We work the way that suits you best: Zoom calls, phone, email or KakaoTalk. We work in English or Korean, whichever you prefer.' },
+        { q: 'How do we communicate if we are in different countries?', a: 'Easily. We work the way that suits you best: Zoom calls, phone, email or WhatsApp. We work in English or Korean, whichever you prefer.' },
         { q: 'Can you build a multilingual site?', a: 'Yes. We can design with multilingual layouts and typefaces in mind. The base price covers one content language. Additional language pages, professional translation and native review are quoted separately by scope.' },
         { q: 'Is search engine optimization (SEO) included?', a: 'Yes, on every plan. STARTER and BUSINESS include basic SEO such as metadata, a sitemap and structured data so you show up well on Google, and ENTERPRISE includes advanced SEO.' },
         { q: 'How do the domain and hosting work?', a: 'We register the domain in your name wherever possible, and domain registration and renewal costs are separate. Hosting is free on every plan, and we only discuss a different setup and extra cost if traffic and server usage go far beyond the free allowance.' },
@@ -423,9 +426,9 @@ export const contactSection = {
   status: 'Open for new projects',
   title: { lead: 'Those', burden: 'monthly website fees?', tail: '', free: 'Let them go.' },
   desc: ["We'll take an honest look at what you spend on your website now and", ' show you how to switch to ', 'a site you manage yourself', ', with no basic monthly fee. We can help with websites and AI video ads alike.'],
-  channelsNote: ['Whatever your time zone, we stay in touch the way you prefer: ', 'Zoom calls, phone, email or KakaoTalk', '.'],
+  channelsNote: ['Whatever your time zone, we stay in touch the way you prefer: ', 'Zoom calls, phone, email or WhatsApp', '.'],
   phone: { title: 'Phone', hint: 'Tap to choose between calling and texting.', call: 'Call', sms: 'Send a text', copy: 'Copy number', copied: 'Number copied' },
-  kakao: { title: 'KakaoTalk', idLabel: 'KakaoTalk ID', qrLabel: 'Kakao QR scan', hint: 'Add the ID and message us, or scan the QR code.' },
+  kakao: { title: 'WhatsApp', idLabel: 'WhatsApp number', qrLabel: 'WhatsApp QR code', hint: 'Message us anytime, or scan the code with your phone.' },
   email: { title: 'Email', label: 'Show email address', hint: 'You can also send quotes and materials by email.' },
 };
 
@@ -462,7 +465,7 @@ export const consult = {
   failure: {
     title: 'Sending failed.',
     desc: "We couldn't send it because of a network problem. Please send the same message using one of the options below.",
-    mail: 'Send with your email app', copy: 'Copy message', copied: 'Copied', kakao: 'Message us on KakaoTalk',
+    mail: 'Send with your email app', copy: 'Copy message', copied: 'Copied', kakao: 'Message us on WhatsApp',
   },
   errors: { name: 'Please enter your name.', email: 'Please check your email address.', type: 'Please choose a type of consultation.', files: 'Attachments can total up to 4MB. Please email larger files.' },
 };

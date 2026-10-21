@@ -153,7 +153,7 @@ function hero() {
   <div class="hero-wall" aria-hidden="true"><div class="stage" data-stage><div class="plane" data-plane>${rows}</div><div class="veil"></div></div></div>
   <div class="hero-in">
     <p class="hero-eb"><span class="rule"></span>${esc(h.eyebrow)}</p>
-    <h1 class="hero-title" id="hero-title"><span class="sr">${esc(h.titleLines.join(' '))}</span><span class="tt" aria-hidden="true" data-type-title><span class="l1">${esc(h.titleLinesMobile[0])}</span><span class="l2">${esc(h.titleLinesMobile[1])} </span><span class="l3">${esc(h.titleLinesMobile[2])}</span></span></h1>
+    <h1 class="hero-title" id="hero-title"><span class="sr">${esc(h.titleLines.join(' '))}</span><span class="tt" aria-hidden="true" data-type-title><span class="l1">${esc(h.titleLinesMobile[0])}</span><span class="l2">${esc(h.titleLinesMobile[1])} </span>${h.titleLinesMobile[2] ? `<span class="l3">${esc(h.titleLinesMobile[2])}</span>` : '' /* 영어처럼 두 줄이면 셋째 줄을 비워 두지 않음(커서가 빈 줄에 서지 않게) */}</span></h1>
     <p class="hero-sub">${esc(h.sub[0])}<br> ${esc(h.sub[1])}</p>
     <div class="ctas">${consultBtn(C.cta.consult)}${kakaoBtn()}</div>
     <ul class="hero-svc" aria-label="${esc(C.ui.servicesAria)}">${svc}</ul>
@@ -723,7 +723,8 @@ export function renderHead(lang: Lang = 'ko') {
         knowsLanguage: ['ko', 'en'], priceRange: '$$',
         // 구글 지도·검색이 업종·위치를 이해하도록(2026-10-14): 지도 검색 주소, 다루는 분야, 연락처
         hasMap: 'https://www.google.com/maps/search/?api=1&query=PAUSE+Studio+75+Victoria+Street+West+Auckland',
-        knowsAbout: ['Website design', 'Web development', 'AI video ads', 'Short form video ads', 'Branding for Korean businesses', ...(ko ? ['웹사이트 제작', 'AI 광고영상 제작', '한인 비즈니스 브랜딩'] : [])],
+        // 영어 페이지는 한인 대상이 아닌 현지 전체 대상(2026-10-22) — 한인 브랜딩은 한국어 페이지에만
+        knowsAbout: ['Website design', 'Web development', 'AI video ads', 'Short form video ads', ...(ko ? ['Branding for Korean businesses', '웹사이트 제작', 'AI 광고영상 제작', '한인 비즈니스 브랜딩'] : ['Brand design', 'Bilingual website design'])],
         contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', email: C.contact.email, telephone: '+64-20-488-7198', availableLanguage: ['Korean', 'English'], areaServed: ['NZ', 'US'] },
         sameAs: ['https://open.kakao.com/o/s58WfSEi'],
         makesOffer: [

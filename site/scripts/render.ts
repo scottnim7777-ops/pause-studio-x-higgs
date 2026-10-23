@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderBody, renderHead } from '../src/render/page';
 import type { Lang } from '../src/content';
+import { renderCities } from './render-cities';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tpl = fs.readFileSync(path.join(root, 'index.template.html'), 'utf8');
@@ -22,3 +23,6 @@ for (const [lang, out] of [['ko', 'index.html'], ['en', 'en/index.html']] as [La
   fs.writeFileSync(file, html);
   console.log(`${out} ${(Buffer.byteLength(html) / 1024).toFixed(1)} KB`);
 }
+
+// 미국 도시별 영어 안내 페이지(en/web-design-*/index.html)
+renderCities(root);

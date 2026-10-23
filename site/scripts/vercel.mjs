@@ -22,6 +22,14 @@ for (const f of fs.readdirSync(DIST)) {
   fs.cpSync(path.join(DIST, f), path.join(OUT, 'static', f), { recursive: true });
 }
 
+// 도시별 안내 페이지는 정적 파일(en/<이름>.html)로 두고 아래 라우트가 /en/<이름> 을 연결
+for (const d of fs.readdirSync(path.join(DIST, 'en'), { withFileTypes: true })) {
+  if (d.isDirectory() && d.name.startsWith('web-design-')) {
+    fs.mkdirSync(path.join(OUT, 'static/en'), { recursive: true });
+    fs.copyFileSync(path.join(DIST, 'en', d.name, 'index.html'), path.join(OUT, 'static/en', `${d.name}.html`));
+  }
+}
+
 // 서버 묶기: 패키지까지 한 파일로(함수에는 node_modules가 없음). vite는 개발용이라 제외
 const tmp = path.join(SITE, '.cache/vercel-fn');
 fs.rmSync(tmp, { recursive: true, force: true });
@@ -54,6 +62,7 @@ fs.writeFileSync(path.join(OUT, 'config.json'), JSON.stringify({
     { src: '^/(.*)$', headers: security, continue: true },
     { src: '^/index\\.html$', status: 301, headers: { Location: '/' } },
     { src: '^/en/$', status: 308, headers: { Location: '/en' } },
+    { src: '^/en/(web-design-[a-z-]+)/?$', dest: '/en/$1.html', headers: { 'Cache-Control': 'public, max-age=0, must-revalidate' }, continue: true },
     { handle: 'filesystem' },
     // 예전 사이트 주소(/promo-image 등)는 첫 화면으로
     { src: '^/(?!api/)[^.]+$', status: 301, headers: { Location: '/' } },

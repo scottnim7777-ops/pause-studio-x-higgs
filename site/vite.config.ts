@@ -7,7 +7,7 @@ export default defineConfig({
     assetsInlineLimit: 0,
     cssCodeSplit: false,
     // 한국어 '/'(index.html)와 영어 '/en'(en/index.html) 두 페이지가 같은 스크립트·스타일을 씀
-    rollupOptions: { input: { main: 'index.html', en: 'en/index.html' } },
+    rollupOptions: { input: { main: 'index.html', en: 'en/index.html', laCity: 'en/web-design-los-angeles/index.html', nyCity: 'en/web-design-new-york/index.html', atlCity: 'en/web-design-atlanta/index.html' } },
   },
   server: { port: 5173 },
 });

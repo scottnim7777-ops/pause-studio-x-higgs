@@ -310,6 +310,11 @@ async function setup(): Promise<Express> {
         sendPage(req, res, await vite.transformIndexHtml(req.originalUrl, fs.readFileSync(path.resolve(en ? 'en/index.html' : 'index.html'), 'utf8')));
       } catch (err) { next(err); }
     });
+    app.get(/^\/en\/(web-design-[a-z-]+)\/?$/, (req, res, next) => {
+      const f = path.resolve('en', req.params[0], 'index.html');
+      if (!fs.existsSync(f)) { next(); return; }
+      res.type('html').send(fs.readFileSync(f, 'utf8'));
+    });
     app.use(vite.middlewares);
   } else {
     if (!fs.existsSync(path.join(DIST, 'index.html'))) throw new Error(`빌드 결과가 없습니다: ${DIST} (npm run build)`);
@@ -318,6 +323,13 @@ async function setup(): Promise<Express> {
     withCurrency(page, 'NZD'); withCurrency(pageEn, 'NZD'); // 시작할 때 한 번 확인(통화 표시를 넣을 자리가 없으면 바로 알림)
     app.get(['/', '/index.html'], (req, res) => sendPage(req, res, page));
     app.get(['/en', '/en/', '/en/index.html'], (req, res) => sendPage(req, res, pageEn));
+    // 도시별 안내 페이지(정적, 통화 전환 없음)
+    app.get(/^\/en\/(web-design-[a-z-]+)\/?$/, (req, res, next) => {
+      const f = path.join(DIST, 'en', req.params[0], 'index.html');
+      if (!fs.existsSync(f)) { next(); return; }
+      res.setHeader('Cache-Control', 'no-cache');
+      res.type('html').send(fs.readFileSync(f, 'utf8'));
+    });
     app.use(express.static(DIST, {
       index: false,
       setHeaders(res, file) {

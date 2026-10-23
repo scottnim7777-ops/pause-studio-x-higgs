@@ -62,3 +62,11 @@
 - 메신저는 언어별 `chat`(ko.ts 카카오톡 / en.ts WhatsApp wa.me/64204887198, QR `media/whatsapp-qr.png`).
 - WhatsApp 프로필 사진: 바탕화면 `PauseStudio/WhatsApp 프로필/`(저장소 밖).
 - 배포: 이 세션의 자동 모드는 실제 배포를 막아서 사용자가 `!`로 실행함. 실제 사이트 반영, 감시 점검 '이상 없음' 확인.
+
+## 2026-10-23 — 미국 노출 작업(SEO)
+- 사용자 목표: 미국 거주 한인 + 현지 미국인에게 검색으로 닿기. 주소는 오클랜드 그대로(가짜 미국 주소 금지, 구글 정책 위반).
+- 미국 도시 3곳 영어 안내 페이지: `/en/web-design-los-angeles` · `-new-york` · `-atlanta` (`site/scripts/render-cities.ts`, render.ts가 호출, 문구는 도시 배열 한 곳에서). 사이트맵 추가, `/en` 푸터 'Serving' 열에서 링크. 서버(server.ts)·Vercel(vercel.mjs 라우트)에 연결.
+- 배포는 사용자가 `!`로 실행해야 반영됨(아직 배포 전일 수 있음). 배포 후 Search Console 색인 요청 4개(`/en` + 도시 3곳)는 사용자가 소유 계정으로 직접(이 PC 크롬의 구글 계정에는 속성이 없음).
+- 확인 대기 문구: '미국보다 대략 하루 앞서 있어 통화 시간을 맞춘다', 도시별 한인 지역 언급(Koreatown·Duluth·Suwanee).
+- 이어서: 구글 프로필 서비스 지역에 3도시 추가, Clutch·Yelp 등록(소개 글은 영어로 써 줌), 구글 광고 소액 2주 테스트, 후기 확보. 업종별 페이지는 사용자가 반대해 접음.
+- 점검: Playwright가 이 PC에 없어 tests/*.cjs는 못 돌림(새 페이지는 화면 글 표기 규칙을 직접 확인).

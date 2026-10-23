@@ -832,6 +832,7 @@ a.reveal-btn { animation: fadeIn .5s var(--ease); }
 .ft-top { display: grid; grid-template-columns: 4fr 8fr; gap: clamp(40px, 5vw, 100px); }
 .ft-logo { width: clamp(150px, 11vw, 210px); }
 .ft-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; font-size: var(--fs-small); line-height: 1.8; }
+@media (min-width: 1280px) { .ft-cols.c4 { grid-template-columns: repeat(4, 1fr); } }
 .ft-cols h3 { font-family: var(--f-text-md); font-weight: var(--w-text-md); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--cream-3); margin-bottom: 12px; }
 .ft-cols a { transition: color .3s; }
 .ft-cols a:hover { color: var(--cream); }

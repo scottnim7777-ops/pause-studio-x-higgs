@@ -605,10 +605,11 @@ function footer() {
   <div class="wrap">
     <div class="ft-top">
       <a class="ft-logo" href="#top" aria-label="${esc(C.ui.home)}" data-logo data-mark>${inlineLogo('ft-svg')}</a>
-      <div class="ft-cols">
+      <div class="ft-cols${LANG === 'en' ? ' c4' : ''}">
         <div><h3>Menu</h3><ul>${C.nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}<li><a href="#contact">${esc(C.cta.header)}</a></li></ul>${langSwitch('ft')}</div>
         <div><h3>Contact</h3><ul><li><a href="${C.chat.url}" target="_blank" rel="noopener">${esc(C.ui.openChat)}</a></li><li><a href="${C.contact.telHref}">${esc(C.contact.phoneLabel)}</a></li><li>${esc(f.emailLabel)} · <button class="reveal-btn" type="button" style="font-size:inherit" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(f.emailReveal)}</button></li></ul></div>
-        <div><h3>Studio</h3><p>${esc(C.contact.address)}</p><p>${esc(C.contact.nzbn)}</p></div>
+        <div><h3>Studio</h3><p>${esc(C.contact.address)}</p><p>${esc(C.contact.nzbn)}</p></div>${LANG === 'en' ? `
+        <div><h3>Serving</h3><ul>${[['Los Angeles', 'web-design-los-angeles'], ['New York', 'web-design-new-york'], ['Atlanta', 'web-design-atlanta']].map(([n, sl]) => `<li><a href="/en/${sl}">Web design in ${n}</a></li>`).join('')}</ul></div>` : ''}
       </div>
     </div>
     <div class="ft-legal"><p class="ft-legal-h">${esc(f.legalLink)}</p><div class="body">${f.legal.map((l) => `<p>${esc(l)}</p>`).join('')}</div></div><!-- 2026-10-09 사용자: 법적 고지는 늘 펼쳐 둠 -->

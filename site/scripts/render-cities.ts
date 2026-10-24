@@ -21,19 +21,19 @@ export const cities: City[] = [
     slug: 'web-design-los-angeles', name: 'Los Angeles', short: 'LA', region: 'California',
     headline: ['Websites that make', 'Los Angeles businesses', 'look the part.'],
     intro: 'Salons, restaurants, clinics, studios and shops compete for attention on every block of Los Angeles. A site that looks like everyone else\'s template makes that harder. We design each one from scratch around your brand.',
-    local: 'We work in English and Korean, which helps when your customers or your team use both, as many businesses in Koreatown and across Southern California do.',
+    local: 'From Santa Monica to Pasadena and everywhere between, we build your site entirely online, and we can write it in English, Korean or both.',
   },
   {
     slug: 'web-design-new-york', name: 'New York', short: 'NYC', region: 'New York',
     headline: ['Websites that make', 'New York businesses', 'look the part.'],
     intro: 'In New York, a customer compares you with three other businesses in the time it takes to cross the street. Your website is the first impression, and it has to hold up on a phone. We design each one from scratch around your brand.',
-    local: 'We work in English and Korean, so a site for your shop in Manhattan, Brooklyn, Queens or Long Island can speak to every customer who walks in or searches.',
+    local: 'Whether your business is in Manhattan, Brooklyn, Queens or Long Island, we build your site entirely online, and we can write it in English, Korean or both.',
   },
   {
     slug: 'web-design-atlanta', name: 'Atlanta', short: 'ATL', region: 'Georgia',
     headline: ['Websites that make', 'Atlanta businesses', 'look the part.'],
     intro: 'From Midtown to the Gwinnett County suburbs, Atlanta businesses are growing fast, and so is the competition for the first click. A site that looks like a template does not help you stand out. We design each one from scratch around your brand.',
-    local: 'We work in English and Korean, which helps when you serve the large Korean community around Duluth and Suwanee as well as the wider Atlanta area.',
+    local: 'Whether you are in Midtown, Buckhead or the suburbs, we build your site entirely online, and we can write it in English, Korean or both.',
   },
 ];
 

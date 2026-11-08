@@ -5,6 +5,7 @@ import {
 } from './ts/ui';
 import { initConsult } from './ts/consult';
 import { initTransition } from './ts/transition';
+import { initTrack } from './ts/track';
 
 declare global { interface Window { __ps?: boolean } }
 window.__ps = true; // index.html의 안전장치: 스크립트가 실행됐음을 알림
@@ -13,6 +14,7 @@ const safe = (name: string, f: () => void) => {
   try { f(); } catch (err) { console.error(`[${name}]`, err); }
 };
 
+safe('track', initTrack);
 safe('header', initHeader);
 safe('transition', initTransition);
 safe('menu', initMenu);

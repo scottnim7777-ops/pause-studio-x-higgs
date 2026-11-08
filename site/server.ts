@@ -20,6 +20,9 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { consult } from './src/content/ko';
 import { detectCurrency, geoHeaders, overrideFrom, withCurrency } from './src/geo/currency';
+import { append, bump, hasStore, hashAll, hashDel, hashSet, nzDay } from './src/analytics/store';
+import { classify, isBot, parseUA } from './src/analytics/classify';
+import { report, type Ev } from './src/analytics/report';
 
 const PORT = Number(process.env.PORT || 3000);
 // 상담 메일 받는 주소(2026-10-08 사용자: info@pause8studio.com). 배포 환경에서 CONTACT_TO로 바꿀 수 있음
@@ -281,8 +284,143 @@ app.get('/api/currency', (req, res) => {
   res.json(detectCurrency(req.headers, req.ip, GEO));
 });
 
+/* ── 방문 통계(2026-11-09 사용자: /admin 에서 나만 보는 방문자 대시보드)
+ * 수집: 페이지가 /api/t 로 짧은 기록을 보냄(쿠키 없음, 방문자 표시는 그 브라우저의 무작위 값). IP는 저장하지 않고 나라·도시만
+ * 보기: /admin 비밀번호(ADMIN_PASSWORD) → 서명한 쿠키(30일). 관리자로 로그인한 브라우저의 방문은 세지 않음 */
+const cookieOf = (req: Request, name: string) => {
+  const m = new RegExp(`(?:^|;\\s*)${name}=([^;]+)`).exec(String(req.headers.cookie || ''));
+  return m ? decodeURIComponent(m[1]) : '';
+};
+const ADMIN_PW = process.env.ADMIN_PASSWORD || '';
+// 비밀번호를 바꾸면 이전 로그인은 모두 풀림
+const ADMIN_KEY = crypto.createHash('sha256').update(`${process.env.ADMIN_SECRET || ''}|${ADMIN_PW}|${process.env.BLOB_READ_WRITE_TOKEN || ''}`).digest();
+const adminSig = (exp: string) => crypto.createHmac('sha256', ADMIN_KEY).update(`admin:${exp}`).digest('base64url');
+function isAdmin(req: Request) {
+  if (!ADMIN_PW) return false;
+  const [exp, sig] = cookieOf(req, 'ps_admin').split('.');
+  if (!exp || !sig || Number(exp) < Date.now()) return false;
+  const want = adminSig(exp);
+  return sig.length === want.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(want));
+}
+const needAdmin = (req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  if (!isAdmin(req)) { res.status(401).json({ ok: false, code: ADMIN_PW ? 'login' : 'not_configured' }); return; }
+  next();
+};
+const str = (v: unknown, max = 200) => oneLine(v, max);
+const hitsT = new Map<string, number[]>();
+
+app.post('/api/t', express.text({ type: '*/*', limit: '8kb' }), async (req, res) => {
+  // 기록을 다 쓴 뒤에 답함(Vercel 함수는 답한 뒤의 작업이 멈출 수 있음). sendBeacon이라 방문자 화면은 기다리지 않음
+  try {
+    const ua = String(req.headers['user-agent'] || '');
+    if (isBot(ua) || isAdmin(req)) return;
+    const ip = req.ip || 'unknown', now = Date.now();
+    const recent = (hitsT.get(ip) ?? []).filter((t) => now - t < 10 * 60 * 1000);
+    recent.push(now); hitsT.set(ip, recent);
+    if (hitsT.size > 5000) hitsT.clear();
+    if (recent.length > 200) return;
+    const b = JSON.parse(typeof req.body === 'string' ? req.body : '{}') as Record<string, unknown>;
+    const k = str(b.k, 8);
+    if (!['pv', 'leave', 'goal'].includes(k)) return;
+    const s = str(b.s, 24), v = str(b.v, 24);
+    if (!/^[a-z0-9]{8,24}$/.test(s) || !/^[a-z0-9]{8,24}$/.test(v)) return;
+    let p = str(b.p, 160) || '/';
+    if (!p.startsWith('/') || p.startsWith('/admin')) return;
+    p = p.replace(/\/+$/, '') || '/';
+    const e: Ev = { k: k as Ev['k'], t: now, s, v, p };
+    if (k === 'pv') {
+      const q = (b.q && typeof b.q === 'object' ? b.q : {}) as Record<string, unknown>;
+      const utm = Object.fromEntries(['source', 'medium', 'campaign', 'content', 'term'].map((x) => [x, str(q[x], 80)]).filter(([, x]) => x));
+      const ui = parseUA(ua, b.touch === true);
+      const cf = Boolean(req.headers['cf-ipcountry']); // Cloudflare를 거친 요청이면 Vercel 위치 헤더는 Cloudflare 서버 위치라 쓰지 않음
+      const h = (name: string) => { try { return decodeURIComponent(str(req.headers[name], 80)); } catch { return str(req.headers[name], 80); } };
+      const country = (GEO.map((x) => str(req.headers[x], 8).split(',')[0].toUpperCase()).find((x) => /^[A-Z]{2}$/.test(x) && x !== 'XX' && x !== 'T1')) || '';
+      // 도시: Cloudflare가 방문자 위치 헤더(cf-ipcity)를 주면 그것. 없으면 Vercel 헤더인데, Cloudflare를 거치면 이것은 방문자와 가까운
+      // Cloudflare 서버의 도시라(보통 같은 대도시권) 나라가 같을 때만 '가까운 대도시'로 씀
+      const city = () => {
+        if (h('cf-ipcity')) return { ct: h('cf-ipcity'), rg: h('cf-region') || undefined };
+        const vc = h('x-vercel-ip-country').toUpperCase();
+        if (h('x-vercel-ip-city') && (!cf || vc === country)) return { ct: h('x-vercel-ip-city'), rg: h('x-vercel-ip-country-region') || undefined };
+        return {};
+      };
+      const ref = str(b.ref, 300);
+      const src = classify({ ref, ownHost: String(req.hostname || '').replace(/^www\./, ''), utm, click: str(b.click, 12), app: ui.app, appChannel: ui.appChannel });
+      Object.assign(e, {
+        nv: b.nv === true ? 1 : undefined, src: src.src, ch: src.ch, host: src.host || undefined,
+        // 앞 페이지 주소는 물음표 뒤(개인 정보가 섞일 수 있음)를 빼고 저장
+        ref: src.host ? ref.split(/[?#]/)[0].slice(0, 200) : undefined,
+        cmp: src.cmp || undefined, med: src.med || undefined, cnt: src.cnt || undefined, term: src.term || undefined,
+        c: country || undefined, ...city(),
+        tz: str(b.tz, 40) || undefined, l: str(b.l, 12) || undefined, sw: Number(b.sw) > 0 ? Math.round(Number(b.sw)) : undefined,
+        d: ui.device, b: ui.browser, o: ui.os, app: ui.app || undefined,
+      });
+    } else if (k === 'leave') {
+      e.dur = Math.max(0, Math.min(Math.round(Number(b.dur) || 0), 1800));
+      e.sc = Math.max(0, Math.min(Math.round(Number(b.sc) || 0), 100));
+      if (Array.isArray(b.secs)) e.secs = b.secs.slice(0, 40).map((x) => str(x, 30)).filter((x) => /^[\w-]+$/.test(x));
+      if (!e.dur && !e.sc) return;
+    } else {
+      e.g = str(b.g, 30);
+      if (!/^[a-z_]+$/.test(e.g)) return;
+    }
+    await append(now, JSON.stringify(e));
+  } catch (err) {
+    console.error('통계 기록 실패:', (err as Error).message);
+  } finally {
+    res.status(204).end();
+  }
+});
+
+app.post('/api/admin/login', express.json({ limit: '2kb' }), async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  if (!ADMIN_PW) { res.status(503).json({ ok: false, code: 'not_configured' }); return; }
+  // 같은 곳에서 15분에 8번까지(서버가 여러 대여도 저장소에서 같이 셈)
+  const tries = await bump(`a:login:${crypto.createHash('sha256').update(req.ip || '').digest('hex').slice(0, 16)}`, 900).catch(() => 0);
+  if (tries > 8) { res.status(429).json({ ok: false, code: 'rate_limited' }); return; }
+  const given = crypto.createHash('sha256').update(String((req.body as { password?: unknown })?.password ?? '')).digest();
+  const want = crypto.createHash('sha256').update(ADMIN_PW).digest();
+  await new Promise((r) => setTimeout(r, 400)); // 비밀번호 맞히기 속도를 늦춤
+  if (!crypto.timingSafeEqual(given, want)) { res.status(401).json({ ok: false, code: 'wrong' }); return; }
+  const exp = String(Date.now() + 30 * 86400000);
+  res.setHeader('Set-Cookie', `ps_admin=${exp}.${adminSig(exp)}; Path=/; Max-Age=${30 * 86400}; HttpOnly; SameSite=Strict${PROD ? '; Secure' : ''}`);
+  res.json({ ok: true });
+});
+app.post('/api/admin/logout', (_req, res) => {
+  res.setHeader('Set-Cookie', `ps_admin=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict${PROD ? '; Secure' : ''}`);
+  res.json({ ok: true });
+});
+
+const DAY_RE = /^\d{4}-\d\d-\d\d$/;
+app.get('/api/admin/stats', needAdmin, async (req, res) => {
+  const today = nzDay(Date.now());
+  const to = DAY_RE.test(String(req.query.to)) ? String(req.query.to) : today;
+  const from = DAY_RE.test(String(req.query.from)) ? String(req.query.from) : to;
+  if (from > to) { res.status(400).json({ ok: false }); return; }
+  try { res.json({ ok: true, storage: hasStore, today, ...(await report(from, to)) }); }
+  catch (err) { console.error('통계 읽기 실패:', (err as Error).message); res.status(500).json({ ok: false, code: 'storage' }); }
+});
+
+/** 추적 링크(광고 글마다 다른 주소) — 대표가 만든 목록을 저장해 두고 다시 복사할 수 있게 */
+app.get('/api/admin/links', needAdmin, async (_req, res) => {
+  try {
+    const all = await hashAll('a:links');
+    res.json({ ok: true, links: Object.values(all).map((x) => JSON.parse(x)).sort((a, b) => b.created - a.created) });
+  } catch (err) { console.error('링크 읽기 실패:', (err as Error).message); res.status(500).json({ ok: false }); }
+});
+app.post('/api/admin/links', needAdmin, express.json({ limit: '4kb' }), async (req, res) => {
+  const b = (req.body ?? {}) as Record<string, unknown>;
+  if (b.remove) { await hashDel('a:links', str(b.remove, 20)); res.json({ ok: true }); return; }
+  const url = str(b.url, 600);
+  if (!/^https:\/\/[^\s]+$/.test(url)) { res.status(400).json({ ok: false }); return; }
+  const link = { id: crypto.randomBytes(5).toString('hex'), name: str(b.name, 80), url, source: str(b.source, 60), campaign: str(b.campaign, 80), content: str(b.content, 80), created: Date.now() };
+  await hashSet('a:links', link.id, JSON.stringify(link));
+  res.json({ ok: true, link });
+});
+
 // 업로드 크기 초과 등
-app.use('/api', (err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+app.use('/api',(err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   void _next;
   if (err instanceof multer.MulterError) {
     res.status(err.code === 'LIMIT_FILE_SIZE' ? 413 : 400).json({ ok: false, code: err.code });
@@ -299,6 +437,13 @@ function sendPage(req: Request, res: Response, html: string) {
   res.type('html').send(withCurrency(html, cur));
 }
 
+/** 관리자 화면: 검색엔진에 안 나오게, 어디에도 저장되지 않게(내용은 로그인 뒤 /api/admin/stats 로만 받음) */
+function adminPage(res: Response, html: string) {
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  res.type('html').send(html);
+}
+
 async function setup(): Promise<Express> {
   if (!PROD) {
     // 개발: Vite가 index.html·스크립트·스타일을 바로 처리(첫 화면만 통화 표시를 넣어 직접 보냄)
@@ -309,6 +454,9 @@ async function setup(): Promise<Express> {
         const en = req.path.startsWith('/en');
         sendPage(req, res, await vite.transformIndexHtml(req.originalUrl, fs.readFileSync(path.resolve(en ? 'en/index.html' : 'index.html'), 'utf8')));
       } catch (err) { next(err); }
+    });
+    app.get(['/admin', '/admin/'], async (req, res, next) => {
+      try { adminPage(res, await vite.transformIndexHtml(req.originalUrl, fs.readFileSync(path.resolve('admin.html'), 'utf8'))); } catch (err) { next(err); }
     });
     app.get(/^\/en\/(web-design-[a-z-]+)\/?$/, (req, res, next) => {
       const f = path.resolve('en', req.params[0], 'index.html');
@@ -322,6 +470,8 @@ async function setup(): Promise<Express> {
     const pageEn = fs.readFileSync(path.join(DIST, 'en/index.html'), 'utf8');
     withCurrency(page, 'NZD'); withCurrency(pageEn, 'NZD'); // 시작할 때 한 번 확인(통화 표시를 넣을 자리가 없으면 바로 알림)
     app.get(['/', '/index.html'], (req, res) => sendPage(req, res, page));
+    const pageAdmin = fs.readFileSync(path.join(DIST, 'admin.html'), 'utf8');
+    app.get(['/admin', '/admin/'], (_req, res) => adminPage(res, pageAdmin));
     app.get(['/en', '/en/', '/en/index.html'], (req, res) => sendPage(req, res, pageEn));
     // 도시별 안내 페이지(정적, 통화 전환 없음)
     app.get(/^\/en\/(web-design-[a-z-]+)\/?$/, (req, res, next) => {

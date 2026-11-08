@@ -154,6 +154,7 @@ function page(c: City): string {
 <link rel="preload" href="/fonts/ps-display-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>${CSS}</style>
 <script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>
+<script type="module" src="/src/track-entry.ts"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>

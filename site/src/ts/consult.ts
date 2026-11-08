@@ -8,6 +8,7 @@
  */
 import { contact } from '../content/ko';
 import { T } from './i18n';
+import { goal } from './track';
 /** 이 페이지 언어의 상담 창 글(문구 원본: content/*.ts consult · ui) */
 const C = T.c;
 import { animateCancel, closeDialog, closeMenu } from './ui';
@@ -230,6 +231,7 @@ export function initConsult() {
     sending = false;
     btnSubmit.removeAttribute('aria-busy');
     submitLabel.textContent = prevLabel;
+    if (ok) goal('consult_submit'); // 방문 통계: 상담 신청 완료
     goto(ok ? 'done' : 'fail');
   }
 

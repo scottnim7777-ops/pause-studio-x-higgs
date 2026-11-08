@@ -1,18 +1,38 @@
 /**
  * 방문 통계 저장소 — 서버 전용
- * - 운영: Upstash Redis(Vercel 마켓플레이스, 무료 월 50만 명령). 환경 변수 KV_REST_API_URL/KV_REST_API_TOKEN
- *   (또는 UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN)이 있으면 REST로 씀. 패키지 없이 fetch만.
+ * - 운영: Redis(Vercel 마켓플레이스). 두 가지 연결을 받음
+ *   1) REDIS_URL(공식 Redis 무료 플랜 등, 2026-11-09 Upstash는 이 계정에 무료 플랜이 없어 이쪽) → node-redis
+ *   2) KV_REST_API_URL/KV_REST_API_TOKEN 또는 UPSTASH_REDIS_REST_URL/TOKEN(Upstash) → REST(fetch)
  * - 문의 저장소(Blob)와 나눈 이유: Blob 무료 한도가 작아 방문 기록을 같이 쓰면 문의 저장까지 멈출 수 있음(문의 누락 금지)
  * - 저장소가 없으면(로컬 개발) 메모리에 둠. 서버를 끄면 사라짐
  * 키: a:e:<뉴질랜드 날짜> = 그날의 기록(JSON 줄) 목록, 400일 뒤 저절로 지움 · a:links = 대표가 만든 추적 링크
  */
+import { createClient } from 'redis';
+
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || '';
 const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || '';
-export const hasStore = Boolean(URL_ && TOKEN);
+const REDIS_URL = process.env.REDIS_URL || process.env.KV_URL || '';
+const REST = Boolean(URL_ && TOKEN);
+export const hasStore = REST || Boolean(REDIS_URL);
 const KEEP_SEC = 400 * 86400;
 
 type Cmd = (string | number)[];
+/** node-redis 연결 하나를 함수 인스턴스 안에서 다시 씀(끊기면 다음 요청에서 새로) */
+let conn: Promise<ReturnType<typeof createClient>> | null = null;
+function redis() {
+  if (!conn) {
+    const c = createClient({ url: REDIS_URL, socket: { connectTimeout: 5000, reconnectStrategy: false } });
+    c.on('error', (err) => { console.error('통계 저장소 연결:', (err as Error).message); conn = null; });
+    conn = c.connect().then(() => c).catch((err) => { conn = null; throw err; });
+  }
+  return conn;
+}
 async function pipeline(cmds: Cmd[]): Promise<unknown[]> {
+  if (!REST) {
+    const c = await redis();
+    // 동시에 보낸 명령은 node-redis가 한 번에 묶어 보냄
+    return Promise.all(cmds.map((cmd) => c.sendCommand(cmd.map(String))));
+  }
   const res = await fetch(`${URL_}/pipeline`, {
     method: 'POST', headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(cmds), signal: AbortSignal.timeout(8000),

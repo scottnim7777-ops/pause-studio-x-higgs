@@ -373,6 +373,12 @@ app.post('/api/t', express.text({ type: '*/*', limit: '8kb' }), async (req, res)
   }
 });
 
+// Vercel 무료 플랜은 배포당 함수 12개까지라 관리자 주소는 함수 하나(/api/admin?a=login|logout|stats|links)로 받고 여기서 나눔
+app.use((req, _res, next) => {
+  const a = String(req.query.a || '');
+  if (req.path === '/api/admin' && /^(login|logout|stats|links)$/.test(a)) req.url = req.url.replace(/^\/api\/admin\/?/, `/api/admin/${a}`);
+  next();
+});
 app.post('/api/admin/login', express.json({ limit: '2kb' }), async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (!ADMIN_PW) { res.status(503).json({ ok: false, code: 'not_configured' }); return; }

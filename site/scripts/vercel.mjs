@@ -48,8 +48,8 @@ fs.writeFileSync(path.join(tmp, '.vc-config.json'), JSON.stringify({
   environment: { NODE_ENV: 'production', GEO_HEADER: 'cf-ipcountry,x-vercel-ip-country', TRUST_PROXY: '1', STATIC_DIR: 'dist' },
 }, null, 2));
 for (const fn of ['index', 'en', 'api/contact', 'api/currency', 'api/health', 'api/file', 'api/mailed', 'api/status',
-  // 방문 통계: 기록(/api/t) · 관리자 화면(/admin) · 로그인·숫자·추적 링크
-  'api/t', 'admin', 'api/admin/login', 'api/admin/logout', 'api/admin/stats', 'api/admin/links']) {
+  // 방문 통계: 기록(/api/t) · 관리자 화면(/admin) · 로그인·숫자·추적 링크(/api/admin?a=…). 무료 플랜 한도 12개 → 지금 11개
+  'api/t', 'admin', 'api/admin']) {
   fs.cpSync(tmp, path.join(OUT, 'functions', `${fn}.func`), { recursive: true });
 }
 

@@ -77,4 +77,4 @@
 - 서버: `server.ts`의 '방문 통계' 구역, 분류 `src/analytics/classify.ts`, 집계 `report.ts`, 저장 `store.ts`(Neon Postgres 무료 플랜, DATABASE_URL · Upstash REST도 받음 · 없으면 메모리. 마켓플레이스 Upstash·Redis는 이 계정에 무료 플랜이 없음). 문의 Blob과 일부러 분리(무료 한도 충돌 시 문의 저장이 멈출 수 있어서).
 - 화면: `admin.html` + `src/admin/`. 비밀번호 = Vercel 환경 변수 ADMIN_PASSWORD(저장소에 없음, 로컬은 .env.local). 관리자 CSS는 `?inline`으로 넣고 vite 플러그인이 admin.html의 사이트 CSS 링크를 뺌(빼지 않으면 사이트 CSS와 충돌).
 - 연령·성별은 웹사이트가 알 수 없어 넣지 않음(광고 관리자 인구 통계로 안내). 도시는 Cloudflare 경유라 '가까운 대도시' 기준.
-- 남은 일: (1) 사용자가 Neon 연결 (2) ADMIN_PASSWORD 등록 (3) 배포 후 /admin 로그인·실제 방문 1건 확인. 자동 모드가 비밀값·공용 설정 변경을 막아 사용자가 직접 해야 함.
+- 2026-11-09: Neon(pause-analytics, free_v3) 연결·ADMIN_PASSWORD(Production·Preview) 등록 완료, 미리보기 배포에서 저장·로그인·통계 확인. Vercel 무료 플랜 함수 12개 한도 때문에 관리자 API는 /api/admin?a=login|logout|stats|links 하나(지금 함수 11개 — 더 늘리면 배포 실패). 실제 배포(--prod)는 자동 모드가 막아 사용자가 실행.

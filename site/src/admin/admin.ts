@@ -1,6 +1,6 @@
 /**
  * 방문 통계 대시보드(/admin) — 2026-11-09 사용자: 광고 글을 올리는데 몇 명이 어디서 무슨 링크를 타고 들어왔는지 보고 싶음
- * 숫자는 로그인 뒤 /api/admin/stats 에서만 받는다(이 화면 파일 자체에는 아무 정보도 없음)
+ * 숫자는 로그인 뒤 /api/admin?a=stats 에서만 받는다(이 화면 파일 자체에는 아무 정보도 없음)
  * 그래프는 크림 한 색(진하기 = 크기)이고, 모든 막대·점에 마우스를 올리면 정확한 숫자가 나온다
  */
 // 사이트는 CSS를 한 파일로 묶으므로(vite cssCodeSplit: false) 관리자 스타일은 글자로 받아 이 화면에만 넣음(사이트 스타일과 섞이지 않게)
@@ -97,11 +97,11 @@ async function load() {
   const my = ++seq;
   const [from, to] = range();
   let r: Stats | 'login' | 'not_configured';
-  try { r = await api<Stats>(`/api/admin/stats?from=${from}&to=${to}`); }
+  try { r = await api<Stats>(`/api/admin?a=stats&from=${from}&to=${to}`); }
   catch { app.innerHTML = `<div class="login"><div><p class="err">통계를 불러오지 못했습니다. 잠시 뒤 새로고침해 주세요.</p></div></div>`; return; }
   if (my !== seq) return;
   if (r === 'login' || r === 'not_configured') { login(r === 'not_configured'); return; }
-  const l = await api<{ links: Link[] }>('/api/admin/links').catch(() => null);
+  const l = await api<{ links: Link[] }>('/api/admin?a=links').catch(() => null);
   if (my !== seq) return;
   data = r;
   if (l && typeof l === 'object') links = l.links;
@@ -125,7 +125,7 @@ function login(notConfigured = false) {
   f.addEventListener('submit', async (e) => {
     e.preventDefault();
     btn.disabled = true;
-    const res = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: (f.elements.namedItem('pw') as HTMLInputElement).value }) }).catch(() => null);
+    const res = await fetch('/api/admin?a=login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: (f.elements.namedItem('pw') as HTMLInputElement).value }) }).catch(() => null);
     btn.disabled = false;
     if (res?.ok) { store('ps_me', '1'); load(); return; } // 이 기기의 방문은 통계에서 뺌
     const code = res ? ((await res.json().catch(() => ({}))) as { code?: string }).code : 'net';
@@ -328,7 +328,7 @@ function bindLinks() {
   sv.addEventListener('click', async () => {
     if (!cur) return;
     copy(cur.url);
-    const r = await fetch('/api/admin/links', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cur) }).catch(() => null);
+    const r = await fetch('/api/admin?a=links', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cur) }).catch(() => null);
     if (r?.ok) { links.unshift(((await r.json()) as { link: Link }).link); render(); } else toast('저장하지 못했습니다');
   });
 }
@@ -472,12 +472,12 @@ function render() {
   };
   $('#from').addEventListener('change', onDate); $('#to').addEventListener('change', onDate);
   $('#reload').addEventListener('click', load);
-  $('#logout').addEventListener('click', async () => { await fetch('/api/admin/logout', { method: 'POST' }).catch(() => {}); login(); });
+  $('#logout').addEventListener('click', async () => { await fetch('/api/admin?a=logout', { method: 'POST' }).catch(() => {}); login(); });
   $('#me').addEventListener('click', () => { store('ps_me', store('ps_me') === '1' ? null : '1'); render(); });
   app.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy!)));
   app.querySelectorAll<HTMLButtonElement>('[data-del]').forEach((b) => b.addEventListener('click', async () => {
     if (!confirm('이 링크를 목록에서 지울까요? 이미 들어온 방문 기록은 그대로 남습니다.')) return;
-    await fetch('/api/admin/links', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ remove: b.dataset.del }) });
+    await fetch('/api/admin?a=links', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ remove: b.dataset.del }) });
     links = links.filter((l) => l.id !== b.dataset.del); render();
   }));
 }

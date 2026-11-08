@@ -354,7 +354,7 @@ function render() {
     <div class="top-actions"><button class="btn btn-line btn-sm" type="button" id="reload">새로고침</button><button class="btn btn-line btn-sm" type="button" id="logout">로그아웃</button></div>
   </div></header>
   <main>
-    ${d.storage ? '' : '<div class="notice"><b>통계 저장소가 아직 연결되지 않았습니다.</b><span>지금 보이는 숫자는 서버가 잠시 기억하는 것이라 곧 사라집니다. 저장소(Upstash Redis)를 연결하면 그때부터 400일 동안 쌓입니다.</span></div>'}
+    ${d.storage ? '' : '<div class="notice"><b>통계 저장소가 아직 연결되지 않았습니다.</b><span>지금 보이는 숫자는 서버가 잠시 기억하는 것이라 곧 사라집니다. 저장소를 연결하면 그때부터 400일 동안 쌓입니다.</span></div>'}
     <div class="head"><h1>${from === to ? from : `${from} ~ ${to}`}</h1><p>뉴질랜드 시간 기준 · 비교는 바로 앞 같은 기간(${d.range.prevFrom}${d.range.prevFrom === d.range.prevTo ? '' : ` ~ ${d.range.prevTo}`})</p></div>
     ${brief(d)}
     <section class="kpis" aria-label="핵심 숫자">

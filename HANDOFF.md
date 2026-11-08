@@ -74,7 +74,7 @@
 ## 2026-11-09 — 방문 통계 대시보드(/admin)
 - 사용자 요청: 광고 글을 올리는데 몇 명이 어디서 무슨 링크로 들어왔는지 모름 → 대표만 보는 /admin.
 - 수집: `src/ts/track.ts`(첫 화면·영어·도시 페이지 모두) → `/api/t`. 쿠키 없음, IP 저장 안 함, 로봇(navigator.webdriver 포함)과 로그인한 관리자 기기 제외. 상담 신청 완료는 consult.ts에서 `goal('consult_submit')`.
-- 서버: `server.ts`의 '방문 통계' 구역, 분류 `src/analytics/classify.ts`, 집계 `report.ts`, 저장 `store.ts`(Upstash Redis REST, 환경 변수 KV_REST_API_URL/TOKEN 또는 UPSTASH_REDIS_REST_URL/TOKEN, 없으면 메모리). 문의 Blob과 일부러 분리(무료 한도 충돌 시 문의 저장이 멈출 수 있어서).
+- 서버: `server.ts`의 '방문 통계' 구역, 분류 `src/analytics/classify.ts`, 집계 `report.ts`, 저장 `store.ts`(Neon Postgres 무료 플랜, DATABASE_URL · Upstash REST도 받음 · 없으면 메모리. 마켓플레이스 Upstash·Redis는 이 계정에 무료 플랜이 없음). 문의 Blob과 일부러 분리(무료 한도 충돌 시 문의 저장이 멈출 수 있어서).
 - 화면: `admin.html` + `src/admin/`. 비밀번호 = Vercel 환경 변수 ADMIN_PASSWORD(저장소에 없음, 로컬은 .env.local). 관리자 CSS는 `?inline`으로 넣고 vite 플러그인이 admin.html의 사이트 CSS 링크를 뺌(빼지 않으면 사이트 CSS와 충돌).
 - 연령·성별은 웹사이트가 알 수 없어 넣지 않음(광고 관리자 인구 통계로 안내). 도시는 Cloudflare 경유라 '가까운 대도시' 기준.
-- 남은 일: (1) 사용자가 Upstash Redis 연결 (2) ADMIN_PASSWORD 등록 (3) 배포 후 /admin 로그인·실제 방문 1건 확인. 자동 모드가 비밀값·공용 설정 변경을 막아 사용자가 직접 해야 함.
+- 남은 일: (1) 사용자가 Neon 연결 (2) ADMIN_PASSWORD 등록 (3) 배포 후 /admin 로그인·실제 방문 1건 확인. 자동 모드가 비밀값·공용 설정 변경을 막아 사용자가 직접 해야 함.

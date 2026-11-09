@@ -45,19 +45,20 @@ function sessions(lines: string[]): Sess[] {
   return [...map.values()].filter((x) => x.first); // 첫 페이지 기록이 없는 조각(자정에 걸친 방문의 뒷부분 등)은 앞날에서 셈
 }
 
-type Row = { key: string; sessions: number; visitors: number; leads: number; submits: number; dur: number; sub?: string };
+type Row = { key: string; sessions: number; visitors: number; leads: number; leadPeople: number; submits: number; dur: number; sub?: string };
 function group(list: Sess[], keyOf: (x: Sess) => string | undefined, subOf?: (x: Sess) => string): Row[] {
-  const m = new Map<string, { sessions: number; v: Set<string>; leads: number; submits: number; dur: number; sub?: string }>();
+  const m = new Map<string, { sessions: number; v: Set<string>; lv: Set<string>; leads: number; submits: number; dur: number; sub?: string }>();
   for (const x of list) {
     const key = keyOf(x) || '';
     if (!key) continue;
-    const r = m.get(key) ?? m.set(key, { sessions: 0, v: new Set(), leads: 0, submits: 0, dur: 0, sub: subOf?.(x) }).get(key)!;
+    const r = m.get(key) ?? m.set(key, { sessions: 0, v: new Set(), lv: new Set(), leads: 0, submits: 0, dur: 0, sub: subOf?.(x) }).get(key)!;
     r.sessions++; r.v.add(x.v); r.dur += x.dur;
-    if (LEAD_GOALS.some((g) => x.goals.has(g))) r.leads++;
+    if (LEAD_GOALS.some((g) => x.goals.has(g))) { r.leads++; r.lv.add(x.v); }
     if (x.goals.has('consult_submit')) r.submits++;
   }
-  return [...m].map(([key, r]) => ({ key, sessions: r.sessions, visitors: r.v.size, leads: r.leads, submits: r.submits, dur: Math.round(r.dur / r.sessions), sub: r.sub }))
-    .sort((a, b) => b.sessions - a.sessions || a.key.localeCompare(b.key));
+  // 대표가 보는 단위는 '사람'(같은 사람이 여러 번 와도 한 명)
+  return [...m].map(([key, r]) => ({ key, sessions: r.sessions, visitors: r.v.size, leads: r.leads, leadPeople: r.lv.size, submits: r.submits, dur: Math.round(r.dur / r.sessions), sub: r.sub }))
+    .sort((a, b) => b.visitors - a.visitors || b.sessions - a.sessions || a.key.localeCompare(b.key));
 }
 const count = (items: string[]) => {
   const m = new Map<string, number>();
@@ -76,6 +77,7 @@ function kpi(list: Sess[]) {
     avgDur: n ? Math.round(list.reduce((a, x) => a + x.dur, 0) / n) : 0,
     bounce: n ? list.filter((x) => x.pages.length === 1 && x.dur < 10).length / n : 0,
     leads,
+    leadPeople: new Set(list.filter((x) => LEAD_GOALS.some((g) => x.goals.has(g))).map((x) => x.v)).size,
     submits: list.filter((x) => x.goals.has('consult_submit')).length,
     leadRate: n ? leads / n : 0,
     newShare: n ? list.filter((x) => x.nv).length / n : 0,

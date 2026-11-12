@@ -79,3 +79,4 @@
 - 연령·성별은 웹사이트가 알 수 없어 넣지 않음(광고 관리자 인구 통계로 안내). 도시는 Cloudflare 경유라 '가까운 대도시' 기준.
 - 2026-11-09: Neon(pause-analytics, free_v3) 연결·ADMIN_PASSWORD(Production·Preview) 등록 완료, 미리보기 배포에서 저장·로그인·통계 확인. Vercel 무료 플랜 함수 12개 한도 때문에 관리자 API는 /api/admin?a=login|logout|stats|links 하나(지금 함수 11개 — 더 늘리면 배포 실패). 실제 배포(--prod)는 자동 모드가 막아 사용자가 실행.
 - 2026-11-09 실제 배포 완료(dpl_GFJ7WWRfX7J2HxA9nUoTc9eeQzBd): 첫 화면 200, /admin 200, 로그인 200, 로그인 없는 통계 401, CSS 파일 이름 일치. 로그인 요청의 필드 이름은 `password`.
+- 2026-11-12 화면을 쉽게 다시 짬(사용자: "내용은 많은데 눈에 안 들어와", "직접 접속이 뭐야"): 몇 명 → 어디서 → 내 광고 글 → 나라 → 최근 들어온 사람, 단위는 '명', 나머지는 '더 자세히'에 접음. 실제 배포 완료(dpl_ALRFpWfVFEhGjT7t7FDYqGWs3vwn). 사용자가 `!`로 배포할 때 'Not authorized'가 두 번 났다가 다시 하니 됨. 줄은 절대 경로로 줘야 함(셸 위치가 바뀜).

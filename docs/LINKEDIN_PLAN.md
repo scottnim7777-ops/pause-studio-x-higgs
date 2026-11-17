@@ -233,5 +233,44 @@ docs/DIRECTORY_COPY.md의 NAP·소개 글을 그대로 사용(일관성 = 구글
 
 ---
 
+## 9. "Businesses in ChatGPT" — 새 서비스 훅 + 무료 미끼 전략
+
+OpenAI가 2026-11-10 출시한 베타. ChatGPT(주 12억 명)가 손님에게 업체를 추천·안내한다. **구글 비즈니스 프로필의 ChatGPT 버전.** 미국 타겟과 타이밍이 완벽.
+
+### 공식 사실 (2026-11 기준, 베타)
+- **무료**(베타 중. 나중에 유료 전환 가능성 OpenAI가 열어둠 → "지금이 선점 타이밍"이 영업 포인트).
+- 등록: `chatgpt.com/business-hub`(사이드바 Business Hub) → 업체 검색 → claim → 계정 확인.
+- 인증: 업체 전화·이메일·**웹사이트 도메인**·Shopify 중 하나로 코드 인증.
+- 업데이트 가능: 영업시간·설명·카테고리·상품(상점은 가격·재고 피드 업로드).
+- 분석: ChatGPT 언급 횟수·사이트 클릭수·어떤 주제로 떴는지.
+- **제한**: 로컬 상점·식당은 **"미국의 기존 리스팅"만** 지금 claim 가능. 온라인 업체는 ChatGPT 되는 곳이면 가능. **고객 응답 Business Agent는 미국 전용(출시 시점).** → 우리 미국 타겟엔 전부 유리.
+- 도메인 인증이 되므로 **우리가 만든 사이트가 있으면 인증이 더 쉬움**(웹 제작 ↔ ChatGPT 입점 자연 연결).
+
+### 왜 계약 성사에 강력한가
+1. **공포/시의성 훅:** "이제 손님이 구글 대신 ChatGPT한테 물어봐요. 지금 당신 가게, ChatGPT가 뭐라고 답하나요? (영업시간 틀리게 말하면?)" → 즉시 불안 → 상담.
+2. **무료 미끼(Foot-in-the-door):** **"ChatGPT 입점·인증 무료로 세팅해 드릴게요"** 로 접근 → 신뢰 쌓고 → 웹사이트/영상 계약으로 업셀. §5.6 '공짜 목업 훅'과 같은 원리, 비용은 거의 0.
+3. **끼워팔기:** 웹 제작 패키지에 "ChatGPT 입점 + AI 에이전트 세팅" 포함/옵션 → 객단가↑, 차별화(아무도 아직 안 함).
+4. **권위 콘텐츠:** 이걸 설명하는 링크드인 글 = PAUSE가 'AI 시대 대응해주는 스튜디오' 포지션.
+
+### 상품화 (가격은 사용자와 확정 필요)
+- **무료 티어(미끼):** 입점 claim + 기본 정보(시간·카테고리·설명) 세팅 — 리드 확보용, 무료 또는 소액.
+- **유료 옵션:** 상품 피드(가격·재고) 연동, Business Agent(미국) 설정·문구 작성·테스트, 분석 모니터링 월 관리.
+- **웹 패키지 번들:** STARTER/BUSINESS 계약 시 ChatGPT 입점 세팅 포함을 셀링포인트로(결합 '가격'은 안 만듦 — PRICING 정책 §1 준수, "포함 혜택"으로만 안내).
+
+### 실행 순서
+1. **PAUSE Studio부터 입점**(도메인 pause8studio.com 인증) → 레퍼런스·시연용.
+2. 링크드인 콘텐츠 1편: "OpenAI just let businesses live inside ChatGPT — here's what it means for your store (and how to claim yours free)."
+3. 아웃리치에 훅 추가: 유망 미국 업체가 ChatGPT에 아직 없거나 정보가 틀리면 → 캡처해서 DM("ChatGPT가 당신 가게를 이렇게 안내하고 있어요. 무료로 바로잡아 드릴까요?").
+
+### 확인 더 필요(집에서 함께)
+- 인스타 @prompt_what 포스트 12장(단계별 방법) 전체 — ego-browser로 읽기.
+- `chatgpt.com/business-hub` 실제 화면에서 claim·인증 플로우 직접 확인(사용자 ChatGPT 계정 필요).
+- Business Agent 설정 범위·비용(베타 변동 가능).
+
+출처: [DEV Community](https://dev.to/bilal_mahmood_75059bfc733/openai-launched-businesses-in-chatgpt-last-week-it-works-a-lot-like-google-business-profile-5dd9) · [Technology.org](https://www.technology.org/2026/11/11/openai-businesses-in-chatgpt-business-hub-agents-beta/) · [Komando](https://www.komando.com/tips/artificial-intelligence/how-to-claim-your-business-in-chatgpt-before-it-tells-customers-youre-open-sundays/) · [cellcog.ai](https://cellcog.ai/blog/businesses-in-chatgpt/)
+
+---
+
 ## 변경 이력
 - 2026-11-17: 최초 작성(미국 타겟, 개인 프로필 중심 + 회사 페이지, 안전 수칙·프로필 카피·4주 콘텐츠·아웃리치·추적·주간 루틴).
+- 2026-11-18: §9 Businesses in ChatGPT 추가(새 서비스 훅·무료 미끼·상품화·실행 순서, OpenAI 베타 공식 조건 조사 반영).

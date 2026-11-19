@@ -1,0 +1,24 @@
+// Render banner.html -> banner.png at 1584x396 using headless Chrome CDP.
+import { spawn, execFileSync } from 'node:child_process';
+import fs from 'node:fs'; import path from 'node:path'; import os from 'node:os'; import { pathToFileURL } from 'node:url';
+const DIR = 'C:/Users/rjsro/ego/pause-linkedin-20261118';
+const CH = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'ban-'));
+const c = spawn(CH, ['--headless=new','--remote-debugging-port=9372',`--user-data-dir=${prof}`,'--allow-file-access-from-files','--hide-scrollbars','about:blank']);
+await new Promise(r=>setTimeout(r,2800));
+const tabs = await (await fetch('http://127.0.0.1:9372/json')).json();
+const ws = new WebSocket(tabs.find(t=>t.type==='page').webSocketDebuggerUrl); await new Promise(r=>ws.onopen=r);
+let id=0; const pend={}; ws.onmessage=e=>{const m=JSON.parse(e.data); if(m.id&&pend[m.id]){pend[m.id](m.result);delete pend[m.id];}};
+const send=(method,params={})=>new Promise(r=>{const i=++id;pend[i]=r;ws.send(JSON.stringify({id:i,method,params}));});
+await send('Emulation.setDeviceMetricsOverride',{width:1584,height:396,deviceScaleFactor:2,mobile:false});
+await send('Page.navigate',{url:pathToFileURL(path.join(DIR,'banner.html')).href});
+await new Promise(r=>setTimeout(r,2200));
+await send('Runtime.evaluate',{expression:'document.fonts.ready',awaitPromise:true});
+await new Promise(r=>setTimeout(r,400));
+const shot = await send('Page.captureScreenshot',{format:'png'});
+const tmp = path.join(DIR,'banner@2x.png'); fs.writeFileSync(tmp, Buffer.from(shot.data,'base64'));
+c.kill();
+const out = path.join(DIR,'banner.png');
+execFileSync('python',['-c',`from PIL import Image;Image.open(r'${tmp}').convert('RGB').resize((1584,396),Image.LANCZOS).save(r'${out}',quality=92)`]);
+console.log('banner ->', out, fs.statSync(out).size, 'bytes');
+process.exit(0);

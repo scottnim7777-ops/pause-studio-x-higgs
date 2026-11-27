@@ -35,6 +35,66 @@ export const cities: City[] = [
     intro: 'From Midtown to the Gwinnett County suburbs, Atlanta businesses are growing fast, and so is the competition for the first click. A site that looks like a template does not help you stand out. We design each one from scratch around your brand.',
     local: 'Whether you are in Midtown, Buckhead or the suburbs, we build your site entirely online, and we can write it in English, Korean or both.',
   },
+  {
+    slug: 'web-design-chicago', name: 'Chicago', short: 'CHI', region: 'Illinois',
+    headline: ['Websites that make', 'Chicago businesses', 'look the part.'],
+    intro: 'Chicago customers ask a friend, then they check your website before they call. Between the Loop and the neighborhoods, a site that looks like a stock template is easy to scroll past. We design each one from scratch around your brand.',
+    local: 'Whether you are in the Loop, Wicker Park, Evanston or Naperville, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-houston', name: 'Houston', short: 'HOU', region: 'Texas',
+    headline: ['Websites that make', 'Houston businesses', 'look the part.'],
+    intro: 'Houston is big, spread out and full of businesses that depend on being found online. When customers search from the car or the couch, your website has to make the case in seconds. We design each one from scratch around your brand.',
+    local: 'From Midtown and the Heights to Sugar Land and Katy, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-dallas', name: 'Dallas', short: 'DAL', region: 'Texas',
+    headline: ['Websites that make', 'Dallas businesses', 'look the part.'],
+    intro: 'Dallas and its suburbs grow fast, and new businesses open every month. A website that looks like everyone else\'s template makes it harder to be remembered. We design each one from scratch around your brand.',
+    local: 'From Uptown and Deep Ellum to Plano and Frisco, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-san-francisco', name: 'San Francisco', short: 'SF', region: 'California',
+    headline: ['Websites that make', 'San Francisco businesses', 'look the part.'],
+    intro: 'San Francisco and the Bay Area customers are used to polished, fast websites. Yours has to hold up next to the best of them, on a phone, in a few seconds. We design each one from scratch around your brand.',
+    local: 'From the Mission and SoMa to Oakland and San Jose, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-seattle', name: 'Seattle', short: 'SEA', region: 'Washington',
+    headline: ['Websites that make', 'Seattle businesses', 'look the part.'],
+    intro: 'Seattle customers research before they buy, and they notice when a website feels generic. A site made from scratch around your brand gives them a reason to choose you. We design every one personally.',
+    local: 'From Capitol Hill and Ballard to Bellevue and Redmond, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-san-diego', name: 'San Diego', short: 'SD', region: 'California',
+    headline: ['Websites that make', 'San Diego businesses', 'look the part.'],
+    intro: 'San Diego businesses compete for locals and visitors alike, and most of them look at your website first. A site that feels like a template blends into the crowd. We design each one from scratch around your brand.',
+    local: 'From downtown and La Jolla to Chula Vista and Carlsbad, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-miami', name: 'Miami', short: 'MIA', region: 'Florida',
+    headline: ['Websites that make', 'Miami businesses', 'look the part.'],
+    intro: 'Miami runs on first impressions. Customers choose quickly, in more than one language, and your website has to look the part right away. We design each one from scratch around your brand.',
+    local: 'From Brickell and Wynwood to Coral Gables and Fort Lauderdale, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-boston', name: 'Boston', short: 'BOS', region: 'Massachusetts',
+    headline: ['Websites that make', 'Boston businesses', 'look the part.'],
+    intro: 'Boston customers are careful. They read, compare and check reviews before they get in touch, so your website has to be clear and credible. We design each one from scratch around your brand.',
+    local: 'From Back Bay and the Seaport to Cambridge and Somerville, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-austin', name: 'Austin', short: 'ATX', region: 'Texas',
+    headline: ['Websites that make', 'Austin businesses', 'look the part.'],
+    intro: 'Austin is full of new businesses, and the competition for the first click is real. A site that looks like a template does not help you stand out. We design each one from scratch around your brand.',
+    local: 'From downtown and South Congress to Round Rock and Cedar Park, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
+  {
+    slug: 'web-design-washington-dc', name: 'Washington DC', short: 'DC', region: 'District of Columbia',
+    headline: ['Websites that make', 'Washington DC businesses', 'look the part.'],
+    intro: 'Businesses around Washington DC serve customers who value credibility. Your website is often the first thing they check, and it has to be clear and professional on a phone. We design each one from scratch around your brand.',
+    local: 'From Capitol Hill and Georgetown to Arlington and Bethesda, we build your site entirely online, and we can write it in English, Korean or both.',
+  },
 ];
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

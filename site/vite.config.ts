@@ -18,7 +18,7 @@ export default defineConfig({
     assetsInlineLimit: 0,
     cssCodeSplit: false,
     // 한국어 '/'(index.html)와 영어 '/en'(en/index.html) 두 페이지가 같은 스크립트·스타일을 씀. admin.html = 방문 통계(/admin)
-    rollupOptions: { input: { main: 'index.html', admin: 'admin.html', en: 'en/index.html', laCity: 'en/web-design-los-angeles/index.html', nyCity: 'en/web-design-new-york/index.html', atlCity: 'en/web-design-atlanta/index.html' } },
+    rollupOptions: { input: { main: 'index.html', admin: 'admin.html', en: 'en/index.html', laCity: 'en/web-design-los-angeles/index.html', nyCity: 'en/web-design-new-york/index.html', atlCity: 'en/web-design-atlanta/index.html', city0: 'en/web-design-chicago/index.html', city1: 'en/web-design-houston/index.html', city2: 'en/web-design-dallas/index.html', city3: 'en/web-design-san-francisco/index.html', city4: 'en/web-design-seattle/index.html', city5: 'en/web-design-san-diego/index.html', city6: 'en/web-design-miami/index.html', city7: 'en/web-design-boston/index.html', city8: 'en/web-design-austin/index.html', city9: 'en/web-design-washington-dc/index.html' } },
   },
   server: { port: 5173 },
 });

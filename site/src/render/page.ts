@@ -609,7 +609,7 @@ function footer() {
         <div><h3>Menu</h3><ul>${C.nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}<li><a href="#contact">${esc(C.cta.header)}</a></li></ul>${langSwitch('ft')}</div>
         <div><h3>Contact</h3><ul><li><a href="${C.chat.url}" target="_blank" rel="noopener">${esc(C.ui.openChat)}</a></li><li><a href="${C.contact.telHref}">${esc(C.contact.phoneLabel)}</a></li><li>${esc(f.emailLabel)} · <button class="reveal-btn" type="button" style="font-size:inherit" data-email-user="${esc(u)}" data-email-domain="${esc(d)}">${esc(f.emailReveal)}</button></li></ul></div>
         <div><h3>Studio</h3><p>${esc(C.contact.address)}</p><p>${esc(C.contact.nzbn)}</p></div>${LANG === 'en' ? `
-        <div><h3>Serving</h3><ul>${[['Los Angeles', 'web-design-los-angeles'], ['New York', 'web-design-new-york'], ['Atlanta', 'web-design-atlanta']].map(([n, sl]) => `<li><a href="/en/${sl}">Web design in ${n}</a></li>`).join('')}</ul></div>` : ''}
+        <div><h3>Serving</h3><ul>${[['Los Angeles', 'web-design-los-angeles'], ['New York', 'web-design-new-york'], ['Atlanta', 'web-design-atlanta'], ['Chicago', 'web-design-chicago'], ['Houston', 'web-design-houston'], ['Dallas', 'web-design-dallas'], ['San Francisco', 'web-design-san-francisco'], ['Seattle', 'web-design-seattle'], ['San Diego', 'web-design-san-diego'], ['Miami', 'web-design-miami'], ['Boston', 'web-design-boston'], ['Austin', 'web-design-austin'], ['Washington DC', 'web-design-washington-dc']].map(([n, sl]) => `<li><a href="/en/${sl}">Web design in ${n}</a></li>`).join('')}</ul></div>` : ''}
       </div>
     </div>
     <div class="ft-legal"><p class="ft-legal-h">${esc(f.legalLink)}</p><div class="body">${f.legal.map((l) => `<p>${esc(l)}</p>`).join('')}</div></div><!-- 2026-10-09 사용자: 법적 고지는 늘 펼쳐 둠 -->
@@ -742,6 +742,7 @@ export function renderHead(lang: Lang = 'ko') {
 <meta name="keywords" content="${esc(m.keywords)}">
 <link rel="canonical" href="${m.canonical}">
 <meta name="google-site-verification" content="${m.googleSiteVerification}">
+<meta name="msvalidate.01" content="44402FA7AA92827785BD25907C3E06A5">
 <meta property="og:type" content="website"><meta property="og:url" content="${m.canonical}"><meta property="og:title" content="${esc(m.ogTitle)}"><meta property="og:description" content="${esc(m.ogDescription)}"><meta property="og:image" content="${m.ogImage}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(m.ogImageAlt)}"><meta property="og:site_name" content="${esc(m.siteName)}"><meta property="og:locale" content="${m.locale}"><meta property="og:locale:alternate" content="${m.altLocale}">
 <link rel="alternate" hreflang="ko" href="${alt.ko}"><link rel="alternate" hreflang="en" href="${alt.en}"><link rel="alternate" hreflang="x-default" href="${alt.ko}">
 <meta name="robots" content="index, follow, max-image-preview:large">

@@ -711,7 +711,7 @@ export function renderHead(lang: Lang = 'ko') {
   const alt = { ko: `${ROOT}`, en: `${ROOT}en` };
   const org = `${ROOT}#studio`;
   const ko = lang === 'ko';
-  const svc = (name: string, en: string) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: ko ? name : en, alternateName: ko ? en : name, areaServed: ['US', 'NZ'] } });
+  const svc = (name: string, en: string) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: ko ? name : en, alternateName: ko ? en : name, areaServed: ['US', 'NZ', 'KR'] } });
   const ld = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -720,14 +720,14 @@ export function renderHead(lang: Lang = 'ko') {
         '@type': 'ProfessionalService', '@id': org, name: 'PAUSE Studio', alternateName: ['퍼즈 스튜디오', 'Pause Studio'],
         description: m.description, url: m.canonical, image: m.ogImage, logo: `${ROOT}icon-512.png`, email: C.contact.email, telephone: '+64-20-488-7198',
         address: { '@type': 'PostalAddress', streetAddress: '75 Victoria Street West', addressLocality: 'Auckland', postalCode: '1010', addressCountry: 'NZ' },
-        areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'New Zealand' }],
+        areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'Country', name: 'New Zealand' }, { '@type': 'Country', name: 'South Korea' }],
         knowsLanguage: ['ko', 'en'], priceRange: '$$',
         // 구글 지도·검색이 업종·위치를 이해하도록(2026-10-14): 지도 검색 주소, 다루는 분야, 연락처
         hasMap: 'https://www.google.com/maps/search/?api=1&query=PAUSE+Studio+75+Victoria+Street+West+Auckland',
         // 영어 페이지는 한인 대상이 아닌 현지 전체 대상(2026-10-22) — 한인 브랜딩은 한국어 페이지에만
         knowsAbout: ['Website design', 'Web development', 'AI video ads', 'Short form video ads', ...(ko ? ['Branding for Korean businesses', '웹사이트 제작', 'AI 광고영상 제작', '한인 비즈니스 브랜딩'] : ['Brand design', 'Bilingual website design'])],
-        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', email: C.contact.email, telephone: '+64-20-488-7198', availableLanguage: ['Korean', 'English'], areaServed: ['NZ', 'US'] },
-        sameAs: ['https://open.kakao.com/o/s58WfSEi'],
+        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', email: C.contact.email, telephone: '+64-20-488-7198', availableLanguage: ['Korean', 'English'], areaServed: ['NZ', 'US', 'KR'] },
+        sameAs: ['https://open.kakao.com/o/s58WfSEi', 'https://wa.me/64204887198'],
         makesOffer: [
           svc('웹사이트 제작', 'Custom website design & development'),
           svc('비즈니스 웹사이트(예약·주문·결제) 제작', 'Business websites with booking, ordering and payments'),

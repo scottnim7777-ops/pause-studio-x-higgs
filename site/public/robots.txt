@@ -1,3 +1,20 @@
+# AI 검색(ChatGPT·Bing·Perplexity)이 사이트를 읽고 추천할 수 있게 명시적으로 허용(2026-11-27)
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
 User-agent: *
 Allow: /
 Disallow: /api/

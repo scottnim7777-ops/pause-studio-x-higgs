@@ -6,7 +6,8 @@
 - [x] Business Hub(https://chatgpt.com/business-hub)에서 기존 목록 "Pause Studio, 75 Victoria Street West" 찾음 → 소유권 주장 시작(계정 scottnim7777@gmail.com)
 - [x] 인증 방법: 웹사이트 도메인(DNS TXT). 이름 `openai-business-claim`, 값은 Business Hub 화면에서 확인(만료 2026-11-28 19:48 NZ, 지나면 새로 발급)
 - [x] Cloudflare DNS에 TXT 2개 추가(2026-11-28; 첫 코드는 scottnim7777 계정용, 이후 ChatGPT 로그인이 cosmic0602021@gmail.com으로 바뀌어 새 코드 추가) → 도메인 인증 통과, 소유권 신청 접수(심사 결과는 cosmic0602021@gmail.com 이메일로)
-- [ ] OpenAI 심사(이메일) → Persona 본인 인증(사장님 직접: 신분증·NZBN)
+- [x] Persona 본인 인증 제출(2026-11-28): 신분증 통과 후 사업 서류는 공개 NZBN 화면·스크린샷은 거절, MyNZBN 로그인 상세 화면 PDF(대표 권한·사무실 주소 포함)로 통과해 'Application in review'. 결과는 Business Hub 조직 설정에 며칠 내 표시
+- [ ] Persona 승인 대기
 - [ ] 아래 프로필 문구 입력, 로고·커버 업로드
 - [ ] 온라인 서비스 업체로 별도 목록 추가 가능한지 정책 확인(오클랜드 지역 한정을 벗어나려면 핵심)
 - [ ] 비즈니스 에이전트 만들기(견적·상담 안내)

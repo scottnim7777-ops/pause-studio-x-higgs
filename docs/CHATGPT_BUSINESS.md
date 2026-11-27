@@ -38,3 +38,8 @@
 - 에이전트 빌더: '아직 사용할 수 없음(순차 제공)'. 열리면 게시.
 - 온라인 서비스 별도 등록('만들기'): 중복 프로필 위험이 있어 제출하지 않음. 사장님 결정 대기.
 - Cloudflare DNS TXT 3개(openai-business-claim 2개, openai-business-profile 1개) 남아 있음.
+
+## 2026-11-28 추가 작업
+- Bing 웹마스터 도구: scottnim7777 Google 로그인, 사이트 인증은 meta 태그(msvalidate.01, src/render/page.ts) 배포로 완료, 사이트맵 제출. IndexNow 키 0d960fe3065243fc9b82c742a9ca69fe로 13개 URL 전송(200). Cloudflare DNS CNAME 인증은 권한으로 막혀 meta 방식으로 대체(Cloudflare에 미저장 입력창은 닫음).
+- 미국 도시 페이지 10곳 추가(총 13): 시카고·휴스턴·댈러스·샌프란시스코·시애틀·샌디에이고·마이애미·보스턴·오스틴·워싱턴DC. scripts/render-cities.ts, vite.config.ts(입력 추가 필수), /en 푸터, sitemap.xml, llms.txt. 영어 페이지 원칙(한인 언급 없음·미국 주소 안 만듦·화면 글에 하이픈·줄표 없음) 유지.
+- 남은 일: Clutch·DesignRush 등 외부 등록(docs/DIRECTORY_COPY.md, 가입·본인 확인 필요), 미국 고객 후기, 에이전트 빌더 열리면 게시, 영업시간 값 결정, 성과는 Business Hub 인사이트와 Bing 웹마스터에서 확인.

@@ -43,3 +43,9 @@
 - Bing 웹마스터 도구: scottnim7777 Google 로그인, 사이트 인증은 meta 태그(msvalidate.01, src/render/page.ts) 배포로 완료, 사이트맵 제출. IndexNow 키 0d960fe3065243fc9b82c742a9ca69fe로 13개 URL 전송(200). Cloudflare DNS CNAME 인증은 권한으로 막혀 meta 방식으로 대체(Cloudflare에 미저장 입력창은 닫음).
 - 미국 도시 페이지 10곳 추가(총 13): 시카고·휴스턴·댈러스·샌프란시스코·시애틀·샌디에이고·마이애미·보스턴·오스틴·워싱턴DC. scripts/render-cities.ts, vite.config.ts(입력 추가 필수), /en 푸터, sitemap.xml, llms.txt. 영어 페이지 원칙(한인 언급 없음·미국 주소 안 만듦·화면 글에 하이픈·줄표 없음) 유지.
 - 남은 일: Clutch·DesignRush 등 외부 등록(docs/DIRECTORY_COPY.md, 가입·본인 확인 필요), 미국 고객 후기, 에이전트 빌더 열리면 게시, 영업시간 값 결정, 성과는 Business Hub 인사이트와 Bing 웹마스터에서 확인.
+
+## 2026-11-28 Clutch 무료 프로필 (사용자가 Google 로그인 클릭 후 제가 입력)
+- 계정: scottnim7777 Google 로그인. 무료(Basic)만 사용, 유료 Verified($499/년)는 선택 안 함.
+- 입력: PAUSE Studio, https://pause8studio.com/en, info@pause8studio.com, 2026 설립, Freelancer(1인), 태그라인, 설명 737자, 로고(icon-512.png), 최소 프로젝트 $1,000+, 시간당 N/A, 본사 75 Victoria Street West Auckland 1010(위치 검증 7~10 영업일), 서비스 Web Design 60% + Video Production 40%.
+- 상태: Profile status Unpublished(Clutch 심사 중). 후기는 실제 고객에게서만 받음(Request a Review).
+- 남은 외부 등록: DesignRush, LinkedIn 회사 페이지, Bing Places, Crunchbase. 각각 가입 시 사용자가 'Google로 계속' 한 번 눌러야 함(권한 분류기가 계정 생성을 막음).

@@ -29,3 +29,12 @@
 - 소개(한국어, 필드가 있으면):
   대표가 직접 만드는 브랜드 맞춤 웹사이트와 AI 광고영상. 제작비는 한 번, 기본 월 관리비 $0. 미국·뉴질랜드·한국 어디서나 원격으로 진행하고, 한국어로 상담합니다. 카카오톡 상담: open.kakao.com/o/s58WfSEi
 - 연락처: info@pause8studio.com / +64 20 488 7198
+
+## 2026-11-28 프로필 입력 완료 (Persona 승인 후, cosmic0602021@gmail.com 계정)
+- 카테고리: 웹 디자이너(+광고 대행사·마케팅 대행사가 함께 저장됨). 소개문 266자(300자 제한) 입력.
+- 웹사이트 pause8studio.com/en: Cloudflare에 `openai-business-profile` TXT 추가 후 인증 완료. 이메일 info@pause8studio.com: 코드 인증 완료(info@ 메일은 scottnim7777 받은편지함으로 전달됨).
+- 사진 4장(로고 정사각형 + 포트폴리오 3): 저장은 3장 이상일 때만 됨. 로고 이미지 drafts/v36/chatgpt-profile-square.jpg.
+- 영업시간은 정해진 값이 없어 비워 둠. 위치는 기존 주소 유지.
+- 에이전트 빌더: '아직 사용할 수 없음(순차 제공)'. 열리면 게시.
+- 온라인 서비스 별도 등록('만들기'): 중복 프로필 위험이 있어 제출하지 않음. 사장님 결정 대기.
+- Cloudflare DNS TXT 3개(openai-business-claim 2개, openai-business-profile 1개) 남아 있음.
